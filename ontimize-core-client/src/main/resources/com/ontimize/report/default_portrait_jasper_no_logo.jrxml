@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="default_portrait_jasper_no_logo"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="620"
+		 pageHeight="842"
+		 columnWidth="540"
+		 columnSpacing="0"
+		 leftMargin="40"
+		 rightMargin="40"
+		 topMargin="0"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="printTotalNumberOcurrences" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="translationNumberOcurrences" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="currentdate" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="printcurrentdate" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="translationOf" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="translationPage" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="printNumberPage" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="printsubtitle" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="printtitle" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="subtitle" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="title" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="printCustomLogo" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="customLogo" isForPrompting="false" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="100"  isSplitAllowed="true" >
+				<image  scaleImage="RetainShape" hAlign="Right" onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="377"
+						y="27"
+						width="143"
+						height="63"
+						key="image-1">
+							<printWhenExpression><![CDATA[$P{printCustomLogo}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[$P{customLogo}]]></imageExpression>
+				</image>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="10"
+						y="50"
+						width="360"
+						height="18"
+						forecolor="#343434"
+						key="textField-9">
+							<printWhenExpression><![CDATA[$P{printtitle}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{title}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="10"
+						y="68"
+						width="300"
+						height="17"
+						forecolor="#343434"
+						key="textField-10">
+							<printWhenExpression><![CDATA[$P{printsubtitle}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Arial" size="10" isBold="false" isItalic="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{subtitle}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="95"
+						width="540"
+						height="5"
+						backcolor="#E3DDD5"
+						key="textField-11">
+							<printWhenExpression><![CDATA[$P{printcurrentdate}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="61"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="6"
+						width="148"
+						height="17"
+						forecolor="#868686"
+						key="textField-1">
+							<printWhenExpression><![CDATA[$P{printcurrentdate}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{currentdate}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="214"
+						y="6"
+						width="30"
+						height="18"
+						forecolor="#868686"
+						key="textField">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="261"
+						y="6"
+						width="30"
+						height="18"
+						forecolor="#868686"
+						key="textField">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="244"
+						y="6"
+						width="15"
+						height="18"
+						forecolor="#868686"
+						key="textField-2">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{translationOf}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="171"
+						y="6"
+						width="38"
+						height="18"
+						forecolor="#868686"
+						key="textField-3">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{translationPage}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="540"
+						height="5"
+						backcolor="#E3DDD5"
+						key="textField-12">
+							<printWhenExpression><![CDATA[$P{printcurrentdate}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="50"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="6"
+						width="148"
+						height="17"
+						forecolor="#868686"
+						key="textField-14">
+							<printWhenExpression><![CDATA[$P{printcurrentdate}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{currentdate}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="214"
+						y="6"
+						width="30"
+						height="18"
+						forecolor="#868686"
+						key="textField-15">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="261"
+						y="6"
+						width="30"
+						height="18"
+						forecolor="#868686"
+						key="textField-16">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="Helvetica" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="244"
+						y="6"
+						width="15"
+						height="18"
+						forecolor="#868686"
+						key="textField-17">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{translationOf}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="171"
+						y="6"
+						width="38"
+						height="18"
+						forecolor="#868686"
+						key="textField-18">
+							<printWhenExpression><![CDATA[$P{printNumberPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="Helvetica" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{translationPage}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="540"
+						height="5"
+						backcolor="#E3DDD5"
+						key="textField-19">
+							<printWhenExpression><![CDATA[$P{printcurrentdate}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="413"
+						y="2"
+						width="67"
+						height="17"
+						forecolor="#FFFFFF"
+						backcolor="#335971"
+						key="textField">
+							<printWhenExpression><![CDATA[$P{printTotalNumberOcurrences}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25" lineColor="#335971"/>
+					<topPen lineWidth="0.25" lineColor="#335971"/>
+					<leftPen lineWidth="0.25" lineColor="#335971"/>
+					<bottomPen lineWidth="0.25" lineColor="#335971"/>
+					<rightPen lineWidth="0.25" lineColor="#335971"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="2"
+						width="413"
+						height="17"
+						forecolor="#FFFFFF"
+						backcolor="#335971"
+						key="textField">
+							<printWhenExpression><![CDATA[$P{printTotalNumberOcurrences}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25" lineColor="#335971"/>
+					<topPen lineWidth="0.25" lineColor="#335971"/>
+					<leftPen lineWidth="0.25" lineColor="#335971"/>
+					<bottomPen lineWidth="0.25" lineColor="#335971"/>
+					<rightPen lineWidth="0.25" lineColor="#335971"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{translationNumberOcurrences}]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<report name='Plantilla base' pageformat='A4'  orientation='portrait' topmargin='0' leftmargin='25' bottommargin='25' rightmargin='25'>
+
+	<reportheader height='0' fontname='SansSerif'  fontsize='16' ownpage='false' >
+	</reportheader>
+	<!--<reportfooter height='723' fontname='SansSerif'  fontsize='16' ownpage='true' >
+	</reportfooter>-->
+	<pageheader height='82' fontname='SansSerif'  fontsize='16' fsbold='true' fsitalic='false' onlastpage='true' fsunderline='false' onfirstpage='true' >
+		<line fieldname='l' name='l' weight='2' x1='0' y1='74' x2='568' y2='74' color='black'/> 
+		<label fieldname='Titulo' name='Titulo' weight='0' x='7' y='54' width='500' height='20' color='black' fontsize='15' fontname='Verdana' alignment='left' fsbold='true' fsitalic='false' fsunderline='false'></label>
+		<imageref fieldname='logo' name='logo' weight='1' x='399' y='5' width='143' height='63' color='black' scale='true' keepAspectRatio='false' src='imatia2.gif' /> 
+	</pageheader>
+	<pagefooter height='29' fontname='SansSerif'  fontsize='16' fsbold='false' fsitalic='false' fsunderline='false' onlastpage='true' onfirstpage='true' >
+		<line fieldname='line' name='line' weight='2' x1='0' y1='4' x2='570' y2='4' color='black'/> 
+		<date-field fieldname='report.date' name='report.date' weight='0' x='1' y='11' width='100' height='18' color='black' fontsize='12' fontname='Verdana' alignment='left' fsbold='false' fsitalic='false' fsunderline='false' format='d-MMM-yyyy'/> 
+		<string-field fieldname='pageXofY' name='pageXofY' weight='0' x='465' y='11' width='105' height='18' color='black' fontsize='12' fontname='Verdana' alignment='right' fsbold='false' fsitalic='false' fsunderline='false'/> 
+	</pagefooter>
+	<items height='0' fontname='SansSerif'  fontsize='16' >
+	</items>
+	<watermark height='0' fontname='SansSerif'  fontsize='16' >
+	</watermark>
+
+
+<functions>
+
+
+
+
+
+    
+    <property-ref name="report.date" />
+    <function name="Count1" class="org.jfree.report.function.ItemCountFunction">
+      <properties>
+        <property name="group">Color Group</property>
+      </properties>
+    </function>
+
+    <function name="Count2" class="org.jfree.report.function.ItemCountFunction">
+      <properties>
+        <property name="group">Letter Group</property>
+      </properties>
+    </function>
+    <function name="Sum1" class="org.jfree.report.function.TotalGroupSumFunction">
+      <properties>
+        <property name="field">Double</property>
+        <property name="group">Color Group</property>
+      </properties>
+    </function>
+    <function name="Sum2" class="org.jfree.report.function.TotalGroupSumFunction">
+      <properties>
+        <property name="field">Double</property>
+        <property name="group">Letter Group</property>
+      </properties>
+    </function>
+    
+    <function name="backgroundTrigger"
+    	class="org.jfree.report.function.ElementVisibilitySwitchFunction">
+    	<properties>
+    		<property name="element">background</property>
+    	</properties>
+    </function>
+    <function name="PageNumber" class="org.jfree.report.function.PageFunction">
+      <!--
+        Activating this property counts the pages needed for the given group.
+        Only usefull with manual pagebreaks
+
+        <properties>
+            <property name="group">Letter Group</property>
+        </properties>
+        -->
+
+    </function>
+    <function name="PageTotal" class="org.jfree.report.function.PageTotalFunction">
+
+      <!--
+        Activating this property counts the pages needed for the given group.
+        Only usefull with manual pagebreaks
+
+        <properties>
+            <property name="group">Letter Group</property>
+        </properties>
+       -->
+    </function>
+    <expression name="pageXofY" class="org.jfree.report.function.TextFormatExpression">
+      <properties>
+        <property name="pattern">Page {0} of {1}</property>
+        <property name="0">PageNumber</property>
+        <property name="1">PageTotal</property>
+      </properties>
+    </expression>
+  
+
+
+
+<!--
+     <function class="org.jfree.report.function.EventMonitorFunction" name="monitor"/>
+     -->
+</functions>
+</report>

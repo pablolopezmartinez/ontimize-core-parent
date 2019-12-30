@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<report name="Plantilla base" pageformat="A4"  fontname="Verdana" fontsize="10" orientation="portrait" topmargin="20" leftmargin="40" bottommargin="15" rightmargin="40">
+
+
+
+  <!-- PAGE HEADER -->
+  <pageheader height="55" onfirstpage="true" fontname="Verdana" fontstyle="bold" >
+    <!--imageref x="458" y="0" width="100%" alignment="right" height="48" src="logofreereportimatia.gif" name="logo" dynamic="false" scale="false" keepAspectRatio="true"/-->
+    	<line fieldname='Linea' name='Linea' weight="1.5" x1="0" y1="74" x2="570" y2="74" color="#527497"/>
+    	<label fontsize="12" color="#527497" name="Titulo" x="0" y="50" width="100%" height="20" alignment="left"></label>
+	   <imageref fieldname='logo' name='logo' weight='1' x='399' y='5' width='143' height='63' color='black' scale='true' keepAspectRatio='false' src='imatia2.gif' /> 
+  <!-- <imageref x="400" y="0" width="100%" alignment="left" height="100%" src="imatia2.gif" name="logo" dynamic="false" scale="true" keepAspectRatio="true"/>-->
+  </pageheader>
+
+
+
+  <!-- PAGE FOOTER -->
+  <pagefooter height="24" onfirstpage="true" onlastpage="true" fontname="Verdana" fontstyle="plain" fontsize="8">
+    <line x1="0" y1="16" x2="570" y2="16" weight="1.5" color="#527497"/>
+    <date-field color="#527497" fieldname="report.date" format="d-MMM-yyyy" x="0" y="24" width="100" height="18" alignment="left"/>
+    <string-field color="#527497" fieldname="pageXofY" x="0" y="24" width="100%" height="18" alignment="right"/>
+  </pagefooter>
+
+
+  <!-- FUNCTIONS -->
+  <functions>
+    <property-ref name="report.date"/>
+    <function name="Count1" class="org.jfree.report.function.ItemCountFunction">
+    </function>
+    <function name="PageNumber" class="org.jfree.report.function.PageFunction">
+    </function>
+    <function name="PageTotal" class="org.jfree.report.function.PageTotalFunction">
+    </function>
+    <function name="backgroundTrigger" class="org.jfree.report.function.ElementVisibilitySwitchFunction">
+      <properties>
+        <property name="element">background</property>
+      </properties>
+    </function>
+    <expression name="pageXofY" class="org.jfree.report.function.TextFormatExpression">
+      <properties>
+        <property name="pattern">Página {0} de {1}</property>
+        <property name="0">PageNumber</property>
+        <property name="1">PageTotal</property>
+      </properties>
+    </expression>
+  </functions>
+
+
+
+</report>

@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Labels>
+   <Row>
+      <com.ontimize.gui.container.Row />
+   </Row>
+
+   <PercentDataField>
+      <com.ontimize.gui.field.PercentDataField />
+   </PercentDataField>
+
+   <ColorDataField>
+      <com.ontimize.gui.field.ColorDataField />
+   </ColorDataField>
+
+   <ApplicationToolBar>
+      <com.ontimize.gui.ApplicationToolBar />
+   </ApplicationToolBar>
+
+   <ApToolBarButton>
+      <com.ontimize.gui.ApToolBarButton />
+   </ApToolBarButton>
+	
+   <ApToolBarPopupButton>
+      <com.ontimize.gui.ApToolBarPopupButton />
+   </ApToolBarPopupButton>
+
+   <ApToolBarToggleButton>
+      <com.ontimize.gui.ApToolBarToggleButton />
+   </ApToolBarToggleButton>
+
+   <ApToolBarSeparator>
+      <com.ontimize.gui.ApToolBarSeparator />
+   </ApToolBarSeparator>
+
+   <ApToolBarNavigator>
+   	  <com.ontimize.gui.ApToolBarNavigator />
+   </ApToolBarNavigator>
+   
+   <ApToolBarModule>
+      <com.ontimize.gui.ApToolBarModule/>
+   </ApToolBarModule>
+
+   <Column>
+      <com.ontimize.gui.container.Column />
+   </Column>
+
+   <Tab>
+      <com.ontimize.gui.container.Tab />
+   </Tab>
+
+   <Form>
+      <com.ontimize.gui.Form />
+   </Form>
+
+   <FormExt>
+      <com.ontimize.gui.FormExt />
+   </FormExt>
+
+   <MultiReference>
+      <com.ontimize.gui.container.MultiReference />
+   </MultiReference>
+
+   <MultipleReferenceDataField>
+      <com.ontimize.gui.field.MultipleReferenceDataField />
+   </MultipleReferenceDataField>
+   
+   <ExtendedMultiReference>
+      <com.ontimize.gui.container.ExtendedMultiReference />
+   </ExtendedMultiReference>
+
+   <TextDataField>
+      <com.ontimize.gui.field.TextDataField />
+   </TextDataField>
+
+   <DateDataField>
+      <com.ontimize.gui.field.DateDataField />
+   </DateDataField>
+
+   <HourDateDataField>
+      <com.ontimize.gui.field.HourDateDataField />
+   </HourDateDataField>
+
+   <IntegerDataField>
+      <com.ontimize.gui.field.IntegerDataField />
+   </IntegerDataField>
+
+   <RealDataField>
+      <com.ontimize.gui.field.RealDataField />
+   </RealDataField>
+
+   <NIFDataField>
+      <com.ontimize.gui.field.NIFDataField />
+   </NIFDataField>
+
+   <MaskDataField>
+      <com.ontimize.gui.field.MaskDataField />
+   </MaskDataField>
+
+   <Table>
+      <com.ontimize.gui.table.Table />
+   </Table>
+
+   <TabPanel>
+      <com.ontimize.gui.container.TabPanel />
+   </TabPanel>
+
+   <Button>
+      <com.ontimize.gui.button.Button />
+   </Button>
+
+   <HelpButton>
+      <com.ontimize.gui.button.HelpButton />
+   </HelpButton>
+
+   <Node>
+      <com.ontimize.gui.tree.OTreeNode />
+   </Node>
+
+   <ReferenceDataField>
+      <com.ontimize.gui.field.ReferenceDataField />
+   </ReferenceDataField>
+
+   <MonthComboDataField>
+      <com.ontimize.gui.field.MonthComboDataField />
+   </MonthComboDataField>
+
+   <TextComboDataField>
+      <com.ontimize.gui.field.TextComboDataField />
+   </TextComboDataField>
+
+   <ReferenceComboDataField>
+      <com.ontimize.gui.field.ReferenceComboDataField />
+   </ReferenceComboDataField>
+
+   <Image>
+      <com.ontimize.gui.field.ImageField />
+   </Image>
+
+   <PasswordDataField>
+      <com.ontimize.gui.field.PasswordDataField />
+   </PasswordDataField>
+
+   <WWWDataField>
+      <com.ontimize.gui.field.WWWDataField />
+   </WWWDataField>
+
+
+   <CheckDataField>
+      <com.ontimize.gui.field.CheckDataField />
+   </CheckDataField>
+
+   <MemoDataField>
+      <com.ontimize.gui.field.MemoDataField />
+   </MemoDataField>
+
+   <ApplicationMenuBar>
+      <com.ontimize.gui.ApplicationMenuBar />
+   </ApplicationMenuBar>
+
+   <MenuItem>
+      <com.ontimize.gui.MenuItem />
+   </MenuItem>
+
+   <LocaleMenuItem>
+      <com.ontimize.gui.i18n.LocaleMenuItem />
+   </LocaleMenuItem>
+
+   <Menu>
+      <com.ontimize.gui.Menu />
+   </Menu>
+
+   <MenuRadioButtonGroup>
+      <com.ontimize.gui.MenuRadioButtonGroup />
+   </MenuRadioButtonGroup>
+   
+   <MenuLocale>
+      <com.ontimize.gui.i18n.MenuLocale />
+   </MenuLocale>
+
+   <CheckMenuItem>
+      <com.ontimize.gui.CheckMenuItem />
+   </CheckMenuItem>
+
+   <RadioMenuItem>
+      <com.ontimize.gui.RadioMenuItem />
+   </RadioMenuItem>
+
+   <MenuSeparator>
+      <com.ontimize.gui.MenuSeparator />
+   </MenuSeparator>
+
+   <RadioItemGroup>
+      <com.ontimize.gui.container.RadioItemGroup />
+   </RadioItemGroup>
+
+   <ImageDataField>
+      <com.ontimize.gui.field.ImageDataField />
+   </ImageDataField>
+
+   <ReferenceExtDataField>
+      <com.ontimize.gui.field.ReferenceExtDataField />
+   </ReferenceExtDataField>
+
+   <CIFDataField>
+      <com.ontimize.gui.field.CIFDataField />
+   </CIFDataField>
+
+   <TwoLevelContainer>
+      <com.ontimize.gui.container.TwoLevelContainer />
+   </TwoLevelContainer>
+
+   <JImageContainer>
+      <com.ontimize.gui.container.JImageContainer />
+   </JImageContainer>
+
+
+   <JImage>
+      <com.ontimize.gui.field.JImage />
+   </JImage>
+
+   <ToggleImage>
+      <com.ontimize.gui.field.ToggleImage />
+   </ToggleImage>
+
+   <CheckToggleImage>
+      <com.ontimize.gui.field.CheckToggleImage />
+   </CheckToggleImage>
+
+   <TextArea>
+      <com.ontimize.gui.field.TextArea />
+   </TextArea>
+
+   <FormManager>
+      <com.ontimize.gui.FormManager />
+   </FormManager>
+
+   <BasicInteracionManager>
+      <com.ontimize.gui.BasicInteracionManager />
+   </BasicInteracionManager>
+
+   <CGCMClient>
+      <es.elinsa.cgcm.cliente.CGCMClient />
+   </CGCMClient>
+
+   <AlarmList>
+      <com.ontimize.gui.alarm.AlarmList />
+   </AlarmList>
+
+   <Chart>
+      <com.ontimize.gui.field.Chart />
+   </Chart>
+
+   <DictionaryDataField>
+      <com.ontimize.gui.field.DictionaryDataField />
+   </DictionaryDataField>
+
+   <AnalogImage>
+      <com.ontimize.gui.field.AnalogImage />
+   </AnalogImage>
+
+   <HTMLComponent>
+      <com.ontimize.gui.field.HTMLComponent />
+   </HTMLComponent>
+
+   <ColumnRadioButtonGroup>
+      <com.ontimize.gui.container.ColumnRadioButtonGroup />
+   </ColumnRadioButtonGroup>
+
+   <RadioButtonDataField>
+      <com.ontimize.gui.field.RadioButtonDataField />
+   </RadioButtonDataField>
+
+   <CalculatedDataField>
+      <com.ontimize.gui.field.CalculatedDataField />
+   </CalculatedDataField>
+
+   <CalculatedCurrencyDataField>
+      <com.ontimize.gui.field.CalculatedCurrencyDataField />
+   </CalculatedCurrencyDataField>
+
+   <CalculatedTextDataField>
+      <com.ontimize.gui.field.CalculatedTextDataField/>
+   </CalculatedTextDataField>
+   
+   <CurrencyDataField>
+      <com.ontimize.gui.field.CurrencyDataField />
+   </CurrencyDataField>
+
+   <HorizontalSeparator>
+      <com.ontimize.gui.field.HorizontalSeparator />
+   </HorizontalSeparator>
+
+   <MainApplication>
+      <com.ontimize.gui.MainApplication />
+   </MainApplication>
+
+   <XMLFormBuilder>
+      <com.ontimize.builder.xml.XMLFormBuilder />
+   </XMLFormBuilder>
+
+   <XMLApplicationBuilder>
+      <com.ontimize.builder.xml.XMLApplicationBuilder />
+   </XMLApplicationBuilder>
+
+   <Label>
+      <com.ontimize.gui.field.Label />
+   </Label>
+
+   <XMLDataField>
+      <com.ontimize.gui.field.XMLDataField />
+   </XMLDataField>
+
+   <ExtendedTable>
+      <com.ontimize.gui.table.ExtendedTable />
+   </ExtendedTable>
+
+   <ListDataField>
+      <com.ontimize.gui.field.ListDataField />
+   </ListDataField>
+
+
+   <ComboReferenceCellEditor>
+      <com.ontimize.gui.table.ComboReferenceCellEditor />
+   </ComboReferenceCellEditor>
+
+   <DateCellEditor>
+      <com.ontimize.gui.table.DateCellEditor />
+   </DateCellEditor>
+
+   <RealCellEditor>
+      <com.ontimize.gui.table.RealCellEditor />
+   </RealCellEditor>
+
+
+   <StringCellEditor>
+      <com.ontimize.gui.table.StringCellEditor />
+   </StringCellEditor>
+
+
+   <MemoCellEditor>
+      <com.ontimize.gui.table.MemoCellEditor />
+   </MemoCellEditor>
+
+   <HelpButton>
+      <com.ontimize.gui.button.HelpButton />
+   </HelpButton>
+
+   <MoveBetweenTablesButton>
+      <com.ontimize.gui.button.MoveBetweenTablesButton />
+   </MoveBetweenTablesButton>
+
+   <RefreshTableButton>
+      <com.ontimize.gui.button.RefreshTableButton />
+   </RefreshTableButton>
+
+   <RowRadioButtonGroup>
+      <com.ontimize.gui.container.RowRadioButtonGroup />
+   </RowRadioButtonGroup>
+
+   <HyperlinkLabel>
+      <com.ontimize.gui.field.HyperlinkLabel />
+   </HyperlinkLabel>
+
+   <EntityResultViewer>
+      <com.ontimize.gui.EntityResultViewer />
+   </EntityResultViewer>
+
+
+   <MemoryMonitorComponent>
+      <com.ontimize.gui.MemoryMonitorComponent />
+   </MemoryMonitorComponent>
+
+   <DataLabel>
+      <com.ontimize.gui.field.DataLabel />
+   </DataLabel>
+
+   <FileDataField>
+      <com.ontimize.gui.field.FileDataField />
+   </FileDataField>
+
+   <FilterComponent>
+      <com.ontimize.gui.field.FilterComponent />
+   </FilterComponent>
+
+   <CalculateTextDataField>
+      <com.ontimize.gui.field.CalculateTextDataField />
+   </CalculateTextDataField>
+
+   <HTMLDataField>
+      <com.ontimize.gui.field.HTMLDataField />
+   </HTMLDataField>
+   
+   <HTMLShefDataField>
+   	  <com.ontimize.gui.field.HTMLShefDataField />
+   </HTMLShefDataField>
+
+   <RTFDataField>
+      <com.ontimize.gui.field.RTFDataField />
+   </RTFDataField>
+   
+   <BooleanComboDataField>
+      <com.ontimize.gui.field.BooleanComboDataField />
+   </BooleanComboDataField>
+
+   <SelectionListDataField>
+      <com.ontimize.gui.field.SelectionListDataField />
+   </SelectionListDataField>
+
+   <QueryButton>
+      <com.ontimize.gui.button.QueryButton />
+   </QueryButton>
+
+
+   <BasicDataComponentGroup>
+      <com.ontimize.gui.container.BasicDataComponentGroup />
+   </BasicDataComponentGroup>
+
+   <AttachmentFileButton>
+      <com.ontimize.gui.button.AttachmentFileButton />
+   </AttachmentFileButton>
+
+   <DeleteAttachmentButton>
+      <com.ontimize.gui.button.DeleteAttachmentButton />
+   </DeleteAttachmentButton>
+
+   <JAIImageDataField>
+      <com.ontimize.gui.field.JAIImageDataField />
+   </JAIImageDataField>
+
+   <DownloadAttachmentFileButton>
+      <com.ontimize.gui.button.DownloadAttachmentFileButton />
+   </DownloadAttachmentFileButton>
+
+
+   <Scroll>
+      <com.ontimize.gui.container.Scroll />
+   </Scroll>
+
+   <CardPanel>
+      <com.ontimize.gui.container.CardPanel />
+   </CardPanel>
+
+   <ObjectDataField>
+      <com.ontimize.gui.field.ObjectDataField />
+   </ObjectDataField>
+
+   <GenerateReportButton>
+      <com.ontimize.gui.button.GenerateReportButton />
+   </GenerateReportButton>
+
+
+   <SplitPane>
+      <com.ontimize.gui.container.SplitPane />
+   </SplitPane>
+
+   <SliderDataField>
+      <com.ontimize.gui.field.SliderDataField />
+   </SliderDataField>
+
+   <FormHeader>
+      <com.ontimize.gui.container.FormHeader />
+   </FormHeader>
+
+   <FormHeaderButton>
+      <com.ontimize.gui.button.FormHeaderButton />
+   </FormHeaderButton>
+
+   <FormHeaderPopupButton>
+      <com.ontimize.gui.button.FormHeaderPopupButton />
+   </FormHeaderPopupButton>
+
+   <Grid>
+      <com.ontimize.gui.container.Grid />
+   </Grid>
+
+   <CalendarDataField>
+      <com.ontimize.gui.field.CalendarDataField />
+   </CalendarDataField>
+
+   <HTMLLabel>
+      <com.ontimize.gui.field.HTMLLabel />
+   </HTMLLabel>
+
+   <SubForm>
+      <com.ontimize.gui.field.SubForm />
+   </SubForm>
+
+   <NavigatorMenuGUI>
+      <com.ontimize.gui.field.NavigatorMenuGUI />
+   </NavigatorMenuGUI>
+   
+   <EntityFunctionDataField>
+      <com.ontimize.gui.field.EntityFunctionDataField/>
+   </EntityFunctionDataField>
+
+   <ApToolBarFiller>
+      <com.ontimize.gui.ApToolBarFiller />
+   </ApToolBarFiller>
+
+   <QueryFilterButton>
+      <com.ontimize.gui.button.QueryFilterButton />
+   </QueryFilterButton>
+
+   <NoticeTable>
+      <com.ontimize.util.notice.NoticeTable />
+   </NoticeTable>
+
+   <HTMLTemplate>
+      <com.ontimize.util.notice.HTMLTemplate />
+   </HTMLTemplate>
+
+	<CollapsiblePanel>
+		<com.ontimize.gui.container.CollapsiblePanel/>
+	</CollapsiblePanel>
+	
+	<Form2HTMLDataField>
+	  <com.ontimize.gui.field.Form2HTMLDataField/>
+	</Form2HTMLDataField>
+  
+    <HtmlHelpField>
+      <com.ontimize.gui.field.HtmlHelpField/>
+    </HtmlHelpField>
+    
+    <ToggleButton>
+      <com.ontimize.gui.button.ToggleButton/>
+    </ToggleButton>
+	
+	<ButtonGroupDataField>
+		<com.ontimize.gui.field.ButtonGroupDataField/>
+	</ButtonGroupDataField>
+	
+	<SpinnerDataField>
+		<com.ontimize.gui.field.SpinnerDataField/>
+	</SpinnerDataField>
+	
+	<CollapsiblePanelFiller>
+		<com.ontimize.gui.container.CollapsiblePanelFiller/>
+	</CollapsiblePanelFiller>
+	
+	<ServerPermissionComponent>
+		<com.ontimize.permission.ServerPermissionComponent/>
+	</ServerPermissionComponent>
+	<PivotTable>
+		<com.ontimize.gui.field.PivotTable/>
+	</PivotTable>
+	
+	<SignDataField>
+    	<com.ontimize.gui.field.SignDataField/>
+    </SignDataField>
+    
+    <FilterTableDataField>
+    	<com.ontimize.gui.field.FilterTableDataField/>
+    </FilterTableDataField>
+	
+</Labels>

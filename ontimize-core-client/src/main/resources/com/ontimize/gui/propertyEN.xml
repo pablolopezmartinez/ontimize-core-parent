@@ -1,0 +1,887 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Definicion>		
+	<Row type="container">
+		<Property value="title" required="no" description="The row title."/>
+		<Property value="layout" required="no" 
+			options="flow;gridbaglayout" description="The field layout."/>
+		<Property value="border" required="no" 
+					options="raised;lowered;bevellowered;bevelraised" description="The border definition."/>
+		<Property value="expand" required="no" 
+			options="yes;no" description="The expansion."/>
+		<Property value="attr" class="String" required="no" description="The attribute to manage the container."/>
+		<Property value="bgcolor" required="no" description="The background color. A possible color for {@link ColorConstants} or a RGB value like: '150;230;23'."/>
+		<Property value="height" required="no" description="The height in pixels for component. Used in empty rows. "/>
+		<Property value="width" required="no" description="The width in pixels for component. Used in empty rows."/>
+		<Property value="bgimage" required="no" description="The path for a background image."/>
+		<Property value="opaque" required="no" options="yes;no"
+			description="The opaque condition for row."/>
+		<Property value="margin" required="no" description="The margin value for component."/>
+		<Property value="align" required="no" options="center;right;left" description="The horizontal alignment. This parameter is only used if the layout value is 'flow'."/>
+		<Property value="textureimage" required="no" options="yes;no" description="Path to source icon to extract a image and create a TexturePaint."/>
+	</Row>
+
+	<DataField abstract="yes" type="field">
+		<Property value="attr" class="String" required="yes" description="The attribute to manage the field." default="%attr%"/>
+		<Property value="required" class="String" required="no"
+			options="yes;no" description="The required condition."/>
+		<Property value="dim" class="String" required="no"
+			options="no;yes;text" description="The resize posibilities (no resize, resize the insertion space, resize the space between label and text)." />
+		<Property value="size" class="String" required="no" description="The size of text in number of characters." />
+		<Property value="align" class="String" required="no"
+			options="left;right;center" description="The alignment for field."/>
+		<Property value="visible" class="String" required="no"
+			options="yes;no" description="The visibility condition."/>
+		<Property value="fontsize" required="no" description="The font size."/>
+		<Property value="bgcolor" required="no" description="The background color. A possible color for {@link ColorConstants} or a RGB value like: '150;230;23'." />
+		<Property value="fontcolor" required="no" description="The font color."/>
+		<Property value="labelsize" required="no" description="The label size in number of characters."/>
+		<Property value="labelvisible" required="no" 
+			options="yes;no" description="The label visibility."/>
+		<Property value="textalign" required="no"
+			options="center;right;left" description="The alignment for the text."/>
+		<Property value="labelalign" required="no"
+			options="center;right;left" description="The alignment for the label."/>
+		<Property value="outborder" required="no"
+			options="default;none;raised;lowered" description="The out border type."/>
+		<Property value="border" required="no"
+			options="default;none;raised;lowered" description="The border type. They are allowed line borders with color defined in ColorConstants and borders registered in BorderManager."/>
+		<Property value="labelposition" required="no"
+			options="left;top;right;bottom" description="The label position."/>
+		<Property value="enabled" required="no" 
+			options="yes;no" />
+		<Property value="text" required="no" description="Alternative for attr text." />
+		<Property value="tip" required="no" description="The tooltip for field." />
+		<Property value="labelfontcolor" required="no"
+			description="The font color for label in field. By default, 'black'."/>
+		<Property value="font" required="no"
+			description="Font for data field. It is accepted a string like : 'Arial-BOLD-18'. Similar to Font.decode"/>
+		<Property value="opaque" required="no"
+			options="yes;no" description="Data field opacity condition."/>
+		<Property value="labelfont" required="no" description="The type of font for label of data field."/>
+		<Property value="requiredborder" required="no" description="The border requirement condition. If it is specified to 'yes', it will be fixed to 		  BorderManager.DEFAULT_DATA_FIELD_REQUIRED_BORDER."/>
+	</DataField>
+
+	<TextFieldDataField extends="DataField" visible="no">
+		<Property value="focuslistener" class="String" required="no" description="The complete class name that implements FocusListener and will be registered like listener for this field." />
+	</TextFieldDataField>
+
+	<PercentDataField extends="TextFieldDataField">
+		<Property value="minintegerdigits" class="String" required="no" description="The minimum number of integer digits."/>
+		<Property value="maxintegerdigits" class="String" required="no" description="The maximum number of integer digits."/>
+		<Property value="mindecimaldigits" class="String" required="no" description="The minimum number of decimal digits."/>
+		<Property value="maxdecimaldigits" class="String" required="no" description="The maximum number of decimal digits."/>
+	</PercentDataField >
+
+	<Column type="container">
+		<Property value="title" required="no" description="The title for component. It must be unique in the form."/>
+		<Property value="border" required="no" 
+			options="raised;lowered;bevellowered;bevelraised"  description="The border for container."/>
+		<Property value="expand" required="no" description="Indicates the horizontal expansion."
+			options="yes;no"/>
+		<Property value="attr" class="String" required="no" description="The attribute."/>
+		<Property value="bgcolor" required="no" description="The background color. A possible color for {@link ColorConstants} or a RGB value like: '150;230;23'." />
+		<Property value="height" required="no" description="The preferred column height in pixels. Useful for specifying empty columns."/>
+		<Property value="width" required="no" description="The preferred column width in pixels. Useful for specifying empty columns."/>
+		<Property value="bgimage" required="no" description="The background image."/>
+		<Property value="opaque" required="no" options="yes;no"
+			description="Indicates whether column is opaque."/>
+		<Property value="margin" required="no" description="The margin value for component."/>		
+		<Property value="valign" required="no"
+			options="top;center;bottom" description="Indicates the vertical alignment."/>
+		<Property value="expandlast" required="no" options="yes;no" description="Indicates wheter the component placed in the bottom of column will be expanded and take up all remaining column space."/>
+		<Property value="textureimage" required="no" options="yes;no" description="Path to source icon to extract a image and create a TexturePaint."/>
+	</Column >
+
+	<Tab type="container">
+		<Property value="title" required="no" description="The title for component. It must be unique in the form. Only required when attr is not specified."/>
+		<Property value="icon" required="no" description="The icon panel."/>
+		<Property value="attr" required="no" description="Indicates the component attribute. Only required when title is not specified."/>
+		<Property value="queryifvisible" required="no" options="yes;no"
+			description="Specifies when data tab are queried. Only when is visible or in normal query mode."/>
+		<Property value="tip" required="no" description="Specifies the tip for tab."/>
+	</Tab>
+
+	<Form type="container">
+		<Property value="buttons" required="no" options="yes;no" description="Establishes if the data navigation buttons are visible."/>
+		<Property value="entity" required="no" description="Name of the entity related to the Form"/>
+		<Property value="keys" required="no" description="List of names of the entity primary key."/>
+		<Property value="parentkeys" required="no" description="List of foreing key column names."/>
+		<Property value="printable" required="no" description="Establishes if the form can be printed."/>
+		<Property value="status" required="no" options="yes;no" description="Establishes if the form has a status bar."/>
+		<Property value="helpkey" required="no" description="If this parameter exists the help button is displayed into the form. The parameter value is used as key for searching the resource text."/>
+		<Property value="columns" required="no" description="Establishes the list of attributes that are showed in the table view."/>
+		<Property value="resources" required="no" description="Resources file name that this form going to use."/>
+		<Property value="scroll" required="no" options="yes;no" description="Establishes if the form body will show the scrollbars when the components don't have enough space"/>
+		<Property value="setvalueorder" required="no" description="The form doesn't guarantee the order in which the fields will be filled. If a field value is required by another one (as a parentKey of a ReferenceDataField), an error could be produced. In principle, the default filler should be right in most cases, but with this parameter the filler order can be established. It isn't necessary to establish every field attribute. The attributes specified in this parameter are filled first. No es necesario especificar todos los atributos de los campos, los que se especifiquen se les rellenara de primeros"/>
+		<Property value="customfocus" required="no" options="yes;no" description="Establishes if the custom focus traversal policy is used"/>
+		<Property value="title" required="no" description="Establishes the value of the form title that is displayed in the top of the form "/>
+		<Property value="attachment" required="no" description="This parameter allows to hide the attachment button when attachments are implemented in the application."/>
+		<Property value="helpid" required="no" description="Establishes help key uses for identify the help section dedicates a form."/>
+		<Property value="multipledata" required="no" description="When a query with multiple results is done the table view with all results is showed if this parameter is established a true."/>
+		<Property value="tableviewscrollh" required="no" description="Establishes if the table view has a horizontal scroll."/>
+		<Property value="template" required="no" description="Establishes the file name of template used to print the form data."/>
+		<Property value="templates" required="no" description="This parameter allows to hide the template printing button when templates are implemented in the application, "/>
+		<Property value="nextbuttonicon" required="no" description="Path to this form icon."/>
+		<Property value="previousbuttonicon" required="no" description="Path to this form icon"/>
+		<Property value="endbuttonicon" required="no" description="Path to this form icon"/>
+		<Property value="printbuttonicon" required="no" description="Path to this form icon"/>
+		<Property value="refreshbuttonicon" required="no" description="Path to this form icon"/>
+		<Property value="attachbuttonicon" required="no" description="Path to this form icon"/>
+		<Property value="tablebuttonicon" required="no" description="Path to this form icon"/>
+		<Property value="cleardatafieldbuttonicon" required="no" description="Path to this form icon"/>
+		<Property value="borderbuttons" required="no" description="default/none/raised/lowered or a color defined in ColorConstants. Moreover, it is also allowed a  border defined in BorderManager"/>
+		<Property value="opaquebuttons" required="no" description="Data field opacity condition for Form buttons"/>
+		<Property value="resultcountfont" required="no" description="Font for result count label that show the number of records in Form. A string like :'Arial-BOLD-18'"/>
+		<Property value="resultcountfg" required="no" description="Data field opacity condition for Form buttons"/>
+		<Property value="buttonpanelcolor" required="no" description="Color for button panel."/>
+		<Property value="highlightbuttons" required="no" description="Sets the highlight in button property when mouse is entered. See AbstractButton-setContentAreaFilled(boolean)). This parameter requires opaque='no'"/>
+		<Property value="statusfont" required="no" description="Font for status bar (title of form)"/>
+		<Property value="statusborder" required="no" description="Border for status (title of form)."/>
+		<Property value="buttonposition" required="no" description="Keys for buttons and status. Allow to define the both Form buttons and status(title) order. I.e. button1;button2;status;...;button3;...;buttonn"/>
+		<Property value="tableviewminrowheight" required="no" description="The minimum row height for each row in table that is showed when user presses twice to Query Button."/>
+		<Property value="bgimage" required="no" description="The background image"/>
+	</Form>
+
+	<FormExt extends="Form" type="container">
+		<Property value="entity" required="yes" description="Name of associated entity." default="%entity%"/>
+		<Property value="keys" required="yes" description="Keys referred to the form entity. Separated by ';'. It must match up with the tree keys when they exist." default="%keys%"/>
+	</FormExt>
+
+	<Form2HTMLDataField>
+		<Property value="xmlfieldattr" required="yes" description="attr of the field where is stored the XML Form and which will be used for the transformations." default="%attr%"/>
+		<Property value="htmltitle" required="yes" description="The text that will appear in the border of the HTML Field." default="htmltitle"/>
+		<Property value="htmlviewertitle" required="no" description="Name of associated entity."/>
+		<Property value="xsllabel" required="no" description="The text that will appear in the component."/>
+		<Property value="xsllist" required="no" description="List of the XSL files (package.filename1.xsl;package.filename2.xsl;...) that can be used form transform the XML File."/>
+		<Property value="xslparameters" required="no" description="List of parameters=values that will be applied to all XSL transformations(param1=value1;param2=value2;...)."/>
+		<Property value="htmlviewer" required="no" description="Name of the class that will be used as a HTML Viewer."/>
+		<Property value="css" required="no" description="Name of the css file that will used by the viewer."/>
+		<Property value="pattern" required="no" description="Name of the pattern file that will used by the viewer."/>
+	</Form2HTMLDataField>
+	
+
+	<CollapsiblePanel type="container">
+		<Property value="expandlast" options="yes;no" required="no" description="Indicates wheter the component placed in the bottom of column will be expanded and take up all remaining column space." default="no"/>
+		<Property value="title" required="no" description="The title for component. It must be unique in the form. Only required when attr is not specified."/>
+		<Property value="reverseicon" required="no" description="Changes the order when the icons are shown."/>
+		<Property value="icon" required="no" description="The icon panel."/>
+		<Property value="attr" required="no" description="Indicates the component attribute. Only required when title is not specified."/>
+		<Property value="border" required="no" options="raised;lowered;bevellowered;bevelraised"  default="raised" description="The border for container."/>
+		<Property value="borderclass" required="no"  description="Border class used to create the border for container. See javadoc"/>		
+		<Property value="startshowed" required="no" default="yes" options="yes;no" description="Specifies whether panel is showed or hidden on startup."/>
+		<Property value="tooltip" required="no" description="Specifies the tip for container."/>
+		<Property value="valign" required="no" description="The vertical alignment for component." options="center;bottom;top" default="top"/>
+		<Property value="expand" required="no" description="Indicates the expansion for component." options="yes;no" default="no"/>
+		<Property value="expandlast" required="no" description="Indicates the expansion for the last component added to the container." default="no" options="yes;no"/>
+		<Property value="bgcolor" required="no" description="The background color. A possible color from ColorConstants or a RGB value like: '150;230;23'."/>
+		<Property value="anim" required="no" options="yes;no" description="Sets the animation enabled/disabled." default="yes"/>
+		<Property value="time" required="no" description="Specifies the default collapse/expand duration. By default 200 ms."/>
+		<Property value="opaque" required="no" options="yes;no" description="The opacity condition." default="yes"/>
+		<Property value="margin" required="no" description="Fixes insets for component. Its structure must be 4 values for insets separated by ';'(top;left;bottom;right)."/>
+	</CollapsiblePanel>
+	
+	<MultiReference extends="Column">
+		<Property value="entity" required="yes" description="Associated entity." default="%entity%" />
+		<Property value="key" required="yes" description="Attribute for data component. It is the primary key for entity." default="%key%"/>
+		<Property value="parentkey" required="no" description="To establish a filter. It will be a constraint for all queries in entity."/>
+		<Property value="form" required="no" description="Form associated to the table."/>
+		<Property value="otherkeys" required="no" description="Name of the other fields that are parentkeys, that are passed to the detail form when it is open. These values will be get from the parent form, in which the Table is placed. "/>
+		<Property value="controls" required="no" description="Allows the Table to have some control buttons, in the top of it. This buttons, by default, can export to excel the data in the table, show charts, reports, and so on. If the value is not, the controlsvisible attribute will not affect."/>
+	</MultiReference >
+
+	<ExtendedMultiReference type="field">
+		<Property value="attr" required="yes" description="The field attribute. " default="%attr%"/>
+		<Property value="align" required="no" description="The alignment for component."/>
+		<Property value="entity" required="yes" description="Associated entity." default="%entity%"/>
+		<Property value="key" required="yes" description="The Table key." default="%key%"/>
+		<Property value="attrs" required="no" description="Attributes to fill after query operation."/>
+		<Property value="icon" required="no" description="Icon for query button."/>
+		<Property value="text" required="no" description="The text for query button."/>
+		<Property value="parentkey" required="no" description="The parentkey or parentkeys to filter"/>
+		<Property value="cols" required="no" description="Columns associated to the code. It forms the description field."/>
+		<Property value="form" required="no" description="The form that is opened in detail. On init, update mode will be its state."/>
+		<Property value="otherkeys" required="no" description="The other keys."/>
+		<Property value="controls" required="no" description="Allows the Table to have some control buttons, in the top of it. This buttons, by default, can export to excel the data in the table, show charts, reports, and so on. If the value is not, the controlsvisible attribute will not affect."/>
+	</ExtendedMultiReference >
+
+	<TextDataField extends="TextFieldDataField">
+		<Property value="maxlength" required="no" description="The maximum number of characters supported for introducing."/>
+		<Property value="uppercase" required="no" options="yes;no" description="Shows the characters always in uppercase."/>
+	</TextDataField >
+
+	<SubForm>
+		<Property value="form" required="yes" description="Complete path to .xml form definition." default="%resource%"/>
+	</SubForm>
+	
+	<DateDataField extends="TextFieldDataField">
+		<Property value="calendar" required="no" options="yes;no" description="Indicates whether a dialog box with a calendar will be showed."/>
+		<Property value="calendarchange" required="no" options="yes;no" description="Indicates the form to notify the change event in calendar values. By default, its value is 'no' and so, the changes are only showed when you abandon the calendar."/>
+		<Property value="opaquebuttons" required="no" options="yes;no" description="The opacity condition for buttons. By default, opaque=yes"/>
+		<Property value="borderbuttons" required="no" description="Defines border of buttons."/>				
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>
+		<Property value="calendaricon" required="no" description="Indicates the path to icon that shows the calendar. By default, ImageManager.CALENDAR."/>
+	</DateDataField >
+	
+	<HTMLHelpField>
+		<Property value="attr" required="yes" description="Attribute for field." default="%attr%"/>
+		<Property value="template" required="yes" description="Complete path to html template." default="%resource%"/>
+		<Property value="scroll" required="no" description="Specifies whether the component must use an scroll or not."/>
+		<Property value="scrollv" required="no" description="Adjust the component to use vertical scroll."/>
+		<Property value="scrollh" required="no" description="Adjust the component to use horizontal scroll."/>
+		<Property value="paint" required="no" description="Fixes specified paint for viewer."/>
+		<Property value="maxwidth" required="no" description="Maximum width for component. It will be scrollable when reaches this value."/>
+		<Property value="opaque" required="no" description="The opacity condition for component. By default, true."/>
+	</HTMLHelpField>
+
+	<ColorDataField extends="TextFieldDataField">
+		<Property value="returnedtype" required="no" options="stringrgb;stringhex;number;integer" description="The returned type: stringrgb': Returns a string in decimal format rrr;ggg;bbb (no necessary always 10 characters), 'stringhex': Returns a string 
+		in hexadecimal format #RRGGBB, 'number': Returns a Number object. Its value will be R*Math.exp(256, 2) + G*256 + B, 'integer': Returns an integer object. Its value will be RBG"/>
+		<Property value="showtextfield" required="no" options="yes;no" description="Condition to show the text field."/>
+		<Property value="opaquebuttons" required="no" options="yes;no" description="The opacity condition for buttons. By default, opaque=yes"/>
+		<Property value="borderbuttons" required="no" description="Defines border of buttons."/>				
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>
+		<Property value="enabledtextfield" required="no" description="Condition to activate the text field."/>
+		<Property value="showdeletebutton" required="no" description="Condition to show the delete button."/>
+		<Property value="colorwidth" required="no" description="Width in pixels of color bar showed in this field."/>
+		<Property value="colorheight" required="no" description="Height in pixels of color bar showed in this field."/>
+	</ColorDataField >
+
+	<HourDateDataField extends="DateDataField">
+		<Property value="datevisible" required="no" options="yes;no"  description="Indicates the visibility condition of date field and calendar button. By default, no"/>
+		<Property value="date" required="no" options="yes;no" description="The date for the field will be fixed by this attribute. Creates a dependence with other 	date field."/>
+	</HourDateDataField >
+
+	<IntegerDataField extends="TextFieldDataField">
+		<Property value="calc" required="no" options="yes;no" description="Indicates whether a calculator is showed in the field."/>
+		<Property value="minintegerdigits" required="no"  description="The minimum number of digits."/>
+		<Property value="maxintegerdigits" required="no" description="The maximum number of digits."/>
+		<Property value="returnstring" required="no" options="yes;no" description="Indicates when field value is returned like a string. It could be used to fill with zeros."/>
+		<Property value="grouping" required="no" description="Indicates whether the field is showed whitout point separator. For example, 1000 or 1.000 . It is not valid with advancedquerymode."/>
+	</IntegerDataField >
+
+	<RealDataField extends="TextFieldDataField">
+		<Property value="calc" required="no" options="yes;no" description="The presence of the calendar."/>
+		<Property value="minintegerdigits" required="no" description="The minimum number of digits."/>
+		<Property value="maxintegerdigits" required="no" description="The maximum number of digits."/>
+		<Property value="mindecimaldigits" required="no" description="The minimum number of decimal digits."/>
+		<Property value="maxdecimaldigits" required="no" description="The maximum number of decimal digits."/>
+		<Property value="grouping" required="no" options="yes;no" description="The condition to put the numbers in groups (1 000 000 -> 1000000)."/>
+	</RealDataField >
+
+	<NIFDataField extends="TextFieldDataField">
+	</NIFDataField >
+
+	<MaskDataField extends="TextFieldDataField">
+		<Property value="mask" required="yes" description="
+			* : any character
+			# : alphabetical character (capital letter or lower case letter)
+			A : alphabetical character (capital letter)
+			a : alphabetical character (lower case letter)
+			% : alphanumeric character
+		." default="****"/>
+		<Property value="exactmatch" required="no" options="yes;no" description="With 'yes' value indicates that field must be filled completely, otherwise, the field value will be considered null although it contains any data." />
+	</MaskDataField >
+
+	<Table type="field">
+		<Property value="entity" required="yes" description="Name of the entity related to the Table." default="%entity%"/>
+		<Property value="cols" required="yes" description="The names of the columns that this table will query and handle." default="%cols%"/>
+		<Property value="keys" required="no" description="Name of the entity primary keys." default="%keys%"/>
+		<Property value="border" required="no" options="raised;lowered;bevellowered;bevelraised"  description="The border for component. It is also allowed or a color defined in ColorConstants. Moreover, it is also allowed a border defined in BorderManager."/>
+		<Property value="parentkeys" required="no" description="Foreing key column names."/>
+		<Property value="form" required="no" description="Name of the form that will be open to show the Table information. By default, this form will be open by double-clicking a record of the Table or when pressing the Table insert button."/>
+		<Property value="controls" required="no" 
+			options="yes;no" description="Allows the Table to have some control buttons, in the top of it. This buttons, by default, can export to excel the data in the table, show charts, reports, and so on. If the value is not, the controlsvisible attribute will not affect."/>
+		<Property value="cods" required="no" description="Establishes a correspondence between a table column and a field in detail form. They are represented by pairs, all separated by ';'"/>
+		<Property value="dynamic" options="yes;no" required="no" description="Defines a new type of table: a dynamic table where columns are inferred from values, not defined in xml."/>
+		<Property value="translateheader" options="yes;no" required="no" description="Defines whether columns in table header are translated. By default, if table is 'dynamic' fixes translateheader='no', in other case always is translated."/>
+		<Property value="inserttable" options="yes;no" required="no" description="Defines the table as a autoinsertable table. The last row in this table allows to insert records directly into database."/>	
+		<Property value="fontsize" required="no" description="Sets the printing font size. The values can be from 1 up to 7 (more is bigger)."/>
+		<Property value="currency" required="no" description="This attribute specifies the columns that will be renderer as a currency, using a renderer to do that."/>
+		<Property value="deletebutton" required="no" 
+			options="yes;no" description="Activates the functionallity of deleting records directly from the Table, instead using the detail form to do that."/>
+		<Property value="refreshbutton" required="no" options="yes;no" description="Add the refreshbutton to the table to allow the user to refresh the Table."/>
+		<Property value="visiblecols" required="no" description="The default columns that will be show in the Table."/>
+		<Property value="calculedcols" required="no" description="The value is a string with the name of the new column and the math expression that will be used in each column. With this, the Table will have new columns calculated on the client side according to the expression. For example 
+		calculedcols=total;number*units. This will create a new column named total which value will be the multiplication of number and units."/>
+		<Property value="rows" required="no" description="Default width for the table header."/>
+		<Property value="numrowscolumn" required="no" 
+			options="yes;no" description="Shows or hide a column containing the row numumber."/>
+		<Property value="queryrows" required="no" description="Number of columns to query when the table is pageable. Only under certain databases."/>
+		<Property value="dynamicform" required="no" description="name of the class which provides the form dynamc names. The contructor withuot parameter will be used to do so. No one set by default."/>
+		<Property value="fixattr" required="no" description="If the Table has detail form, with this parameter, when the detail form is open, the Table will pass the field values of the parent form (this is, the form in which the table is placed) to the detail form, to fiz them, not allowing them to be modified."/>
+		<Property value="memoryentity" required="no" description="Name of the Entity related to the Table. In this case the entity is a local one, stored un the client memory, to perform local operations that do not need a database interaction."/>
+		<Property value="scrollh" required="no" options="yes;no" description="Allows the Table to have a horizontal scroll. This is useful in Table with several columns to display and there is no room enough for all of them."/>
+		<Property value="rendertime" required="no" description="Determines the columns that will have a time render."/>
+		<Property value="rendermemo" required="no" description="Selects the columns to add a RenderMemo, this is, the columns that stores long texts."/>					
+		<Property value="editablecolumns" required="no" description="Columns that can be edited directly within the Table. By default, the database will not be updated. This can be used with a Editor to update the record."/>
+		<Property value="updateentityeditablecolumns" required="no" description="Columns that will update the changes in the database when the user change the values stored in those."/>
+		<Property value="controlsvisible" required="no" options="yes;no" description="Shows the table controls. See the controls attribute."/>
+		<Property value="disableinsert" required="no" 
+			options="yes;no" description="Activates the functionallity of inserting records directly from the Table using the detail form to do that. Is is set to yes no records can be inserted using this table amd the button to that, a small one in a top-right corner od the Table will be deactivated."/>
+		<Property value="customcharts" required="no" 
+			options="yes;no" description="Activates a Table default functionality tha can represent the Table information using graphical charts."/>
+		<Property value="autoadjustheader" required="no" 
+			options="yes;no" description="Allows the TableHeader to adjunts its height to the FontText in order to see the the text when the font size changes."/>
+		<Property value="confvisiblecols" required="no" 
+			options="yes;no" description="The columns that will be visible in the Table by default. The columns in the cols attribute can be shown or hidden in runtime."/>
+		<Property value="calculedcolsrequiredfields" required="no" description="Required columns in the table for the calculed colums. When these required columns has a null value, the calculed colum involving it will show a null value as well."/>
+		<Property value="opennewwindow" required="no" 
+			options="yes;no" description="Activates the functionality to open the detail form in a new window. See the defaultnewwindow attribute. This option can be set to the whole application by setting the Table variable SHOW_OPEN_IN_NEW_WINDOW_MENU."/>
+		<Property value="defaultnewwindow" required="no" 
+			options="yes;no" description="If the table has a detail form set, with this then in which the window will be open can be controled. There are two ways of opening a new window: as a dialog that blocks the applicacion in backgroung (default), or as a window itself. With this the default behaviour can be change. Pressing the 'Shift' while opening the window the non-default behaviour will be chosen. If the attribute opennewwindow is set, will not be applied."/>
+		<Property value="vscroll" required="no" options="yes;no" description="Vertical scroll for Table component. By default, 'yes'."/>		
+		<Property value="vscrollwidth" required="no" description="Width for vertical scroll. By default, '20'."/>		
+		<Property value="showgrid" required="no" options="yes;no" description="Show grid lines in table. By default, 'yes'."/>	
+		<Property value="minrowheight" required="no" description="Sets the minimum row height. By default, Table.MIN_ROW_HEIGHT."/>
+		<Property value="opaque" options="yes;no" required="no" description="Parameter to set all the components in the table opaque or not."/>
+		<Property value="sumrow" required="no" description="Columns to sum at the botton of the Table, in a new row."/>
+		<Property value="quickfiltervisible" options="yes;no" required="no" description="Shows or hide the quick filter component."/>
+		<Property value="quickfilter" options="yes;no" required="no" description="Allows the quick filter functionality."/>
+		<Property value="pivotbutton" options="yes;no" required="no" description="Allows the pivot functionality, to work with the information in the Table"/>
+		<Property value="memoryentity" required="no" description="Name of the Entity related to the Table. In this case the entity is a local one, stored un the client memory, to perform local operations that do not need a database interaction."/>
+		<Property value="reportcols" required="no" description="Columns showed in report dialog. By default 'visiblecols'." />
+		<Property value="requiredcols" required="no" description="Only for autoinsertable tables (insertable='yes'). Required cols in autoinsertable table."/>
+		<Property value="insertablecols" required="no" description="Only for autoinsertable tables (insertable='yes'). Columns of table that are insertables. By default, all columns."/>
+		<Property value="databaseinsert" required="no" options="yes;no" description="Only for autoinsertable tables (insertable='yes'). Indicates whether insert operations are executed directly in database."/>		
+		<Property value="databaseremove" required="no" options="yes;no" description="Indicates whether remove operations are executed directly in database."/>		
+		<Property value="showtotalinserting" required="no" description="Indicates whether the row at bottom to show total operation results is showed."/>
+		<Property value="borderbuttons" required="no" description="Defines whether table buttons have border or not."/>				
+		<Property value="opaquebuttons" required="no" description="Defines whether table buttons are opaque or not."/>
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>										
+		<Property value="changeviewicon" required="no" description="Path to this Table icon."/>										
+		<Property value="copyicon" required="no" description="Path to this Table icon."/>										
+		<Property value="excelicon" required="no" description="Path to this Table icon."/>										
+		<Property value="htmlicon" required="no" description="Path to this Table icon."/>										
+		<Property value="inserticon" required="no" description="Path to this Table icon."/>										
+		<Property value="printicon" required="no" description="Path to this Table icon."/>										
+		<Property value="deleteicon" required="no" description="Path to this Table icon."/>										
+		<Property value="refreshicon" required="no" description="Path to this Table icon."/>										
+		<Property value="charticon" required="no" description="Path to this Table icon."/>										
+		<Property value="visiblecolsicon" required="no" description="Path to this Table icon."/>										
+		<Property value="sumrowicon" required="no" description="Path to this Table icon."/>										
+		<Property value="calculatedcolsicon" required="no" description="Path to this Table icon."/>										
+		<Property value="defaultcharticon" required="no" description="Path to this Table icon."/>										
+		<Property value="reporticon" required="no" description="Path to this Table icon."/>										
+		<Property value="headerheight" required="no" description="The height for header."/>										
+		<Property value="headerfont" required="no" description="Font for header text. It is accepted a string like : 'Arial-BOLD-18'. Similar to Font.decode"/>										
+		<Property value="headerfg" required="no" description="Color for foreground in header."/>										
+		<Property value="headerbg" required="no" description="Color for background in header."/>										
+		<Property value="fontshadowcolor" required="no" description="Color of shadow for font."/>										
+		<Property value="headerbgimage" required="no" description="Path to background image."/>		
+		<Property value="headerbggroupimage" required="no" description="Path to background image when the column is grouped."/>									
+		<Property value="headerborder" required="no" description="Border of header."/>										
+		<Property value="headerlastcolumnborder" required="no" description="Border of header."/>										
+		<Property value="headerborder" required="no" description="Border for last column in header."/>										
+		<Property value="headerfirstcolumnborder" required="no" description="Border for first column in header."/>
+		<Property value="quickfilterfont" required="no" description="Font for quickfilter text."/>
+		<Property value="quickfilterfontcolor" required="no" description="Color for quickfilter font."/>
+		<Property value="quickfilterborder" required="no" description="Specific border for quickfilter."/>
+		<Property value="quickfilteremptyfont" required="no" description="Font for message showed when user does not type any value to search."/>
+		<Property value="renderers" required="no" description="Definition of columns and associated renderers (col1:renderer1;col2:renderer2;...;coln:renderern). Renderer identifiers are defined in external file."/>
+		<Property value="editors" required="no" description="Definition of columns and associated editors (col1:editor1;col2:editor2;...;coln:editorn). Editor identifiers are defined in external file."/>	
+		<Property value="insertmode" required="no" description="Defines whether table can insert in insert mode"/>																							
+	</Table >
+
+	<TabPanel type="container">
+		<Property value="attr" required="no" description="The attribute for tab panel."/>
+	</TabPanel>
+
+	<Button type="button">
+		<Property value="text" required="no" description="Initial text is shown in button, before locale is established. By default, an empty string."/>
+		<Property value="align" required="no" 
+			options="left;right;center" description="The button alignment."/>
+		<Property value="icon" required="no" description="Icon for button."/>
+		<Property value="key" required="yes" description="The reference to the button. It is used by form to return a button reference, so it must be unique in a FORM." default="%key%"/>
+		<Property value="tip" required="no" description="The key used by bundle to translation. So, It must be present in bundle file."/>
+		<Property value="labelsize" required="no" description="The size of label."/>
+		<Property value="fontsize" required="no" description="The font size."/>
+		<Property value="fontcolor" required="no" description="The font color."/>
+		<Property value="bold" required="no" 
+			options="yes;no" description="The condition to use bold font."/>
+		<Property value="border" required="no" description="The border definition style. "/>
+		<Property value="iconalign" required="no" 
+			options="left;right;top" description="Alignment for icon with respect to the text. Only important when icon and text are both presents."/>
+		<Property value="mnemonic" required="no" description="The mnemonic for button."/>
+		<Property value="disabledicon" required="no" description="The path for icon when button is disabled."/>
+		<Property value="rollover" required="no" 
+			options="yes;no" description="The roll-over condition."/>
+		<Property value="helpid" required="no"/>
+		<Property value="height" required="no" description="Preferred height in pixels for button."/>
+		<Property value="textalign" required="no" 
+			options="left;right;center" description="The text alignment."/>
+		<Property value="alticon" required="no" description="Auxiliary icon when setAltMode is enabled."/>
+		<Property value="alttext" required="no" description="Auxiliary text when setAltMode is enabled.."/>
+		<Property value="alltip" required="no"  description="TAuxiliary tip when setAltMode is enabled."/>
+		<Property value="opaque" options="yes;no" required="no" description="The opacity condition for button. By default, 'yes'."/>
+		<Property value="bordervisible" options="yes;no" required="no" description="Visibility of button border. By default, 'yes'."/>
+		<Property value="font" required="no" description="The font for button. It is allowed a String similar to: 'Arial-BOLD-18'."/>
+		<Property value="paintfoucs"  options="yes;no" required="no" description="Sets the focus paint property. See setFocusPainted(boolean) in AbstractButton."/>
+		<Property value="pressedicon" required="no" description="'yes': i.e. if 'button_name' is the name of button icon, it is mandatory that exists a button called 'button_name_pressed' that will be showed when it is pressed. The other possibility is fix in parameter directly the path to the icon to show."/>
+		<Property value="highlight"  options="yes;no" required="no" description="Sets the highlight property when mouse is entered (See AbstractButton - setContentAreaFilled(boolean)). This parameter requires opaque='no'."/>
+	</Button >
+
+	<HelpButton extends="Button"></HelpButton >
+
+	<ComboDataField abstract="yes" extends="DataField">
+		<Property value="nullselection" required="no"  options="yes;no" description="By default ('yes'), combo contains an empty value in first position of deployed list. With this parameter is possible to delete this value and show only field values."/>
+	</ComboDataField>
+
+	<TextComboDataField extends="ComboDataField">
+		<Property value="values" required="yes" description="List of values for list, separated by ';'" default="item1;item2;item3"/>
+		<Property value="translate" required="no" options="yes;no" description="Indicates whether translations are looked for the resource file."/>
+		<Property value="equivalences" required="no" description="The URI where there is an equivalence file for combo values. For example, in database student califications are stored like 1,2,3,4
+			but it is wanted a most representative values, so it could be defined a equivalence properties like:
+				1 = worst
+				2 = regular
+				3 = good
+				4 = great
+		"/>
+		<Property value="editable" required="no" description="Indicates whether field support the edition in combo values."/>
+	</TextComboDataField >
+
+	<MonthComboDataField extends="DataField">
+	</MonthComboDataField >
+
+	<AudioDataField extends="DataField">
+		<Property value="opaquebuttons" required="no" options="yes;no" description="The opacity condition for buttons. By default, opaque=yes"/>
+		<Property value="borderbuttons" required="no" description="Defines border of buttons."/>				
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>
+	</AudioDataField >
+
+	<ReferenceComboDataField extends="ComboDataField">
+		<Property value="entity" required="yes" description="Associated entity." default="%entity%"/>
+		<Property value="cod" required="yes" description="The code name associated to field." default="%attr%"/>
+		<Property value="csize" required="no" description="The number of characters for code field."/>
+		<Property value="codvisible" required="no" options="yes;no" description="Condition about visibility of cod."/>
+		<Property value="cols" required="yes" description="Columns associated to the code. It forms the description field." default="%cols%"/>
+		<Property value="cachetime" required="no" description="The time data remains in cache."/>
+		<Property value="codinteger" required="no" options="yes;no" description="When code value is an Integer."/>		
+		<Property value="separator" required="no" description="The separator character for columns."/>
+		<Property value="parentkeys" required="no" description="The field that is parentkey and correspondent associated field in entity (fieldpk1:fieldentitypk1;fieldpk2:fieldentitypk2;...fieldpkn:fieldentitypkn). It is accepted to indicate only the fieldpki when it is equal to fieldentitypki, e.g. : fieldpk1;fieldpk2:fieldentitypk2;...fieldpkn:fieldentitypkn"/>
+		<Property value="parentkeylistener" required="no" options="yes;no" description="Field is reset when one of fields that are parentkey changes."/>
+		<Property value="disableonparentkeynull" required="no" options="yes;no" description="Disable field when parentkey is null."/>	
+		<Property value="usecachemanager" required="no"  options="yes;no" description="With 'no' parameter, field will have its own cache."/>
+		<Property value="initcacheonsetvalue" required="no" description="The condition to init cache on set value"/>	
+		<Property value="visiblecols" required="no" description="The visible cols from cols. With empty parameter all columns are visible."/>
+		<Property value="form" required="no" description="The form that is opened in detail. On init, update mode will be its state."/>	
+		<Property value="onsetvalueset" required="no" description="Field attributes whose value will be set when combo data change."/>	
+		<Property value="opaquebuttons" required="no" options="yes;no" description="The opacity condition for buttons. By default, opaque=yes"/>
+		<Property value="borderbuttons" required="no" description="Defines border of buttons."/>				
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>
+		<Property value="format" required="no" description="(message;column_1;...;column_N)The field shows the translation with the given message and columns. Example: User has a reference combo field that queries an entity with three fields ID;INITIALDATE;ENDDATE. ID is the code of field. User wants to format description of this field to show: Period starts: INITIALDATE and ends: ENDDATE. He only needs to store in bundle a key, e.g., refComboKey= Period starts: {0} and ends: {1}.He must specify in parameter format='refComboKey;INITIALDATE;ENDDATE'"/>
+		<Property value="formatdate" required="no" description="Java Date pattern to use in format parameter."/>
+	</ReferenceComboDataField>
+	
+	<ImageField>
+		<Property value="src" required="yes" description="The image location." default="%resource%"/>
+	</ImageField>
+		
+	<PasswordDataField extends="TextFieldDataField">
+		<Property value="char" required="no" description="Character to show in field"/>
+		<Property value="encrypt" required="no"  options="yes;no" description="Indicates whether field value will be the encrypted or not."/>	
+	</PasswordDataField >
+	
+	<WWWDataField extends="TextDataField">
+		<Property value="opaquebuttons" required="no" options="yes;no" description="The opacity condition for buttons. By default, opaque=yes"/>
+		<Property value="borderbuttons" required="no" description="Defines border of buttons."/>				
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>			   
+	</WWWDataField>
+	
+	<CheckDataField extends="DataField">
+		<Property value="returnboolean" required="no"  options="yes;no" description="Indicates whether getValue() returns a boolean. By default, returns an Integer."/>
+		<Property value="returnstring" required="no"  options="yes;no" description="Indicates whether returns the value in String format.(S->True, N->False)."/>
+		<Property value="selecticon" required="no"   description="Optional path to icon used when check is selected."/>
+		<Property value="deselecticon" required="no"  description="Optional path to icon used when check is deselected."/>
+	</CheckDataField >
+	
+	<MemoDataField extends="DataField">
+		<Property value="sqltexttype" required="no" options="yes;no" description="no -> Varchar ; yes -> LongVarchar."/>
+  		<Property value="uppercase" required="no" options="yes;no" description="The uppercase condition."/>
+  		<Property value="maxlength" required="no" description="The maxlength for component."/>
+  		<Property value="rows" required="no" description="The number of rows."/>
+  		<Property value="expand" required="no" options="yes;no" description="The vertical expansion."/>
+	</MemoDataField >
+
+	<ImageDataField extends="DataField">
+		<Property value="width" required="no" description="The preferred column width in pixels. Useful for specifying empty columns."/>
+		<Property value="height" required="no" description="The preferred field height in pixels. Useful for specifying empty columns."/>
+		<Property value="buttons" required="no"  options="top;right;no" description="The position of buttons. With 'no' buttons will not be showed."/>
+		<Property value="emptyimage" required="no" description="The relative path from classpath to load the empty image."/>
+		<Property value="opaquebuttons" required="no" options="yes;no" description="The opacity condition for buttons. By default, opaque=yes"/>
+		<Property value="borderbuttons" required="no" description="Defines border of buttons."/>				
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>	
+	</ImageDataField >
+	
+	<ReferenceExtDataField extends="TextFieldDataField">
+		<Property value="entity" required="yes" description="Associated entity." default="%entity%"/>
+		<Property value="cod" required="yes" description="The code name associated to field." default="%attr%"/>
+		<Property value="codinteger" required="no" options="yes;no" description="When code value is an Integer."/>
+		<Property value="csize" required="no" description="The number of characters for code field."/>
+		<Property value="codvisible" required="no" options="yes;no" description="Condition about visibility of cod."/>
+		<Property value="mask" required="no" description="Specifies an input mask for applying to the code field."/>
+		<Property value="descriptioncols" required="no" description="Visible table columns in text field. By default, it is the parameter value of visiblecols in table."/>
+		<Property value="key" required="no" description="The Table key."/>
+		<Property value="disableonparentkeynull" required="no" options="yes;no" description="Disable field when parentkey is null."/>	
+		<Property value="parentkeylistener" required="no" options="yes;no" description="Field is reset when one of fields that are parentkey changes."/>
+		<Property value="cols" required="no" description="Columns associated to the code. It forms the description field."/>
+		<Property value="visiblecols" required="no" description="The visible cols from cols. With empty parameter all columns are visible."/>
+		<Property value="form" required="no" description="The form that is opened in detail. On init, update mode will be its state."/>
+		<Property value="parentkeys" required="no" description="The field that is parentkey and correspondent associated field in entity (fieldpk1:fieldentitypk1;fieldpk2:fieldentitypk2;...fieldpkn:fieldentitypkn). It is accepted to indicate only the fieldpki when it is equal to fieldentitypki, e.g. : fieldpk1;fieldpk2:fieldentitypk2;...fieldpkn:fieldentitypkn"/>
+		<Property value="controls" required="no"  options="yes;no" description="Allows the Table to have some control buttons, in the top of it. This buttons, by default, can export to excel the data in the table, show charts, reports, and so on. If the value is not, the controlsvisible attribute will not affect."/>
+		<Property value="cachetime" required="no" description="The time data remains in cache."/>
+		<Property value="separator" required="no" description="The separator character for columns."/>
+		<Property value="usecachemanager" required="no" description="With 'no' parameter, field will have its own cache."/>
+		<Property value="initcacheonsetvalue" required="no" description="Inits cache when setValue() is called."/>
+		<Property value="opaquebuttons" required="no" options="yes;no" description="The opacity condition for buttons. By default, opaque=yes"/>
+		<Property value="borderbuttons" required="no" description="Defines border of buttons."/>				
+		<Property value="highlightbuttons" required="no" description="Defines whether buttons are highlighted when mouse is entered over them."/>
+		<Property value="onsetvalueset" required="no" description="Field attributes whose value will be set when combo data change."/>
+		<Property value="codsearchvisible" required="no" options="yes;no" description="Condition about visibility of cod search in detail window."/>
+		<Property value="codsearch" required="no" description="It specifies the field name for searching when user introduces a search value."/>
+		<Property value="format" required="no" description="(message;column_1;...;column_N)The field shows the translation with the given message and columns. Example: User has a reference combo field that queries an entity with three fields ID;INITIALDATE;ENDDATE. ID is the code of field. User wants to format description of this field to show: Period starts: INITIALDATE and ends: ENDDATE. He only needs to store in bundle a key, e.g., refComboKey= Period starts: {0} and ends: {1}.He must specify in parameter format='refComboKey;INITIALDATE;ENDDATE'"/>
+		<Property value="formatdate" required="no" description="Java Date pattern to use in format parameter."/>	
+	</ReferenceExtDataField>
+	
+	<CIFDataField extends="TextFieldDataField">
+	</CIFDataField >
+	
+	<ToggleImage type="field">
+		<Property value="attr" required="yes" description="Attribute for component." default="%attr%"/>
+		<Property value="status" required="no" description="Initial status for component."/>
+		<Property value="x " required="no" description="Xaxis position in pixels."/>
+		<Property value="y" required="no" description="Yaxis position in pixels."/>
+		<Property value="imgOn" required="no" description="Image for ON status."/>
+		<Property value="imgOff" required="no" description="Image for OFF status."/>
+		<Property value="imgAlarm" required="no" description="Image for ALARM status."/>
+		<Property value="imgDisabled" required="no" description="Image when component is disabled"/>
+		<Property value="rotate" required="no"  options="yes;no" description="Rotates 90 degrees when is enabled."/>
+		<Property value="alarm" required="no"  options="on;off" description="Blinking image when alarm state is enabled."/>
+		<Property value="width" required="no" description="Width for image."/>
+		<Property value="height" required="no" description="Height for image."/>
+		<Property value="label" required="no" options="left;top;bottom;right" description="Position relative for label respect the text."/>
+	</ToggleImage>
+	
+	<CheckToggleImage extends="ToggleImage">
+	</CheckToggleImage>
+	
+	<TextArea type="field">
+		<Property value="text" required="no" description="The text for component"/>
+		<Property value="fontsize" required="no" description="The font size."/>
+		<Property value="fontcolor" required="no" description="The font color."/>	
+	</TextArea >
+	
+	<Chart type="field">
+		<Property value="entity" required="no" description="Name of entity where data are received." default="%entity%"/>
+		<Property value="attr" required="yes" description="Attribute for field." default="%attr%"/>
+		<Property value="xaxis" required="yes" description="Xaxis label." default="0"/>
+		<Property value="yaxis" required="yes" default="0" description="Yaxis name or names (separated by ';'). Even the number of ocurrences could be showed with '$Count$' identifier."/>
+		<Property value="type" required="no" options="line;bar;bar3d;pie;pie3d;stacked3d" defautl="line" description="Types of charts: line, bar, bar3d, pie, pie3d, stacked3d."/>		
+		<Property value="xlabel" required="no" description="Xaxis label."/>
+		<Property value="ylabel" required="no" description="Yaxis label."/>
+		<Property value="width" required="no" description="Preferred size for width."/>
+		<Property value="height" required="no" description="Preferred size for width."/>
+	</Chart >
+	
+	<DictionaryDataField extends="DataField">
+	</DictionaryDataField >
+	
+	<HTMLComponent>
+		<Property value="attr" required="yes" description="The attribute for component." default="%attr%"/>
+		<Property value="archive" required="yes" description="Associated file. The extension file must be .htm or html." default="%resource%"/>
+	</HTMLComponent>
+	
+	<ColumnRadioButtonGroup extends="Column">
+		<Property value="selected" required="no" description="The initial selection for radio buttons."/>
+		<Property value="nullselection" options="yes;no" required="no" description="By default ('no') this component always tries to select one component placed inside. With this parameter is allowed null selection (a non-visible radio button is selected)."/>	
+	</ColumnRadioButtonGroup >
+	
+	<RadioButtonDataField extends="CheckDataField">
+	</RadioButtonDataField >
+	
+	<FormHeader type="container">
+		<Property value="standardbuttons" required="no" description="The standard buttons definition. For example: 'qui' -> only query,update and insert buttons will be showed."/>
+		<Property value="separator" required="no" options="yes;no" description="Creates a separator for this component."/>
+		<Property value="borderbuttons" required="no" description="default/none/raised/lowered or a color defined in ColorConstants. Moreover, it is also allowed a  border defined in BorderManager"/>
+		<Property value="opaquebuttons" required="no" description="Data field opacity condition for Form buttons"/>
+		<Property value="highlightbuttons" required="no" description="Sets the highlight in button property when mouse is entered. See AbstractButton-setContentAreaFilled(boolean)). This parameter requires opaque='no'"/>
+	</FormHeader>
+	
+	<FormHeaderButton extends="Button">
+		<Property value="margin" required="no" description="The specification for margin (top;left;bottom;right), for example (3;3;3;3)"/>
+	</FormHeaderButton>
+	
+	<FormHeaderPopupButton extends="ApToolBarPopupButton">
+		<Property value="keys" required="yes" description="The keys for field." default="%keys%"/>
+		<Property value="texts" required="no" description="The text showed in each option."/>
+		<Property value="icons" required="no" description="The icon showed for each text. If texts and icons are both presents should have the same size and it is possible to complete with Null values to indicate empty value. For example:
+		texts=query;delete;null;close
+		icons=null;icons/delete.gif;null;icons/close.gif"/>	
+	</FormHeaderPopupButton>
+	
+	<SplitPane type="container">
+		<Property value="attr" required="no" description="The attribute to manage the splitpane." />	
+		<Property value="orientation" required="yes" default="vertical" options="vertical;horizontal" description="The orientation for component."/>
+		<Property value="bgcolor" required="no" description="The background color. A possible color for {@link ColorConstants} or a RGB value like: '150;230;23'."/>
+		<Property value="opaque" required="no" options="yes;no" description="The opaque condition for splitpane" />
+		<Property value="dividersize" required="no" description="The size of the split panel divider" />
+	</SplitPane>
+
+	<ApToolBarButton type="button">
+		<Property value="attr" required="yes" description="The attribute to manage the separator." default="%attr%"/>
+		<Property value="tip" required="no" description="The key for button tip."/>
+		<Property value="icon" required="no" description="The URL for icon button."/>
+	</ApToolBarButton>
+
+	<ApToolBarToggleButton type="button">
+		<Property value="attr" required="yes" description="The attribute. It is required and it is established like actionCommand of button." default="%attr%"/>
+		<Property value="tip" required="no" description="The tip key of button."/>
+		<Property value="icon" required="no" description="URI for icon button."/>
+	</ApToolBarToggleButton>
+
+	<ApToolBarPopupButton extends="ApToolBarToggleButton">
+	</ApToolBarPopupButton>
+
+	<ApToolBarSeparator type="field">
+		<Property value="attr" required="yes" description="The attribute for component." default="%attr%"/>
+		<Property value="width" required="no" description="Separator width in pixels."/>
+	</ApToolBarSeparator>
+	
+	<CalculatedDataField extends="RealDataField">
+		<Property value="source" required="yes" description="The fields to calculate the field value." default="%attrs%"/>
+		<Property value="expression" required="yes" description="The mathematical expression to define the field value." default="%expression%"/>
+		<Property value="required" required="no" description="The required fields. When a required field is not present, the final value for calculated data field is not showed."/>
+	</CalculatedDataField >
+	
+	<CurrencyDataField extends="TextFieldDataField">
+		<Property value="change" required="no" options="yes;no" description="To support the change in the currency value."/>
+		<Property value="calc" required="no" options="yes;no" description="The presence of the calendar."/>
+		<Property value="minintegerdigits" required="no" options="yes;no" description="The minimum number of integer digits."/>
+		<Property value="maxintegerdigits" required="no" options="yes;no" description="The maximum number of integer digits."/>
+		<Property value="mindecimaldigits" required="no" options="yes;no" description="The minimum number of decimal digits."/>
+		<Property value="maxdecimaldigits" required="no" options="yes;no" description="The maximum number of decimal digits."/>	
+		<Property value="maxdecimaldigits" required="no" options="yes;no" description="The maximum number of decimal digits."/>	
+		<Property value="grouping" required="no" options="yes;no" description="The condition to put the numbers in groups (1 000 000 -> 1000000)"/>			
+	</CurrencyDataField >
+	
+	<CalculatedCurrencyDataField extends="CurrencyDataField">
+		<Property value="source" required="yes" description="Fields used to calculate this field." default="%attrs"/>
+		<Property value="expression" required="yes" description="The mathematical expression to use for field." default="%expression%"/>
+		<Property value="required" required="no" description="The required fields to obtain the calculated field. When a required field from list is not present, the calculated field will be empty."/>
+	</CalculatedCurrencyDataField >
+
+	<HorizontalSeparator type="field">
+		<Property value="color" required="no" description="The color for separator."/>
+	</HorizontalSeparator >
+		
+	<Label type="field">
+		<Property value="attr" required="no" description="The attribute for field"/>
+		<Property value="icon" required="no" description="Path for icon" default="%resource%"/>
+		<Property value="text" required="no" description="The label text"/>
+		<Property value="align" required="no" 
+				options="left;right;center" description="The alignment"/>
+		<Property value="valign" required="no"
+				options="top;center;bottom" description="The vertical alignment"/>
+		<Property value="size" class="String" required="no" description="The label size"/>
+		<Property value="fontsize" required="no" description="The font size"/>
+		<Property value="fontcolor" required="no" description="The font color"/>
+		<Property value="font" required="no" description="Font for data field. It is accepted a string like : 'Arial-BOLD-18'. Similar to Font.decode"/>		
+		<Property value="bold" required="no" options="yes;no" description="The bold capitalization condition"/>
+		<Property value="dim" class="String" required="no" options="no;yes;text" description="The resize posibilities (no resize, resize the insertion space, resize the space between label and text)." />
+	</Label >
+
+  	<XMLDataField extends="MemoDataField">
+  	</XMLDataField >
+	
+	<ListDataField extends="DataField">
+		<Property value="rows" required="no" description="The number of showed rows. By default, 5."/>
+		<Property value="expand" required="no" description="Indicates whether field will be expanded vertically to use all space in parent container."/>
+	</ListDataField>
+	
+	<MoveBetweenTablesButton extends="Button">
+		<Property value="sourcetable" required="yes" description="The source table." default="%attr%"/>
+		<Property value="destinationtable" required="yes" description="The destination table." default="%attr%"/>
+	</MoveBetweenTablesButton >
+	
+	<RefreshTableButton extends="Button">
+		<Property value="table" required="yes" description="The name of table for button." default="%attr%"/>
+		<Property value="nodatamessage" required="no" description="The message to show when no results after refreshing. By default, no message."/>
+		<Property value="autoadjusttablecolumns"  description="Indicates whether table auto adjust the columns after refreshing."/>
+	</RefreshTableButton >
+	
+	<RowRadioButtonGroup extends="Row">
+		<Property value="selected" required="no" description="The initial selection for radio buttons."/>
+		<Property value="nullselection" options="yes;no" required="no" description="By default ('no') this component always tries to select one component placed inside. With this parameter is allowed null selection (a non-visible radio button is selected)."/>			
+	</RowRadioButtonGroup >
+	
+	<HyperlinkLabel extends="Label">
+		<Property value="gforms" required="no" description="Name of form manager responsible of the form creation."/>
+		<Property value="form" required="yes"  description="Form name. Keys are needed in form." default="formname.xml"/>
+		<Property value="title" required="no" description="The title of form."/>
+		<Property value="equivalences" required="no" description="The equivalences between navigation form fields and the form where component is placed.
+			The format must be:
+			nav1=val1
+			nav2=val2 "/>
+	</HyperlinkLabel >
+	
+	<EntityResultViewer type="field">
+		<Property value="attr" required="no" description="The attribute for component."/>
+	</EntityResultViewer >
+	
+	<MemoryMonitorComponent type="field">
+		<Property value="attr" required="no" description="The attribute for component."/>
+	</MemoryMonitorComponent>
+	
+	<DataLabel extends="Etiqueta">
+		<Property value="attr" required="no" description="The attribute for component."/>
+		<Property value="nodatatext" required="no" description="The text when data is empty."/>
+	</DataLabel >
+
+	<FileDataField extends="TextFieldDataField">
+		<Property value="focuslistener" required="no" description="Nombre de clase completo que implementa FocusListener y se registrará como escuchador del componente de texto que contiene los datos del campo. Debe tener un constructor sin parametros."/>
+	</FileDataField >
+	
+	<CalculatedTextDataField extends="TextDataField">
+		<Property value="values" required="yes" description="The attribute values." default="item1;item2;item3"/>
+		<Property value="separator" required="no" description="Indicates the type of separator."/>
+	</CalculatedTextDataField >
+
+	<HTMLDataField extends="MemoDataField">
+	</HTMLDataField >
+	
+	<BooleanComboDataField extends="CampoCombo">
+		<Property value="returnboolean" required="no" description="Indicates whether returned value by getValue() is a boolean."/>
+		<Property value="returnstring" required="no" description="Indicates whether returned value by getValue() is a combo selectable option. This parameter has more priority than returnboolean."/>
+		<Property value="truevalue" required="no" description="Text will be showed with true value."/>
+		<Property value="falsevalue" required="no" description="Text will be showed with false value."/>
+		<Property value="translate" required="no" options="yes;no"  description="Indicates whether texts for true and false value will be translated. For a correct translation, texts should not have spaces."/>
+		<Property value="falsecolor" required="no" description="Color for false value."/>
+		<Property value="truecolor" required="no" description="Color for true value."/>
+	</BooleanComboDataField >
+	
+	<SelectionListDataField extends="DataField">
+		<Property value="rows" required="no" description="The number of rows showed. By default, 8."/>
+	</SelectionListDataField >
+	
+	<QueryButton extends="Button">
+		<Property value="entity" required="yes" default="%entity%" description="Associated entity."/>
+		<Property value="table_key" required="yes" default="%col%" description="Name of the table primary key"/>
+		<Property value="source" required="yes" description="Data field attributes separated by ';'. This fields will be filled with the query result." default="%attrs%"/>
+		<Property value="search" required="yes" description="Field attributes used in the query to show the table." default="%attrs%"/>
+		<Property value="searchrequired" required="no" description="Field attributes (separated by ';'), which are specified in 'search' and are necessary to make the query of data that will be shown in the table.It allows to force to intoduce search criterion."/>
+		<Property value="addasterisk" required="no" options="yes;no"  description="Specifies if it automatically includes an * at the end of the string value when it searches for the query attributes"/>
+		<Property value="listen" required="no" decription="Field attributes (subset as 'source') to listen for the button. If some of this fields changes the record select window will be shown."/>
+	</QueryButton >
+		
+	<BasicDataComponentGroup type="container">
+		<Property value="attr" required="yes" description="The list of data components attributes to form the component." default="%attr%"/>
+		<Property value="group" required="yes" description="The attribute name." default="%attr%"/>
+	</BasicDataComponentGroup >
+	
+
+	<AttachmentFileButton extends="Button">
+		<Property value="entity" required="yes" description="Entity name to attach the file. Usually the same as the form entity." default="%entity%"/>
+		<Property value="adddescription" required="no" options="yes;no"  description=""/>
+		<Property value="refresh" required="no" options="yes;no"  description="Parameter to indicate if the form refresh the values."/>
+		<Property value="wait" required="no" options="yes;no"  description="Parameter to indicate if the attachment process is synchronized or not. If it is a synchronized process a progress window appears during the attachment process and blocks the application until the attachment finishes. In a not synchronized process more than one file can be attached at the same time."/>
+		<Property value="sound" required="no" description="URI to a sound file that will be reproduced when the attachment process finishes."/>
+	</AttachmentFileButton >
+	
+	<JAIImageDataField extends="DataField">
+	</JAIImageDataField >
+	
+	<DownloadAttachmentFileButton extends="Button">
+		<Property value="entity" required="yes" description="Entity name to get the file. Usually the same as the form entity." default="%entity%"/>
+		<Property value="open" required="no" options="yes;no" description="Parameter to indicate the file will be open when the process finishes file."/>
+		<Property value="defaultnameattr" required="no" description="Data field attribute which is used as suggestion for the name to save."/>
+		<Property value="wait" required="no" options="yes;no" description="Parameter to indicate if the process is synchronized or not. If it is a synchronized process a progress window appears during the process and blocks the application until the download finishes. In a not synchronized process more than one file can be downloaded at the same time."/>
+		<Property value="sound" required="no" description="URI to a sound file that will be reproduced when the process finishes."/>
+		<Property value="askopen" required="no" options="yes;no" description="Parameter to indicate if a message will be shown to open the file."/>
+		<Property value="tempfile" required="no" options="yes;no" description="If open=yes and wait=yes and tempfile=yes a temporal file will be created. In this way user has not to select the file name and location." />
+	</DownloadAttachmentFileButton >
+	
+	 <Scroll type="container">
+            <Property value="attr" required="yes" description="The list of data components attributes to form the component." default="%attr%"/>
+            <Property value="opaque" options="yes;no" required="no" description="Indicates whether the scroll component is opaque. By default, yes."/>
+            <Property value="preferredsize" required="no" description="The preferred size for the Scroll component. Format width;height"/>
+			<Property value="border" required="no"
+			options="default;none;raised;lowered" description="The border type. They are allowed line borders with color defined in ColorConstants and borders registered in BorderManager."/>
+    </Scroll>
+	
+	<CardPanel extends="Column">	
+	</CardPanel>
+	
+	<ObjectDataField extends="DataField">
+	</ObjectDataField>
+	
+	<GenerateReportButton extends="Boton">
+		<Property value="entity" required="yes" description="Name of the data entity.This entity must implement PrintDataEntity. The data request send a hashtable object with the values of the form keys in the request moment. It is possible select the values to send as keys in the 'keys' parameter and which of this values are mandatory in the 'required' parameter." default="%entity%"/>
+		<Property value="report" required="yes" description="XML description file path. This is a relative path, i.e. com/ontimize/reports/report.xml." default="%resource%"/>
+		<Property value="preview" required="no" description="Parameter to indicate if a report preview is shown before printing the report."/>
+		<Property value="keys" required="yes" description="Form data fields to use in the report data query." default="%keys%"/>
+		<Property value="requiredkeys" required="no" description="Subset of values specified by the 'keys' parameter. These values are necessary to be able to generate the report."/>
+	</GenerateReportButton >
+		
+	<SliderDataField extends="DataField">
+		<Property value="max" required="no" description="The maximum value for slider."/>
+		<Property value="min" required="no" description="The minimum value for slider."/>
+		<Property value="label" required="no"  options="yes;no" description="Indicates whether labels and separators are used."/>
+		<Property value="orientation" required="no"  options="h;v" description="Indicates the orientation slider."/>
+		<Property value="scale" required="no" description="The scale for internal component value."/>
+	</SliderDataField >
+	
+	<Grid type="container">
+		<Property value="attr" required="no" description="The attribute."/>
+		<Property value="margin" required="no" description="The grid margin."/>
+		<Property value="columns" required="yes" description="The number of columns." default="2"/>
+		<Property value="rows" required="yes" description="The number of rows." default="2"/>
+		<Property value="hgap" required="no" description="The horizontal gap."/>
+		<Property value="vgap" required="no" description="The vertical gap."/>
+		<Property value="title" required="no" description="The title. If title exists, border will not exist. "/>
+	</Grid>
+	
+	<EntityFunctionDataField type="field" extends="TextDataField">
+		<Property value="entity" required="yes" description="Indicates the name of the entity to use in the query." default="%entity%"/>
+		<Property value="function" required="yes" description="Indicates the function to execute in the query." options="max;min;sum;avg;count" default="max"/>
+		<Property value="functioncolumn" required="no" description="Indicates the name of the column to apply the function.Example max(functioncolumn)"/>
+		<Property value="cols" required="no" description="Indicates the list of columns to query."/>
+		<Property value="parentkeys" required="no" description="Indicates the list of columns to use as filter in the query."/>
+		<Property value="type" required="no"  options="text;number;date" description="Indicates the field data type (function result).If type=number it is possible to use RealDataField parameters to configure the number format.These parameters are: minintegerdigits,maxintegerdigits,mindecimaldigits ,maxdecimaldigits,grouping"/>
+		<Property value="pattern" required="no" description="Pattern to use for dates when type=date."/>
+		<Property value="parentkeynullvalue" options="yes;no" required="no" description="Indicates if it is necessary to use NullValue in the query filter if some of the filter column values are null"/>
+		<Property value="defaultkeyfilter" options="yes;no" required="no" description="Indicates if it is necessary to use the form entity key as a filter column in the query"/>
+	</EntityFunctionDataField>
+	
+	<ODMSComponent>
+    	<Property value="attr"    required="yes" default="%attr%"  description="Component attribute to retrieve from the form." />
+    	<Property value="entity"    required="yes" default="%entity%"  description="Internal DMS Document entity to fill component in query mode." />
+    	<Property value="base"      required="yes" default="default"   description="The root branch name of the repository tree." />
+    	<Property value="keys"      required="yes" default="%attrs%"   description="Form fields values to calculate the keys node." />
+    	<Property value="fields"    required="no"    description="Filter the query with the form fields values." />
+    
+    	<Property value="editable"  required="no"  options="yes;no" description="When disabled, user can't change the current content view, disabling all operations in the component that can change the file contents or structure. By default, component opens all files in a read only directory." />
+    	<Property value="height"    required="no"    description="Fix the component height." />
+    	<Property value="width"     required="no"   description="Fix the component width." />
+    	
+    	<Property value="enabled" required="no"	options="yes;no" />
+    	<Property value="required" required="no" options="yes;no"/>
+    	<Property value="text" required="no" description="The label text"/>
+    	<Property value="visible" required="no" options="yes;no" description="The visibility condition."/>
+	</ODMSComponent>
+
+	<DefaultViewerComponent>
+    	<Property value="attr"      required="yes" default="%attr%"  description="Component attribute to retrieve from the form." />
+		<Property value="entity"    required="yes" default="%entity%"   description="Internal DMS Document entity to fill component in query mode." />
+		<Property value="base"      required="yes" default="default"  	description="The root branch name of the repository tree." />
+		<Property value="keys"      required="yes" default="%attrs%"  	description="Form fields values to calculate the keys node." />
+	
+		<Property value="fields"    required="no"  description="Filter the query with the form fields values." />
+		<Property value="types"     required="no"  description="Allows to filter query. Default values: file;link. Other values: base;keys;dir."/>
+		<Property value="recursive" required="no"  options="yes;no" description="Query documents in all levels."/>
+		
+		<Property value="enabled" required="no"	options="yes;no" />
+		<Property value="required" required="no" options="yes;no"/>
+		<Property value="text" required="no" description="The label text"/>
+		<Property value="visible" required="no" options="yes;no" description="The visibility condition."/>
+	</DefaultViewerComponent>
+	
+</Definicion>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<security>
+	<MENU>
+		<element attr="Gestion">
+			<visible restricted="yes"/>
+			<enabled restricted="yes"/>
+		</element>
+		<element attr="GestionUsuarios">
+			<visible restricted="yes"/>
+			<enabled restricted="yes"/>
+		</element>
+	</MENU>
+</security>

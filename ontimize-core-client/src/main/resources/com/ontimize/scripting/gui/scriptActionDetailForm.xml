@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<Form title="createNewScriptAction" buttons="no"
+  status="no">
+  <Row margin="5;0;5;0">
+    <Row margin="5;5;5;5" bgcolor="161;173;183"
+      opaque="yes" expand="no">
+      <Label attr="newScriptActionLabel"
+        text="newScriptAction" align="center" />
+    </Row>
+  </Row>
+  <Row title="ScriptSelection" margin="5;0;5;0"
+    attr="ScriptSelectionRow" expand="no">
+    <Column expand="yes"
+      attr="ScriptSelectionContainer" valign="center"></Column>
+
+  </Row>
+  <TabPanel>
+    <Tab attr="scriptActionTab">
+      <IntegerDataField attr="idScriptAction"
+        visible="no"></IntegerDataField>
+      <Column margin="5;5;5;5"
+        attr="scriptActionContainer">
+
+        <RadioButtonDataField
+          attr="FormAction" align="left"
+          labelposition="right" />
+        <Column margin="5;5;5;5" title="">
+
+          <Row title="" height="80">
+            <Column expand="no" width="150"
+              valign="center">
+              <RadioButtonDataField
+                attr="buttonAction" labelposition="right"
+                align="left" />
+            </Column>
+            <Column valign="center" expand="yes">
+              <TextComboDataField
+                values="button1;button2" attr="buttonName"
+                dim="text" labelsize="15" translate="yes"/>
+            </Column>
+            <Column expand="no" width="250"
+              valign="center">
+              <ColumnRadioButtonGroup
+                selected="actionListener">
+                <RadioButtonDataField
+                  attr="actionListener"
+                  labelposition="left" align="left"
+                  dim="yes" />
+                <RadioButtonDataField
+                  attr="actionPerformedMethod"
+                  align="left" dim="yes" />
+              </ColumnRadioButtonGroup>
+            </Column>
+          </Row>
+          <Row title="" height="80">
+            <Column expand="no" width="150"
+              valign="center">
+              <RadioButtonDataField
+                attr="datafieldAction"
+                labelposition="right" align="left" />
+            </Column>
+            <Column valign="center" expand="yes">
+              <TextComboDataField
+                values="df1;df2" attr="datafieldName"
+                dim="text" labelsize="15" translate="yes"/>
+            </Column>
+            <Column width="250" expand="no"
+              valign="center" margin="15;5;5;5">
+              <ColumnRadioButtonGroup
+                selected="valueChangeListener">
+                <RadioButtonDataField
+                  attr="valueChangeListener"
+                  align="left" dim="yes" />
+                <RadioButtonDataField
+                  attr="valueChangeMethod" align="left"
+                  dim="yes" />
+              </ColumnRadioButtonGroup>
+            </Column>
+          </Row>
+          <Row margin="0;0;0;0" title=""
+            height="80">
+            <Column expand="no" width="150"
+              valign="center">
+              <RadioButtonDataField
+                attr="imanagerAction"
+                labelposition="right" align="left" />
+            </Column>
+            <Column valign="center" expand="yes"
+              margin="0;0;0;45">
+              <TextComboDataField
+                values="ac1;ac2" attr="imActions"
+                dim="text" labelsize="15" translate="yes"/>
+            </Column>
+          </Row>
+
+        </Column>
+        <Row margin="10;0;10;0">
+          <Row height="2" margin="5;0;5;0"
+            bgcolor="gray"></Row>
+        </Row>
+        <Row margin="5;0;2;50">
+          <RadioButtonDataField
+            attr="EntityAction" align="left"
+            labelposition="right" dim="no" />
+          <TextComboDataField
+            attr="entityName" values="entity"
+            align="left" dim="text" translate="yes">
+          </TextComboDataField>
+        </Row>
+        <Column margin="10;5;5;5" title="">
+          <Row margin="0;0;0;0">
+            <Column>
+              <RadioButtonDataField
+                attr="EntityDataChangeListener"
+                align="left" dim="no"
+                labelposition="right">
+              </RadioButtonDataField>
+              <RadioButtonDataField
+                attr="TransactionalEntityDataChangeListener"
+                align="left" dim="mp"
+                labelposition="right">
+              </RadioButtonDataField>
+            </Column>
+            <Column margin="0;10;0;5">
+              <RadioButtonDataField
+                attr="EntityDataChange" align="left"
+                dim="no" labelposition="right">
+              </RadioButtonDataField>
+              <RadioButtonDataField
+                attr="EntityTransactionalDataChange"
+                dim="no" align="left"
+                labelposition="right">
+              </RadioButtonDataField>
+            </Column>
+
+            <Column margin="0;10;0;5">
+              <RadioButtonDataField
+                attr="EntityMethod" align="left"
+                labelvisible="yes" labelposition="right" />
+              <TextComboDataField
+                attr="EntityMethodName" values="preInsert;preDelete"
+                align="left" dim="text"
+                labelposition="left" labelsize="12"
+                labelvisible="no" translate="yes">
+              </TextComboDataField>
+            </Column>
+          </Row>
+        </Column>
+      </Column>
+      <Row margin="15;5;5;5">
+        <Button key="acceptbutton" text="application.accept"
+          icon="ok.png" />
+        <Button key="cancelbutton" text="application.cancel"
+          icon="cancel.png" />
+      </Row>
+    </Tab>
+    <Tab attr="scriptTab">
+      <Column expandlast="no" expand="yes">
+        <IntegerDataField attr="scriptKey_scriptTab"
+          visible="no" />
+        <Row margin="2;1;5;1">
+          <Column valign="bottom">
+            <TextDataField text="title"
+              attr="TITLE" dim="text" align="left"
+              labelsize="12" required="yes"
+              labelposition="top" />
+            <TextComboDataField
+              text="language" attr="LANGUAGE" dim="text"
+              align="left" labelsize="12"
+              required="yes" values="BeanShell;javafx"
+              labelposition="top" translate="yes"/>
+          </Column>
+          <Column>
+            <MemoDataField text="description"
+              attr="DESCRIPTION" dim="text" align="left"
+              labelposition="top" rows="3"
+              labelvisible="yes" expand="yes" />
+          </Column>
+        </Row>
+        <Row expand="yes">
+          <MemoDataField text="scriptcode"
+            attr="SCRIPTCODE" dim="text" align="left"
+            required="yes" expand="yes"
+            labelvisible="yes" labelposition="top" />
+        </Row>
+        <Row expand="no" margin="15;5;5;5">
+          <Button key="insertScriptButton"
+            text="insertScript" labelsize="15"
+            bold="no" icon="new.png" />
+          <Button key="saveScriptButton"
+            labelsize="15" text="saveScript"
+            textalign="center"
+            icon="savetablefilter.png" />
+          <Button key="closebutton" text="application.close"
+            icon="cancel.png" labelsize="15"/>
+        </Row>
+      </Column>
+    </Tab>
+
+  </TabPanel>
+
+</Form>
