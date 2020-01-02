@@ -18446,7 +18446,12 @@ public class Table extends JRootPane
 		public void actionPerformed(ActionEvent e) {
 			this.table.getQuickFilter().getTimer().stop();
 			if ((this.table.getPageFetcher() != null) && this.table.getPageFetcher().isPageableEnabled() && !this.table.isQuickFilterLocal()) {
-				this.executeQuery();
+				try {
+					this.table.getQuickFilter().setEnabled(false);
+					this.executeQuery();
+				} finally {
+					this.table.getQuickFilter().setEnabled(true);
+				}
 			} else {
 				this.applyFilter();
 			}
