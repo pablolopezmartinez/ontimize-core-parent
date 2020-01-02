@@ -2735,7 +2735,7 @@ public class Table extends JRootPane
 			}
 
 		}
-	};
+	}
 
 	/**
 	 * The tip configured to the table scroll.
@@ -2935,6 +2935,7 @@ public class Table extends JRootPane
 
 		this.createBlockedScrollPane(params);
 		this.sumRowBlockedScrollPane = this.createSumRowBlockedScrollPane(params);
+		this.fixBlockedVisibility();
 
 		this.setHorizontalScroll(this.scrollHorizontal);
 
@@ -6612,6 +6613,7 @@ public class Table extends JRootPane
 			this.sumRowBlockedScrollPane.setEnabled(enabled);
 			if (enabled) {
 				this.sumRowBlockedScrollPane.setVisible(enabled);
+				this.fixBlockedVisibility();
 			}
 		}
 
@@ -7077,7 +7079,7 @@ public class Table extends JRootPane
 		FreeableUtils.clearMap(this.hColumnSQLTypes);
 		this.eventPress = null;
 		this.detailFormBuilder = null;
-		this.insertDetailFormBuilder = null;;
+		this.insertDetailFormBuilder = null;
 		this.reserOrderListener = null;
 
 		this.addRecordListener = null;
@@ -12031,6 +12033,7 @@ public class Table extends JRootPane
 			rowNumbersColumn.setResizable(false);
 		}
 		this.mainSplit.setDividerLocation(this.blockedTable.getColumnModel().getTotalColumnWidth());
+		this.fixBlockedVisibility();
 	}
 
 	/**
@@ -14737,8 +14740,15 @@ public class Table extends JRootPane
 			column = 0;
 		}
 
+		this.fixBlockedVisibility();
+
 		this.blockedTable.setBlockedColumnIndex(column);
-//		this.doLayout();
+		//        this.doLayout();
+	}
+
+	protected void fixBlockedVisibility() {
+		this.blockedScrollPane.setVisible(this.mainSplit.getDividerLocation() > 0);
+		this.sumRowBlockedScrollPane.setVisible(this.mainSplit.getDividerLocation() > 0);
 	}
 
 	public boolean isBlockedEnabled() {
