@@ -92,7 +92,7 @@ public abstract class JEPUtils {
 		if (!MathExpressionParser.JEP3x.equalsIgnoreCase(property)) {
 			try {
 				JEPUtils.registerCustomFunction("round", new Round());
-			} catch (Exception ex) {
+			} catch (Throwable ex) {
 				JEPUtils.logger.error(null, ex);
 			}
 		}
