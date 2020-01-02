@@ -15686,18 +15686,6 @@ public class Table extends JRootPane
 				if (ap.getPreferences() != null) {
 					ap.getPreferences().setPreference(this.getUser(), sPreferenceKey, sValue);
 					ap.getPreferences().savePreferences();
-					// DEBUG
-					ap.getPreferences().loadPreferences();
-					String s2 = ap.getPreferences().getPreference(this.getUser(), sPreferenceKey);
-					if (s2 != null) {
-						if (s2.indexOf("BASE64") >= 0) {
-							s2 = s2.substring(s2.indexOf("BASE64") + "BASE64".length());
-						}
-
-						byte[] bytes = com.ontimize.util.Base64Utils.decode(s2.toCharArray());
-						ByteArrayInputStream bIn = new ByteArrayInputStream(bytes);
-						ObjectInputStream in = new ObjectInputStream(bIn);
-					}
 				}
 			} catch (Exception e) {
 				Table.logger.error(null, e);
