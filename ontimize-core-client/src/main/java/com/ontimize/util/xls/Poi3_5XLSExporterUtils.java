@@ -1000,7 +1000,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 	 *            {@link Hashtable} Hashtable of column types to export
 	 */
 	protected void writeLine(Workbook wb, Sheet sheet, List values, List orderColumns, Hashtable hColumnRenderers, List columnStyles, Hashtable hColumnTypes) {
-		Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+		Row row = sheet.createRow(sheet.getLastRowNum());
 		int column = 0;
 		for (int i = 0; i < values.size(); i++) {
 			Object ob = values.get(i);
