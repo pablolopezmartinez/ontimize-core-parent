@@ -8,7 +8,6 @@
 		<module>ontimize-core-icon</module>
 		<module>ontimize-core-common</module>
 		<module>ontimize-core-client</module>
-		<module>ontimize-core</module>
 	</modules>
 
 	<scm>
