@@ -99,8 +99,6 @@ public class CalculatedColumnDialog extends EJDialog implements Internationaliza
 
 	protected static final String RENDER_TITLE = "calculatedcols.rendererlist";
 
-	private static CalculatedColumnDialog calculatedColumnsDialog;
-
 	public static final String CalculatedColsDialogTitle = "calculatedcols.CalculatedColsDialogTitle";
 
 	public static String labelsBgImage = ImageManager.TABLE_HEADER_33;
@@ -409,18 +407,18 @@ public class CalculatedColumnDialog extends EJDialog implements Internationaliza
 			sb.append(ApplicationManager.getTranslation("calculatecols.continuewithoutsave"));
 			sb.append("</html>");
 
-			int result = JOptionPane.showConfirmDialog(CalculatedColumnDialog.calculatedColumnsDialog, sb.toString(), "", JOptionPane.YES_NO_OPTION);
+			int result = JOptionPane.showConfirmDialog(this, sb.toString(), "", JOptionPane.YES_NO_OPTION);
 			if (result == JOptionPane.NO_OPTION) {
 				return;
 			}
 		} else if ((this.deletedExpressions != null) && (this.deletedExpressions.size() > 0)) {
-			int result = JOptionPane.showConfirmDialog(CalculatedColumnDialog.calculatedColumnsDialog,
+			int result = JOptionPane.showConfirmDialog(this,
 					ApplicationManager.getTranslation("calculatedcols.columnsdeletedwithoutsave"), "", JOptionPane.YES_NO_OPTION);
 			if (result == JOptionPane.NO_OPTION) {
 				return;
 			}
 		}
-		CalculatedColumnDialog.calculatedColumnsDialog.setVisible(false);
+		this.setVisible(false);
 	}
 
 	/**
@@ -484,7 +482,7 @@ public class CalculatedColumnDialog extends EJDialog implements Internationaliza
 			Object col = this.table.getVisibleColumns().get(i);
 			this.table.fitColumnSize(this.table.getColumnIndex((String) col));
 		}
-		CalculatedColumnDialog.calculatedColumnsDialog.setVisible(false);
+		this.setVisible(false);
 	}
 
 	protected void deleteSeletedCalculatedColumn() {
@@ -1127,19 +1125,19 @@ public class CalculatedColumnDialog extends EJDialog implements Internationaliza
 
 	public static void showCalculatorWindow(Component c, Table t) {
 		Window w = SwingUtilities.getWindowAncestor(t);
-		CalculatedColumnDialog.calculatedColumnsDialog = null;
+		CalculatedColumnDialog calculatedColumnsDialog = null;
 		if (w instanceof Frame) {
-			CalculatedColumnDialog.calculatedColumnsDialog = new CalculatedColumnDialog((Frame) w, t);
+			calculatedColumnsDialog = new CalculatedColumnDialog((Frame) w, t);
 		} else if (w instanceof Dialog) {
-			CalculatedColumnDialog.calculatedColumnsDialog = new CalculatedColumnDialog((Dialog) w, t);
+			calculatedColumnsDialog = new CalculatedColumnDialog((Dialog) w, t);
 		}
-		Dimension size = CalculatedColumnDialog.calculatedColumnsDialog.getSize();
+		Dimension size = calculatedColumnsDialog.getSize();
 		size.setSize(size.getWidth() < 400 ? 400 : size.getWidth(), size.getHeight() < 450 ? 450 : size.getHeight());
-		ApplicationManager.center(CalculatedColumnDialog.calculatedColumnsDialog);
-		CalculatedColumnDialog.calculatedColumnsDialog.setSize(size);
-		CalculatedColumnDialog.calculatedColumnsDialog.setAutoPackOnOpen(false);
-		CalculatedColumnDialog.calculatedColumnsDialog.setVisible(true);
-		CalculatedColumnDialog.calculatedColumnsDialog.dispose();
+		ApplicationManager.center(calculatedColumnsDialog);
+		calculatedColumnsDialog.setSize(size);
+		calculatedColumnsDialog.setAutoPackOnOpen(false);
+		calculatedColumnsDialog.setVisible(true);
+		calculatedColumnsDialog.dispose();
 	}
 
 	protected static class InsertSymbolListener implements ActionListener {
