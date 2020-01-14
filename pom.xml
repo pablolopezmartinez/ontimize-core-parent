@@ -71,12 +71,6 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.ontimize</groupId>
-				<artifactId>ontimize-core</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.ontimize</groupId>
 				<artifactId>ontimize-core-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
