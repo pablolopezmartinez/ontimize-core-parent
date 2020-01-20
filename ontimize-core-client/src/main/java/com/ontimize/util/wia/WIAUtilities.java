@@ -15,7 +15,7 @@ public abstract class WIAUtilities {
 			WIAUtilities.logger.debug("WIAUtilities: WIA classes found");
 			WIAUtilities.wiaEnabled = true;
 		} catch (Exception e) {
-			WIAUtilities.logger.error("WIAUtilities: No WIA classes found " + e.getMessage(), e);
+			WIAUtilities.logger.trace("WIAUtilities: No WIA classes found " + e.getMessage(), e);
 			WIAUtilities.wiaEnabled = false;
 		}
 	}
