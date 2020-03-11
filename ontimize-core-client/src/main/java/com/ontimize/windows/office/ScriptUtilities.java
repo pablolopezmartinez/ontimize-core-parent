@@ -66,7 +66,7 @@ public class ScriptUtilities {
 			if (with == ScriptUtilities.WSCRIPT) {
 				command = ScriptUtilities.SCRIPT_COMMAND_W;
 			}
-			String sCommand = command + "\"" + archive + "\" " + parameters + "  //Nologo ";
+			String sCommand = command + archive + parameters + "  //Nologo ";
 			if (ScriptUtilities.DEBUG) {
 				ScriptUtilities.logger.debug(sCommand);
 			}
