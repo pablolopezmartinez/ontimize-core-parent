@@ -76,6 +76,7 @@ import java.util.Vector;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.BoundedRangeModel;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -86,6 +87,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -98,6 +100,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.MenuElement;
@@ -113,6 +116,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.EventListenerList;
@@ -272,8 +276,8 @@ import com.ontimize.util.xls.XLSExporterFactory;
  */
 
 public class Table extends JRootPane
-		implements DataComponent, CreateForms, OpenDialog, AccessForm, Freeable, SelectCurrencyValues, ApplicationPreferencesListener, HasPreferenceComponent, HasHelpIdComponent,
-		ReferenceComponent, InsertTableInsertRowChange, ITemplateField, IFilterElement, ListSelectionListener, IRefreshable, InteractionManagerModeListener {
+implements DataComponent, CreateForms, OpenDialog, AccessForm, Freeable, SelectCurrencyValues, ApplicationPreferencesListener, HasPreferenceComponent, HasHelpIdComponent,
+ReferenceComponent, InsertTableInsertRowChange, ITemplateField, IFilterElement, ListSelectionListener, IRefreshable, InteractionManagerModeListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(Table.class);
 
@@ -354,6 +358,11 @@ public class Table extends JRootPane
 	 * @see #init
 	 */
 	public static final String INSERT_TITLE_KEY = "inserttitlekey";
+
+	@Override
+	public void setLayeredPane(JLayeredPane layered) {
+		super.setLayeredPane(layered);
+	}
 
 	/**
 	 * Attribute name allowed in the XML.
@@ -4824,7 +4833,6 @@ public class Table extends JRootPane
 		}
 	}
 
-	
 	/**
 	 * Creates a text to be interpreted by the Excel. The text will contain all
 	 * the data in the table, with the columns separated by tabs and EOL at the
@@ -4868,7 +4876,7 @@ public class Table extends JRootPane
 			rowsCount = rowsCount - 1;
 		}
 
-		if (selectedRows!=null && selectedRows.length>0) {
+		if ((selectedRows!=null) && (selectedRows.length>0)) {
 			for (int j = 0; j < selectedRows.length; j++) {
 				sbValues.append("\n");
 				for (int i = 0; i < this.table.getColumnCount(); i++) {
@@ -8548,7 +8556,7 @@ public class Table extends JRootPane
 				this.menuCopySelection.setEnabled(false);
 			}
 
-			Object columnValue = getColumnValue(x, y);
+			Object columnValue = this.getColumnValue(x, y);
 			this.menuCopyCell.setEnabled(columnValue != null);
 
 			final int column = this.table.convertColumnIndexToModel(this.colPress);
@@ -8583,7 +8591,7 @@ public class Table extends JRootPane
 		
 		Rectangle scrollPaneBounds = this.scrollPane.getBounds();
 	
-		Point scrollPanePoint = SwingUtilities.convertPoint(this, point, scrollPane);
+		Point scrollPanePoint = SwingUtilities.convertPoint(this, point, this.scrollPane);
 		
 		Point currentPoint = SwingUtilities.convertPoint(this, point, this.table);
 		
@@ -9482,7 +9490,7 @@ public class Table extends JRootPane
 	}
 
 	protected JTable createSumRowTable() {
-		SumRowTable sumRowTable = new SumRowTable((EJTable) this.table) {
+		SumRowTable sumRowTable = new SumRowTable(this.table) {
 			@Override
 			public void setVisible(boolean aFlag) {
 				super.setVisible(aFlag);
@@ -9558,7 +9566,7 @@ public class Table extends JRootPane
 	}
 
 	public JTable getBlockedTable() {
-		return blockedTable;
+		return this.blockedTable;
 	}
 
 	protected BlockedTable createBlockedTable() {
@@ -9568,10 +9576,10 @@ public class Table extends JRootPane
 		BlockedTable blockTable = new BlockedTable(new BlockedTableModel(sorter), (EJTable) this.table);
 		// blockTable.setAutoCreateColumnsFromModel(false);
 
-		addTableHeaderRenderer(blockTable);
+		this.addTableHeaderRenderer(blockTable);
 
 		blockTable.setSelectionModel(this.table.getSelectionModel());
-		addBlockedTableHeaderMouseListener(blockTable);
+		this.addBlockedTableHeaderMouseListener(blockTable);
 
 		return blockTable;
 	}
@@ -9583,15 +9591,122 @@ public class Table extends JRootPane
 	 * @since 5.2080EN
 	 */
 	protected void createBlockedScrollPane(Hashtable params) {
-		this.blockedScrollPane = new JScrollPane(this.blockedTable);
+		this.blockedScrollPane = new JScrollPane(this.blockedTable){
+			@Override
+			protected JViewport createViewport() {
+				return new JViewport(){
+					@Override
+					public Dimension getSize() {
+						Dimension d= super.getSize();
+						if ((d != null) && (d.height <= 0) && (d.width <= 0)) {
+							try{
+								Dimension origin = Table.this.scrollPane.getViewport().getSize();
+								d.height = origin.height;
+							}catch (Exception ex){
+								logger.trace("Error getting size of viewport", ex);
+							}
+						}
+						return d;
+					}
+
+					@Override
+					public Dimension getViewSize() {
+						Dimension d = super.getViewSize();
+						try{
+							if ((d != null) && (d.width <= 0)) {
+								Dimension dP = Table.this.scrollPane.getViewport().getViewSize();
+								d.height = dP.height;
+							}
+						}catch (Exception ex){
+							logger.trace("Error getting size of viewport", ex);
+						}
+						return d;
+					}
+				};
+			}
+		};
 
 		this.blockedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		this.blockedScrollPane.getVerticalScrollBar().setModel(this.scrollPane.getVerticalScrollBar().getModel());
-
 		this.blockedScrollPane.setOpaque(false);
 		
 		if (ApplicationManager.useOntimizePlaf) {
 			this.blockedScrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		}
+	}
+
+	public static class WrapperBoundedRangeModel implements BoundedRangeModel {
+
+		private BoundedRangeModel source;
+
+		public WrapperBoundedRangeModel(BoundedRangeModel source){
+			this.source = source;
+		}
+
+		@Override
+		public int getMinimum() {
+			return this.source.getMinimum();
+		}
+
+		@Override
+		public void setMinimum(int newMinimum) {
+			//not implements
+		}
+
+		@Override
+		public int getMaximum() {
+			return this.source.getMaximum();
+		}
+
+		@Override
+		public void setMaximum(int newMaximum) {
+			//no implementar
+		}
+
+		@Override
+		public int getValue() {
+			return this.source.getValue();
+		}
+
+		@Override
+		public void setValue(int newValue) {
+			//no implementar
+			System.out.println("SetValue: " + newValue);
+		}
+
+		@Override
+		public void setValueIsAdjusting(boolean b) {
+			//no implementar
+		}
+
+		@Override
+		public boolean getValueIsAdjusting() {
+			return this.source.getValueIsAdjusting();
+		}
+
+		@Override
+		public int getExtent() {
+			return this.source.getExtent();
+		}
+
+		@Override
+		public void setExtent(int newExtent) {
+			//no implementar
+		}
+
+		@Override
+		public void setRangeProperties(int value, int extent, int min, int max, boolean adjusting) {
+			//no implementar
+		}
+
+		@Override
+		public void addChangeListener(ChangeListener x) {
+			this.source.addChangeListener(x);
+		}
+
+		@Override
+		public void removeChangeListener(ChangeListener x) {
+			this.source.removeChangeListener(x);
 		}
 	}
 
@@ -9714,7 +9829,7 @@ public class Table extends JRootPane
 					String s = (String) this.originalVisibleColumns.get(i);
 					try {
 						TableColumn tc = eJTable.getColumn(s);
-						eJTable.moveColumn(eJTable.convertColumnIndexToView(tc.getModelIndex()), i + 1);
+						eJTable.moveColumn(eJTable.convertColumnIndexToView(tc.getModelIndex()), i+1);
 					} catch (Exception e) {
 						Table.logger.error("Column " + s + " not found.", e);
 					}
@@ -10119,9 +10234,9 @@ public class Table extends JRootPane
 			for (int i = 0; i < this.table.getColumnCount(); i++) {
 				String col = this.table.getColumnName(i);
 				if (!(this.visibleColumns.contains(col)) || !this.checkColumnTablePermission(col, "visible")) {
-					hideColumn(col);
+					this.hideColumn(col);
 				} else {
-					showColumn(col);
+					this.showColumn(col);
 				}
 			}
 			this.table.sizeColumnsToFit(-1);
@@ -10133,7 +10248,7 @@ public class Table extends JRootPane
 		int colIndex = this.table.getColumnModel().getColumnIndex(col);
 		int index = this.blockedTable.getBlockedColumnIndex();
 		TableColumn tc = null;
-		if (index > 0 && colIndex <= index) {
+		if ((index > 0) && (colIndex <= index)) {
 			tc = this.blockedTable.getColumnModel().getColumn(colIndex);
 		} else {
 			tc = this.table.getColumnModel().getColumn(colIndex);
@@ -10148,7 +10263,7 @@ public class Table extends JRootPane
 
 		int index = this.blockedTable.getBlockedColumnIndex();
 		TableColumn tc = null;
-		if (index > 0 && colIndex <= index) {
+		if ((index > 0) && (colIndex <= index)) {
 			tc = this.blockedTable.getColumnModel().getColumn(colIndex);
 		} else {
 			tc = this.table.getColumnModel().getColumn(colIndex);
@@ -11931,7 +12046,7 @@ public class Table extends JRootPane
 	protected int[] setPreferredTableColumnWidths(int maxRows) {
 		// Calculate the minimun table width to ensure that values are visible
 		this.setRowNumberColumnVisible(this.visibleRowNumberColumn);
-		int tableWidth = this.table.getWidth();
+		int tableWidth = this.table.getParent().getWidth();
 		int columnsWidth = 0;
 		int nColsMaxTableWidth = 0;
 		int[] widths = new int[this.table.getColumnCount()];
@@ -14708,7 +14823,7 @@ public class Table extends JRootPane
 	}
 
 	public Integer getBlockedColumnIndex() {
-		if (blockedTable==null) {
+		if (this.blockedTable==null) {
 			return -1;
 		}
 		return this.blockedTable.getBlockedColumnIndex();
@@ -14752,7 +14867,7 @@ public class Table extends JRootPane
 	}
 
 	public boolean isBlockedEnabled() {
-		if (blockedCols) {
+		if (this.blockedCols) {
 			return this.scrollHorizontal;
 		}
 		return false;
@@ -18258,7 +18373,7 @@ public class Table extends JRootPane
 			this.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent e) {
-					if (selectAll) {
+					if (QuickFieldText.this.selectAll) {
 						QuickFieldText.this.selectAll();
 					}
 				}
@@ -18291,7 +18406,7 @@ public class Table extends JRootPane
 		}
 		
 		public boolean isSelectAll() {
-			return selectAll;
+			return this.selectAll;
 		}
 
 		public void setSelectAll(boolean selectAll) {
