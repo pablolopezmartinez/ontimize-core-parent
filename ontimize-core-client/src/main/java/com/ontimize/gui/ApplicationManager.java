@@ -417,9 +417,7 @@ public abstract class ApplicationManager {
 			super.dispose();
 
 			try {
-				synchronized (this.operationThread) {
-					this.operationThread = null;
-				}
+				this.operationThread = null;
 				this.progressThread.join(3000);
 
 				if (this.cancelButton != null) {
@@ -462,7 +460,12 @@ public abstract class ApplicationManager {
 					}
 				}
 				// Now hide the dialog because operation is finished
-				CancelOperationDialog.this.dispose();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						CancelOperationDialog.this.dispose();
+					}
+				});
 			}
 		};
 
