@@ -19,9 +19,9 @@ public interface ClientPermissionManager extends Remote {
 	 *
 	 * @param userKeys
 	 *            This parameters allow to identify the user. In local locator is not needed and can be a null value.
-	 * @param sessionId
-	 * @return
-	 * @throws Exception
+	 * @param sessionId A client sessionId
+	 * @return An {@link EntityResult} object
+	 * @throws Exception if an error occurs
 	 */
 	public EntityResult getClientPermissions(Hashtable userKeys, int sessionId) throws Exception;
 
@@ -32,7 +32,7 @@ public interface ClientPermissionManager extends Remote {
 	 *            Keys to identify the user
 	 * @param sessionId
 	 *            User session identifier
-	 * @throws Exception
+	 * @throws Exception if an error occurs
 	 */
 	public void installClientPermissions(Hashtable userKeys, int sessionId) throws Exception;
 
