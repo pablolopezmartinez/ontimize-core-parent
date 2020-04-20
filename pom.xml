@@ -11,10 +11,21 @@
 	</modules>
 
 	<scm>
-		<developerConnection>scm:svn:https://svn.imatia.com/ontimize/ontimize-core-parent/trunk</developerConnection>
+		<developerConnection>scm:git:https://github.com/ontimize/ontimize-core-parent</developerConnection>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
+		<javadoc-plugin.version>3.1.0</javadoc-plugin.version>
+		<slf4j-api.version>1.7.5</slf4j-api.version>
+		<jfreechart.version>1.0.12</jfreechart.version>
+		<logback-classic.version>1.0.13</logback-classic.version>
+		<log4j-core.version>2.8.2</log4j-core.version>
+		<commons-jexl.version>2.1.1</commons-jexl.version>
+		<DynamicJasper.version>5.0.0</DynamicJasper.version>
+		<registry.version>3.1.3</registry.version>
+		<sam.version>0.0.1</sam.version>
+		<jai.version>1.1.2</jai.version>
+		<tidy.version>8.0</tidy.version>
 	</properties>
 	<build>
 		<pluginManagement>
@@ -22,7 +33,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>${javadoc-plugin.version}</version>
 					<executions>
 						<execution>
 							<id>attach-javadocs</id>
@@ -84,83 +95,85 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.5</version>
+				<version>${slf4j-api.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>jfree</groupId>
 				<artifactId>jfreechart</artifactId>
-				<version>1.0.12</version>
+				<version>${jfreechart.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.0.13</version>
+				<version>${logback-classic.version}</version>
 				<optional>true</optional>
 			</dependency>
 
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
-				<version>2.8.2</version>
+				<version>${log4j-core.version}</version>
 				<optional>true</optional>
 			</dependency>
 
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-slf4j-impl</artifactId>
-				<version>2.8.2</version>
+				<version>${log4j-core.version}</version>
 				<optional>true</optional>
 			</dependency>
 
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-jexl</artifactId>
-				<version>2.1.1</version>
+				<version>${commons-jexl.version}</version>
 				<optional>true</optional>
+
 			</dependency>
 
 			<dependency>
 				<groupId>ar.com.fdvs</groupId>
 				<artifactId>DynamicJasper</artifactId>
-				<version>5.0.0</version>
+				<version>${DynamicJasper.version}</version>
 				<scope>compile</scope>
 				<optional>true</optional>
+
 			</dependency>
 
 			<dependency>
 				<groupId>com.ice.jni</groupId>
 				<artifactId>registry</artifactId>
-				<version>3.1.3</version>
+				<version>${registry.version}</version>
 				<optional>true</optional>
 			</dependency>
 
 			<dependency>
 				<groupId>sam</groupId>
 				<artifactId>sam</artifactId>
-				<version>0.0.1</version>
+				<version>${sam.version}</version>
 				<optional>true</optional>
 			</dependency>
 
 			<dependency>
 				<groupId>com.sun.media</groupId>
 				<artifactId>jai_codec</artifactId>
-				<version>1.1.2</version>
+				<version>${jai.version}</version>
 				<optional>true</optional>
 			</dependency>
 
 			<dependency>
 				<groupId>javax.media</groupId>
 				<artifactId>jai_core</artifactId>
-				<version>1.1.2</version>
+				<version>${jai.version}</version>
 				<optional>true</optional>
 			</dependency>
 
 			<dependency>
 				<groupId>org.w3c</groupId>
 				<artifactId>tidy</artifactId>
-				<version>8.0</version>
+				<version>${tidy.version}</version>
 				<optional>true</optional>
 			</dependency>
 
@@ -240,8 +253,6 @@
 				<version>7.1.27</version>
 				<optional>true</optional>
 			</dependency>
-
-
 
 			<dependency>
 				<groupId>javax.comm</groupId>
