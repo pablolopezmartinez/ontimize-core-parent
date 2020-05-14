@@ -279,6 +279,8 @@ public class Table extends JRootPane
 implements DataComponent, CreateForms, OpenDialog, AccessForm, Freeable, SelectCurrencyValues, ApplicationPreferencesListener, HasPreferenceComponent, HasHelpIdComponent,
 ReferenceComponent, InsertTableInsertRowChange, ITemplateField, IFilterElement, ListSelectionListener, IRefreshable, InteractionManagerModeListener {
 
+	public static final String DELETED_ROW = "DeletedRow";
+
 	private static final Logger logger = LoggerFactory.getLogger(Table.class);
 
 	//
@@ -10839,9 +10841,9 @@ ReferenceComponent, InsertTableInsertRowChange, ITemplateField, IFilterElement, 
 										String sCancelText = ApplicationManager.getTranslation("CanceledOperation", Table.this.resourcesFile);
 										Thread.yield();
 
-										String deleteText = "DeletedRow";
+										String deleteText = Table.DELETED_ROW;
 										Thread.yield();
-										deleteText = ApplicationManager.getTranslation("DeletedRow", Table.this.resourcesFile);
+										deleteText = ApplicationManager.getTranslation(Table.DELETED_ROW, Table.this.resourcesFile);
 										Thread.yield();
 										String sErrorDeletingText = ApplicationManager.getTranslation("ErrorDeletingRow", Table.this.resourcesFile);
 										Thread.yield();
