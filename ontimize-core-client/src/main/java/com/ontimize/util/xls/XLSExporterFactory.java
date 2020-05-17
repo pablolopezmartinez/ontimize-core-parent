@@ -2,10 +2,9 @@ package com.ontimize.util.xls;
 
 import java.util.Hashtable;
 
+import com.ontimize.gui.table.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.ontimize.gui.table.Table;
 
 /**
  * Class that manages objects that export to excel in Table.

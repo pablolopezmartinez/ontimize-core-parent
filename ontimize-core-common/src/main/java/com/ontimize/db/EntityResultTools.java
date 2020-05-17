@@ -2,6 +2,7 @@ package com.ontimize.db;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 public class EntityResultTools {
@@ -64,5 +65,22 @@ public class EntityResultTools {
 				entityResult.put(currentKey, columnRecords);
 			}
 		}
+	}
+
+	/**
+	 * Creates an empty <code>EntityResult</code> with structure of columns
+	 * passed.
+	 *
+	 * @param columns
+	 *            columns of <code>EntityResult</code>
+	 *
+	 * @return an <code>EntityResult</code> with result or null when
+	 *         <code>columns</code> parameter is null
+	 */
+	public static EntityResult createEmptyEntityResult(List columns) {
+		if (columns != null) {
+			return new EntityResult(columns);
+		}
+		return null;
 	}
 }
