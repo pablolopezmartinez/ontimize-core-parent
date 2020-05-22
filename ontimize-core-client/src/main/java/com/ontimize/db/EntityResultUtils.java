@@ -20,7 +20,7 @@ import com.ontimize.gui.table.TableSorter;
 import com.ontimize.util.remote.BytesBlock;
 import com.ontimize.util.swing.image.BooleanImage;
 
-public abstract class EntityResultUtils {
+public abstract class EntityResultUtils extends EntityResultTools {
 
 	private static final Logger logger = LoggerFactory.getLogger(EntityResultUtils.class);
 
@@ -238,22 +238,7 @@ public abstract class EntityResultUtils {
 		return EntityResultTools.getValuesKeysIndex(entityResult, kv);
 	}
 
-	/**
-	 * Creates an empty <code>EntityResult</code> with structure of columns
-	 * passed.
-	 *
-	 * @param columns
-	 *            columns of <code>EntityResult</code>
-	 *
-	 * @return an <code>EntityResult</code> with result or null when
-	 *         <code>columns</code> parameter is null
-	 */
-	public static EntityResult createEmptyEntityResult(List columns) {
-		if (columns != null) {
-			return new EntityResult(columns);
-		}
-		return null;
-	}
+
 
 	/**
 	 * Joins the data in two EntityResult objects. These objects must have the
