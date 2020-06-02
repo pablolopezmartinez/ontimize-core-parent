@@ -28,6 +28,7 @@ import com.ontimize.gui.MessageDialog;
 import com.ontimize.gui.button.Button;
 import com.ontimize.gui.container.EJDialog;
 import com.ontimize.gui.i18n.Internationalization;
+import com.ontimize.gui.images.ImageManager;
 import com.ontimize.gui.table.ComboReferenceCellRenderer;
 import com.ontimize.gui.table.EditingVetoException;
 import com.ontimize.gui.table.MemoCellRenderer;
@@ -471,22 +472,26 @@ public class FormMultilanguageTable extends EJDialog implements Internationaliza
 		gbcTable.gridy = 0;
 		this.getContentPane().add(this.multilanguageTranslateTable, gbcTable);
 
-		Hashtable buttomParams = new Hashtable();
-		buttomParams.put("text", ApplicationManager.getTranslation("application.accept"));
-		buttomParams.put("key", "btnAccept");
-		this.acceptButton = new Button(buttomParams);
-		GridBagConstraints gbcBtnAccept = new GridBagConstraints();
-		gbcBtnAccept.gridx = 1;
-		gbcBtnAccept.gridy = 1;
-		this.getContentPane().add(this.acceptButton, gbcBtnAccept);
+        Hashtable buttonParams = new Hashtable();
+        buttonParams.put("text", ApplicationManager.getTranslation("application.accept"));
+        buttonParams.put("key", "btnAccept");
+        buttonParams.put("icon", ImageManager.OK);
+        this.acceptButton = new Button(buttonParams);
+        GridBagConstraints gbcBtnAccept = new GridBagConstraints();
+        gbcBtnAccept.gridx = 1;
+        gbcBtnAccept.gridy = 1;
+        gbcBtnAccept.insets = new Insets(0, 0, 8, 0);
+        this.getContentPane().add(this.acceptButton, gbcBtnAccept);
 
-		Hashtable buttomParamsCancel = new Hashtable();
-		buttomParamsCancel.put("text", ApplicationManager.getTranslation("application.cancel"));
-		buttomParamsCancel.put("key", "btnCancel");
-		this.cancelButton = new Button(buttomParamsCancel);
-		GridBagConstraints gbcBtnCancel = new GridBagConstraints();
-		gbcBtnCancel.gridx = 2;
-		gbcBtnCancel.gridy = 1;
+        Hashtable buttonParamsCancel = new Hashtable();
+        buttonParamsCancel.put("text", ApplicationManager.getTranslation("application.cancel"));
+        buttonParamsCancel.put("key", "btnCancel");
+        buttonParamsCancel.put("icon", ImageManager.CANCEL);
+        this.cancelButton = new Button(buttonParamsCancel);
+        GridBagConstraints gbcBtnCancel = new GridBagConstraints();
+        gbcBtnCancel.gridx = 2;
+        gbcBtnCancel.gridy = 1;
+        gbcBtnCancel.insets = new Insets(0, 0, 8, 8);
 		this.getContentPane().add(this.cancelButton, gbcBtnCancel);
 
 		this.populateTable();
@@ -524,6 +529,7 @@ public class FormMultilanguageTable extends EJDialog implements Internationaliza
 			params.put("rows", "1");
 			params.put("column", this.getAttribute());
 			this.multilanguageTranslateTable.setRendererForColumn(this.getAttribute(), new MemoCellRenderer());
+            this.multilanguageTranslateTable.setMinRowHeight(this.multilanguageTranslateTable.getMinRowHeight()+25);
 			this.multilanguageTranslateTable.setColumnEditor(this.getAttribute(), new MemoMultilanguageCellEditor(params));
 		}
 
@@ -536,6 +542,7 @@ public class FormMultilanguageTable extends EJDialog implements Internationaliza
 		cellRendererParameters.put("format", "{0}_{1};LANGUAGE;COUNTRY");
 		cellRendererParameters.put("translate", "yes");
 		ComboReferenceCellRenderer cellRenderer = new ComboReferenceCellRenderer(cellRendererParameters);
+        this.multilanguageTranslateTable.setRowNumberColumnVisible(false);
 		this.multilanguageTranslateTable.setReferenceLocator(this.locator);
 		this.multilanguageTranslateTable.setRendererForColumn(this.attributeLocale, cellRenderer);
 	}

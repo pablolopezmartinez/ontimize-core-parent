@@ -91,6 +91,9 @@ public class TextDataField extends TextFieldDataField implements InteractionMana
 	public TextDataField(Hashtable parameters) {
 		super();
 		this.init(parameters);
+		if (this.multilanguage) {
+			this.createMultilanguageButton();
+		}
 	}
 
 	/**
@@ -184,18 +187,6 @@ public class TextDataField extends TextFieldDataField implements InteractionMana
 	}
 
 	@Override
-	public void setParentForm(Form f) {
-		super.setParentForm(f);
-		try {
-			if (this.multilanguage && this.checkMultilanguageAvailability()) {
-				this.createMultilanguageButton();
-			}
-		} catch (Exception e) {
-			TextDataField.logger.error("ERROR_CREATING_MULTILANGUAGE_BUTTON");
-		}
-	}
-
-	@Override
 	public Object getValue() {
 		if (this.isEmpty()) {
 			return null;
@@ -257,27 +248,15 @@ public class TextDataField extends TextFieldDataField implements InteractionMana
 		super.add(this.multilanguageButton,
 				new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 
-		if (this.labelPosition != SwingConstants.LEFT) {
-			this.validateComponentPositions();
-		}
 
+		if (this.labelPosition != SwingConstants.TOP) {
+			super.add(this.multilanguageButton, new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0,
+				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}else {
+			super.add(this.multilanguageButton, new GridBagConstraints(2, 2, 1, 1, 0, 0,
+					GridBagConstraints.FIRST_LINE_END, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 	}
 
-	/**
-	 * Checks if the field is a multi-language field of an entity
-	 *
-	 * @return <code>true</code> if the field is multi-language from the entity,
-	 *         <code>false</code> otherwise.
-	 * @throws Exception
-	 *             If the EntityReferenceLocator cannot be retrieved or an error
-	 *             is produced in the {@link #checkMultilanguageAvailability()}
-	 */
-	protected boolean checkMultilanguageAvailability() throws Exception {
-		String entityName = this.getParentForm().getEntityName();
-		String attribute = (String) this.getAttribute();
-		int sessionId = this.locator.getSessionId();
-		MultilanguageEntity multiLanguageService = (MultilanguageEntity) this.locator.getEntityReference(entityName);
-		return multiLanguageService.checkMultilanguageEntity(entityName, attribute);
 	}
 
 	/**
