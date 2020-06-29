@@ -1605,10 +1605,10 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
 			ResultSetMetaData rsMetaData = resultSet.getMetaData();
 			// Optimization: Array access, instead of request the name in each
 			// loop
-			String[] sColumnNames = this.getColumnNames(rsMetaData);
+			String[] sColumnLabels = this.getColumnNames(rsMetaData);
 
 			// Optimization: use column types.
-			int[] columnTypes = new int[sColumnNames.length];
+			int[] columnTypes = new int[sColumnLabels.length];
 			for (int i = 1; i <= columnTypes.length; i++) {
 				columnTypes[i - 1] = rsMetaData.getColumnType(i);
 			}
@@ -1616,7 +1616,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
 			Hashtable hColumnTypesAux = new Hashtable();
 			if (hColumnTypesAux != null) {
 				for (int i = 0; i < columnTypes.length; i++) {
-					hColumnTypesAux.put(sColumnNames[i], new Integer(columnTypes[i]));
+					hColumnTypesAux.put(sColumnLabels[i], new Integer(columnTypes[i]));
 				}
 			}
 			entityResult.setColumnSQLTypes(hColumnTypesAux);
@@ -1629,8 +1629,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
 					// of all data and we have already read them
 					break;
 				}
-				for (int i = 0; i < sColumnNames.length; i++) {
-					String columnName = sColumnNames[i];
+				for (int i = 0; i < sColumnLabels.length; i++) {
+					String columnName = sColumnLabels[i];
 					Object oValue = this.getResultSetValue(resultSet, columnName, columnTypes[i]);
 					Vector vPreviousData = (Vector) entityResult.get(columnName);
 					if (vPreviousData != null) {
@@ -1650,11 +1650,11 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
 		}
 	}
 
-	protected Object getResultSetValue(ResultSet resultSet, String columnName, int columnType) throws Exception {
+	protected Object getResultSetValue(ResultSet resultSet, String columnLabel, int columnType) throws Exception {
 		// +1 is because array index starts in 0 and metadata index
 		// starts in 1
 		if (columnType == Types.BLOB) {
-			Blob blob = resultSet.getBlob(columnName);
+			Blob blob = resultSet.getBlob(columnLabel);
 			if (blob == null) {
 				return null;
 			} else {
@@ -1662,20 +1662,20 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
 				return this.readBinaryStream(flujoEntr);
 			}
 		} else if (columnType == Types.CLOB) {
-			Clob clob = resultSet.getClob(columnName);
+			Clob clob = resultSet.getClob(columnLabel);
 			if (clob == null) {
 				return null;
 			} else {
 				return this.readCharacterStream(clob.getCharacterStream());
 			}
 		} else if ((columnType == Types.LONGVARBINARY) || (columnType == Types.BINARY) || (columnType == Types.VARBINARY)) {
-			InputStream flujoEntr = resultSet.getBinaryStream(columnName);
+			InputStream flujoEntr = resultSet.getBinaryStream(columnLabel);
 			return this.readBinaryStream(flujoEntr);
 		} else if (columnType == Types.LONGVARCHAR) {
-			Reader r = resultSet.getCharacterStream(columnName);
+			Reader r = resultSet.getCharacterStream(columnLabel);
 			return this.readCharacterStream(r);
 		} else {
-			return resultSet.getObject(columnName);
+			return resultSet.getObject(columnLabel);
 		}
 	}
 
@@ -1768,16 +1768,16 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
 	 * @return Column names.
 	 */
 	protected String[] getColumnNames(ResultSetMetaData rsMetaData) {
-		String[] sColumnNames = null;
+		String[] sColumnLabels = null;
 		try {
-			sColumnNames = new String[rsMetaData.getColumnCount()];
+			sColumnLabels = new String[rsMetaData.getColumnCount()];
 			for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
-				sColumnNames[i - 1] = rsMetaData.getColumnName(i);
+				sColumnLabels[i - 1] = rsMetaData.getColumnLabel(i);
 			}
 		} catch (SQLException e) {
 			DefaultSQLStatementHandler.logger.error(null, e);
 		}
-		return sColumnNames;
+		return sColumnLabels;
 	}
 
 	/**

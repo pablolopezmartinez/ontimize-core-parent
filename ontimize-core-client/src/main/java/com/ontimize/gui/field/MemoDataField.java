@@ -276,6 +276,10 @@ public class MemoDataField extends DataField implements OpenDialog, Freeable, In
 		// this.dataField.setOpaque(true);
 		this.init(params);
 
+		if (this.multilanguage) {
+			this.createMultilanguageButton();
+		}
+		
 		if (this.dataField instanceof JTextArea) {
 			if (this.maximumTextLength > 0) {
 				((JTextArea) this.dataField).setDocument(new LimitedTextDocument(this.maximumTextLength));
@@ -906,35 +910,6 @@ public class MemoDataField extends DataField implements OpenDialog, Freeable, In
 		}
 	}
 
-	@Override
-	public void setParentForm(Form f) {
-		super.setParentForm(f);
-		try {
-			if (this.multilanguage && this.checkMultilanguageAvailability()) {
-				this.createMultilanguageButton();
-			}
-		} catch (Exception e) {
-			MemoDataField.logger.error("ERROR_CREATING_MULTILANGUAGE_BUTTON");
-		}
-	}
-
-	/**
-	 * Checks if the field is a multi-language field of an entity
-	 *
-	 * @return <code>true</code> if the field is multi-language from the entity,
-	 *         <code>false</code> otherwise.
-	 * @throws Exception
-	 *             If the EntityReferenceLocator cannot be retrieved or an error
-	 *             is produced in the {@link #checkMultilanguageAvailability()}
-	 */
-	protected boolean checkMultilanguageAvailability() throws Exception {
-		String entityName = this.getParentForm().getEntityName();
-		String attribute = (String) this.getAttribute();
-		int sessionId = this.locator.getSessionId();
-		MultilanguageEntity multiLanguageService = (MultilanguageEntity) this.locator.getEntityReference(entityName);
-		return multiLanguageService.checkMultilanguageEntity(entityName, attribute);
-	}
-
 	/**
 	 * Creates the button to display the multi-language translation button
 	 */
@@ -955,11 +930,12 @@ public class MemoDataField extends DataField implements OpenDialog, Freeable, In
 			}
 		});
 
-		super.add(this.multilanguageButton,
-				new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-
-		if (this.labelPosition != SwingConstants.LEFT) {
-			this.validateComponentPositions();
+		if (this.labelPosition != SwingConstants.TOP) {
+			super.add(this.multilanguageButton, new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 0,
+				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}else {
+			super.add(this.multilanguageButton, new GridBagConstraints(2, 2, 1, 1, 0, 0,
+					GridBagConstraints.FIRST_LINE_END, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 
 	}
