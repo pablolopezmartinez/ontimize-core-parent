@@ -352,11 +352,11 @@
 	</profiles>
 
 	<distributionManagement>
-		<repository>
-			<id>imatia-public</id>
-			<name>ontimize-release-opensource</name>
-			<url>https://artifactory.imatia.com/public-artifactory/ontimize-release-opensource</url>
-		</repository>
+	    <repository>
+		<id>public-artifactory</id>
+		<name>public-artifactory-releases</name>
+		<url>https://public-artifactory.imatia.com/artifactory/ontimize-release-opensource</url>
+	    </repository>
 		<snapshotRepository>
 			<id>imatia-artifactory</id>
 			<name>libs-snapshot-local</name>
