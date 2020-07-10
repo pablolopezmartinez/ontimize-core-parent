@@ -25,7 +25,7 @@ public class HeadCellRenderer extends CellRenderer {
 
 	private static final Logger logger = LoggerFactory.getLogger(HeadCellRenderer.class);
 
-	protected static class EText extends JTextArea {
+	public static class EText extends JTextArea {
 
 		private Icon icon = null;
 
