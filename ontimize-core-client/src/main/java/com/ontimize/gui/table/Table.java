@@ -2582,7 +2582,7 @@ ReferenceComponent, InsertTableInsertRowChange, ITemplateField, IFilterElement, 
 	/**
 	 * The thread that refreshes the table.
 	 */
-	protected static class RefreshThread extends Thread {
+	public static class RefreshThread extends Thread {
 
 		private int delay = 0;
 
