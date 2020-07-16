@@ -2584,13 +2584,13 @@ ReferenceComponent, InsertTableInsertRowChange, ITemplateField, IFilterElement, 
 	 */
 	public static class RefreshThread extends Thread {
 
-		private int delay = 0;
+		protected int delay = 0;
 
-		private Table table = null;
+		protected Table table = null;
 
-		private boolean stop = false;
+		protected boolean stop = false;
 
-		private int refreshState = RefreshTableEvent.OK;
+		protected int refreshState = RefreshTableEvent.OK;
 
 		/**
 		 * Creates the thread for the corresponding table.
