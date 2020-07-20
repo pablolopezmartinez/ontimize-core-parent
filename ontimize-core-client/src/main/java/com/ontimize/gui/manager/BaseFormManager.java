@@ -1021,8 +1021,8 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
 				theForm.setFormBuilder(this.formBuilder);
 				theForm.setFileName(formFileName);
 				theForm.createLists();
-				theForm.setResourceBundle(this.resourceFile);
 				theForm.setComponentLocale(this.locale);
+				theForm.setResourceBundle(this.resourceFile);
 
 				if (this.aPreferences != null) {
 					theForm.registerApplicationPreferencesListener();
