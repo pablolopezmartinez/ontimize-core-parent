@@ -12,47 +12,51 @@ import com.ontimize.util.serializer.xml.adapters.XmlStaticAdapters;
 @XmlType(name = "basic-right-operand", propOrder = { "basicExpression", "value", "searchValue" })
 public class XmlBasicRightOperand {
 
-	@XmlElement(name = "basic-expression") protected XmlFilterBasicExpression basicExpression;
-	protected Object value;
-	@XmlElement(name = "search-value") protected XmlFilterSearchValue searchValue;
+    @XmlElement(name = "basic-expression")
+    protected XmlFilterBasicExpression basicExpression;
 
-	public XmlFilterBasicExpression getBasicExpression() {
-		return this.basicExpression;
-	}
+    protected Object value;
 
-	public void setBasicExpression(XmlFilterBasicExpression value) {
-		this.basicExpression = value;
-	}
+    @XmlElement(name = "search-value")
+    protected XmlFilterSearchValue searchValue;
 
-	public Object getValue() {
-		return this.value;
-	}
+    public XmlFilterBasicExpression getBasicExpression() {
+        return this.basicExpression;
+    }
 
-	public void setValue(Object value) {
-		this.value = value;
-	}
+    public void setBasicExpression(XmlFilterBasicExpression value) {
+        this.basicExpression = value;
+    }
 
-	public XmlFilterSearchValue getSearchValue() {
-		return this.searchValue;
-	}
+    public Object getValue() {
+        return this.value;
+    }
 
-	public void setSearchValue(XmlFilterSearchValue value) {
-		this.searchValue = value;
-	}
+    public void setValue(Object value) {
+        this.value = value;
+    }
 
-	public Object getBasicValue() {
-		if ((this.value != null) && (this.basicExpression == null) && (this.searchValue == null)) {
-			Object val = this.value;
-			if (val instanceof XMLGregorianCalendar) {
-				val = XmlStaticAdapters.xmlGregorianCalendarToDate((XMLGregorianCalendar) val);
-			}
-			return val;
-		} else if ((this.value == null) && (this.basicExpression != null) && (this.searchValue == null)) {
-			return this.basicExpression.getBasicExpression();
-		} else if ((this.value == null) && (this.basicExpression == null) && (this.searchValue != null)) {
-			return this.searchValue.getSearchValue();
-		}
-		return null;
-	}
+    public XmlFilterSearchValue getSearchValue() {
+        return this.searchValue;
+    }
+
+    public void setSearchValue(XmlFilterSearchValue value) {
+        this.searchValue = value;
+    }
+
+    public Object getBasicValue() {
+        if ((this.value != null) && (this.basicExpression == null) && (this.searchValue == null)) {
+            Object val = this.value;
+            if (val instanceof XMLGregorianCalendar) {
+                val = XmlStaticAdapters.xmlGregorianCalendarToDate((XMLGregorianCalendar) val);
+            }
+            return val;
+        } else if ((this.value == null) && (this.basicExpression != null) && (this.searchValue == null)) {
+            return this.basicExpression.getBasicExpression();
+        } else if ((this.value == null) && (this.basicExpression == null) && (this.searchValue != null)) {
+            return this.searchValue.getSearchValue();
+        }
+        return null;
+    }
 
 }

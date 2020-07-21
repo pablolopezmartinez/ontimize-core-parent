@@ -6,22 +6,22 @@ import org.slf4j.impl.StaticLoggerBinder;
 
 public class IncidenceLoggerFactory {
 
-	private static final Logger logger = LoggerFactory.getLogger(IncidenceLoggerFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(IncidenceLoggerFactory.class);
 
-	public static IIncidenceLogger incidenceLoggerInstance(String loggerFactoryClassName) {
+    public static IIncidenceLogger incidenceLoggerInstance(String loggerFactoryClassName) {
 
-		if (loggerFactoryClassName == null) {
-			IncidenceLoggerFactory.logger.error("No logger factory is binded");
-			return null;
-		}
+        if (loggerFactoryClassName == null) {
+            IncidenceLoggerFactory.logger.error("No logger factory is binded");
+            return null;
+        }
 
-		String loggerClassFactory = StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr();
+        String loggerClassFactory = StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr();
 
-		if (loggerFactoryClassName.equals(loggerClassFactory)) {
-			return new LogbackIncidenceLogger();
-		}
+        if (loggerFactoryClassName.equals(loggerClassFactory)) {
+            return new LogbackIncidenceLogger();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

@@ -32,252 +32,259 @@ import com.ontimize.gui.table.blocked.BlockedTable;
 
 public class SumRowTable extends JTable {
 
-	private static final Logger	logger	= LoggerFactory.getLogger(SumRowTable.class);
+    private static final Logger logger = LoggerFactory.getLogger(SumRowTable.class);
 
-	protected JTable dataTable;
+    protected JTable dataTable;
 
-	public SumRowTable(JTable table) {
-		this.dataTable = table;
-		this.dataTable.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
+    public SumRowTable(JTable table) {
+        this.dataTable = table;
+        this.dataTable.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
 
-			@Override
-			public void columnSelectionChanged(ListSelectionEvent e) {}
+            @Override
+            public void columnSelectionChanged(ListSelectionEvent e) {
+            }
 
-			@Override
-			public void columnRemoved(TableColumnModelEvent e) {
-				TableColumn removeColumn = SumRowTable.this.getColumnModel().getColumn(e.getFromIndex());
-				SumRowTable.this.getColumnModel().removeColumn(removeColumn);
-			}
+            @Override
+            public void columnRemoved(TableColumnModelEvent e) {
+                TableColumn removeColumn = SumRowTable.this.getColumnModel().getColumn(e.getFromIndex());
+                SumRowTable.this.getColumnModel().removeColumn(removeColumn);
+            }
 
-			@Override
-			public void columnMoved(TableColumnModelEvent e) {
-				int toIndex = e.getToIndex();
-				int fromIndex = e.getFromIndex();
-				SumRowTable.this.getColumnModel().moveColumn(fromIndex, toIndex);
-			}
+            @Override
+            public void columnMoved(TableColumnModelEvent e) {
+                int toIndex = e.getToIndex();
+                int fromIndex = e.getFromIndex();
+                SumRowTable.this.getColumnModel().moveColumn(fromIndex, toIndex);
+            }
 
-			@Override
-			public void columnMarginChanged(ChangeEvent e) {
-				SumRowTable.this.adjustColumnWidths();
-			}
+            @Override
+            public void columnMarginChanged(ChangeEvent e) {
+                SumRowTable.this.adjustColumnWidths();
+            }
 
-			@Override
-			public void columnAdded(TableColumnModelEvent e) {
-				int toIndex = e.getToIndex();
-				TableColumn newSourceColumn = ((TableColumnModel) e.getSource()).getColumn(toIndex);
+            @Override
+            public void columnAdded(TableColumnModelEvent e) {
+                int toIndex = e.getToIndex();
+                TableColumn newSourceColumn = ((TableColumnModel) e.getSource()).getColumn(toIndex);
 
-				TableColumn newColumn = new TableColumn(newSourceColumn.getModelIndex());
-				newColumn.setHeaderValue(newSourceColumn.getHeaderValue());
-				newColumn.setIdentifier(newSourceColumn.getIdentifier());
-				newColumn.setCellRenderer(newSourceColumn.getCellRenderer());
-				SumRowTable.this.getColumnModel().addColumn(newColumn);
-				adjustColumnWidths();
-			}
-		});
+                TableColumn newColumn = new TableColumn(newSourceColumn.getModelIndex());
+                newColumn.setHeaderValue(newSourceColumn.getHeaderValue());
+                newColumn.setIdentifier(newSourceColumn.getIdentifier());
+                newColumn.setCellRenderer(newSourceColumn.getCellRenderer());
+                SumRowTable.this.getColumnModel().addColumn(newColumn);
+                adjustColumnWidths();
+            }
+        });
 
-		FontMetrics fontMetrics = this.getFontMetrics(this.getFont());
+        FontMetrics fontMetrics = this.getFontMetrics(this.getFont());
 
-		this.setFillsViewportHeight(true);
-		this.setRowSelectionAllowed(false);
-	}
-	
-	protected Table getTable() {
-		if (this.dataTable instanceof EJTable) {
-			return ((EJTable)this.dataTable).ontimizeTable;
-		}else if (this.dataTable instanceof BlockedTable) {
-			return ((BlockedTable)this.dataTable).getJTable().ontimizeTable;
-		}
-		Table table = (Table)SwingUtilities.getAncestorOfClass(Table.class, this.dataTable);
-		return table;
-	}
+        this.setFillsViewportHeight(true);
+        this.setRowSelectionAllowed(false);
+    }
 
-	@Override
-	public Dimension getPreferredScrollableViewportSize() {
-		return super.getPreferredSize();
-	}
+    protected Table getTable() {
+        if (this.dataTable instanceof EJTable) {
+            return ((EJTable) this.dataTable).ontimizeTable;
+        } else if (this.dataTable instanceof BlockedTable) {
+            return ((BlockedTable) this.dataTable).getJTable().ontimizeTable;
+        }
+        Table table = (Table) SwingUtilities.getAncestorOfClass(Table.class, this.dataTable);
+        return table;
+    }
 
-	@Override
-	public Dimension getPreferredSize() {
-		return super.getPreferredSize();
-	}
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return super.getPreferredSize();
+    }
 
-	public void adjustColumnWidths() {
-		if (this.dataTable != null) {
-			TableColumnModel dataTableModelColumn = this.dataTable.getColumnModel();
-			int columnCount = this.dataTable.getColumnCount();
-			for (int i = 0; i < columnCount; i++) {
-				if (this.getColumnModel().getColumnCount() <= i) {
-					SumRowTable.logger.debug(String.valueOf(i));
-				}
-				TableColumn tC = this.getColumnModel().getColumn(i);
-				int width = dataTableModelColumn.getColumn(i).getWidth();
-				tC.setMaxWidth(width);
-				tC.setMinWidth(0);
-				tC.setWidth(width);
-				tC.setPreferredWidth(width);
+    @Override
+    public Dimension getPreferredSize() {
+        return super.getPreferredSize();
+    }
 
-			}
-		}
-	}
+    public void adjustColumnWidths() {
+        if (this.dataTable != null) {
+            TableColumnModel dataTableModelColumn = this.dataTable.getColumnModel();
+            int columnCount = this.dataTable.getColumnCount();
+            for (int i = 0; i < columnCount; i++) {
+                if (this.getColumnModel().getColumnCount() <= i) {
+                    SumRowTable.logger.debug(String.valueOf(i));
+                }
+                TableColumn tC = this.getColumnModel().getColumn(i);
+                int width = dataTableModelColumn.getColumn(i).getWidth();
+                tC.setMaxWidth(width);
+                tC.setMinWidth(0);
+                tC.setWidth(width);
+                tC.setPreferredWidth(width);
 
-	@Override
-	public void createDefaultColumnsFromModel() {
-		if (this.dataTable != null) {
-			TableModel m = this.getModel();
-			if (m != null) {
-				// Remove any current columns
-				TableColumnModel cm = this.getColumnModel();
-				while (cm.getColumnCount() > 0) {
-					cm.removeColumn(cm.getColumn(0));
-				}
+            }
+        }
+    }
 
-				TableColumnModel datacm = this.dataTable.getColumnModel();
-				// Create new columns from the data model info
-				for (int i = 0; i < datacm.getColumnCount(); i++) {
-					TableColumn newColumn = new TableColumn(datacm.getColumn(i).getModelIndex());
-					newColumn.setHeaderValue(datacm.getColumn(i).getHeaderValue());
-					newColumn.setIdentifier(datacm.getColumn(i).getIdentifier());
-					this.addColumn(newColumn);
-				}
-			}
-		} else {
-			super.createDefaultColumnsFromModel();
-		}
-	}
+    @Override
+    public void createDefaultColumnsFromModel() {
+        if (this.dataTable != null) {
+            TableModel m = this.getModel();
+            if (m != null) {
+                // Remove any current columns
+                TableColumnModel cm = this.getColumnModel();
+                while (cm.getColumnCount() > 0) {
+                    cm.removeColumn(cm.getColumn(0));
+                }
 
-	@Override
-	public void tableChanged(TableModelEvent e) {
-		super.tableChanged(e);
-		if (this.dataTable != null && this.getTable()!=null) {
-			if ((e == null) || (e.getFirstRow() == TableModelEvent.HEADER_ROW)) {
-				Vector visibleColumns = getTable().getVisibleColumns();
-				if ((visibleColumns != null) && !visibleColumns.isEmpty()) {
-					for (int i = 1; i < this.getColumnCount(); i++) {
-						TableColumn tC = this.getColumnModel().getColumn(i);
-						String col = (String) tC.getHeaderValue();
-						if (!visibleColumns.contains(col)) {
-							tC.setMinWidth(0);
-							tC.setWidth(0);
-							tC.setMaxWidth(0);
-						}
-					}
-				}
-			}
-		}
-	}
+                TableColumnModel datacm = this.dataTable.getColumnModel();
+                // Create new columns from the data model info
+                for (int i = 0; i < datacm.getColumnCount(); i++) {
+                    TableColumn newColumn = new TableColumn(datacm.getColumn(i).getModelIndex());
+                    newColumn.setHeaderValue(datacm.getColumn(i).getHeaderValue());
+                    newColumn.setIdentifier(datacm.getColumn(i).getIdentifier());
+                    this.addColumn(newColumn);
+                }
+            }
+        } else {
+            super.createDefaultColumnsFromModel();
+        }
+    }
 
-	public String getCellValueAsString(int row, int column) {
-		String sText = null;
-		TableColumn tc = this.getColumnModel().getColumn(column);
-		Object oValue = this.getValueAt(row, column);
-		TableCellRenderer r = this.getCellRenderer(row, column);
-		Component c = r.getTableCellRendererComponent(this, oValue, false, false, row, column);
-		if (c instanceof JLabel) {
-			sText = ((JLabel) c).getText();
-		} else if (c instanceof JTextComponent) {
-			sText = ((JTextComponent) c).getText();
-		} else if (c instanceof JCheckBox) {
-			if (((JCheckBox) c).isSelected()) {
-				sText = ApplicationManager.getTranslation("Yes");
-			} else {
-				sText = ApplicationManager.getTranslation("No");
-			}
-		} else {
-			sText = "";
-			if (oValue != null) {
-				sText = oValue.toString();
-			}
-		}
-		return sText;
-	}
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        super.tableChanged(e);
+        if (this.dataTable != null && this.getTable() != null) {
+            if ((e == null) || (e.getFirstRow() == TableModelEvent.HEADER_ROW)) {
+                Vector visibleColumns = getTable().getVisibleColumns();
+                if ((visibleColumns != null) && !visibleColumns.isEmpty()) {
+                    for (int i = 1; i < this.getColumnCount(); i++) {
+                        TableColumn tC = this.getColumnModel().getColumn(i);
+                        String col = (String) tC.getHeaderValue();
+                        if (!visibleColumns.contains(col)) {
+                            tC.setMinWidth(0);
+                            tC.setWidth(0);
+                            tC.setMaxWidth(0);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	@Override
-	public TableCellRenderer getCellRenderer(int row, int columnIndex) {
-		SumRowTableModel m = (SumRowTableModel) this.getModel();
-		int indexModel = this.convertColumnIndexToModel(columnIndex);
-		String sColumnName = m.getColumnName(indexModel);
+    public String getCellValueAsString(int row, int column) {
+        String sText = null;
+        TableColumn tc = this.getColumnModel().getColumn(column);
+        Object oValue = this.getValueAt(row, column);
+        TableCellRenderer r = this.getCellRenderer(row, column);
+        Component c = r.getTableCellRendererComponent(this, oValue, false, false, row, column);
+        if (c instanceof JLabel) {
+            sText = ((JLabel) c).getText();
+        } else if (c instanceof JTextComponent) {
+            sText = ((JTextComponent) c).getText();
+        } else if (c instanceof JCheckBox) {
+            if (((JCheckBox) c).isSelected()) {
+                sText = ApplicationManager.getTranslation("Yes");
+            } else {
+                sText = ApplicationManager.getTranslation("No");
+            }
+        } else {
+            sText = "";
+            if (oValue != null) {
+                sText = oValue.toString();
+            }
+        }
+        return sText;
+    }
 
-		if (!ExtendedTableModel.ROW_NUMBERS_COLUMN.equalsIgnoreCase(sColumnName)) {
+    @Override
+    public TableCellRenderer getCellRenderer(int row, int columnIndex) {
+        SumRowTableModel m = (SumRowTableModel) this.getModel();
+        int indexModel = this.convertColumnIndexToModel(columnIndex);
+        String sColumnName = m.getColumnName(indexModel);
 
-			if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof CurrencyCellRenderer) {
-				// Configure
-				CurrencyCellRenderer cm = (CurrencyCellRenderer) this.getColumnModel().getColumn(columnIndex).getCellRenderer();
-				TableCellRenderer sumCellRenderer = m.getSumCellRenderer(true);
-				((CurrencyCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
-				((CurrencyCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
-				((CurrencyCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
-				((CurrencyCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
-				((CurrencyCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
+        if (!ExtendedTableModel.ROW_NUMBERS_COLUMN.equalsIgnoreCase(sColumnName)) {
 
-				return sumCellRenderer;
-			} else {
+            if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof CurrencyCellRenderer) {
+                // Configure
+                CurrencyCellRenderer cm = (CurrencyCellRenderer) this.getColumnModel()
+                    .getColumn(columnIndex)
+                    .getCellRenderer();
+                TableCellRenderer sumCellRenderer = m.getSumCellRenderer(true);
+                ((CurrencyCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
+                ((CurrencyCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
+                ((CurrencyCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
+                ((CurrencyCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
+                ((CurrencyCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
 
-				TableCellRenderer sumCellRenderer = m.getSumCellRenderer(false);
-				if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof RealCellRenderer) {
-					RealCellRenderer cm = (RealCellRenderer) this.getColumnModel().getColumn(columnIndex).getCellRenderer();
+                return sumCellRenderer;
+            } else {
 
-					((RealCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
-					((RealCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
-					((RealCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
-					((RealCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
-				}
-				((RealCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
+                TableCellRenderer sumCellRenderer = m.getSumCellRenderer(false);
+                if (this.getColumnModel().getColumn(columnIndex).getCellRenderer() instanceof RealCellRenderer) {
+                    RealCellRenderer cm = (RealCellRenderer) this.getColumnModel()
+                        .getColumn(columnIndex)
+                        .getCellRenderer();
 
-				return sumCellRenderer;
-			}
-		} else {
-			return super.getCellRenderer(row, columnIndex);
-		}
-	}
+                    ((RealCellRenderer) sumCellRenderer).setMaximumFractionDigits(cm.getMaximumFractionDigits());
+                    ((RealCellRenderer) sumCellRenderer).setMinimumFractionDigits(cm.getMinimumFractionDigits());
+                    ((RealCellRenderer) sumCellRenderer).setMaximumIntegerDigits(cm.getMaximumIntegerDigits());
+                    ((RealCellRenderer) sumCellRenderer).setMinimumIntegerDigits(cm.getMinimumIntegerDigits());
+                }
+                ((RealCellRenderer) sumCellRenderer).setFont(this.getTable().getFont());
 
-	public static class SumRowBorder implements Border, Serializable {
+                return sumCellRenderer;
+            }
+        } else {
+            return super.getCellRenderer(row, columnIndex);
+        }
+    }
 
-		protected Border parentBorder;
-		protected Insets newInsets;
+    public static class SumRowBorder implements Border, Serializable {
 
-		public SumRowBorder(Border parentBorder, Insets newInsets) {
-			this.parentBorder = parentBorder;
-			this.newInsets = newInsets;
-		}
+        protected Border parentBorder;
 
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			if (this.parentBorder != null) {
-				this.parentBorder.paintBorder(c, g, x, y, width, height);
-			}
-		}
+        protected Insets newInsets;
 
-		@Override
-		public Insets getBorderInsets(Component c) {
-			if (this.parentBorder != null) {
-				Insets result = this.parentBorder.getBorderInsets(c);
-				if (this.newInsets != null) {
-					if (this.newInsets.top == 0) {
-						result.top = 0;
-					}
-					if (this.newInsets.bottom == 0) {
-						result.bottom = 0;
-					}
-					if (this.newInsets.left == 0) {
-						result.left = 0;
-					}
-					if (this.newInsets.right == 0) {
-						result.right = 0;
-					}
-				}
+        public SumRowBorder(Border parentBorder, Insets newInsets) {
+            this.parentBorder = parentBorder;
+            this.newInsets = newInsets;
+        }
 
-				return result;
-			}
-			return new Insets(0, 0, 0, 0);
-		}
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            if (this.parentBorder != null) {
+                this.parentBorder.paintBorder(c, g, x, y, width, height);
+            }
+        }
 
-		@Override
-		public boolean isBorderOpaque() {
-			if (this.parentBorder != null) {
-				return this.parentBorder.isBorderOpaque();
-			}
-			return false;
-		}
+        @Override
+        public Insets getBorderInsets(Component c) {
+            if (this.parentBorder != null) {
+                Insets result = this.parentBorder.getBorderInsets(c);
+                if (this.newInsets != null) {
+                    if (this.newInsets.top == 0) {
+                        result.top = 0;
+                    }
+                    if (this.newInsets.bottom == 0) {
+                        result.bottom = 0;
+                    }
+                    if (this.newInsets.left == 0) {
+                        result.left = 0;
+                    }
+                    if (this.newInsets.right == 0) {
+                        result.right = 0;
+                    }
+                }
 
-	}
+                return result;
+            }
+            return new Insets(0, 0, 0, 0);
+        }
+
+        @Override
+        public boolean isBorderOpaque() {
+            if (this.parentBorder != null) {
+                return this.parentBorder.isBorderOpaque();
+            }
+            return false;
+        }
+
+    }
+
 }

@@ -9,59 +9,52 @@ import java.util.List;
  */
 public interface ISQLInfo {
 
-	/**
-	 * Operation code that indicates that the operation was successfully.
-	 */
-	public static final int OK = 0;
+    /**
+     * Operation code that indicates that the operation was successfully.
+     */
+    public static final int OK = 0;
 
-	/**
-	 * Operation code that indicates that an error have been occurred.
-	 */
-	public static final int ERROR = -1;
+    /**
+     * Operation code that indicates that an error have been occurred.
+     */
+    public static final int ERROR = -1;
 
-	/**
-	 * This method obtains the code that indicates if the operation was successfully or not.
-	 *
-	 * @return int
-	 */
-	public int getCode();
+    /**
+     * This method obtains the code that indicates if the operation was successfully or not.
+     * @return int
+     */
+    public int getCode();
 
-	/**
-	 * In this method establishes the code of the operation.
-	 *
-	 * @param code
-	 */
-	public void setCode(int code);
+    /**
+     * In this method establishes the code of the operation.
+     * @param code
+     */
+    public void setCode(int code);
 
-	/**
-	 * This method returns the statement/s that has been executed.
-	 *
-	 * @return List
-	 */
-	public List getSQLStatements();
+    /**
+     * This method returns the statement/s that has been executed.
+     * @return List
+     */
+    public List getSQLStatements();
 
-	/**
-	 * This method add the SQL Statement to the collection of statements executed.
-	 *
-	 * @param statement
-	 *            String with the SQL Statement.
-	 */
-	public void addSQLStatement(String statement);
+    /**
+     * This method add the SQL Statement to the collection of statements executed.
+     * @param statement String with the SQL Statement.
+     */
+    public void addSQLStatement(String statement);
 
-	public void appendSQLInfo(ISQLInfo sqlInfo);
+    public void appendSQLInfo(ISQLInfo sqlInfo);
 
-	/**
-	 * This method sets the SQL Statement like the one which causes the SQL Exception.
-	 *
-	 * @param statement
-	 *            String with the SQL Statement.
-	 */
-	public void setErrorSQLStatement(String statement);
+    /**
+     * This method sets the SQL Statement like the one which causes the SQL Exception.
+     * @param statement String with the SQL Statement.
+     */
+    public void setErrorSQLStatement(String statement);
 
-	/**
-	 * This method returns the SQL Statement which causes the SQL Exception.
-	 *
-	 * @return String
-	 */
-	public String getErrorSQLStatement();
+    /**
+     * This method returns the SQL Statement which causes the SQL Exception.
+     * @return String
+     */
+    public String getErrorSQLStatement();
+
 }

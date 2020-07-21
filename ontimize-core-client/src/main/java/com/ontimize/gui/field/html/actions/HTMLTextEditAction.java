@@ -20,94 +20,96 @@ import com.ontimize.gui.i18n.Internationalization;
  */
 public abstract class HTMLTextEditAction extends DefaultAction implements Internationalization {
 
-	private static final Logger	logger			= LoggerFactory.getLogger(HTMLTextEditAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(HTMLTextEditAction.class);
 
-	public static final String EDITOR = "editor";
+    public static final String EDITOR = "editor";
 
-	public static final int DISABLED = -1;
-	public static final int WYSIWYG = 0;
+    public static final int DISABLED = -1;
 
-	static final I18n i18n = I18n.getInstance();
+    public static final int WYSIWYG = 0;
 
-	protected Vector actionListeners = new Vector(2);
+    static final I18n i18n = I18n.getInstance();
 
-	protected ResourceBundle resourceBundle;
+    protected Vector actionListeners = new Vector(2);
 
-	public HTMLTextEditAction(String name) {
-		super(name);
-		this.updateEnabledState();
-	}
+    protected ResourceBundle resourceBundle;
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	@Override
-	public void execute(ActionEvent e) throws Exception {
-		this.firePreviousActionPerformed(e);
-		this.editPerformed(e, this.getCurrentEditor());
-		this.firePostActionPerformed(e);
-	}
+    public HTMLTextEditAction(String name) {
+        super(name);
+        this.updateEnabledState();
+    }
 
-	protected JEditorPane getCurrentEditor() {
-		try {
-			JEditorPane ep = (JEditorPane) this.getContextValue(HTMLTextEditAction.EDITOR);
-			return ep;
-		} catch (ClassCastException cce) {
-			HTMLTextEditAction.logger.error(null, cce);
-		}
-		return null;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
+    @Override
+    public void execute(ActionEvent e) throws Exception {
+        this.firePreviousActionPerformed(e);
+        this.editPerformed(e, this.getCurrentEditor());
+        this.firePostActionPerformed(e);
+    }
 
-	@Override
-	protected void actionPerformedCatch(Throwable t) {
-		HTMLTextEditAction.logger.debug(null, t);
-	}
+    protected JEditorPane getCurrentEditor() {
+        try {
+            JEditorPane ep = (JEditorPane) this.getContextValue(HTMLTextEditAction.EDITOR);
+            return ep;
+        } catch (ClassCastException cce) {
+            HTMLTextEditAction.logger.error(null, cce);
+        }
+        return null;
+    }
 
-	@Override
-	protected void contextChanged() {
-		this.updateContextState(this.getCurrentEditor());
-	}
+    @Override
+    protected void actionPerformedCatch(Throwable t) {
+        HTMLTextEditAction.logger.debug(null, t);
+    }
 
-	protected void updateContextState(JEditorPane editor) {
+    @Override
+    protected void contextChanged() {
+        this.updateContextState(this.getCurrentEditor());
+    }
 
-	}
+    protected void updateContextState(JEditorPane editor) {
 
-	protected abstract void editPerformed(ActionEvent e, JEditorPane editor);
+    }
 
-	public void addActionPerformedListener(ActionPerformedListener listener) {
-		this.actionListeners.add(listener);
-	}
+    protected abstract void editPerformed(ActionEvent e, JEditorPane editor);
 
-	public void firePreviousActionPerformed(ActionEvent e) {
-		for (int i = 0; i < this.actionListeners.size(); i++) {
-			((ActionPerformedListener) this.actionListeners.get(i)).previousActionPerformed(e);
-		}
-	}
+    public void addActionPerformedListener(ActionPerformedListener listener) {
+        this.actionListeners.add(listener);
+    }
 
-	public void firePostActionPerformed(ActionEvent e) {
-		for (int i = 0; i < this.actionListeners.size(); i++) {
-			((ActionPerformedListener) this.actionListeners.get(i)).postActionPerformed(e);
-		}
-	}
+    public void firePreviousActionPerformed(ActionEvent e) {
+        for (int i = 0; i < this.actionListeners.size(); i++) {
+            ((ActionPerformedListener) this.actionListeners.get(i)).previousActionPerformed(e);
+        }
+    }
 
-	public void removeActionPerformedListener(ActionPerformedListener listener) {
-		this.actionListeners.remove(listener);
-	}
+    public void firePostActionPerformed(ActionEvent e) {
+        for (int i = 0; i < this.actionListeners.size(); i++) {
+            ((ActionPerformedListener) this.actionListeners.get(i)).postActionPerformed(e);
+        }
+    }
 
-	@Override
-	public void setComponentLocale(Locale l) {
+    public void removeActionPerformedListener(ActionPerformedListener listener) {
+        this.actionListeners.remove(listener);
+    }
 
-	}
+    @Override
+    public void setComponentLocale(Locale l) {
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		this.resourceBundle = resourceBundle;
-	}
+    }
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return null;
-	}
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
+    }
+
+    @Override
+    public Vector getTextsToTranslate() {
+        return null;
+    }
 
 }

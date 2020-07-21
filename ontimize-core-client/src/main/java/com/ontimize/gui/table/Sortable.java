@@ -8,6 +8,6 @@ package com.ontimize.gui.table;
  */
 public interface Sortable {
 
-	public int[] getSortingColumns();
+    public int[] getSortingColumns();
 
 }

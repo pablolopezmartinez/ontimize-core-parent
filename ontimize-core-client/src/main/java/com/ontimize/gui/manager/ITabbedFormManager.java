@@ -10,18 +10,18 @@ import com.ontimize.gui.Form;
 
 public interface ITabbedFormManager extends IFormManager {
 
-	public int indexOfKeys(Hashtable keyValues);
+    public int indexOfKeys(Hashtable keyValues);
 
-	public int indexOfComponent(Component component);
+    public int indexOfComponent(Component component);
 
-	public void removeTab(int index);
+    public void removeTab(int index);
 
-	public void showTab(int index);
+    public void showTab(int index);
 
-	public void setTitleAt(int index, String text);
+    public void setTitleAt(int index, String text);
 
-	public Form getMainForm();
+    public Form getMainForm();
 
-	public List<JFrame> getFrameList();
+    public List<JFrame> getFrameList();
 
 }

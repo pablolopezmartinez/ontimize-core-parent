@@ -4,14 +4,16 @@ import java.util.Vector;
 
 public interface ReportGenerator {
 
-	public static final String REPORT_NOT_FOUND = "INFORME_NO_EXISTE";
-	public static final String ERROR = "ERROR";
+    public static final String REPORT_NOT_FOUND = "INFORME_NO_EXISTE";
 
-	public Vector getReportList();
+    public static final String ERROR = "ERROR";
 
-	public Vector getReportDescription();
+    public Vector getReportList();
 
-	public String getDescription();
+    public Vector getReportDescription();
 
-	public String createReport(String name, Object params, String archiveName);
+    public String getDescription();
+
+    public String createReport(String name, Object params, String archiveName);
+
 }

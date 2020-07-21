@@ -15,30 +15,30 @@ import com.ontimize.util.rtf.style.RTFStyleConstants;
 
 public class RTFViewFactory implements ViewFactory {
 
-	@Override
-	public View create(Element elem) {
-		String kind = elem.getName();
-		if (kind != null) {
-			if (kind.equals(AbstractDocument.ContentElementName)) {
-				return new LabelView(elem);
-			} else if (kind.equals(AbstractDocument.ParagraphElementName)) {
-				return new ParagraphView(elem);
-			} else if (kind.equals(AbstractDocument.SectionElementName)) {
-				return new BoxView(elem, View.Y_AXIS);
-			} else if (kind.equals(StyleConstants.ComponentElementName)) {
-				return new ComponentView(elem);
-			} else if (kind.equals(StyleConstants.IconElementName)) {
-				return new IconView(elem);
-			} else if (kind.equals(RTFStyleConstants.TableElementName)) {
-				return new TableView(elem);
-			} else if (kind.equals(RTFStyleConstants.RowElementName)) {
-				return new RowView(elem);
-			} else if (kind.equals(RTFStyleConstants.CellElementName)) {
-				return new CellView(elem);
-			}
-		}
-		// default to text display
-		return new LabelView(elem);
-	}
+    @Override
+    public View create(Element elem) {
+        String kind = elem.getName();
+        if (kind != null) {
+            if (kind.equals(AbstractDocument.ContentElementName)) {
+                return new LabelView(elem);
+            } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
+                return new ParagraphView(elem);
+            } else if (kind.equals(AbstractDocument.SectionElementName)) {
+                return new BoxView(elem, View.Y_AXIS);
+            } else if (kind.equals(StyleConstants.ComponentElementName)) {
+                return new ComponentView(elem);
+            } else if (kind.equals(StyleConstants.IconElementName)) {
+                return new IconView(elem);
+            } else if (kind.equals(RTFStyleConstants.TableElementName)) {
+                return new TableView(elem);
+            } else if (kind.equals(RTFStyleConstants.RowElementName)) {
+                return new RowView(elem);
+            } else if (kind.equals(RTFStyleConstants.CellElementName)) {
+                return new CellView(elem);
+            }
+        }
+        // default to text display
+        return new LabelView(elem);
+    }
 
 }

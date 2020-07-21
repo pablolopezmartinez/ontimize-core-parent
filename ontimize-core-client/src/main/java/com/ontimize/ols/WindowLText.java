@@ -31,100 +31,109 @@ import com.ontimize.gui.images.ImageManager;
 
 public class WindowLText extends JDialog {
 
-	private static final Logger	logger	= LoggerFactory.getLogger(WindowLText.class);
+    private static final Logger logger = LoggerFactory.getLogger(WindowLText.class);
 
-	private static WindowLText wld = null;
+    private static WindowLText wld = null;
 
-	JButton bAcept = null;
-	JTextArea jtaText = null;
-	JScrollPane jssp = null;
-	JLabel jlTitle = null;
+    JButton bAcept = null;
 
-	public WindowLText(Frame owner) {
-		super(owner, true);
+    JTextArea jtaText = null;
 
-		this.bAcept = new JButton(ApplicationManager.getTranslation("OptionPane.okButtonText", ApplicationManager.getApplicationBundle()));
-		this.bAcept.addActionListener(new ActionListener() {
+    JScrollPane jssp = null;
 
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				SwingUtilities.getWindowAncestor((Component) event.getSource()).setVisible(false);
-			}
-		});
+    JLabel jlTitle = null;
 
-		this.bAcept.setIcon(ImageManager.getIcon(ImageManager.OK));
-		this.bAcept.setBorder(new EmptyBorder(0, 0, 0, 0));
+    public WindowLText(Frame owner) {
+        super(owner, true);
 
-		this.jtaText = new JTextArea();
-		this.jtaText.setEnabled(false);
-		this.jtaText.setEditable(false);
-		this.jtaText.setRows(5);
+        this.bAcept = new JButton(ApplicationManager.getTranslation("OptionPane.okButtonText",
+                ApplicationManager.getApplicationBundle()));
+        this.bAcept.addActionListener(new ActionListener() {
 
-		this.jtaText.setLineWrap(true);
-		this.jtaText.setWrapStyleWord(true);
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                SwingUtilities.getWindowAncestor((Component) event.getSource()).setVisible(false);
+            }
+        });
 
-		this.jtaText.setText("");
+        this.bAcept.setIcon(ImageManager.getIcon(ImageManager.OK));
+        this.bAcept.setBorder(new EmptyBorder(0, 0, 0, 0));
 
-		this.jssp = new JScrollPane(this.jtaText);
-		this.jssp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		this.jssp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.jtaText = new JTextArea();
+        this.jtaText.setEnabled(false);
+        this.jtaText.setEditable(false);
+        this.jtaText.setRows(5);
 
-		JLabel jlTitle = new JLabel(ApplicationManager.getTranslation("WindowLText.LicenseText", ApplicationManager.getApplication().getResourceBundle()));
-		JPanel jp = new JPanel();
-		this.jtaText.setBackground(jp.getBackground());
+        this.jtaText.setLineWrap(true);
+        this.jtaText.setWrapStyleWord(true);
 
-		JPanel jpContentAll = new JPanel();
-		jpContentAll.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.BLACK.brighter(), Color.BLACK.darker()));
+        this.jtaText.setText("");
 
-		jpContentAll.setLayout(new GridBagLayout());
+        this.jssp = new JScrollPane(this.jtaText);
+        this.jssp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.jssp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		jpContentAll.add(jlTitle, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 5, 2, 10), 2, 2));
+        JLabel jlTitle = new JLabel(ApplicationManager.getTranslation("WindowLText.LicenseText",
+                ApplicationManager.getApplication().getResourceBundle()));
+        JPanel jp = new JPanel();
+        this.jtaText.setBackground(jp.getBackground());
 
-		jpContentAll.add(this.jssp, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 2, 2));
+        JPanel jpContentAll = new JPanel();
+        jpContentAll.setBorder(
+                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.BLACK.brighter(), Color.BLACK.darker()));
 
-		jpContentAll.add(this.bAcept, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
+        jpContentAll.setLayout(new GridBagLayout());
 
-		this.getContentPane().setLayout(new BorderLayout());
-		this.getContentPane().add(jpContentAll);
+        jpContentAll.add(jlTitle, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(2, 5, 2, 10), 2, 2));
 
-		this.setUndecorated(true);
-		this.pack();
-	}
+        jpContentAll.add(this.jssp, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 2, 2));
 
-	public void refresh() {
-		if (ApplicationManager.getApplication().getReferenceLocator() == null) {
-			return;
-		}
+        jpContentAll.add(this.bAcept, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.CENTER,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
 
-		String s = null;
-		try {
-			s = ((LOk) ApplicationManager.getApplication().getReferenceLocator()).getLContent();
-		} catch (Exception ex) {
-			s = "ERROR: " + ex.getMessage();
-			WindowLText.logger.error(null, ex);
-		}
-		if (s != null) {
-			this.jtaText.setText(s);
-		}
-	}
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(jpContentAll);
 
-	public static void showLMessage(ActionEvent event) {
-		if (WindowLText.wld == null) {
-			WindowLText.wld = new WindowLText(ApplicationManager.getApplication().getFrame());
-		}
-		WindowLText.wld.refresh();
-		WindowLText.wld.pack();
-		ApplicationManager.center(WindowLText.wld);
+        this.setUndecorated(true);
+        this.pack();
+    }
 
-		WindowLText.wld.setVisible(true);
-	}
+    public void refresh() {
+        if (ApplicationManager.getApplication().getReferenceLocator() == null) {
+            return;
+        }
 
-	@Override
-	public Dimension getPreferredSize() {
-		// Dimension d = super.getPreferredSize();
-		// return new Dimension(350,(int) ( d.getHeight()>
-		// 400?400:d.getHeight()));
-		return new Dimension(450, 278);
-	}
+        String s = null;
+        try {
+            s = ((LOk) ApplicationManager.getApplication().getReferenceLocator()).getLContent();
+        } catch (Exception ex) {
+            s = "ERROR: " + ex.getMessage();
+            WindowLText.logger.error(null, ex);
+        }
+        if (s != null) {
+            this.jtaText.setText(s);
+        }
+    }
+
+    public static void showLMessage(ActionEvent event) {
+        if (WindowLText.wld == null) {
+            WindowLText.wld = new WindowLText(ApplicationManager.getApplication().getFrame());
+        }
+        WindowLText.wld.refresh();
+        WindowLText.wld.pack();
+        ApplicationManager.center(WindowLText.wld);
+
+        WindowLText.wld.setVisible(true);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        // Dimension d = super.getPreferredSize();
+        // return new Dimension(350,(int) ( d.getHeight()>
+        // 400?400:d.getHeight()));
+        return new Dimension(450, 278);
+    }
 
 }

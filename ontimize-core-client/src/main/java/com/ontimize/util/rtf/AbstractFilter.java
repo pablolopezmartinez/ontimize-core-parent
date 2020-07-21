@@ -1,5 +1,6 @@
 /*
- * @(#)AbstractFilter.java 1.10 03/01/23 Copyright 2003 Sun Microsystems, Inc. All rights reserved. SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * @(#)AbstractFilter.java 1.10 03/01/23 Copyright 2003 Sun Microsystems, Inc. All rights reserved.
+ * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 package com.ontimize.util.rtf;
 
@@ -9,189 +10,195 @@ import java.io.OutputStream;
 import java.io.Reader;
 
 /**
- * A generic superclass for streams which read and parse text consisting of runs of characters interspersed with occasional ``specials'' (formatting characters).
+ * A generic superclass for streams which read and parse text consisting of runs of characters
+ * interspersed with occasional ``specials'' (formatting characters).
  *
  * <p>
- * Most of the functionality of this class would be redundant except that the <code>ByteToChar</code> converters are suddenly private API. Presumably this class will disappear when
- * the API is made public again. (sigh) That will also let us handle multibyte character sets...
+ * Most of the functionality of this class would be redundant except that the
+ * <code>ByteToChar</code> converters are suddenly private API. Presumably this class will disappear
+ * when the API is made public again. (sigh) That will also let us handle multibyte character
+ * sets...
  *
  * <P>
- * A subclass should override at least <code>write(char)</code> and <code>writeSpecial(int)</code>. For efficiency's sake it's a good idea to override <code>write(String)</code> as
- * well. The subclass' initializer may also install appropriate translation and specials tables.
+ * A subclass should override at least <code>write(char)</code> and <code>writeSpecial(int)</code>.
+ * For efficiency's sake it's a good idea to override <code>write(String)</code> as well. The
+ * subclass' initializer may also install appropriate translation and specials tables.
  *
  * @see OutputStream
  */
 abstract class AbstractFilter extends OutputStream {
 
-	/** A table mapping bytes to characters */
-	protected char translationTable[];
-	/**
-	 * A table indicating which byte values should be interpreted as characters and which should be treated as formatting codes
-	 */
-	protected boolean specialsTable[];
+    /** A table mapping bytes to characters */
+    protected char translationTable[];
 
-	/** A translation table which does ISO Latin-1 (trivial) */
-	private static final char latin1TranslationTable[];
-	/** A specials table which indicates that no characters are special */
-	private static final boolean noSpecialsTable[];
-	/** A specials table which indicates that all characters are special */
-	private static final boolean allSpecialsTable[];
+    /**
+     * A table indicating which byte values should be interpreted as characters and which should be
+     * treated as formatting codes
+     */
+    protected boolean specialsTable[];
 
-	static {
-		int i;
+    /** A translation table which does ISO Latin-1 (trivial) */
+    private static final char latin1TranslationTable[];
 
-		noSpecialsTable = new boolean[256];
-		for (i = 0; i < 256; i++) {
-			AbstractFilter.noSpecialsTable[i] = false;
-		}
+    /** A specials table which indicates that no characters are special */
+    private static final boolean noSpecialsTable[];
 
-		allSpecialsTable = new boolean[256];
-		for (i = 0; i < 256; i++) {
-			AbstractFilter.allSpecialsTable[i] = true;
-		}
+    /** A specials table which indicates that all characters are special */
+    private static final boolean allSpecialsTable[];
 
-		latin1TranslationTable = new char[256];
-		for (i = 0; i < 256; i++) {
-			AbstractFilter.latin1TranslationTable[i] = (char) i;
-		}
-	}
+    static {
+        int i;
 
-	/**
-	 * A convenience method that reads text from a FileInputStream and writes it to the receiver. The format in which the file is read is determined by the concrete subclass of
-	 * AbstractFilter to which this method is sent.
-	 * <p>
-	 * This method does not close the receiver after reaching EOF on the input stream. The user must call <code>close()</code> to ensure that all data are processed.
-	 *
-	 * @param in
-	 *            An InputStream providing text.
-	 */
-	public void readFromStream(InputStream in) throws IOException {
-		byte buf[];
-		int count;
+        noSpecialsTable = new boolean[256];
+        for (i = 0; i < 256; i++) {
+            AbstractFilter.noSpecialsTable[i] = false;
+        }
 
-		buf = new byte[16384];
+        allSpecialsTable = new boolean[256];
+        for (i = 0; i < 256; i++) {
+            AbstractFilter.allSpecialsTable[i] = true;
+        }
 
-		while (true) {
-			count = in.read(buf);
-			if (count < 0) {
-				break;
-			}
+        latin1TranslationTable = new char[256];
+        for (i = 0; i < 256; i++) {
+            AbstractFilter.latin1TranslationTable[i] = (char) i;
+        }
+    }
 
-			this.write(buf, 0, count);
-		}
-	}
+    /**
+     * A convenience method that reads text from a FileInputStream and writes it to the receiver. The
+     * format in which the file is read is determined by the concrete subclass of AbstractFilter to
+     * which this method is sent.
+     * <p>
+     * This method does not close the receiver after reaching EOF on the input stream. The user must
+     * call <code>close()</code> to ensure that all data are processed.
+     * @param in An InputStream providing text.
+     */
+    public void readFromStream(InputStream in) throws IOException {
+        byte buf[];
+        int count;
 
-	public void readFromReader(Reader in) throws IOException {
-		char buf[];
-		int count;
+        buf = new byte[16384];
 
-		buf = new char[2048];
+        while (true) {
+            count = in.read(buf);
+            if (count < 0) {
+                break;
+            }
 
-		while (true) {
-			count = in.read(buf);
-			if (count < 0) {
-				break;
-			}
-			for (int i = 0; i < count; i++) {
-				this.write(buf[i]);
-			}
-		}
-	}
+            this.write(buf, 0, count);
+        }
+    }
 
-	public AbstractFilter() {
-		this.translationTable = AbstractFilter.latin1TranslationTable;
-		this.specialsTable = AbstractFilter.noSpecialsTable;
-	}
+    public void readFromReader(Reader in) throws IOException {
+        char buf[];
+        int count;
 
-	/**
-	 * Implements the abstract method of OutputStream, of which this class is a subclass.
-	 */
-	@Override
-	public void write(int b) throws IOException {
-		if (b < 0) {
-			b += 256;
-		}
-		if (this.specialsTable[b]) {
-			this.writeSpecial(b);
-		} else {
-			char ch = this.translationTable[b];
-			if (ch != (char) 0) {
-				this.write(ch);
-			}
-		}
-	}
+        buf = new char[2048];
 
-	/**
-	 * Implements the buffer-at-a-time write method for greater efficiency.
-	 *
-	 * <p>
-	 * <strong>PENDING:</strong> Does <code>write(byte[])</code> call <code>write(byte[], int, int)</code> or is it the other way around?
-	 */
-	@Override
-	public void write(byte[] buf, int off, int len) throws IOException {
-		StringBuilder accumulator = null;
-		while (len > 0) {
-			short b = buf[off];
+        while (true) {
+            count = in.read(buf);
+            if (count < 0) {
+                break;
+            }
+            for (int i = 0; i < count; i++) {
+                this.write(buf[i]);
+            }
+        }
+    }
 
-			// stupid signed bytes
-			if (b < 0) {
-				b += 256;
-			}
+    public AbstractFilter() {
+        this.translationTable = AbstractFilter.latin1TranslationTable;
+        this.specialsTable = AbstractFilter.noSpecialsTable;
+    }
 
-			if (this.specialsTable[b]) {
-				if (accumulator != null) {
-					this.write(accumulator.toString());
-					accumulator = null;
-				}
-				this.writeSpecial(b);
-			} else {
-				char ch = this.translationTable[b];
-				if (ch != (char) 0) {
-					if (accumulator == null) {
-						accumulator = new StringBuilder();
-					}
-					accumulator.append(ch);
-				}
-			}
+    /**
+     * Implements the abstract method of OutputStream, of which this class is a subclass.
+     */
+    @Override
+    public void write(int b) throws IOException {
+        if (b < 0) {
+            b += 256;
+        }
+        if (this.specialsTable[b]) {
+            this.writeSpecial(b);
+        } else {
+            char ch = this.translationTable[b];
+            if (ch != (char) 0) {
+                this.write(ch);
+            }
+        }
+    }
 
-			len--;
-			off++;
-		}
+    /**
+     * Implements the buffer-at-a-time write method for greater efficiency.
+     *
+     * <p>
+     * <strong>PENDING:</strong> Does <code>write(byte[])</code> call
+     * <code>write(byte[], int, int)</code> or is it the other way around?
+     */
+    @Override
+    public void write(byte[] buf, int off, int len) throws IOException {
+        StringBuilder accumulator = null;
+        while (len > 0) {
+            short b = buf[off];
 
-		if (accumulator != null) {
-			this.write(accumulator.toString());
-		}
-	}
+            // stupid signed bytes
+            if (b < 0) {
+                b += 256;
+            }
 
-	/**
-	 * Hopefully, all subclasses will override this method to accept strings of text, but if they don't, AbstractFilter's implementation will spoon-feed them via
-	 * <code>write(char)</code>.
-	 *
-	 * @param s
-	 *            The string of non-special characters written to the OutputStream.
-	 */
-	public void write(String s) throws IOException {
-		int index, length;
+            if (this.specialsTable[b]) {
+                if (accumulator != null) {
+                    this.write(accumulator.toString());
+                    accumulator = null;
+                }
+                this.writeSpecial(b);
+            } else {
+                char ch = this.translationTable[b];
+                if (ch != (char) 0) {
+                    if (accumulator == null) {
+                        accumulator = new StringBuilder();
+                    }
+                    accumulator.append(ch);
+                }
+            }
 
-		length = s.length();
-		for (index = 0; index < length; index++) {
-			this.write(s.charAt(index));
-		}
-	}
+            len--;
+            off++;
+        }
 
-	/**
-	 * Subclasses must provide an implementation of this method which accepts a single (non-special) character.
-	 *
-	 * @param ch
-	 *            The character written to the OutputStream.
-	 */
-	protected abstract void write(char ch) throws IOException;
+        if (accumulator != null) {
+            this.write(accumulator.toString());
+        }
+    }
 
-	/**
-	 * Subclasses must provide an implementation of this method which accepts a single special byte. No translation is performed on specials.
-	 *
-	 * @param b
-	 *            The byte written to the OutputStream.
-	 */
-	protected abstract void writeSpecial(int b) throws IOException;
+    /**
+     * Hopefully, all subclasses will override this method to accept strings of text, but if they don't,
+     * AbstractFilter's implementation will spoon-feed them via <code>write(char)</code>.
+     * @param s The string of non-special characters written to the OutputStream.
+     */
+    public void write(String s) throws IOException {
+        int index, length;
+
+        length = s.length();
+        for (index = 0; index < length; index++) {
+            this.write(s.charAt(index));
+        }
+    }
+
+    /**
+     * Subclasses must provide an implementation of this method which accepts a single (non-special)
+     * character.
+     * @param ch The character written to the OutputStream.
+     */
+    protected abstract void write(char ch) throws IOException;
+
+    /**
+     * Subclasses must provide an implementation of this method which accepts a single special byte. No
+     * translation is performed on specials.
+     * @param b The byte written to the OutputStream.
+     */
+    protected abstract void writeSpecial(int b) throws IOException;
+
 }

@@ -2,28 +2,29 @@ package com.ontimize.db;
 
 public class LocalePair<K, V> {
 
-	protected K key;
-	protected V value;
+    protected K key;
 
-	public LocalePair(K key, V value) {
-		this.key = key;
-		this.value = value;
-	}
+    protected V value;
 
-	public K getKey() {
-		return this.key;
-	}
+    public LocalePair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
 
-	public void setKey(K key) {
-		this.key = key;
-	}
+    public K getKey() {
+        return this.key;
+    }
 
-	public V getValue() {
-		return this.value;
-	}
+    public void setKey(K key) {
+        this.key = key;
+    }
 
-	public void setValue(V value) {
-		this.value = value;
-	}
+    public V getValue() {
+        return this.value;
+    }
+
+    public void setValue(V value) {
+        this.value = value;
+    }
 
 }

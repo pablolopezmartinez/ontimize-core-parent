@@ -5,14 +5,15 @@ import java.util.Vector;
 
 public class RowTransferEvent extends EventObject {
 
-	private Vector transferredRowKey = null;
+    private Vector transferredRowKey = null;
 
-	public RowTransferEvent(Object source, Vector transferredRows) {
-		super(source);
-		this.transferredRowKey = transferredRows;
-	}
+    public RowTransferEvent(Object source, Vector transferredRows) {
+        super(source);
+        this.transferredRowKey = transferredRows;
+    }
 
-	public Vector getTransferredRowsKeys() {
-		return this.transferredRowKey;
-	}
+    public Vector getTransferredRowsKeys() {
+        return this.transferredRowKey;
+    }
+
 }

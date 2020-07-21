@@ -15,21 +15,23 @@ import com.ontimize.gui.ApplicationManager;
 
 public class TranslateListRenderer extends DefaultListCellRenderer {
 
-	ResourceBundle bundle = null;
+    ResourceBundle bundle = null;
 
-	public TranslateListRenderer(ResourceBundle bundle) {
-		this.setOpaque(true);
-		this.bundle = bundle;
-	}
+    public TranslateListRenderer(ResourceBundle bundle) {
+        this.setOpaque(true);
+        this.bundle = bundle;
+    }
 
-	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-		if (comp instanceof JLabel) {
-			if (value != null) {
-				this.setText(ApplicationManager.getTranslation(value.toString(), this.bundle));
-			}
-		}
-		return comp;
-	}
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+            boolean cellHasFocus) {
+        Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        if (comp instanceof JLabel) {
+            if (value != null) {
+                this.setText(ApplicationManager.getTranslation(value.toString(), this.bundle));
+            }
+        }
+        return comp;
+    }
+
 }

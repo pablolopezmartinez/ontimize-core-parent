@@ -6,16 +6,17 @@ import com.ontimize.gui.ApplicationManager;
 
 public class PredefinedFunctionItem extends SelectableFunctionItem {
 
-	protected boolean selected = false;
+    protected boolean selected = false;
 
-	public PredefinedFunctionItem(String text, ResourceBundle res) {
-		super(text, res);
-		this.operationText = "";
-		this.translatedText = ApplicationManager.getTranslation(text, res);
-	}
+    public PredefinedFunctionItem(String text, ResourceBundle res) {
+        super(text, res);
+        this.operationText = "";
+        this.translatedText = ApplicationManager.getTranslation(text, res);
+    }
 
-	@Override
-	public String toString() {
-		return this.translatedText;
-	}
+    @Override
+    public String toString() {
+        return this.translatedText;
+    }
+
 }

@@ -19,153 +19,156 @@ import com.ontimize.gui.i18n.Internationalization;
 
 public class SelectableItemRenderer extends JCheckBox implements ListCellRenderer {
 
-	private static final Logger logger = LoggerFactory.getLogger(SelectableItemRenderer.class);
+    private static final Logger logger = LoggerFactory.getLogger(SelectableItemRenderer.class);
 
-	public static class TranslatedItem implements Internationalization {
+    public static class TranslatedItem implements Internationalization {
 
-		protected String text = "";
+        protected String text = "";
 
-		protected String translatedText = null;
+        protected String translatedText = null;
 
-		protected ResourceBundle res = null;
+        protected ResourceBundle res = null;
 
-		public TranslatedItem(String text, ResourceBundle res) {
-			this.text = text;
-			this.translatedText = text;
-			this.setResourceBundle(res);
-		}
+        public TranslatedItem(String text, ResourceBundle res) {
+            this.text = text;
+            this.translatedText = text;
+            this.setResourceBundle(res);
+        }
 
-		public String getText() {
-			return this.text;
-		}
+        public String getText() {
+            return this.text;
+        }
 
-		@Override
-		public void setResourceBundle(ResourceBundle res) {
-			this.res = res;
-			if (res != null) {
-				try {
-					this.translatedText = res.getString(this.text);
-				} catch (Exception e) {
-					this.translatedText = this.text;
-					if (ApplicationManager.DEBUG) {
-						SelectableItemRenderer.logger.debug(null, e);
-					}
-				}
-			}
-		}
+        @Override
+        public void setResourceBundle(ResourceBundle res) {
+            this.res = res;
+            if (res != null) {
+                try {
+                    this.translatedText = res.getString(this.text);
+                } catch (Exception e) {
+                    this.translatedText = this.text;
+                    if (ApplicationManager.DEBUG) {
+                        SelectableItemRenderer.logger.debug(null, e);
+                    }
+                }
+            }
+        }
 
-		@Override
-		public void setComponentLocale(Locale l) {}
+        @Override
+        public void setComponentLocale(Locale l) {
+        }
 
-		@Override
-		public Vector getTextsToTranslate() {
-			return null;
-		}
+        @Override
+        public Vector getTextsToTranslate() {
+            return null;
+        }
 
-		@Override
-		public String toString() {
-			return this.translatedText;
-		}
+        @Override
+        public String toString() {
+            return this.translatedText;
+        }
 
-		@Override
-		public int hashCode() {
-			return this.text.hashCode();
-		}
+        @Override
+        public int hashCode() {
+            return this.text.hashCode();
+        }
 
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			} else if (o instanceof SelectableItem) {
-				if (this.text.equals(((SelectableItem) o).getText())) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		}
-	}
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            } else if (o instanceof SelectableItem) {
+                if (this.text.equals(((SelectableItem) o).getText())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
 
-	public static class SelectableItem extends TranslatedItem implements Internationalization {
+    }
 
-		protected boolean selected = false;
+    public static class SelectableItem extends TranslatedItem implements Internationalization {
 
-		public SelectableItem(String text, ResourceBundle res) {
-			super(text, res);
-		}
+        protected boolean selected = false;
 
-		public boolean isSelected() {
-			return this.selected;
-		}
+        public SelectableItem(String text, ResourceBundle res) {
+            super(text, res);
+        }
 
-		@Override
-		public void setResourceBundle(ResourceBundle res) {
-			super.setResourceBundle(res);
-		}
+        public boolean isSelected() {
+            return this.selected;
+        }
 
-		public void setSelected(boolean sel) {
-			this.selected = sel;
-		}
+        @Override
+        public void setResourceBundle(ResourceBundle res) {
+            super.setResourceBundle(res);
+        }
 
-		@Override
-		public String toString() {
-			return this.translatedText;
-		}
+        public void setSelected(boolean sel) {
+            this.selected = sel;
+        }
 
-	};
+        @Override
+        public String toString() {
+            return this.translatedText;
+        }
 
-	public SelectableItemRenderer() {
-		this.setBorderPaintedFlat(true);
-	}
+    };
 
-	@Override
-	public String getName() {
-		return "SelectableItem";
-	}
+    public SelectableItemRenderer() {
+        this.setBorderPaintedFlat(true);
+    }
 
-	@Override
-	public Component getListCellRendererComponent(JList l, Object v, int r, boolean sel, boolean foc) {
+    @Override
+    public String getName() {
+        return "SelectableItem";
+    }
 
-		Color selectedBackground = UIManager.getColor("List[Selected].textBackground");
-		Color selectedForeground = UIManager.getColor("List[Selected].textForeground");
+    @Override
+    public Component getListCellRendererComponent(JList l, Object v, int r, boolean sel, boolean foc) {
 
-		if (selectedBackground == null) {
-			selectedBackground = UIManager.getColor("List.selectionBackground");
-		}
-		if (selectedForeground == null) {
-			selectedForeground = UIManager.getColor("List.selectionForeground");
-		}
+        Color selectedBackground = UIManager.getColor("List[Selected].textBackground");
+        Color selectedForeground = UIManager.getColor("List[Selected].textForeground");
 
-		Color notSelectedBackground = UIManager.getColor("\"SelectableItem\".background");
-		Color notSelectedForeground = UIManager.getColor("\"SelectableItem\".foreground");
+        if (selectedBackground == null) {
+            selectedBackground = UIManager.getColor("List.selectionBackground");
+        }
+        if (selectedForeground == null) {
+            selectedForeground = UIManager.getColor("List.selectionForeground");
+        }
 
-		if (notSelectedBackground == null) {
-			notSelectedBackground = UIManager.getColor("List.background");
-		}
-		if (notSelectedForeground == null) {
-			notSelectedForeground = UIManager.getColor("List.foreground");
-		}
+        Color notSelectedBackground = UIManager.getColor("\"SelectableItem\".background");
+        Color notSelectedForeground = UIManager.getColor("\"SelectableItem\".foreground");
 
-		this.setOpaque(true);
-		if (sel) {
-			this.setForeground(selectedForeground);
-			this.setBackground(selectedBackground);
-		} else {
-			this.setForeground(notSelectedForeground);
-			this.setBackground(notSelectedBackground);
-		}
-		if (v instanceof SelectableItem) {
-			this.setText(((SelectableItem) v).toString());
-			boolean bSelected = ((SelectableItem) v).isSelected();
-			this.setSelected(bSelected);
-		}
-		return this;
-	}
+        if (notSelectedBackground == null) {
+            notSelectedBackground = UIManager.getColor("List.background");
+        }
+        if (notSelectedForeground == null) {
+            notSelectedForeground = UIManager.getColor("List.foreground");
+        }
 
-	@Override
-	public void setForeground(Color fg) {
-		super.setForeground(fg);
-	}
+        this.setOpaque(true);
+        if (sel) {
+            this.setForeground(selectedForeground);
+            this.setBackground(selectedBackground);
+        } else {
+            this.setForeground(notSelectedForeground);
+            this.setBackground(notSelectedBackground);
+        }
+        if (v instanceof SelectableItem) {
+            this.setText(((SelectableItem) v).toString());
+            boolean bSelected = ((SelectableItem) v).isSelected();
+            this.setSelected(bSelected);
+        }
+        return this;
+    }
+
+    @Override
+    public void setForeground(Color fg) {
+        super.setForeground(fg);
+    }
+
 }

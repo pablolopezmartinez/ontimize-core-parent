@@ -20,123 +20,127 @@ import com.ontimize.gui.field.document.CurrencyDocument;
  */
 public class CurrencyCellRenderer extends RealCellRenderer implements SelectCurrencyValues {
 
-	public static boolean useNegativeColor = true;
+    public static boolean useNegativeColor = true;
 
-	public static Color defaultNegativeColor = new Color(255, 0, 0);
+    public static Color defaultNegativeColor = new Color(255, 0, 0);
 
-	public static final double EURO = 166.386;
+    public static final double EURO = 166.386;
 
-	/**
-	 * @deprecated unused since @version 5.3.15
-	 */
-	@Deprecated
-	public byte[]				EURO_BYTE				= new byte[1];
+    /**
+     * @deprecated unused since @version 5.3.15
+     */
+    @Deprecated
+    public byte[] EURO_BYTE = new byte[1];
 
-	/**
-	 * @deprecated Symbol is in currency document
-	 */
-	@Deprecated
-	public String				euro					= "Euro";
+    /**
+     * @deprecated Symbol is in currency document
+     */
+    @Deprecated
+    public String euro = "Euro";
 
-	/**
-	 * @deprecated removed references to pts currency
-	 */
-	@Deprecated
-	public static String		pst						= "Pta";
+    /**
+     * @deprecated removed references to pts currency
+     */
+    @Deprecated
+    public static String pst = "Pta";
 
-	protected NumberFormat pstFormatter = NumberFormat.getInstance();
+    protected NumberFormat pstFormatter = NumberFormat.getInstance();
 
-	/**
-	 * Since 5.3.15, default currency Symbol for renderers is read from static value <code>CurrencyDocument.defaultCurrencySymbol</code> and can be change in this renderer.
-	 */
-	protected String currencySymbol = CurrencyDocument.defaultCurrencySymbol;
+    /**
+     * Since 5.3.15, default currency Symbol for renderers is read from static value
+     * <code>CurrencyDocument.defaultCurrencySymbol</code> and can be change in this renderer.
+     */
+    protected String currencySymbol = CurrencyDocument.defaultCurrencySymbol;
 
-	/**
-	 * @deprecated not used.
-	 */
-	@Deprecated
-	protected boolean			showEuros				= true;
+    /**
+     * @deprecated not used.
+     */
+    @Deprecated
+    protected boolean showEuros = true;
 
-	public CurrencyCellRenderer(String currencySymbol) {
-		this(currencySymbol, 2, 2);
-	}
+    public CurrencyCellRenderer(String currencySymbol) {
+        this(currencySymbol, 2, 2);
+    }
 
-	public CurrencyCellRenderer(String currencySymbol, int minimumFractionDigits, int maximumFractionDigits) {
-		super();
-		this.currencySymbol = currencySymbol;
-		((NumberFormat) this.format).setMinimumFractionDigits(minimumFractionDigits);
-		((NumberFormat) this.format).setMaximumFractionDigits(maximumFractionDigits);
-		this.pstFormatter.setMaximumFractionDigits(0);
-	}
+    public CurrencyCellRenderer(String currencySymbol, int minimumFractionDigits, int maximumFractionDigits) {
+        super();
+        this.currencySymbol = currencySymbol;
+        ((NumberFormat) this.format).setMinimumFractionDigits(minimumFractionDigits);
+        ((NumberFormat) this.format).setMaximumFractionDigits(maximumFractionDigits);
+        this.pstFormatter.setMaximumFractionDigits(0);
+    }
 
-	public CurrencyCellRenderer() {
-		this(CurrencyDocument.defaultCurrencySymbol);
-	}
+    public CurrencyCellRenderer() {
+        this(CurrencyDocument.defaultCurrencySymbol);
+    }
 
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean hasFocus, int row, int column) {
-		Component c = super.getTableCellRendererComponent(table, value, selected, hasFocus, row, column);
-		if ((((JLabel) c).getText() != null) && (((JLabel) c).getText().length() > 0)) {
-			StringBuilder sb = new StringBuilder(((JLabel) c).getText());
-			sb.append(" ");
-			sb.append(this.currencySymbol);
-			((JLabel) c).setText(sb.toString());
-		}
-		return c;
-	}
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean hasFocus,
+            int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, selected, hasFocus, row, column);
+        if ((((JLabel) c).getText() != null) && (((JLabel) c).getText().length() > 0)) {
+            StringBuilder sb = new StringBuilder(((JLabel) c).getText());
+            sb.append(" ");
+            sb.append(this.currencySymbol);
+            ((JLabel) c).setText(sb.toString());
+        }
+        return c;
+    }
 
-	@Override
-	public void setTipWhenNeeded(JTable table, Object value, int column) {
-		if ((value == null) || (value instanceof NullValue)) {
-			return;
-		}
-		if (value instanceof Number) {
-			// Tip
-			StringBuilder sbTipText = new StringBuilder(this.format.format(value));
-			sbTipText.append(" ");
-			sbTipText.append(this.currencySymbol);
-			this.setToolTipText(sbTipText.toString());
-		} else {
-			this.setToolTipText(value.toString());
-		}
-	}
+    @Override
+    public void setTipWhenNeeded(JTable table, Object value, int column) {
+        if ((value == null) || (value instanceof NullValue)) {
+            return;
+        }
+        if (value instanceof Number) {
+            // Tip
+            StringBuilder sbTipText = new StringBuilder(this.format.format(value));
+            sbTipText.append(" ");
+            sbTipText.append(this.currencySymbol);
+            this.setToolTipText(sbTipText.toString());
+        } else {
+            this.setToolTipText(value.toString());
+        }
+    }
 
-	@Override
-	public void setComponentLocale(Locale loc) {
-		// formatter for digits cannot be gl_ES because not exists in JRE. It
-		// must be es_ES
-		Locale l = DateDataField.getSameCountryLocale(loc);
-		super.setComponentLocale(l);
-		this.pstFormatter = NumberFormat.getInstance(l);
-		this.pstFormatter.setMaximumFractionDigits(0);
-	}
+    @Override
+    public void setComponentLocale(Locale loc) {
+        // formatter for digits cannot be gl_ES because not exists in JRE. It
+        // must be es_ES
+        Locale l = DateDataField.getSameCountryLocale(loc);
+        super.setComponentLocale(l);
+        this.pstFormatter = NumberFormat.getInstance(l);
+        this.pstFormatter.setMaximumFractionDigits(0);
+    }
 
-	/**
-	 * @deprecated unused but sets the current currencySymbol
-	 */
-	@Deprecated
-	@Override
-	public void showCurrencyValue(String currencySymbol) {
-		// unused
-		this.currencySymbol = currencySymbol;
-	}
+    /**
+     * @deprecated unused but sets the current currencySymbol
+     */
+    @Deprecated
+    @Override
+    public void showCurrencyValue(String currencySymbol) {
+        // unused
+        this.currencySymbol = currencySymbol;
+    }
 
-	public String getCurrencySymbol() {
-		return this.currencySymbol;
-	}
+    public String getCurrencySymbol() {
+        return this.currencySymbol;
+    }
 
-	public void setCurrencySymbol(String currencySymbol) {
-		this.currencySymbol = currencySymbol;
-	}
+    public void setCurrencySymbol(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
+    }
 
-	@Override
-	protected Color getForegroundColor(JTable table, Object value, boolean selected, boolean editable, boolean hasFocus, int row, int column) {
-		Color defaultColor = super.getForegroundColor(table, value, selected, editable, hasFocus, row, column);
-		if (CurrencyCellRenderer.useNegativeColor && (value instanceof Number)) {
-			if (((Number) value).doubleValue() < 0.0d) {
-				defaultColor = CurrencyCellRenderer.defaultNegativeColor;
-			}
-		}
-		return defaultColor;
-	}
+    @Override
+    protected Color getForegroundColor(JTable table, Object value, boolean selected, boolean editable, boolean hasFocus,
+            int row, int column) {
+        Color defaultColor = super.getForegroundColor(table, value, selected, editable, hasFocus, row, column);
+        if (CurrencyCellRenderer.useNegativeColor && (value instanceof Number)) {
+            if (((Number) value).doubleValue() < 0.0d) {
+                defaultColor = CurrencyCellRenderer.defaultNegativeColor;
+            }
+        }
+        return defaultColor;
+    }
+
 }

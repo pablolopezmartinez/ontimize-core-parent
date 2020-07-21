@@ -9,137 +9,143 @@ import org.slf4j.LoggerFactory;
 
 public class RTFElement {
 
-	private static final Logger	logger	= LoggerFactory.getLogger(RTFElement.class);
+    private static final Logger logger = LoggerFactory.getLogger(RTFElement.class);
 
-	public static final String TYPE = "type";
-	public static final String NAME = "name";
-	public static final String VAL = "content";
-	public static final String LENGTH = "length";
-	private final Hashtable attrs = new Hashtable();
+    public static final String TYPE = "type";
 
-	private final Vector childs = new Vector(100);
+    public static final String NAME = "name";
 
-	private RTFElement parent = null;
+    public static final String VAL = "content";
 
-	public RTFElement() {}
+    public static final String LENGTH = "length";
 
-	public RTFElement(RTFElement parent) {
-		parent.addChild(this);
-	}
+    private final Hashtable attrs = new Hashtable();
 
-	public Enumeration getAttributeNames() {
-		return this.attrs.keys();
-	}
+    private final Vector childs = new Vector(100);
 
-	public Object getAttribute(String key) {
-		return this.attrs.get(key);
-	}
+    private RTFElement parent = null;
 
-	public String getType() {
-		return (String) this.getAttribute("type");
-	}
+    public RTFElement() {
+    }
 
-	public String getName() {
-		if (this.getAttribute("name") == null) {
-			return "";
-		}
-		return (String) this.getAttribute("name");
-	}
+    public RTFElement(RTFElement parent) {
+        parent.addChild(this);
+    }
 
-	public int getLength() {
-		if (this.getAttribute("length") != null) {
-			return ((Integer) this.getAttribute("length")).intValue();
-		}
-		return -1;
-	}
+    public Enumeration getAttributeNames() {
+        return this.attrs.keys();
+    }
 
-	public Object getContent() {
-		return this.getAttribute("content");
-	}
+    public Object getAttribute(String key) {
+        return this.attrs.get(key);
+    }
 
-	public void setAttribute(String key, Object obj) {
-		this.attrs.put(key, obj);
-	}
+    public String getType() {
+        return (String) this.getAttribute("type");
+    }
 
-	public void setAttribute(String key, int obj) {
-		this.setAttribute(key, new Integer(obj));
-	}
+    public String getName() {
+        if (this.getAttribute("name") == null) {
+            return "";
+        }
+        return (String) this.getAttribute("name");
+    }
 
-	public void removeAttribute(String key) {
-		this.attrs.remove(key);
-	}
+    public int getLength() {
+        if (this.getAttribute("length") != null) {
+            return ((Integer) this.getAttribute("length")).intValue();
+        }
+        return -1;
+    }
 
-	public int getAttributeCount() {
-		return this.attrs.size();
-	}
+    public Object getContent() {
+        return this.getAttribute("content");
+    }
 
-	public Enumeration getChildList() {
-		return this.childs.elements();
-	}
+    public void setAttribute(String key, Object obj) {
+        this.attrs.put(key, obj);
+    }
 
-	public int getChildCount() {
-		return this.childs.size();
-	}
+    public void setAttribute(String key, int obj) {
+        this.setAttribute(key, new Integer(obj));
+    }
 
-	public RTFElement getChild(int idx) {
-		return (RTFElement) this.childs.elementAt(idx);
-	}
+    public void removeAttribute(String key) {
+        this.attrs.remove(key);
+    }
 
-	public void addChild(RTFElement node) {
-		this.childs.addElement(node);
-		node.parent = this;
-	}
+    public int getAttributeCount() {
+        return this.attrs.size();
+    }
 
-	public void removeChild(int idx) {
-		this.childs.removeElementAt(idx);
-	}
+    public Enumeration getChildList() {
+        return this.childs.elements();
+    }
 
-	public int indexOf(RTFElement node) {
-		return this.childs.indexOf(node);
-	}
+    public int getChildCount() {
+        return this.childs.size();
+    }
 
-	@Override
-	public String toString() {
-		String s = null;
-		Enumeration keys = this.getAttributeNames();
-		while (keys.hasMoreElements()) {
-			String key = (String) keys.nextElement();
-			Object val = this.getAttribute(key);
-			if (s == null) {
-				s = " " + key + "='" + val + "'; ";
-			} else {
-				s = s + key + "='" + val + "'";
-			}
-		}
-		return "[" + s + "]";
-	}
+    public RTFElement getChild(int idx) {
+        return (RTFElement) this.childs.elementAt(idx);
+    }
 
-	public void list() {
-		this.list(0);
-	}
+    public void addChild(RTFElement node) {
+        this.childs.addElement(node);
+        node.parent = this;
+    }
 
-	public void list(int tab) {
-		for (int j = 0; j < tab; j++) {
-			RTFElement.logger.debug("\t");
-		}
-		RTFElement.logger.debug(this.toString());
-		for (int i = 0; i < this.getChildCount(); i++) {
-			this.getChild(i).list(tab + 1);
-		}
-	}
+    public void removeChild(int idx) {
+        this.childs.removeElementAt(idx);
+    }
 
-	public RTFElement getParent() {
-		return this.parent;
-	}
+    public int indexOf(RTFElement node) {
+        return this.childs.indexOf(node);
+    }
 
-	RTFElement cloneNode() {
-		RTFElement clone = new RTFElement(this.parent);
-		Enumeration keys = this.getAttributeNames();
-		while (keys.hasMoreElements()) {
-			String key = (String) keys.nextElement();
-			Object val = this.getAttribute(key);
-			clone.setAttribute(key, val);
-		}
-		return clone;
-	}
+    @Override
+    public String toString() {
+        String s = null;
+        Enumeration keys = this.getAttributeNames();
+        while (keys.hasMoreElements()) {
+            String key = (String) keys.nextElement();
+            Object val = this.getAttribute(key);
+            if (s == null) {
+                s = " " + key + "='" + val + "'; ";
+            } else {
+                s = s + key + "='" + val + "'";
+            }
+        }
+        return "[" + s + "]";
+    }
+
+    public void list() {
+        this.list(0);
+    }
+
+    public void list(int tab) {
+        for (int j = 0; j < tab; j++) {
+            RTFElement.logger.debug("\t");
+        }
+        RTFElement.logger.debug(this.toString());
+        for (int i = 0; i < this.getChildCount(); i++) {
+            this.getChild(i).list(tab + 1);
+        }
+    }
+
+    public RTFElement getParent() {
+        return this.parent;
+    }
+
+    RTFElement cloneNode() {
+        RTFElement clone = new RTFElement(this.parent);
+        Enumeration keys = this.getAttributeNames();
+        while (keys.hasMoreElements()) {
+            String key = (String) keys.nextElement();
+            Object val = this.getAttribute(key);
+            clone.setAttribute(key, val);
+        }
+        return clone;
+    }
+
 }

@@ -21,44 +21,46 @@ import com.ontimize.gui.field.html.HTMLUtils;
  */
 public class TabAction extends DecoratedTextAction {
 
-	private static final Logger	logger				= LoggerFactory.getLogger(TabAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(TabAction.class);
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-	public static final int FORWARD = 0;
-	public static final int BACKWARD = 1;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	protected int type;
+    public static final int FORWARD = 0;
 
-	public TabAction(int type, Action defaultTabAction) {
-		super("tabAction", defaultTabAction);
-		this.type = type;
-	}
+    public static final int BACKWARD = 1;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JEditorPane editor;
-		HTMLDocument document;
+    protected int type;
 
-		editor = (JEditorPane) this.getTextComponent(e);
-		document = (HTMLDocument) editor.getDocument();
-		Element elem = document.getParagraphElement(editor.getCaretPosition());
-		Element tdElem = HTMLUtils.getParent(elem, HTML.Tag.TD);
-		if (tdElem != null) {
-			try {
-				if (this.type == TabAction.FORWARD) {
-					editor.setCaretPosition(tdElem.getEndOffset());
-				} else {
-					editor.setCaretPosition(tdElem.getStartOffset() - 1);
-				}
-			} catch (IllegalArgumentException ex) {
-				TabAction.logger.error(null, ex);
-			}
-		} else {
-			this.delegate.actionPerformed(e);
-		}
-	}
+    public TabAction(int type, Action defaultTabAction) {
+        super("tabAction", defaultTabAction);
+        this.type = type;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JEditorPane editor;
+        HTMLDocument document;
+
+        editor = (JEditorPane) this.getTextComponent(e);
+        document = (HTMLDocument) editor.getDocument();
+        Element elem = document.getParagraphElement(editor.getCaretPosition());
+        Element tdElem = HTMLUtils.getParent(elem, HTML.Tag.TD);
+        if (tdElem != null) {
+            try {
+                if (this.type == TabAction.FORWARD) {
+                    editor.setCaretPosition(tdElem.getEndOffset());
+                } else {
+                    editor.setCaretPosition(tdElem.getStartOffset() - 1);
+                }
+            } catch (IllegalArgumentException ex) {
+                TabAction.logger.error(null, ex);
+            }
+        } else {
+            this.delegate.actionPerformed(e);
+        }
+    }
 
 }

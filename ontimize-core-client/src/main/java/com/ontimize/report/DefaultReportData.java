@@ -10,47 +10,51 @@ import com.ontimize.report.store.ReportStore;
 
 public abstract class DefaultReportData implements ReportData {
 
-	protected Object key;
-	protected String name;
-	protected String description;
-	protected ReportStore store;
+    protected Object key;
 
-	public DefaultReportData(Object key, String name, String description, ReportStore store) {
-		this.key = key;
-		this.name = name;
-		this.description = description;
-		this.store = store;
-	}
+    protected String name;
 
-	@Override
-	public Object getKey() {
-		return this.key;
-	}
+    protected String description;
 
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    protected ReportStore store;
 
-	@Override
-	public String getDescription() {
-		return this.description;
-	}
+    public DefaultReportData(Object key, String name, String description, ReportStore store) {
+        this.key = key;
+        this.name = name;
+        this.description = description;
+        this.store = store;
+    }
 
-	@Override
-	public ReportStore getStore() {
-		return this.store;
-	}
+    @Override
+    public Object getKey() {
+        return this.key;
+    }
 
-	@Override
-	public abstract String getInternalID();
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	protected boolean askDelete(ReportConfig config) {
-		Window ancestor = config.getAncestor();
-		ResourceBundle bundle = config.getResourceBundle();
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
 
-		String message = ApplicationManager.getTranslation("ReportDesigner.M_BorrarInforme", bundle);
-		int option = JOptionPane.showConfirmDialog(ancestor, message);
-		return option == JOptionPane.OK_OPTION;
-	}
+    @Override
+    public ReportStore getStore() {
+        return this.store;
+    }
+
+    @Override
+    public abstract String getInternalID();
+
+    protected boolean askDelete(ReportConfig config) {
+        Window ancestor = config.getAncestor();
+        ResourceBundle bundle = config.getResourceBundle();
+
+        String message = ApplicationManager.getTranslation("ReportDesigner.M_BorrarInforme", bundle);
+        int option = JOptionPane.showConfirmDialog(ancestor, message);
+        return option == JOptionPane.OK_OPTION;
+    }
+
 }

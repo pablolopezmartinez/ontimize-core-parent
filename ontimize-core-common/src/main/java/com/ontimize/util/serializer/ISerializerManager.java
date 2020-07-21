@@ -4,11 +4,12 @@ import java.util.Map;
 
 public interface ISerializerManager {
 
-	public static final int SERIALIZER_DEFAULT = 1;
-	public static final int SERIALIZER_XML = 2;
+    public static final int SERIALIZER_DEFAULT = 1;
 
-	public String serializeMapToString(Map<String, Object> data) throws Exception;
+    public static final int SERIALIZER_XML = 2;
 
-	public Map<String, Object> deserializeStringToMap(String data) throws Exception;
+    public String serializeMapToString(Map<String, Object> data) throws Exception;
+
+    public Map<String, Object> deserializeStringToMap(String data) throws Exception;
 
 }

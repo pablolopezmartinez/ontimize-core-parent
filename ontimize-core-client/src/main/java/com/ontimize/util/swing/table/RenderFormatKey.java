@@ -6,38 +6,40 @@ import com.ontimize.util.swing.table.PivotTableUtils.NumberRenderer;
 
 public class RenderFormatKey {
 
-	protected String key;
-	protected NumberFormat format;
-	protected Class renderClass;
+    protected String key;
 
-	public RenderFormatKey(String key, NumberFormat format, Class renderClass) {
-		this.key = key;
-		this.format = format;
-		this.renderClass = renderClass;
-	}
+    protected NumberFormat format;
 
-	public String getKey() {
-		return this.key;
-	}
+    protected Class renderClass;
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    public RenderFormatKey(String key, NumberFormat format, Class renderClass) {
+        this.key = key;
+        this.format = format;
+        this.renderClass = renderClass;
+    }
 
-	public NumberFormat getFormat() {
-		return this.format;
-	}
+    public String getKey() {
+        return this.key;
+    }
 
-	public void setFormat(NumberFormat format) {
-		this.format = format;
-	}
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-	public Class getRenderer() {
-		return this.renderClass;
-	}
+    public NumberFormat getFormat() {
+        return this.format;
+    }
 
-	public void setRenderer(NumberRenderer renderer) {
-		this.renderClass = this.renderClass;
-	}
+    public void setFormat(NumberFormat format) {
+        this.format = format;
+    }
+
+    public Class getRenderer() {
+        return this.renderClass;
+    }
+
+    public void setRenderer(NumberRenderer renderer) {
+        this.renderClass = this.renderClass;
+    }
 
 }

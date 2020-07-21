@@ -16,131 +16,137 @@ import org.slf4j.LoggerFactory;
 
 public abstract class PropertiesParser {
 
-	private static final Logger logger = LoggerFactory.getLogger(PropertiesParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(PropertiesParser.class);
 
-	abstract protected void executeOperation(Properties propertiesFile, String operation, String parameters, String operationValues) throws Exception;
+    abstract protected void executeOperation(Properties propertiesFile, String operation, String parameters,
+            String operationValues) throws Exception;
 
-	protected static final String VALUES_SEPARATOR = ";";
-	protected static final String OP_PREFIX = "@";
-	protected static final String PARAMETER_LEFT = "[";
-	protected static final String PARAMETER_RIGHT = "]";
-	protected final String OPERATION_MATCH = "@.+\\[.+\\]";
-	protected final String OPERATION_ORDER_MATCH = "^@ORDER$";
+    protected static final String VALUES_SEPARATOR = ";";
 
-	public Properties parseProperties(Properties propertiesFile, Properties extendFile) {
-		return this.parse(propertiesFile, extendFile);
-	}
+    protected static final String OP_PREFIX = "@";
 
-	public int parseExtendPropertiesOrder(Properties extendFile) {
-		int index = -1;
-		Enumeration extKeys = extendFile.keys();
-		while (extKeys.hasMoreElements()) {
-			String extOperationKey = (String) extKeys.nextElement();
-			String operationValue = extendFile.getProperty(extOperationKey);
+    protected static final String PARAMETER_LEFT = "[";
 
-			if (extOperationKey.matches(this.OPERATION_ORDER_MATCH)) {
-				index = Integer.parseInt(operationValue);
-			}
-		}
-		return index;
-	}
+    protected static final String PARAMETER_RIGHT = "]";
 
-	protected Properties parse(Properties propertiesFile, Properties extendFile) {
+    protected final String OPERATION_MATCH = "@.+\\[.+\\]";
 
-		Enumeration extendKeys = extendFile.keys();
-		while (extendKeys.hasMoreElements()) {
-			// Key of operation must be in the format @OPERATION[PARAMETERS] or
-			// defined in OPERATION_MATCH
-			String extendOperationKey = (String) extendKeys.nextElement();
+    protected final String OPERATION_ORDER_MATCH = "^@ORDER$";
 
-			// Values of operation
-			String operationValues = extendFile.getProperty(extendOperationKey);
+    public Properties parseProperties(Properties propertiesFile, Properties extendFile) {
+        return this.parse(propertiesFile, extendFile);
+    }
 
-			// If key matches the format
-			if (extendOperationKey.matches(this.OPERATION_MATCH)) {
-				try {
-					// Try to extract operation parameters and values
-					String[] operationElements = this.extractOperationElements(extendOperationKey);
-					String operation = operationElements[0];
-					String operationParameters = operationElements[1];
+    public int parseExtendPropertiesOrder(Properties extendFile) {
+        int index = -1;
+        Enumeration extKeys = extendFile.keys();
+        while (extKeys.hasMoreElements()) {
+            String extOperationKey = (String) extKeys.nextElement();
+            String operationValue = extendFile.getProperty(extOperationKey);
 
-					// Try to execute the operation with parameters and values
-					this.executeOperation(propertiesFile, operation, operationParameters, operationValues);
-				} catch (Exception e) {
-					PropertiesParser.logger.error(null, e);
-				}
-			} else if (!extendOperationKey.matches(this.OPERATION_ORDER_MATCH)) {
-				// If key not matches the format, simply adds the key and value
-				// in extendFile to the properties file
-				propertiesFile.put(extendOperationKey, operationValues);
-			}
-		}
+            if (extOperationKey.matches(this.OPERATION_ORDER_MATCH)) {
+                index = Integer.parseInt(operationValue);
+            }
+        }
+        return index;
+    }
 
-		// Returns the modified properties file
-		return propertiesFile;
-	}
+    protected Properties parse(Properties propertiesFile, Properties extendFile) {
 
-	protected String[] extractOperationElements(String operation) {
+        Enumeration extendKeys = extendFile.keys();
+        while (extendKeys.hasMoreElements()) {
+            // Key of operation must be in the format @OPERATION[PARAMETERS] or
+            // defined in OPERATION_MATCH
+            String extendOperationKey = (String) extendKeys.nextElement();
 
-		String[] operationElements = new String[2];
+            // Values of operation
+            String operationValues = extendFile.getProperty(extendOperationKey);
 
-		int leftParameterIndex = operation.indexOf(PropertiesParser.PARAMETER_LEFT);
-		int rightParameterIndex = operation.indexOf(PropertiesParser.PARAMETER_RIGHT);
+            // If key matches the format
+            if (extendOperationKey.matches(this.OPERATION_MATCH)) {
+                try {
+                    // Try to extract operation parameters and values
+                    String[] operationElements = this.extractOperationElements(extendOperationKey);
+                    String operation = operationElements[0];
+                    String operationParameters = operationElements[1];
 
-		if ((leftParameterIndex != -1) && (rightParameterIndex != -1)) {
-			String opLiteral = operation.substring(1, leftParameterIndex);
-			operationElements[0] = opLiteral;
+                    // Try to execute the operation with parameters and values
+                    this.executeOperation(propertiesFile, operation, operationParameters, operationValues);
+                } catch (Exception e) {
+                    PropertiesParser.logger.error(null, e);
+                }
+            } else if (!extendOperationKey.matches(this.OPERATION_ORDER_MATCH)) {
+                // If key not matches the format, simply adds the key and value
+                // in extendFile to the properties file
+                propertiesFile.put(extendOperationKey, operationValues);
+            }
+        }
 
-			String parametersLiteral = operation.substring(leftParameterIndex + 1, rightParameterIndex);
-			operationElements[1] = parametersLiteral;
-		}
+        // Returns the modified properties file
+        return propertiesFile;
+    }
 
-		return operationElements;
-	}
+    protected String[] extractOperationElements(String operation) {
 
-	protected ArrayList getValuesList(String values, String valuesSeparator) {
+        String[] operationElements = new String[2];
 
-		ArrayList valuesList = new ArrayList();
+        int leftParameterIndex = operation.indexOf(PropertiesParser.PARAMETER_LEFT);
+        int rightParameterIndex = operation.indexOf(PropertiesParser.PARAMETER_RIGHT);
 
-		StringTokenizer st = new StringTokenizer(values, PropertiesParser.VALUES_SEPARATOR);
+        if ((leftParameterIndex != -1) && (rightParameterIndex != -1)) {
+            String opLiteral = operation.substring(1, leftParameterIndex);
+            operationElements[0] = opLiteral;
 
-		while (st.hasMoreTokens()) {
-			valuesList.add(st.nextToken());
-		}
+            String parametersLiteral = operation.substring(leftParameterIndex + 1, rightParameterIndex);
+            operationElements[1] = parametersLiteral;
+        }
 
-		return valuesList;
-	}
+        return operationElements;
+    }
 
-	protected String getValuesString(ArrayList valuesList, String valuesSeparator) {
+    protected ArrayList getValuesList(String values, String valuesSeparator) {
 
-		String finalString = "";
+        ArrayList valuesList = new ArrayList();
 
-		for (Iterator iter = valuesList.iterator(); iter.hasNext();) {
-			String element = (String) iter.next();
+        StringTokenizer st = new StringTokenizer(values, PropertiesParser.VALUES_SEPARATOR);
 
-			finalString = finalString + element + PropertiesParser.VALUES_SEPARATOR;
-		}
+        while (st.hasMoreTokens()) {
+            valuesList.add(st.nextToken());
+        }
 
-		finalString = finalString.substring(0, finalString.length() - 1);
+        return valuesList;
+    }
 
-		return finalString;
-	}
+    protected String getValuesString(ArrayList valuesList, String valuesSeparator) {
 
-	protected Properties loadPropertiesFile(File file) {
+        String finalString = "";
 
-		Properties properties = new Properties();
+        for (Iterator iter = valuesList.iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
 
-		InputStream fis;
-		try {
-			fis = new FileInputStream(file);
-			properties.load(fis);
-		} catch (FileNotFoundException e) {
-			PropertiesParser.logger.error(null, e);
-		} catch (IOException e) {
-			PropertiesParser.logger.error(null, e);
-		}
+            finalString = finalString + element + PropertiesParser.VALUES_SEPARATOR;
+        }
 
-		return properties;
-	}
+        finalString = finalString.substring(0, finalString.length() - 1);
+
+        return finalString;
+    }
+
+    protected Properties loadPropertiesFile(File file) {
+
+        Properties properties = new Properties();
+
+        InputStream fis;
+        try {
+            fis = new FileInputStream(file);
+            properties.load(fis);
+        } catch (FileNotFoundException e) {
+            PropertiesParser.logger.error(null, e);
+        } catch (IOException e) {
+            PropertiesParser.logger.error(null, e);
+        }
+
+        return properties;
+    }
 
 }

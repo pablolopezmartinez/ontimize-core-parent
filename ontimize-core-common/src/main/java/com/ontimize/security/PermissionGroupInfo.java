@@ -7,20 +7,21 @@ package com.ontimize.security;
  */
 public class PermissionGroupInfo implements java.io.Serializable {
 
-	private String groupId = null;
+    private String groupId = null;
 
-	private String description = null;
+    private String description = null;
 
-	public PermissionGroupInfo(String groupId, String description) {
-		this.groupId = groupId;
-		this.description = description;
-	}
+    public PermissionGroupInfo(String groupId, String description) {
+        this.groupId = groupId;
+        this.description = description;
+    }
 
-	public String getGroupId() {
-		return this.groupId;
-	}
+    public String getGroupId() {
+        return this.groupId;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
+
 }

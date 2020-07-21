@@ -5,6 +5,6 @@ import java.util.Vector;
 
 public interface CancellableQueryEntity extends CancellableOperationEntity {
 
-	public EntityResult query(Hashtable keys, Vector attributes, int sessionId, String operationId) throws Exception;
+    public EntityResult query(Hashtable keys, Vector attributes, int sessionId, String operationId) throws Exception;
 
 }

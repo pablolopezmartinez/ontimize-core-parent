@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface RemoteReportReferencer extends Remote {
 
-	public List getRemoteReportStore(int sessionId) throws Exception;
+    public List getRemoteReportStore(int sessionId) throws Exception;
 
-	public List getReportEntityNames(int sessionId) throws Exception;
+    public List getReportEntityNames(int sessionId) throws Exception;
 
 }

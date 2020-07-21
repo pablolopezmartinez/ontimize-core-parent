@@ -9,68 +9,71 @@ import org.slf4j.LoggerFactory;
 
 public class SQLInfo implements ISQLInfo, Serializable {
 
-	private static final Logger	logger				= LoggerFactory.getLogger(SQLInfo.class);
+    private static final Logger logger = LoggerFactory.getLogger(SQLInfo.class);
 
-	protected String errorSQLStatement = null;
+    protected String errorSQLStatement = null;
 
-	protected List sqlStatements = new ArrayList();
-	protected int code = ISQLInfo.OK;
+    protected List sqlStatements = new ArrayList();
 
-	// public void SLQInfo() {
-	// sqlStatements=new Vector();
-	// code = ISQLInfo.ok;
-	// }
+    protected int code = ISQLInfo.OK;
 
-	public SQLInfo() {}
+    // public void SLQInfo() {
+    // sqlStatements=new Vector();
+    // code = ISQLInfo.ok;
+    // }
 
-	@Override
-	public int getCode() {
-		return this.code;
-	}
+    public SQLInfo() {
+    }
 
-	@Override
-	public void setCode(int i) {
-		this.code = i;
-	}
+    @Override
+    public int getCode() {
+        return this.code;
+    }
 
-	@Override
-	public List getSQLStatements() {
-		return this.sqlStatements;
-	}
+    @Override
+    public void setCode(int i) {
+        this.code = i;
+    }
 
-	@Override
-	public void addSQLStatement(String statement) {
-		if (this.sqlStatements.add(statement)) {
-			SQLInfo.logger.debug(null);
-		}
-	}
+    @Override
+    public List getSQLStatements() {
+        return this.sqlStatements;
+    }
 
-	public String removeSQLStatement(int index) {
-		if ((this.sqlStatements != null) && (index < this.sqlStatements.size())) {
-			String str = (String) this.sqlStatements.get(index);
-			this.sqlStatements.remove(index);
-			return str;
-		}
-		return "";
-	}
+    @Override
+    public void addSQLStatement(String statement) {
+        if (this.sqlStatements.add(statement)) {
+            SQLInfo.logger.debug(null);
+        }
+    }
 
-	@Override
-	public void appendSQLInfo(ISQLInfo sqlInfo) {
+    public String removeSQLStatement(int index) {
+        if ((this.sqlStatements != null) && (index < this.sqlStatements.size())) {
+            String str = (String) this.sqlStatements.get(index);
+            this.sqlStatements.remove(index);
+            return str;
+        }
+        return "";
+    }
 
-		List list = sqlInfo.getSQLStatements();
-		for (int i = 0; i < list.size(); i++) {
-			this.addSQLStatement((String) list.get(i));
-		}
+    @Override
+    public void appendSQLInfo(ISQLInfo sqlInfo) {
 
-	}
+        List list = sqlInfo.getSQLStatements();
+        for (int i = 0; i < list.size(); i++) {
+            this.addSQLStatement((String) list.get(i));
+        }
 
-	@Override
-	public String getErrorSQLStatement() {
-		return this.errorSQLStatement;
-	}
+    }
 
-	@Override
-	public void setErrorSQLStatement(String statement) {
-		this.errorSQLStatement = statement;
-	}
+    @Override
+    public String getErrorSQLStatement() {
+        return this.errorSQLStatement;
+    }
+
+    @Override
+    public void setErrorSQLStatement(String statement) {
+        this.errorSQLStatement = statement;
+    }
+
 }

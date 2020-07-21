@@ -4,9 +4,10 @@ import java.awt.Dimension;
 
 public interface JOrgTreeNodePositionator {
 
-	public void calculateNodePositions(JOrgTree tree);
+    public void calculateNodePositions(JOrgTree tree);
 
-	public boolean calculated();
+    public boolean calculated();
 
-	public Dimension getPreferredSize();
+    public Dimension getPreferredSize();
+
 }

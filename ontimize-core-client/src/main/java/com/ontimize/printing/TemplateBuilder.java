@@ -7,5 +7,6 @@ package com.ontimize.printing;
  */
 public interface TemplateBuilder {
 
-	public TemplateElement buildTemplate(String fileURI);
+    public TemplateElement buildTemplate(String fileURI);
+
 }

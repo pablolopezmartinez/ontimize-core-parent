@@ -4,34 +4,37 @@ import java.io.Serializable;
 
 public class VerifierResponse implements Serializable {
 
-	private int code = -1;
-	private Object value = null;
-	private String message = null;
+    private int code = -1;
 
-	public VerifierResponse(int code, Object value, String message) {
-		this.code = code;
-		this.value = value;
-		this.message = message;
-	}
+    private Object value = null;
 
-	public int getCode() {
-		return this.code;
-	}
+    private String message = null;
 
-	public Object getValue() {
-		return this.value;
-	}
+    public VerifierResponse(int code, Object value, String message) {
+        this.code = code;
+        this.value = value;
+        this.message = message;
+    }
 
-	public String getMessage() {
-		return this.message;
-	}
+    public int getCode() {
+        return this.code;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Code: " + this.code);
-		sb.append(" MSG: " + (this.message != null ? this.message : "MESSAGE_NULL"));
-		sb.append(" VALUE: " + (this.value != null ? this.value : "NULL_VALUE"));
-		return sb.toString();
-	}
+    public Object getValue() {
+        return this.value;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Code: " + this.code);
+        sb.append(" MSG: " + (this.message != null ? this.message : "MESSAGE_NULL"));
+        sb.append(" VALUE: " + (this.value != null ? this.value : "NULL_VALUE"));
+        return sb.toString();
+    }
+
 }

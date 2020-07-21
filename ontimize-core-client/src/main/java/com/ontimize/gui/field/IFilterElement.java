@@ -5,10 +5,10 @@ import java.util.Vector;
 
 public interface IFilterElement {
 
-	public boolean hasParentKeys();
+    public boolean hasParentKeys();
 
-	public Vector getParentKeyList();
+    public Vector getParentKeyList();
 
-	public Hashtable getParentKeyValues();
+    public Hashtable getParentKeyValues();
 
 }

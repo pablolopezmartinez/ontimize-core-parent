@@ -14,23 +14,24 @@ import javax.swing.KeyStroke;
  */
 public class SelectAllAction extends BasicEditAction {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public SelectAllAction() {
-		super(HTMLTextEditAction.i18n.str("HTMLShef.select_all"));
-		this.putValue("ID", "HTMLShef.select_all");
-		this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.select_all")));
+    public SelectAllAction() {
+        super(HTMLTextEditAction.i18n.str("HTMLShef.select_all"));
+        this.putValue("ID", "HTMLShef.select_all");
+        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.select_all")));
 
-		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 
-		this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
-	}
+        this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
+    }
 
-	@Override
-	protected void doEdit(ActionEvent e, JEditorPane editor) {
-		editor.selectAll();
-	}
+    @Override
+    protected void doEdit(ActionEvent e, JEditorPane editor) {
+        editor.selectAll();
+    }
+
 }

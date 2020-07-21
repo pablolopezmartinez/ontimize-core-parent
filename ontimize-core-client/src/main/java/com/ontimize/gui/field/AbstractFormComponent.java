@@ -14,37 +14,40 @@ import com.ontimize.gui.Freeable;
 
 public abstract class AbstractFormComponent extends JComponent implements FormComponent, Freeable {
 
-	public static int defaultTopMargin = 5;
+    public static int defaultTopMargin = 5;
 
-	public static int defaultBottomMargin = 5;
+    public static int defaultBottomMargin = 5;
 
-	public static int defaultRightMargin = 5;
+    public static int defaultRightMargin = 5;
 
-	public static int defaultLeftMargin = 5;
+    public static int defaultLeftMargin = 5;
 
-	@Override
-	public Object getConstraints(LayoutManager parentLayout) {
-		if (parentLayout instanceof GridBagLayout) {
-			return new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-					new Insets(AbstractFormComponent.defaultTopMargin, AbstractFormComponent.defaultLeftMargin, AbstractFormComponent.defaultBottomMargin,
-							AbstractFormComponent.defaultRightMargin),
-					0, 0);
-		} else {
-			return null;
-		}
-	}
+    @Override
+    public Object getConstraints(LayoutManager parentLayout) {
+        if (parentLayout instanceof GridBagLayout) {
+            return new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.CENTER,
+                    GridBagConstraints.BOTH,
+                    new Insets(AbstractFormComponent.defaultTopMargin, AbstractFormComponent.defaultLeftMargin,
+                            AbstractFormComponent.defaultBottomMargin,
+                            AbstractFormComponent.defaultRightMargin),
+                    0, 0);
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return null;
-	}
+    @Override
+    public Vector getTextsToTranslate() {
+        return null;
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle res) {}
+    @Override
+    public void setResourceBundle(ResourceBundle res) {
+    }
 
-	@Override
-	public void setComponentLocale(Locale l) {
-		this.setLocale(l);
-	}
+    @Override
+    public void setComponentLocale(Locale l) {
+        this.setLocale(l);
+    }
 
 }

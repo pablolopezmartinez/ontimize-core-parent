@@ -14,65 +14,71 @@ import com.ontimize.gui.SearchValue;
 @XmlType(name = "xmlFilterBasicExpression", propOrder = { "leftOperand", "operator", "rightOperand" })
 public class XmlFilterBasicExpression {
 
-	@XmlElement(name = "left-operand", required = true) protected XmlBasicLeftOperand leftOperand;
-	protected String operator;
-	@XmlElement(name = "right-operand", required = true) protected XmlBasicRightOperand rightOperand;
+    @XmlElement(name = "left-operand", required = true)
+    protected XmlBasicLeftOperand leftOperand;
 
-	public XmlFilterBasicExpression() {
-		// TODO Auto-generated constructor stub
-	}
+    protected String operator;
 
-	public XmlFilterBasicExpression(BasicExpression bexp) {
+    @XmlElement(name = "right-operand", required = true)
+    protected XmlBasicRightOperand rightOperand;
 
-		Object lO = bexp.getLeftOperand();
-		this.leftOperand = new XmlBasicLeftOperand();
+    public XmlFilterBasicExpression() {
+        // TODO Auto-generated constructor stub
+    }
 
-		if (lO instanceof BasicField) {
-			this.leftOperand.setBasicField(lO.toString());
-		} else if (lO instanceof BasicExpression) {
-			this.leftOperand.setBasicExpression(new XmlFilterBasicExpression((BasicExpression) lO));
-		}
+    public XmlFilterBasicExpression(BasicExpression bexp) {
 
-		this.operator = bexp.getOperator().toString();
+        Object lO = bexp.getLeftOperand();
+        this.leftOperand = new XmlBasicLeftOperand();
 
-		this.rightOperand = new XmlBasicRightOperand();
-		Object rO = bexp.getRightOperand();
+        if (lO instanceof BasicField) {
+            this.leftOperand.setBasicField(lO.toString());
+        } else if (lO instanceof BasicExpression) {
+            this.leftOperand.setBasicExpression(new XmlFilterBasicExpression((BasicExpression) lO));
+        }
 
-		if (rO instanceof BasicExpression) {
-			this.rightOperand.setBasicExpression(new XmlFilterBasicExpression((BasicExpression) rO));
-		} else if (rO instanceof SearchValue) {
-			this.rightOperand.setSearchValue(new XmlFilterSearchValue((SearchValue) rO));
-		} else {
-			this.rightOperand.setValue(rO);
-		}
+        this.operator = bexp.getOperator().toString();
 
-	}
+        this.rightOperand = new XmlBasicRightOperand();
+        Object rO = bexp.getRightOperand();
 
-	public XmlBasicLeftOperand getLeftOperand() {
-		return this.leftOperand;
-	}
+        if (rO instanceof BasicExpression) {
+            this.rightOperand.setBasicExpression(new XmlFilterBasicExpression((BasicExpression) rO));
+        } else if (rO instanceof SearchValue) {
+            this.rightOperand.setSearchValue(new XmlFilterSearchValue((SearchValue) rO));
+        } else {
+            this.rightOperand.setValue(rO);
+        }
 
-	public void setLeftOperand(XmlBasicLeftOperand value) {
-		this.leftOperand = value;
-	}
+    }
 
-	public String getOperator() {
-		return this.operator;
-	}
+    public XmlBasicLeftOperand getLeftOperand() {
+        return this.leftOperand;
+    }
 
-	public void setOperator(String value) {
-		this.operator = value;
-	}
+    public void setLeftOperand(XmlBasicLeftOperand value) {
+        this.leftOperand = value;
+    }
 
-	public XmlBasicRightOperand getRightOperand() {
-		return this.rightOperand;
-	}
+    public String getOperator() {
+        return this.operator;
+    }
 
-	public void setRightOperand(XmlBasicRightOperand value) {
-		this.rightOperand = value;
-	}
+    public void setOperator(String value) {
+        this.operator = value;
+    }
 
-	public BasicExpression getBasicExpression() {
-		return new BasicExpression(this.leftOperand.getBasicValue(), new BasicOperator(this.operator), this.rightOperand.getBasicValue());
-	}
+    public XmlBasicRightOperand getRightOperand() {
+        return this.rightOperand;
+    }
+
+    public void setRightOperand(XmlBasicRightOperand value) {
+        this.rightOperand = value;
+    }
+
+    public BasicExpression getBasicExpression() {
+        return new BasicExpression(this.leftOperand.getBasicValue(), new BasicOperator(this.operator),
+                this.rightOperand.getBasicValue());
+    }
+
 }

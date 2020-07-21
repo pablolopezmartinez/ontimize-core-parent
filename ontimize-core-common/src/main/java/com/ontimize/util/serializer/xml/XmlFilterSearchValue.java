@@ -12,68 +12,70 @@ import com.ontimize.util.serializer.xml.adapters.XmlStaticAdapters;
 @XmlRootElement(name = "search-value")
 public class XmlFilterSearchValue {
 
-	protected int operator;
-	protected Object value;
-	protected XmlFilterValueSearchValue svValue;
+    protected int operator;
 
-	public XmlFilterSearchValue() {
-		// TODO Auto-generated constructor stub
-	}
+    protected Object value;
 
-	public XmlFilterSearchValue(SearchValue sv) {
-		this.operator = sv.getCondition();
-		this.svValue = new XmlFilterValueSearchValue(sv.getValue());
-	}
+    protected XmlFilterValueSearchValue svValue;
 
-	public SearchValue getSearchValue() {
+    public XmlFilterSearchValue() {
+        // TODO Auto-generated constructor stub
+    }
 
-		Object value = this.getSvValue();
+    public XmlFilterSearchValue(SearchValue sv) {
+        this.operator = sv.getCondition();
+        this.svValue = new XmlFilterValueSearchValue(sv.getValue());
+    }
 
-		if (value == null) {
-			value = this.getValue();
-		}
+    public SearchValue getSearchValue() {
 
-		if (value instanceof XmlFilterValueSearchValue) {
-			value = ((XmlFilterValueSearchValue) value).getBaseValues();
-		}
+        Object value = this.getSvValue();
 
-		if (value instanceof XMLGregorianCalendar) {
-			value = XmlStaticAdapters.xmlGregorianCalendarToDate((XMLGregorianCalendar) value);
-		}
+        if (value == null) {
+            value = this.getValue();
+        }
 
-		return new SearchValue(this.getOperator(), value);
+        if (value instanceof XmlFilterValueSearchValue) {
+            value = ((XmlFilterValueSearchValue) value).getBaseValues();
+        }
 
-	}
+        if (value instanceof XMLGregorianCalendar) {
+            value = XmlStaticAdapters.xmlGregorianCalendarToDate((XMLGregorianCalendar) value);
+        }
 
-	public int getOperator() {
-		return this.operator;
-	}
+        return new SearchValue(this.getOperator(), value);
 
-	@XmlElement(name = "operator")
-	public void setOperator(int operator) {
-		this.operator = operator;
-	}
+    }
 
-	public XmlFilterValueSearchValue getSvValue() {
-		return this.svValue;
-	}
+    public int getOperator() {
+        return this.operator;
+    }
 
-	@XmlElement(name = "svvalue", required = true)
-	public void setSvValue(XmlFilterValueSearchValue svValue) {
-		this.svValue = svValue;
-	}
+    @XmlElement(name = "operator")
+    public void setOperator(int operator) {
+        this.operator = operator;
+    }
 
-	@Deprecated
-	public Object getValue() {
-		return this.value;
-	}
+    public XmlFilterValueSearchValue getSvValue() {
+        return this.svValue;
+    }
 
-	@Deprecated
-	@XmlElement(name = "value", required = true)
-	public void setValue(Object value) {
-		if (!(value instanceof Element)) {
-			this.value = value;
-		}
-	}
+    @XmlElement(name = "svvalue", required = true)
+    public void setSvValue(XmlFilterValueSearchValue svValue) {
+        this.svValue = svValue;
+    }
+
+    @Deprecated
+    public Object getValue() {
+        return this.value;
+    }
+
+    @Deprecated
+    @XmlElement(name = "value", required = true)
+    public void setValue(Object value) {
+        if (!(value instanceof Element)) {
+            this.value = value;
+        }
+    }
 
 }

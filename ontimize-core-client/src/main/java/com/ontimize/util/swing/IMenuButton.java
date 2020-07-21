@@ -4,5 +4,6 @@ import javax.swing.JPopupMenu;
 
 public interface IMenuButton {
 
-	public JPopupMenu getMenu();
+    public JPopupMenu getMenu();
+
 }

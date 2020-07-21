@@ -13,163 +13,173 @@ import eu.gnome.morena.TransferListener;
 
 public class ScanSession {
 
-	private static final Logger			logger				= LoggerFactory.getLogger(ScanSession.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScanSession.class);
 
-	MultiFileTransferHandler th;
-	private LinkedBlockingQueue<String> queue;
-	boolean transferFinished = false;
-	private AtomicInteger blockedThreadCount;
-	boolean feederUsed = false;
+    MultiFileTransferHandler th;
 
-	public boolean isFeederUsed() {
-		return this.feederUsed;
-	}
+    private LinkedBlockingQueue<String> queue;
 
-	public static final String EOP = ""; // string designating an End of
-	// operation
+    boolean transferFinished = false;
 
-	public void startSession(Device device, int item) throws Exception {
-		this.startSession(device, item, 0); // 0 - means scanning until feeder
-		// is empty
-	}
+    private AtomicInteger blockedThreadCount;
 
-	public void startSession(Device device, int item, int pages) throws Exception {
-		this.queue = new LinkedBlockingQueue<String>();
-		this.blockedThreadCount = new AtomicInteger(0);
-		this.transferFinished = false;
-		this.th = new MultiFileTransferHandler(pages);
-		((DeviceBase) device).startTransfer(this.th, item);
-	}
+    boolean feederUsed = false;
 
-	public File getImageFile() {
-		String filename = this.queue.poll();
-		if ((filename == null) && !this.transferFinished) {
-			try {
-				this.blockedThreadCount.incrementAndGet();
-				filename = this.queue.take();
-				this.blockedThreadCount.decrementAndGet();
-			} catch (InterruptedException e) {}
-		}
-		if (filename.isEmpty()) {
-			this.releaseBlockedThreads();
-		}
+    public boolean isFeederUsed() {
+        return this.feederUsed;
+    }
 
-		if ((filename == null) || filename.isEmpty()) {
-			return null;
-		} else {
-			this.feederUsed = true;
-			return new File(filename);
+    public static final String EOP = ""; // string designating an End of
 
-		}
-		// return (filename == null) || filename.isEmpty() ? null : new File(filename);
-	}
+    // operation
 
-	public boolean isEmptyFeeder() {
-		return this.th != null ? this.th.code == 0 : false;
-	}
+    public void startSession(Device device, int item) throws Exception {
+        this.startSession(device, item, 0); // 0 - means scanning until feeder
+        // is empty
+    }
 
-	public int getErrorCode() {
-		return this.th.code;
-	}
+    public void startSession(Device device, int item, int pages) throws Exception {
+        this.queue = new LinkedBlockingQueue<String>();
+        this.blockedThreadCount = new AtomicInteger(0);
+        this.transferFinished = false;
+        this.th = new MultiFileTransferHandler(pages);
+        ((DeviceBase) device).startTransfer(this.th, item);
+    }
 
-	public String getErrorMessage() {
-		return this.th.error;
-	}
+    public File getImageFile() {
+        String filename = this.queue.poll();
+        if ((filename == null) && !this.transferFinished) {
+            try {
+                this.blockedThreadCount.incrementAndGet();
+                filename = this.queue.take();
+                this.blockedThreadCount.decrementAndGet();
+            } catch (InterruptedException e) {
+            }
+        }
+        if (filename.isEmpty()) {
+            this.releaseBlockedThreads();
+        }
 
-	private void releaseBlockedThreads() {
-		int count = this.blockedThreadCount.getAndSet(0);
-		if (count > 0) {
-			for (int i = 0; i < count; i++) {
-				try {
-					this.queue.put(ScanSession.EOP);
-				} catch (InterruptedException e) {
-					ScanSession.logger.error(null, e);
-				}
-			}
-		}
-	}
+        if ((filename == null) || filename.isEmpty()) {
+            return null;
+        } else {
+            this.feederUsed = true;
+            return new File(filename);
 
-	public static String getExt(File file) {
-		String name = file.getName();
-		int ix = name.lastIndexOf('.');
-		if ((ix > 0) && ((ix + 1) < name.length())) {
-			return name.substring(ix + 1);
-		}
-		return "";
-	}
+        }
+        // return (filename == null) || filename.isEmpty() ? null : new File(filename);
+    }
 
-	// ========================================================
+    public boolean isEmptyFeeder() {
+        return this.th != null ? this.th.code == 0 : false;
+    }
 
-	/**
-	 * TransferDoneListener interface implementation that handles a scanned document as a File.
-	 *
-	 */
-	class MultiFileTransferHandler implements TransferListener {
+    public int getErrorCode() {
+        return this.th.code;
+    }
 
-		int code;
-		String error;
-		int pages; // expected page count (0 - until feeder is empty)
-		AtomicInteger pcounter; // page counter
+    public String getErrorMessage() {
+        return this.th.error;
+    }
 
-		public MultiFileTransferHandler(int pages) {
-			this.pages = pages;
-			this.pcounter = new AtomicInteger(0);
-			this.code = -1;
-			this.error = "No error";
-		}
+    private void releaseBlockedThreads() {
+        int count = this.blockedThreadCount.getAndSet(0);
+        if (count > 0) {
+            for (int i = 0; i < count; i++) {
+                try {
+                    this.queue.put(ScanSession.EOP);
+                } catch (InterruptedException e) {
+                    ScanSession.logger.error(null, e);
+                }
+            }
+        }
+    }
 
-		/**
-		 * Transferred image is handled in this callback method. File containing the image is provided as an argument. The image type may vary depending on the interface (Wia/ICA)
-		 * and the device driver. Typical format includes BMP for WIA scanners and JPEG for WIA camera and for ICA devices. Please note that this method runs in different thread
-		 * than that where the device.startTransfer() has been called.
-		 *
-		 * @param file
-		 *            - the file containing the acquired image
-		 *
-		 * @see eu.gnome.morena.TransferDoneListener#transferDone(java.io.File)
-		 */
+    public static String getExt(File file) {
+        String name = file.getName();
+        int ix = name.lastIndexOf('.');
+        if ((ix > 0) && ((ix + 1) < name.length())) {
+            return name.substring(ix + 1);
+        }
+        return "";
+    }
 
-		// @Override
-		@Override
-		public void transferDone(File file) {
-			try {
-				ScanSession.this.queue.put(file.getAbsolutePath());
-				if (this.pcounter.incrementAndGet() == this.pages) {
-					ScanSession.this.queue.put(ScanSession.EOP);
-				}
-			} catch (InterruptedException e) {
-				ScanSession.logger.error(null, e);
-			}
-		}
+    // ========================================================
 
-		/**
-		 * This callback method is called when scanning process failed for any reason. Description of the problem is provided.
-		 */
+    /**
+     * TransferDoneListener interface implementation that handles a scanned document as a File.
+     *
+     */
+    class MultiFileTransferHandler implements TransferListener {
 
-		// @Override
-		@Override
-		public void transferProgress(int percent) {
-			ScanSession.logger.debug("transfer " + percent + "%");
-		}
+        int code;
 
-		// @Override
-		@Override
-		public void transferFailed(int code, String error) {
-			this.code = code;
-			this.error = error;
-			ScanSession.this.transferFinished = true;
-			try {
-				ScanSession.this.queue.put(ScanSession.EOP);
-			} catch (InterruptedException e) {
-				ScanSession.logger.error(null, e);
-			}
-		}
+        String error;
 
-		// private String getUniqueFileName(String ext)
-		// { return new
-		// String("mi_"+time+"_"+pcounter.incrementAndGet()+(!ext.isEmpty()?"."+ext:""));
-		// }
+        int pages; // expected page count (0 - until feeder is empty)
 
-	}
+        AtomicInteger pcounter; // page counter
+
+        public MultiFileTransferHandler(int pages) {
+            this.pages = pages;
+            this.pcounter = new AtomicInteger(0);
+            this.code = -1;
+            this.error = "No error";
+        }
+
+        /**
+         * Transferred image is handled in this callback method. File containing the image is provided as an
+         * argument. The image type may vary depending on the interface (Wia/ICA) and the device driver.
+         * Typical format includes BMP for WIA scanners and JPEG for WIA camera and for ICA devices. Please
+         * note that this method runs in different thread than that where the device.startTransfer() has
+         * been called.
+         * @param file - the file containing the acquired image
+         *
+         * @see eu.gnome.morena.TransferDoneListener#transferDone(java.io.File)
+         */
+
+        // @Override
+        @Override
+        public void transferDone(File file) {
+            try {
+                ScanSession.this.queue.put(file.getAbsolutePath());
+                if (this.pcounter.incrementAndGet() == this.pages) {
+                    ScanSession.this.queue.put(ScanSession.EOP);
+                }
+            } catch (InterruptedException e) {
+                ScanSession.logger.error(null, e);
+            }
+        }
+
+        /**
+         * This callback method is called when scanning process failed for any reason. Description of the
+         * problem is provided.
+         */
+
+        // @Override
+        @Override
+        public void transferProgress(int percent) {
+            ScanSession.logger.debug("transfer " + percent + "%");
+        }
+
+        // @Override
+        @Override
+        public void transferFailed(int code, String error) {
+            this.code = code;
+            this.error = error;
+            ScanSession.this.transferFinished = true;
+            try {
+                ScanSession.this.queue.put(ScanSession.EOP);
+            } catch (InterruptedException e) {
+                ScanSession.logger.error(null, e);
+            }
+        }
+
+        // private String getUniqueFileName(String ext)
+        // { return new
+        // String("mi_"+time+"_"+pcounter.incrementAndGet()+(!ext.isEmpty()?"."+ext:""));
+        // }
+
+    }
 
 }

@@ -18,119 +18,122 @@ import com.ontimize.gui.images.ImageManager;
 import com.ontimize.util.swing.border.SoftButtonBorder;
 
 public class RolloverButton extends JButton {
-	private static final Logger logger = LoggerFactory.getLogger(RolloverButton.class);
 
-	public static boolean createRolloverIcon = false;
+    private static final Logger logger = LoggerFactory.getLogger(RolloverButton.class);
 
-	public static class RolloverListener extends MouseAdapter {
+    public static boolean createRolloverIcon = false;
 
-		JButton b = null;
+    public static class RolloverListener extends MouseAdapter {
 
-		public RolloverListener(JButton b) {
-			this.b = b;
-			b.addMouseListener(this);
-			b.setBorderPainted(false);
-			b.setDefaultCapable(false);
-		}
+        JButton b = null;
 
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			if (this.b.isEnabled()) {
-				this.b.setBorderPainted(true);
-			}
-		}
+        public RolloverListener(JButton b) {
+            this.b = b;
+            b.addMouseListener(this);
+            b.setBorderPainted(false);
+            b.setDefaultCapable(false);
+        }
 
-		@Override
-		public void mouseExited(MouseEvent e) {
-			if (this.b.isEnabled()) {
-				this.b.setBorderPainted(false);
-			}
-		}
-	}
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (this.b.isEnabled()) {
+                this.b.setBorderPainted(true);
+            }
+        }
 
-	public RolloverButton() {
-		super();
-		if (!RolloverButton.createRolloverIcon) {
-			RolloverListener rL = new RolloverListener(this);
-			RolloverButton.logger.trace("RolloverListener register : {} " + rL);
-		}
-	}
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (this.b.isEnabled()) {
+                this.b.setBorderPainted(false);
+            }
+        }
 
-	public RolloverButton(String text) {
-		super(text);
-		if (!RolloverButton.createRolloverIcon) {
-			RolloverListener rL = new RolloverListener(this);
-			RolloverButton.logger.trace("RolloverListener register : {} " + rL);
-		}
-	}
+    }
 
-	public RolloverButton(Icon icon) {
-		super(icon);
-		if (!RolloverButton.createRolloverIcon) {
-			RolloverListener rL = new RolloverListener(this);
-			RolloverButton.logger.trace("RolloverListener register : {} " + rL);
-		}
-	}
+    public RolloverButton() {
+        super();
+        if (!RolloverButton.createRolloverIcon) {
+            RolloverListener rL = new RolloverListener(this);
+            RolloverButton.logger.trace("RolloverListener register : {} " + rL);
+        }
+    }
 
-	public RolloverButton(Action a) {
-		super(a);
-		if (!RolloverButton.createRolloverIcon) {
-			RolloverListener rL = new RolloverListener(this);
-			RolloverButton.logger.trace("RolloverListener register : {} " + rL);
-		}
-	};
+    public RolloverButton(String text) {
+        super(text);
+        if (!RolloverButton.createRolloverIcon) {
+            RolloverListener rL = new RolloverListener(this);
+            RolloverButton.logger.trace("RolloverListener register : {} " + rL);
+        }
+    }
 
-	public RolloverButton(String text, Icon icon) {
-		super(text, icon);
-		if (!RolloverButton.createRolloverIcon) {
-			RolloverListener rL = new RolloverListener(this);
-			RolloverButton.logger.trace("RolloverListener register : {} " + rL);
-		}
-	};
+    public RolloverButton(Icon icon) {
+        super(icon);
+        if (!RolloverButton.createRolloverIcon) {
+            RolloverListener rL = new RolloverListener(this);
+            RolloverButton.logger.trace("RolloverListener register : {} " + rL);
+        }
+    }
 
-	@Override
-	public void setEnabled(boolean b) {
-		super.setEnabled(b);
-		if (!b) {
-			this.setBorderPainted(false);
-		}
-	}
+    public RolloverButton(Action a) {
+        super(a);
+        if (!RolloverButton.createRolloverIcon) {
+            RolloverListener rL = new RolloverListener(this);
+            RolloverButton.logger.trace("RolloverListener register : {} " + rL);
+        }
+    };
 
-	@Override
-	public void repaint() {
-		super.repaint();
-		Container c = this.getParent();
-		if (c != null) {
-			c.repaint();
-		}
-	}
+    public RolloverButton(String text, Icon icon) {
+        super(text, icon);
+        if (!RolloverButton.createRolloverIcon) {
+            RolloverListener rL = new RolloverListener(this);
+            RolloverButton.logger.trace("RolloverListener register : {} " + rL);
+        }
+    };
 
-	@Override
-	public void updateUI() {
-		super.updateUI();
-		if (this.getBorder() instanceof CompoundBorder) {
-			Border b = ((CompoundBorder) this.getBorder()).getOutsideBorder();
-			if (b instanceof javax.swing.plaf.basic.BasicBorders.ButtonBorder) {
-				Border be = new SoftButtonBorder();
-				CompoundBorder bn = new CompoundBorder(be, ((CompoundBorder) this.getBorder()).getInsideBorder());
-				this.setBorder(bn);
-			}
-		}
-	}
+    @Override
+    public void setEnabled(boolean b) {
+        super.setEnabled(b);
+        if (!b) {
+            this.setBorderPainted(false);
+        }
+    }
 
-	@Override
-	public void setIcon(Icon defaultIcon) {
-		super.setIcon(defaultIcon);
-		if (RolloverButton.createRolloverIcon && (defaultIcon instanceof ImageIcon)) {
-			ImageIcon rollOverIcon = ImageManager.transparent((ImageIcon) defaultIcon, 0.5f);
-			this.setRolloverIcon(rollOverIcon);
-			this.setBorderPainted(false);
-			this.setContentAreaFilled(false);
-		}
-	}
+    @Override
+    public void repaint() {
+        super.repaint();
+        Container c = this.getParent();
+        if (c != null) {
+            c.repaint();
+        }
+    }
 
-	@Override
-	public void setOpaque(boolean isOpaque) {
-		super.setOpaque(isOpaque);
-	}
+    @Override
+    public void updateUI() {
+        super.updateUI();
+        if (this.getBorder() instanceof CompoundBorder) {
+            Border b = ((CompoundBorder) this.getBorder()).getOutsideBorder();
+            if (b instanceof javax.swing.plaf.basic.BasicBorders.ButtonBorder) {
+                Border be = new SoftButtonBorder();
+                CompoundBorder bn = new CompoundBorder(be, ((CompoundBorder) this.getBorder()).getInsideBorder());
+                this.setBorder(bn);
+            }
+        }
+    }
+
+    @Override
+    public void setIcon(Icon defaultIcon) {
+        super.setIcon(defaultIcon);
+        if (RolloverButton.createRolloverIcon && (defaultIcon instanceof ImageIcon)) {
+            ImageIcon rollOverIcon = ImageManager.transparent((ImageIcon) defaultIcon, 0.5f);
+            this.setRolloverIcon(rollOverIcon);
+            this.setBorderPainted(false);
+            this.setContentAreaFilled(false);
+        }
+    }
+
+    @Override
+    public void setOpaque(boolean isOpaque) {
+        super.setOpaque(isOpaque);
+    }
+
 }

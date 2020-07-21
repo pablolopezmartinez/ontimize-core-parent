@@ -33,118 +33,126 @@ import com.ontimize.util.swing.ButtonSelection;
  */
 public class AttachmentButtonListener implements ActionListener {
 
-	/**
-	 * Logger
-	 */
-	private static final Logger logger = LoggerFactory.getLogger(AttachmentButtonListener.class);
+    /**
+     * Logger
+     */
+    private static final Logger logger = LoggerFactory.getLogger(AttachmentButtonListener.class);
 
-	/**
-	 * Variable that stores the {@link JFileChooser}
-	 */
-	protected EJFile fileChooser = null;
+    /**
+     * Variable that stores the {@link JFileChooser}
+     */
+    protected EJFile fileChooser = null;
 
-	/**
-	 * Variable that stores the associated form
-	 */
-	protected Form form;
+    /**
+     * Variable that stores the associated form
+     */
+    protected Form form;
 
-	/**
-	 * Constructor of the class
-	 * 
-	 * @param form
-	 *            the {@link Form} associated to the listener
-	 */
-	public AttachmentButtonListener(Form form) {
-		this.form = form;
-	}
+    /**
+     * Constructor of the class
+     * @param form the {@link Form} associated to the listener
+     */
+    public AttachmentButtonListener(Form form) {
+        this.form = form;
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
+    @Override
+    public void actionPerformed(ActionEvent event) {
 
-		EntityReferenceLocator locator = this.form.getFormManager().getReferenceLocator();
-		final Component eventSource = (Component) event.getSource();
-		try {
-			final Entity attachmentEntity = ((UtilReferenceLocator) locator).getAttachmentEntity(locator.getSessionId());
-			if (this.fileChooser == null) {
-				this.fileChooser = new EJFile();
-				this.fileChooser.setMultiSelectionEnabled(true);
-				this.fileChooser.setPanel(new JDescriptionPanel(this.form.getFormManager().getResourceBundle()));
-				this.fileChooser.setAccessory(this.fileChooser.getPanel());
-			}
-			this.fileChooser.getPanel().clearValues();
-			// clear previous file selected
-			this.fileChooser.setSelectedFile(new File(""));
-			int option = this.fileChooser.showOpenDialog(eventSource);
-			if (option != JFileChooser.APPROVE_OPTION) {
-				return;
-			}
+        EntityReferenceLocator locator = this.form.getFormManager().getReferenceLocator();
+        final Component eventSource = (Component) event.getSource();
+        try {
+            final Entity attachmentEntity = ((UtilReferenceLocator) locator)
+                .getAttachmentEntity(locator.getSessionId());
+            if (this.fileChooser == null) {
+                this.fileChooser = new EJFile();
+                this.fileChooser.setMultiSelectionEnabled(true);
+                this.fileChooser.setPanel(new JDescriptionPanel(this.form.getFormManager().getResourceBundle()));
+                this.fileChooser.setAccessory(this.fileChooser.getPanel());
+            }
+            this.fileChooser.getPanel().clearValues();
+            // clear previous file selected
+            this.fileChooser.setSelectedFile(new File(""));
+            int option = this.fileChooser.showOpenDialog(eventSource);
+            if (option != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
 
-			File selectedFile = this.fileChooser.getSelectedFile();
-			File[] files = this.fileChooser.getSelectedFiles();
+            File selectedFile = this.fileChooser.getSelectedFile();
+            File[] files = this.fileChooser.getSelectedFiles();
 
-			final Hashtable kv = new Hashtable();
-			if (selectedFile != null) {
-				Vector v = this.form.getKeys();
-				Collections.sort(v);
-				for (int i = 0; i < v.size(); i++) {
-					Object o = this.form.getDataFieldValue((String) v.get(i));
-					if (o != null) {
-						kv.put(v.get(i), o);
-					}
-				}
+            final Hashtable kv = new Hashtable();
+            if (selectedFile != null) {
+                Vector v = this.form.getKeys();
+                Collections.sort(v);
+                for (int i = 0; i < v.size(); i++) {
+                    Object o = this.form.getDataFieldValue((String) v.get(i));
+                    if (o != null) {
+                        kv.put(v.get(i), o);
+                    }
+                }
 
-				if (this.fileChooser.getPanel().getPrivate()) {
-					kv.put(Form.PRIVATE_ATTACHMENT, new Integer(1));
-				} else {
-					kv.put(Form.PRIVATE_ATTACHMENT, new Integer(0));
-				}
-				kv.put(Form.ATTACHMENT_ENTITY_NAME, this.form.getEntityName());
-				for (int i = 0; i < files.length; i++) {
-					ExtendedOperationThread eop = new SendThread(this.form.getResourceBundle(), files[i], kv, (FileManagementEntity) attachmentEntity,
-							this.fileChooser.getPanel().getDescription(), this.form.getFormManager().getReferenceLocator()) {
-						@Override
-						protected void uploadFinished() {
-							try {
+                if (this.fileChooser.getPanel().getPrivate()) {
+                    kv.put(Form.PRIVATE_ATTACHMENT, new Integer(1));
+                } else {
+                    kv.put(Form.PRIVATE_ATTACHMENT, new Integer(0));
+                }
+                kv.put(Form.ATTACHMENT_ENTITY_NAME, this.form.getEntityName());
+                for (int i = 0; i < files.length; i++) {
+                    ExtendedOperationThread eop = new SendThread(this.form.getResourceBundle(), files[i], kv,
+                            (FileManagementEntity) attachmentEntity,
+                            this.fileChooser.getPanel().getDescription(),
+                            this.form.getFormManager().getReferenceLocator()) {
+                        @Override
+                        protected void uploadFinished() {
+                            try {
 
-								ButtonSelection button = (ButtonSelection) SwingUtilities.getAncestorOfClass(ButtonSelection.class, eventSource);
-								kv.remove(Form.PRIVATE_ATTACHMENT);
-								EntityResult res = attachmentEntity.query(kv, new Vector(), this.locator.getSessionId());
-								if (button != null) {
+                                ButtonSelection button = (ButtonSelection) SwingUtilities
+                                    .getAncestorOfClass(ButtonSelection.class, eventSource);
+                                kv.remove(Form.PRIVATE_ATTACHMENT);
+                                EntityResult res = attachmentEntity.query(kv, new Vector(),
+                                        this.locator.getSessionId());
+                                if (button != null) {
 
-									JList jList = button.getMenuList();
-									AttachmentListPopup attachmentList = null;
-									if (jList instanceof AttachmentListPopup) {
-										attachmentList = (AttachmentListPopup) jList;
-									}
-									if (attachmentList == null) {
-										attachmentList = new AttachmentListPopup(AttachmentButtonListener.this.form);
-										button.setMenuList(attachmentList);
-									}
-									attachmentList.setAttachments(res);
-									AttachmentButtonSelection attachmentButton = AttachmentButtonListener.this.form.getAttachmentButton();
-									attachmentButton.setIcon(attachmentButton.getAttachmentIcon());
+                                    JList jList = button.getMenuList();
+                                    AttachmentListPopup attachmentList = null;
+                                    if (jList instanceof AttachmentListPopup) {
+                                        attachmentList = (AttachmentListPopup) jList;
+                                    }
+                                    if (attachmentList == null) {
+                                        attachmentList = new AttachmentListPopup(AttachmentButtonListener.this.form);
+                                        button.setMenuList(attachmentList);
+                                    }
+                                    attachmentList.setAttachments(res);
+                                    AttachmentButtonSelection attachmentButton = AttachmentButtonListener.this.form
+                                        .getAttachmentButton();
+                                    attachmentButton.setIcon(attachmentButton.getAttachmentIcon());
 
-								}
+                                }
 
-							} catch (Exception e) {
-								AttachmentButtonListener.logger.error("M_ERROR_RETRIEVING_ATTACHMENT", e.getMessage(), e);
-							}
-						}
-					};
+                            } catch (Exception e) {
+                                AttachmentButtonListener.logger.error("M_ERROR_RETRIEVING_ATTACHMENT", e.getMessage(),
+                                        e);
+                            }
+                        }
+                    };
 
-					ApplicationManager.ExtOpThreadsMonitor m = ApplicationManager.getExtOpThreadsMonitor((Component) event.getSource());
-					m.addExtOpThread(eop);
-				}
-				ApplicationManager.ExtOpThreadsMonitor m = ApplicationManager.getExtOpThreadsMonitor((Component) event.getSource());
-				if ((this.form.getFormManager() != null) && (this.form.getFormManager().getApplication() instanceof MainApplication)) {
-					((MainApplication) this.form.getFormManager().getApplication()).registerExtOpThreadsMonitor(m);
-				}
-				ApplicationManager.getExtOpThreadsMonitor((Component) event.getSource()).setVisible(true);
+                    ApplicationManager.ExtOpThreadsMonitor m = ApplicationManager
+                        .getExtOpThreadsMonitor((Component) event.getSource());
+                    m.addExtOpThread(eop);
+                }
+                ApplicationManager.ExtOpThreadsMonitor m = ApplicationManager
+                    .getExtOpThreadsMonitor((Component) event.getSource());
+                if ((this.form.getFormManager() != null)
+                        && (this.form.getFormManager().getApplication() instanceof MainApplication)) {
+                    ((MainApplication) this.form.getFormManager().getApplication()).registerExtOpThreadsMonitor(m);
+                }
+                ApplicationManager.getExtOpThreadsMonitor((Component) event.getSource()).setVisible(true);
 
-			}
-		} catch (Exception e) {
-			AttachmentButtonListener.logger.error(null, e);
-		}
-	}
+            }
+        } catch (Exception e) {
+            AttachmentButtonListener.logger.error(null, e);
+        }
+    }
 
 }

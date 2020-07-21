@@ -2,36 +2,38 @@ package com.ontimize.report.store;
 
 public interface ReportProperties extends java.io.Serializable {
 
-	public static final String BASIC = "BASIC";
-	public static final String ADVANCED = "ADVANCED";
+    public static final String BASIC = "BASIC";
 
-	/**
-	 * <p>
-	 * Ontimize Jasper Report System Report Store type.
-	 */
-	public static final String JASPERREPORT = "JASPERREPORT";
+    public static final String ADVANCED = "ADVANCED";
 
-	public Object getKey();
+    /**
+     * <p>
+     * Ontimize Jasper Report System Report Store type.
+     */
+    public static final String JASPERREPORT = "JASPERREPORT";
 
-	public String getName();
+    public Object getKey();
 
-	public String getDescription();
+    public String getName();
 
-	public String getEntity();
+    public String getDescription();
 
-	public String getSQLQuery();
+    public String getEntity();
 
-	public String getReportType();
+    public String getSQLQuery();
 
-	public void setKey(Object key);
+    public String getReportType();
 
-	public void setName(String name);
+    public void setKey(Object key);
 
-	public void setDescription(String dscr);
+    public void setName(String name);
 
-	public void setEntity(String entity);
+    public void setDescription(String dscr);
 
-	public void setSQLQuery(String query);
+    public void setEntity(String entity);
 
-	public void setReportType(String type);
+    public void setSQLQuery(String query);
+
+    public void setReportType(String type);
+
 }

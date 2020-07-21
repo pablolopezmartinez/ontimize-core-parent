@@ -32,68 +32,68 @@ import com.ontimize.gui.images.ImageManager;
  */
 public class HTMLTableAction extends HTMLTextEditAction {
 
-	private static final Logger	logger				= LoggerFactory.getLogger(HTMLTableAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(HTMLTableAction.class);
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public HTMLTableAction() {
-		super(HTMLTextEditAction.i18n.str("HTMLShef.table_"));
-		this.putValue("ID", "HTMLShef.table_");
-		this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.table_")));
+    public HTMLTableAction() {
+        super(HTMLTextEditAction.i18n.str("HTMLShef.table_"));
+        this.putValue("ID", "HTMLShef.table_");
+        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.table_")));
 
-		this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.HTML_TABLE));
-		this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
-	}
+        this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.HTML_TABLE));
+        this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
+    }
 
-	@Override
-	protected void editPerformed(ActionEvent e, JEditorPane editor) {
-		NewTableDialog dlg = this.createNewTableDialog(editor);
-		if (dlg == null) {
-			return;
-		}
-		dlg.setLocationRelativeTo(dlg.getParent());
-		dlg.setVisible(true);
-		if (dlg.hasUserCancelled()) {
-			return;
-		}
+    @Override
+    protected void editPerformed(ActionEvent e, JEditorPane editor) {
+        NewTableDialog dlg = this.createNewTableDialog(editor);
+        if (dlg == null) {
+            return;
+        }
+        dlg.setLocationRelativeTo(dlg.getParent());
+        dlg.setVisible(true);
+        if (dlg.hasUserCancelled()) {
+            return;
+        }
 
-		HTMLDocument document = (HTMLDocument) editor.getDocument();
-		String html = dlg.getHTML();
+        HTMLDocument document = (HTMLDocument) editor.getDocument();
+        String html = dlg.getHTML();
 
-		Element elem = document.getParagraphElement(editor.getCaretPosition());
-		CompoundUndoManager.beginCompoundEdit(document);
-		try {
-			if (HTMLUtils.isElementEmpty(elem)) {
-				document.setOuterHTML(elem, html);
-			} else if (elem.getName().equals("p-implied")) {
-				document.insertAfterEnd(elem, html);
-			} else {
-				HTMLUtils.insertHTML(html, HTML.Tag.TABLE, editor);
-			}
-		} catch (Exception ex) {
-			HTMLTableAction.logger.error(null, ex);
-		}
-		CompoundUndoManager.endCompoundEdit(document);
-	}
+        Element elem = document.getParagraphElement(editor.getCaretPosition());
+        CompoundUndoManager.beginCompoundEdit(document);
+        try {
+            if (HTMLUtils.isElementEmpty(elem)) {
+                document.setOuterHTML(elem, html);
+            } else if (elem.getName().equals("p-implied")) {
+                document.insertAfterEnd(elem, html);
+            } else {
+                HTMLUtils.insertHTML(html, HTML.Tag.TABLE, editor);
+            }
+        } catch (Exception ex) {
+            HTMLTableAction.logger.error(null, ex);
+        }
+        CompoundUndoManager.endCompoundEdit(document);
+    }
 
-	/**
-	 * Creates the dialog
-	 *
-	 * @param ed
-	 * @return the dialog
-	 */
-	protected NewTableDialog createNewTableDialog(JTextComponent ed) {
-		Window w = SwingUtilities.getWindowAncestor(ed);
-		NewTableDialog d = null;
-		if ((w != null) && (w instanceof Frame)) {
-			d = new NewTableDialog((Frame) w);
-		} else if ((w != null) && (w instanceof Dialog)) {
-			d = new NewTableDialog((Dialog) w);
-		}
+    /**
+     * Creates the dialog
+     * @param ed
+     * @return the dialog
+     */
+    protected NewTableDialog createNewTableDialog(JTextComponent ed) {
+        Window w = SwingUtilities.getWindowAncestor(ed);
+        NewTableDialog d = null;
+        if ((w != null) && (w instanceof Frame)) {
+            d = new NewTableDialog((Frame) w);
+        } else if ((w != null) && (w instanceof Dialog)) {
+            d = new NewTableDialog((Dialog) w);
+        }
 
-		return d;
-	}
+        return d;
+    }
+
 }

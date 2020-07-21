@@ -26,54 +26,61 @@ import com.ontimize.util.share.IShareRemoteReference;
 
 public class SharedEditTargetItemListener implements ActionListener {
 
-	protected String preferenceKey;
-	protected EntityReferenceLocator locator;
-	protected DefaultReportDialog defaultReportDialog;
+    protected String preferenceKey;
 
-	private static final Logger logger = LoggerFactory.getLogger(SharedEditTargetItemListener.class);
+    protected EntityReferenceLocator locator;
 
-	public SharedEditTargetItemListener(String preferenceKey, DefaultReportDialog defaultReportDialog) {
-		this.preferenceKey = preferenceKey;
-		this.defaultReportDialog = defaultReportDialog;
-		this.locator = ApplicationManager.getApplication().getReferenceLocator();
-	}
+    protected DefaultReportDialog defaultReportDialog;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		try {
-			Object o = e.getSource();
-			if (o instanceof AbstractButton) {
-				int shareId = Integer.parseInt(e.getActionCommand());
-				int sessionID = this.locator.getSessionId();
-				Point p = ((Component) e.getSource()).getLocationOnScreen();
+    private static final Logger logger = LoggerFactory.getLogger(SharedEditTargetItemListener.class);
 
-				IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator).getRemoteReference(IShareRemoteReference.REMOTE_NAME,
-						sessionID);
-				ListDataField listDataField = this.defaultReportDialog.createAndConfigureTargetUser();
-				List<String> oldTargetList = remoteReference.getTargetSharedItemsList(shareId, sessionID);
+    public SharedEditTargetItemListener(String preferenceKey, DefaultReportDialog defaultReportDialog) {
+        this.preferenceKey = preferenceKey;
+        this.defaultReportDialog = defaultReportDialog;
+        this.locator = ApplicationManager.getApplication().getReferenceLocator();
+    }
 
-				listDataField.setValue(new Vector<String>(oldTargetList));
-				FormAddUserSharedReference f = new FormAddUserSharedReference(
-						SwingUtilities.getWindowAncestor(SwingUtilities.getAncestorOfClass(Window.class, (Component) e.getSource())), true, this.locator, listDataField);
-				f.setLocation(p);
-				f.setVisible(true);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            Object o = e.getSource();
+            if (o instanceof AbstractButton) {
+                int shareId = Integer.parseInt(e.getActionCommand());
+                int sessionID = this.locator.getSessionId();
+                Point p = ((Component) e.getSource()).getLocationOnScreen();
 
-				if (f.getUpdateStatus()) {
-					List<String> targetList = new ArrayList<String>();
-					if (listDataField.getValue() != null) {
-						for (Object oActual : (Vector) listDataField.getValue()) {
-							targetList.add(oActual.toString());
-						}
-					}
-					remoteReference.editTargetSharedElement(shareId, targetList, sessionID);
-				}
+                IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator)
+                    .getRemoteReference(IShareRemoteReference.REMOTE_NAME,
+                            sessionID);
+                ListDataField listDataField = this.defaultReportDialog.createAndConfigureTargetUser();
+                List<String> oldTargetList = remoteReference.getTargetSharedItemsList(shareId, sessionID);
 
-			}
-		} catch (Exception e1) {
-			SharedEditTargetItemListener.logger.error("{}", ApplicationManager.getTranslation("shareRemote.error_adding_target_user"), e1.getMessage(), e1);
-			MessageDialog.showErrorMessage(this.defaultReportDialog.getContainer(), "shareRemote.error_adding_target_user");
-		}
+                listDataField.setValue(new Vector<String>(oldTargetList));
+                FormAddUserSharedReference f = new FormAddUserSharedReference(
+                        SwingUtilities.getWindowAncestor(
+                                SwingUtilities.getAncestorOfClass(Window.class, (Component) e.getSource())),
+                        true, this.locator, listDataField);
+                f.setLocation(p);
+                f.setVisible(true);
 
-	}
+                if (f.getUpdateStatus()) {
+                    List<String> targetList = new ArrayList<String>();
+                    if (listDataField.getValue() != null) {
+                        for (Object oActual : (Vector) listDataField.getValue()) {
+                            targetList.add(oActual.toString());
+                        }
+                    }
+                    remoteReference.editTargetSharedElement(shareId, targetList, sessionID);
+                }
+
+            }
+        } catch (Exception e1) {
+            SharedEditTargetItemListener.logger.error("{}",
+                    ApplicationManager.getTranslation("shareRemote.error_adding_target_user"), e1.getMessage(), e1);
+            MessageDialog.showErrorMessage(this.defaultReportDialog.getContainer(),
+                    "shareRemote.error_adding_target_user");
+        }
+
+    }
 
 }

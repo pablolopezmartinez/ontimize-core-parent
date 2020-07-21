@@ -13,51 +13,55 @@ import com.ontimize.gui.field.html.dialogs.panels.HeaderPanel;
 
 public class OptionDialog extends StandardDialog {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-	protected JPanel internalContentPane;
-	protected Container contentPane;
-	protected HeaderPanel hp;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public OptionDialog(Frame parent, String headerTitle, String desc, Icon icon) {
-		super(parent, headerTitle, StandardDialog.BUTTONS_RIGHT);
-		this.init(headerTitle, desc, icon);
-	}
+    protected JPanel internalContentPane;
 
-	public OptionDialog(Dialog parent, String headerTitle, String desc, Icon icon) {
-		super(parent, headerTitle, StandardDialog.BUTTONS_RIGHT);
-		this.init(headerTitle, desc, icon);
-	}
+    protected Container contentPane;
 
-	protected void init(String title, String desc, Icon icon) {
-		this.internalContentPane = new JPanel(new BorderLayout());
-		this.hp = new HeaderPanel();
-		this.hp.setTitle(title);
-		this.hp.setDescription(desc);
-		this.hp.setIcon(icon);
-		this.internalContentPane.add(this.hp, BorderLayout.NORTH);
+    protected HeaderPanel hp;
 
-		super.setContentPane(this.internalContentPane);
-	}
+    public OptionDialog(Frame parent, String headerTitle, String desc, Icon icon) {
+        super(parent, headerTitle, StandardDialog.BUTTONS_RIGHT);
+        this.init(headerTitle, desc, icon);
+    }
 
-	@Override
-	public Container getContentPane() {
-		return this.contentPane;
-	}
+    public OptionDialog(Dialog parent, String headerTitle, String desc, Icon icon) {
+        super(parent, headerTitle, StandardDialog.BUTTONS_RIGHT);
+        this.init(headerTitle, desc, icon);
+    }
 
-	@Override
-	public void setContentPane(Container c) {
-		this.contentPane = c;
-		this.internalContentPane.add(c, BorderLayout.CENTER);
-	}
+    protected void init(String title, String desc, Icon icon) {
+        this.internalContentPane = new JPanel(new BorderLayout());
+        this.hp = new HeaderPanel();
+        this.hp.setTitle(title);
+        this.hp.setDescription(desc);
+        this.hp.setIcon(icon);
+        this.internalContentPane.add(this.hp, BorderLayout.NORTH);
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		super.setResourceBundle(resourceBundle);
-		if (this.hp != null) {
-			this.hp.setResourceBundle(resourceBundle);
-		}
-	}
+        super.setContentPane(this.internalContentPane);
+    }
+
+    @Override
+    public Container getContentPane() {
+        return this.contentPane;
+    }
+
+    @Override
+    public void setContentPane(Container c) {
+        this.contentPane = c;
+        this.internalContentPane.add(c, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        super.setResourceBundle(resourceBundle);
+        if (this.hp != null) {
+            this.hp.setResourceBundle(resourceBundle);
+        }
+    }
+
 }

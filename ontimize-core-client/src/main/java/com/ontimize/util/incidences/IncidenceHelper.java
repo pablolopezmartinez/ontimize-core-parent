@@ -21,45 +21,46 @@ import com.ontimize.gui.images.ImageManager;
 
 public class IncidenceHelper {
 
-	public static void addIncidenceServiceButton(Application application) {
-		MainApplication app = (MainApplication) application;
+    public static void addIncidenceServiceButton(Application application) {
+        MainApplication app = (MainApplication) application;
 
-		InputMap inMap = ((JComponent) app.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-		ActionMap actMap = ((JComponent) app.getContentPane()).getActionMap();
-		final FormHeaderButton button = IncidenceHelper.createIncidenceButton(app.getOwner());
-		button.setIcon(ImageManager.getIcon(ImageManager.INCIDENCE_BUTTON));
-		button.setToolTipText(ApplicationManager.getTranslation("M_CREATE_INCIDENCE_BUTTON"));
+        InputMap inMap = ((JComponent) app.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actMap = ((JComponent) app.getContentPane()).getActionMap();
+        final FormHeaderButton button = IncidenceHelper.createIncidenceButton(app.getOwner());
+        button.setIcon(ImageManager.getIcon(ImageManager.INCIDENCE_BUTTON));
+        button.setToolTipText(ApplicationManager.getTranslation("M_CREATE_INCIDENCE_BUTTON"));
 
-		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK, true);
-		AbstractAction act = new AbstractAction() {
+        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK, true);
+        AbstractAction act = new AbstractAction() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				button.doClick();
-			}
-		};
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                button.doClick();
+            }
+        };
 
-		app.setKeyBinding("createIncidence", ks, act, inMap, actMap, true);
-		app.getStatusBar().add(button);
-	}
-	
-	public static FormHeaderButton createIncidenceButton(Window owner) {
-		final Window ownerWindow = owner;
-		Hashtable h = new Hashtable();
-		h.put("key", new String("createIncidence"));
-		// h.put("icon", imagemanager.incidence_button);
+        app.setKeyBinding("createIncidence", ks, act, inMap, actMap, true);
+        app.getStatusBar().add(button);
+    }
 
-		FormHeaderButton fhb = new FormHeaderButton(h);
+    public static FormHeaderButton createIncidenceButton(Window owner) {
+        final Window ownerWindow = owner;
+        Hashtable h = new Hashtable();
+        h.put("key", new String("createIncidence"));
+        // h.put("icon", imagemanager.incidence_button);
 
-		fhb.addActionListener(new ActionListener() {
+        FormHeaderButton fhb = new FormHeaderButton(h);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FormCreateIncidences incidences = new FormCreateIncidences(e.getSource());
-				ApplicationManager.center(incidences);
-				incidences.setVisible(true);
-			}
-		});
-		return fhb;
-	}
+        fhb.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FormCreateIncidences incidences = new FormCreateIncidences(e.getSource());
+                ApplicationManager.center(incidences);
+                incidences.setVisible(true);
+            }
+        });
+        return fhb;
+    }
+
 }

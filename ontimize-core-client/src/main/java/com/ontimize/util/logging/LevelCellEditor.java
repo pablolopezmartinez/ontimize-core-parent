@@ -12,44 +12,51 @@ import javax.swing.JTable;
 
 public class LevelCellEditor extends DefaultCellEditor {
 
-	protected static ILogManager manager = LogManagerFactory.getLogManager();
-	protected static JComboBox comboBox = new JComboBox();
-	protected static Level[] levels = new Level[] { null, Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR, Level.OFF };
+    protected static ILogManager manager = LogManagerFactory.getLogManager();
 
-	private final boolean editable = false;
-	Object defaullO = null;
+    protected static JComboBox comboBox = new JComboBox();
 
-	public LevelCellEditor() {
-		super(LevelCellEditor.comboBox);
-		LevelCellEditor.comboBox.setRenderer(new CellRendererList());
-	}
+    protected static Level[] levels = new Level[] { null, Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR,
+            Level.OFF };
 
-	protected class CellRendererList extends DefaultListCellRenderer {
+    private final boolean editable = false;
 
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-			Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			if (comp instanceof JLabel) {
-				if (value == null) {
-					((JLabel) comp).setText("    ");
-				}
-				// if ((getDefaultItem()!=null)&&(value!=null)){
-				// if (getDefaultItem().equals(value)){
-				// comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
-				// }
-				// }
-			}
-			return comp;
-		}
-	}
+    Object defaullO = null;
 
-	@Override
-	public Component getTableCellEditorComponent(JTable t, Object v, boolean s, int r, int c) {
-		Component comp = super.getTableCellEditorComponent(t, v, s, r, c);
-		if (comp instanceof JComboBox) {
-			((JComboBox) comp).setModel(new DefaultComboBoxModel(LevelCellEditor.levels));
-			((JComboBox) comp).setSelectedItem(v);
-		}
-		return comp;
-	}
+    public LevelCellEditor() {
+        super(LevelCellEditor.comboBox);
+        LevelCellEditor.comboBox.setRenderer(new CellRendererList());
+    }
+
+    protected class CellRendererList extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+                boolean cellHasFocus) {
+            Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (comp instanceof JLabel) {
+                if (value == null) {
+                    ((JLabel) comp).setText("    ");
+                }
+                // if ((getDefaultItem()!=null)&&(value!=null)){
+                // if (getDefaultItem().equals(value)){
+                // comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
+                // }
+                // }
+            }
+            return comp;
+        }
+
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable t, Object v, boolean s, int r, int c) {
+        Component comp = super.getTableCellEditorComponent(t, v, s, r, c);
+        if (comp instanceof JComboBox) {
+            ((JComboBox) comp).setModel(new DefaultComboBoxModel(LevelCellEditor.levels));
+            ((JComboBox) comp).setSelectedItem(v);
+        }
+        return comp;
+    }
+
 }

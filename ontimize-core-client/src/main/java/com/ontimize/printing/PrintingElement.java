@@ -12,33 +12,34 @@ import javax.swing.SwingConstants;
  */
 public interface PrintingElement {
 
-	public static int LEFT = SwingConstants.LEFT;
+    public static int LEFT = SwingConstants.LEFT;
 
-	public static int CENTER = SwingConstants.CENTER;
+    public static int CENTER = SwingConstants.CENTER;
 
-	public static int RIGHT = SwingConstants.RIGHT;
+    public static int RIGHT = SwingConstants.RIGHT;
 
-	public void paintInPage(Graphics g, PageFormat pageFormat);
+    public void paintInPage(Graphics g, PageFormat pageFormat);
 
-	public void paint(Graphics g, double scale);
+    public void paint(Graphics g, double scale);
 
-	public String getId();
+    public String getId();
 
-	public void setContent(Object content);
+    public void setContent(Object content);
 
-	public int getX();
+    public int getX();
 
-	public int getY();
+    public int getY();
 
-	public int getWidth();
+    public int getWidth();
 
-	public int getHeight();
+    public int getHeight();
 
-	public void setX(int x);
+    public void setX(int x);
 
-	public void setY(int y);
+    public void setY(int y);
 
-	public void setWidth(int w);
+    public void setWidth(int w);
 
-	public void setHeight(int h);
+    public void setHeight(int h);
+
 }

@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface IRules {
 
-	public List getEvents();
+    public List getEvents();
 
-	public void addEvent(IEvent event);
+    public void addEvent(IEvent event);
 
-	@Override
-	public String toString();
+    @Override
+    public String toString();
 
 }

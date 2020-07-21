@@ -7,7 +7,8 @@ package com.ontimize.security;
  */
 public class ModeErrorSecurityException extends Exception {
 
-	public ModeErrorSecurityException(String s) {
-		super(s);
-	}
+    public ModeErrorSecurityException(String s) {
+        super(s);
+    }
+
 }

@@ -8,86 +8,83 @@ import com.ontimize.util.rule.RuleParser.Attributes;
 
 public class Event implements IEvent {
 
-	protected String type;
+    protected String type;
 
-	protected Hashtable attributes;
+    protected Hashtable attributes;
 
-	protected List rules;
+    protected List rules;
 
-	public Event() {
-		this.attributes = new Hashtable();
-		this.rules = new Vector();
-	}
+    public Event() {
+        this.attributes = new Hashtable();
+        this.rules = new Vector();
+    }
 
-	public Event(Hashtable attributes, List rules) {
-		this.setAttributes(attributes);
-		this.setRules(rules);
-	}
+    public Event(Hashtable attributes, List rules) {
+        this.setAttributes(attributes);
+        this.setRules(rules);
+    }
 
-	/**
-	 * @param rules
-	 *            the rules to set
-	 */
-	public void setRules(List rules) {
-		this.rules = rules;
-	}
+    /**
+     * @param rules the rules to set
+     */
+    public void setRules(List rules) {
+        this.rules = rules;
+    }
 
-	@Override
-	public void addRule(IRule rule) {
-		this.rules.add(rule);
-	}
+    @Override
+    public void addRule(IRule rule) {
+        this.rules.add(rule);
+    }
 
-	/**
-	 * @return the rules
-	 */
-	@Override
-	public List getRules() {
-		return this.rules;
-	}
+    /**
+     * @return the rules
+     */
+    @Override
+    public List getRules() {
+        return this.rules;
+    }
 
-	/**
-	 * @param attributes
-	 *            the attributes to set
-	 */
-	@Override
-	public void setAttributes(Hashtable attributes) {
-		this.attributes = attributes;
-	}
+    /**
+     * @param attributes the attributes to set
+     */
+    @Override
+    public void setAttributes(Hashtable attributes) {
+        this.attributes = attributes;
+    }
 
-	/**
-	 * @return the attributes
-	 */
-	@Override
-	public Hashtable getAttributes() {
-		return this.attributes;
-	}
+    /**
+     * @return the attributes
+     */
+    @Override
+    public Hashtable getAttributes() {
+        return this.attributes;
+    }
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	@Override
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * @param type the type to set
+     */
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	/**
-	 * @return the type
-	 */
-	@Override
-	public String getType() {
-		return this.type;
-	}
+    /**
+     * @return the type
+     */
+    @Override
+    public String getType() {
+        return this.type;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(RuleParser.openTagWithAttributes(Attributes.EVENT, this.getAttributes()));
-		for (int i = 0; i < this.rules.size(); i++) {
-			sb.append(this.rules.get(i).toString());
-		}
-		sb.append(RuleParser.closeTag(Attributes.EVENT));
-		return sb.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(RuleParser.openTagWithAttributes(Attributes.EVENT, this.getAttributes()));
+        for (int i = 0; i < this.rules.size(); i++) {
+            sb.append(this.rules.get(i).toString());
+        }
+        sb.append(RuleParser.closeTag(Attributes.EVENT));
+        return sb.toString();
+    }
 
 }

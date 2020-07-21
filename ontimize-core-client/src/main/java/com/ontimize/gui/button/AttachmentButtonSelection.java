@@ -19,154 +19,157 @@ import com.ontimize.util.swing.ButtonSelection;
  */
 public class AttachmentButtonSelection extends ButtonSelectionInternationalization implements DataComponent {
 
-	protected AttachmentAttribute attachmentAttribute;
-	protected String entityName;
-	protected Form form;
-	protected ImageIcon attachmentIcon;
-	protected ImageIcon noAttachmentIcon;
+    protected AttachmentAttribute attachmentAttribute;
 
-	/**
-	 * Constructor
-	 *
-	 * @param attachmentIcon
-	 *            {@link Icon} for the button
-	 * @param attachmentEmptyIcon
-	 *
-	 * @param b
-	 *            {@link Boolean} for highlight the button
-	 * @param entityName
-	 *            Name of the attachment entity
-	 * @param form
-	 *            {@link Form} associated to the button
-	 */
-	public AttachmentButtonSelection(Icon attachmentIcon, Icon attachmentEmptyIcon, boolean b, String entityName, Form form) {
-		super(attachmentIcon, b);
-		this.attachmentIcon = (ImageIcon) attachmentIcon;
-		this.noAttachmentIcon = (ImageIcon) attachmentEmptyIcon;
-		this.entityName = entityName;
-		this.form = form;
-		this.attachmentAttribute = new AttachmentAttribute(entityName, form.getKeys());
-	}
+    protected String entityName;
 
-	@Override
-	public void init(Hashtable parameters) throws Exception {}
+    protected Form form;
 
-	@Override
-	public Object getConstraints(LayoutManager parentLayout) {
-		return null;
-	}
+    protected ImageIcon attachmentIcon;
 
-	@Override
-	public Object getAttribute() {
-		return this.attachmentAttribute;
-	}
+    protected ImageIcon noAttachmentIcon;
 
-	@Override
-	public void initPermissions() {}
+    /**
+     * Constructor
+     * @param attachmentIcon {@link Icon} for the button
+     * @param attachmentEmptyIcon
+     * @param b {@link Boolean} for highlight the button
+     * @param entityName Name of the attachment entity
+     * @param form {@link Form} associated to the button
+     */
+    public AttachmentButtonSelection(Icon attachmentIcon, Icon attachmentEmptyIcon, boolean b, String entityName,
+            Form form) {
+        super(attachmentIcon, b);
+        this.attachmentIcon = (ImageIcon) attachmentIcon;
+        this.noAttachmentIcon = (ImageIcon) attachmentEmptyIcon;
+        this.entityName = entityName;
+        this.form = form;
+        this.attachmentAttribute = new AttachmentAttribute(entityName, form.getKeys());
+    }
 
-	@Override
-	public boolean isRestricted() {
-		return false;
-	}
+    @Override
+    public void init(Hashtable parameters) throws Exception {
+    }
 
-	@Override
-	public String getLabelComponentText() {
-		return null;
-	}
+    @Override
+    public Object getConstraints(LayoutManager parentLayout) {
+        return null;
+    }
 
-	@Override
-	public Object getValue() {
-		return null;
-	}
+    @Override
+    public Object getAttribute() {
+        return this.attachmentAttribute;
+    }
 
-	@Override
-	public void setValue(Object value) {
+    @Override
+    public void initPermissions() {
+    }
 
-		if (value == null) {
-			this.deleteData();
-		} else {
+    @Override
+    public boolean isRestricted() {
+        return false;
+    }
 
-			ButtonSelection button = this;
-			if (button != null) {
+    @Override
+    public String getLabelComponentText() {
+        return null;
+    }
 
-				JList jList = button.getMenuList();
-				AttachmentListPopup attachmentList = null;
-				if (jList instanceof AttachmentListPopup) {
-					attachmentList = (AttachmentListPopup) jList;
-				}
+    @Override
+    public Object getValue() {
+        return null;
+    }
 
-				if (attachmentList == null) {
-					attachmentList = new AttachmentListPopup(this.form);
-					button.setMenuList(attachmentList);
-				}
+    @Override
+    public void setValue(Object value) {
 
-				if (value instanceof EntityResult) {
-					attachmentList.setAttachments((EntityResult) value);
-					this.setIcon(this.getAttachmentIcon());
-				}
-			}
-		}
-	}
+        if (value == null) {
+            this.deleteData();
+        } else {
 
-	public ImageIcon getAttachmentIcon() {
-		return this.attachmentIcon;
-	}
+            ButtonSelection button = this;
+            if (button != null) {
 
-	public void setAttachmentIcon(ImageIcon attachmentIcon) {
-		this.attachmentIcon = attachmentIcon;
-	}
+                JList jList = button.getMenuList();
+                AttachmentListPopup attachmentList = null;
+                if (jList instanceof AttachmentListPopup) {
+                    attachmentList = (AttachmentListPopup) jList;
+                }
 
-	public ImageIcon getNoAttachmentIcon() {
-		return this.noAttachmentIcon;
-	}
+                if (attachmentList == null) {
+                    attachmentList = new AttachmentListPopup(this.form);
+                    button.setMenuList(attachmentList);
+                }
 
-	public void setNoAttachmentIcon(ImageIcon noAttachmentIcon) {
-		this.noAttachmentIcon = noAttachmentIcon;
-	}
+                if (value instanceof EntityResult) {
+                    attachmentList.setAttachments((EntityResult) value);
+                    this.setIcon(this.getAttachmentIcon());
+                }
+            }
+        }
+    }
 
-	@Override
-	public void deleteData() {
-		JList jList = this.getMenuList();
-		if (jList instanceof AttachmentListPopup) {
-			((AttachmentListPopup) jList).removeAttachment();
-		}
-		this.setIcon(this.getNoAttachmentIcon());
-	}
+    public ImageIcon getAttachmentIcon() {
+        return this.attachmentIcon;
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return false;
-	}
+    public void setAttachmentIcon(ImageIcon attachmentIcon) {
+        this.attachmentIcon = attachmentIcon;
+    }
 
-	@Override
-	public boolean isModifiable() {
-		return false;
-	}
+    public ImageIcon getNoAttachmentIcon() {
+        return this.noAttachmentIcon;
+    }
 
-	@Override
-	public void setModifiable(boolean modifiable) {}
+    public void setNoAttachmentIcon(ImageIcon noAttachmentIcon) {
+        this.noAttachmentIcon = noAttachmentIcon;
+    }
 
-	@Override
-	public boolean isHidden() {
-		return false;
-	}
+    @Override
+    public void deleteData() {
+        JList jList = this.getMenuList();
+        if (jList instanceof AttachmentListPopup) {
+            ((AttachmentListPopup) jList).removeAttachment();
+        }
+        this.setIcon(this.getNoAttachmentIcon());
+    }
 
-	@Override
-	public int getSQLDataType() {
-		return 0;
-	}
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
 
-	@Override
-	public boolean isRequired() {
-		return false;
-	}
+    @Override
+    public boolean isModifiable() {
+        return false;
+    }
 
-	@Override
-	public boolean isModified() {
-		return false;
-	}
+    @Override
+    public void setModifiable(boolean modifiable) {
+    }
 
-	@Override
-	public void setRequired(boolean required) {}
+    @Override
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
+    public int getSQLDataType() {
+        return 0;
+    }
+
+    @Override
+    public boolean isRequired() {
+        return false;
+    }
+
+    @Override
+    public boolean isModified() {
+        return false;
+    }
+
+    @Override
+    public void setRequired(boolean required) {
+    }
 
 }

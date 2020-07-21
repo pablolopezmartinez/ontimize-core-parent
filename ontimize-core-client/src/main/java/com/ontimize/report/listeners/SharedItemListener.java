@@ -20,42 +20,47 @@ import com.ontimize.util.share.FormAddSharedReference;
 
 public class SharedItemListener implements ActionListener {
 
-	protected String shareKey = "REPORT_SHARE_KEY";
+    protected String shareKey = "REPORT_SHARE_KEY";
 
-	protected String preferenceKey;
-	protected DefaultReportDialog reportDialog;
-	protected EntityReferenceLocator locator;
+    protected String preferenceKey;
 
-	private static final Logger logger = LoggerFactory.getLogger(SharedItemListener.class);
+    protected DefaultReportDialog reportDialog;
 
-	public SharedItemListener(String preferenceKey, DefaultReportDialog reportDialog) {
-		this.preferenceKey = preferenceKey;
-		this.reportDialog = reportDialog;
-		this.locator = ApplicationManager.getApplication().getReferenceLocator();
-	}
+    protected EntityReferenceLocator locator;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		if (o instanceof AbstractButton) {
-			String filterName = ((AbstractButton) o).getActionCommand();
-			Point p = ((Component) e.getSource()).getLocationOnScreen();
-			String user = ((ClientReferenceLocator) this.locator).getUser();
-			Object value = DefaultReportDialog.getConfigurationValue(this.preferenceKey, user, filterName);
+    private static final Logger logger = LoggerFactory.getLogger(SharedItemListener.class);
 
-			try {
+    public SharedItemListener(String preferenceKey, DefaultReportDialog reportDialog) {
+        this.preferenceKey = preferenceKey;
+        this.reportDialog = reportDialog;
+        this.locator = ApplicationManager.getApplication().getReferenceLocator();
+    }
 
-				FormAddSharedReference f = new FormAddSharedReference(SwingUtilities.getWindowAncestor(SwingUtilities.getAncestorOfClass(Window.class, (Component) e.getSource())),
-						true, this.locator, value, this.preferenceKey, user, "", filterName, false, p);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+        if (o instanceof AbstractButton) {
+            String filterName = ((AbstractButton) o).getActionCommand();
+            Point p = ((Component) e.getSource()).getLocationOnScreen();
+            String user = ((ClientReferenceLocator) this.locator).getUser();
+            Object value = DefaultReportDialog.getConfigurationValue(this.preferenceKey, user, filterName);
 
-				if (f.getButtonOptionResult()) {
-					this.reportDialog.deleteConfiguration(filterName);
-				}
+            try {
 
-				f = null;
-			} catch (Exception e1) {
-				SharedItemListener.logger.error("ERROR -> {}", e1.getMessage(), e1);
-			}
-		}
-	}
+                FormAddSharedReference f = new FormAddSharedReference(
+                        SwingUtilities.getWindowAncestor(
+                                SwingUtilities.getAncestorOfClass(Window.class, (Component) e.getSource())),
+                        true, this.locator, value, this.preferenceKey, user, "", filterName, false, p);
+
+                if (f.getButtonOptionResult()) {
+                    this.reportDialog.deleteConfiguration(filterName);
+                }
+
+                f = null;
+            } catch (Exception e1) {
+                SharedItemListener.logger.error("ERROR -> {}", e1.getMessage(), e1);
+            }
+        }
+    }
+
 }

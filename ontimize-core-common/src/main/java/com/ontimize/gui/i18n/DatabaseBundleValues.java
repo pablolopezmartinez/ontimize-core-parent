@@ -8,102 +8,105 @@ import java.util.List;
 
 public class DatabaseBundleValues implements Serializable {
 
-	protected String[] availableLocales;
+    protected String[] availableLocales;
 
-	protected List bundleValues = new ArrayList();
+    protected List bundleValues = new ArrayList();
 
-	public DatabaseBundleValues(String[] availableLocales) {
-		this.availableLocales = availableLocales;
-	}
+    public DatabaseBundleValues(String[] availableLocales) {
+        this.availableLocales = availableLocales;
+    }
 
-	public void addBundleValue(String textKey, String bundleName, Hashtable translationValues) {
-		BundleValue bundleValue = new BundleValue(textKey, bundleName, translationValues);
+    public void addBundleValue(String textKey, String bundleName, Hashtable translationValues) {
+        BundleValue bundleValue = new BundleValue(textKey, bundleName, translationValues);
 
-		// Search for the non-existent item
-		// int index = bundleValues.indexOf(bundleValue);
-		int index = Collections.binarySearch(this.bundleValues, bundleValue);
-		if (index >= 0) {
-			this.bundleValues.add(index, bundleValue);
-			this.bundleValues.remove(index + 1);
-		} else {
-			// The list must be orderer
-			this.bundleValues.add(-index - 1, bundleValue);
-		}
-	}
+        // Search for the non-existent item
+        // int index = bundleValues.indexOf(bundleValue);
+        int index = Collections.binarySearch(this.bundleValues, bundleValue);
+        if (index >= 0) {
+            this.bundleValues.add(index, bundleValue);
+            this.bundleValues.remove(index + 1);
+        } else {
+            // The list must be orderer
+            this.bundleValues.add(-index - 1, bundleValue);
+        }
+    }
 
-	public List getBundleValues() {
-		return this.bundleValues;
-	}
+    public List getBundleValues() {
+        return this.bundleValues;
+    }
 
-	public static class BundleValue implements Comparable, Serializable {
+    public static class BundleValue implements Comparable, Serializable {
 
-		protected String textKey;
+        protected String textKey;
 
-		protected String bundleClassName;
+        protected String bundleClassName;
 
-		protected Hashtable translationValues;
+        protected Hashtable translationValues;
 
-		public BundleValue(String textKey, String bundleName, Hashtable tranlationValues) {
-			this.textKey = textKey;
-			this.bundleClassName = bundleName;
-			this.translationValues = tranlationValues;
-		}
+        public BundleValue(String textKey, String bundleName, Hashtable tranlationValues) {
+            this.textKey = textKey;
+            this.bundleClassName = bundleName;
+            this.translationValues = tranlationValues;
+        }
 
-		public String getTextKey() {
-			return this.textKey;
-		}
+        public String getTextKey() {
+            return this.textKey;
+        }
 
-		public void setTextKey(String textKey) {
-			this.textKey = textKey;
-		}
+        public void setTextKey(String textKey) {
+            this.textKey = textKey;
+        }
 
-		public String getBundleClassName() {
-			return this.bundleClassName;
-		}
+        public String getBundleClassName() {
+            return this.bundleClassName;
+        }
 
-		public void setBundleClassName(String bundleClassName) {
-			this.bundleClassName = bundleClassName;
-		}
+        public void setBundleClassName(String bundleClassName) {
+            this.bundleClassName = bundleClassName;
+        }
 
-		public Hashtable getTranslationValues() {
-			return this.translationValues;
-		}
+        public Hashtable getTranslationValues() {
+            return this.translationValues;
+        }
 
-		public void setTranslationValues(Hashtable translationValues) {
-			this.translationValues = translationValues;
-		}
+        public void setTranslationValues(Hashtable translationValues) {
+            this.translationValues = translationValues;
+        }
 
-		public boolean sameBundleValue(BundleValue obj) {
-			if ((obj != null) && obj.getBundleClassName().equals(this.getBundleClassName()) && obj.getTextKey().equals(this.getTextKey())) {
-				return true;
-			}
-			return false;
-		}
+        public boolean sameBundleValue(BundleValue obj) {
+            if ((obj != null) && obj.getBundleClassName().equals(this.getBundleClassName())
+                    && obj.getTextKey().equals(this.getTextKey())) {
+                return true;
+            }
+            return false;
+        }
 
-		/**
-		 * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
-		 * the specified object.
-		 */
-		@Override
-		public int compareTo(Object o) {
-			if ((o != null) && (o instanceof BundleValue)) {
-				int comparationResult = this.getBundleClassName().compareTo(((BundleValue) o).getBundleClassName());
-				if (comparationResult == 0) {
-					comparationResult = this.getTextKey().compareTo(((BundleValue) o).getTextKey());
-				}
-				return comparationResult;
-			}
-			return -1;
-		}
+        /**
+         * Compares this object with the specified object for order. Returns a negative integer, zero, or a
+         * positive integer as this object is less than, equal to, or greater than the specified object.
+         */
+        @Override
+        public int compareTo(Object o) {
+            if ((o != null) && (o instanceof BundleValue)) {
+                int comparationResult = this.getBundleClassName().compareTo(((BundleValue) o).getBundleClassName());
+                if (comparationResult == 0) {
+                    comparationResult = this.getTextKey().compareTo(((BundleValue) o).getTextKey());
+                }
+                return comparationResult;
+            }
+            return -1;
+        }
 
-		@Override
-		public boolean equals(Object obj) {
-			return super.equals(obj);
-		}
+        @Override
+        public boolean equals(Object obj) {
+            return super.equals(obj);
+        }
 
-		@Override
-		public int hashCode() {
-			return super.hashCode();
-		}
-	}
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        }
+
+    }
+
 }

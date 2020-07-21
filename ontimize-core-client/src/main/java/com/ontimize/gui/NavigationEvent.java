@@ -3,7 +3,8 @@ package com.ontimize.gui;
 import java.util.EventObject;
 
 /**
- * Class to manage the events that are fired when user changes the form manager in application. Used for {@link ApToolBarNavigator} component.
+ * Class to manage the events that are fired when user changes the form manager in application. Used
+ * for {@link ApToolBarNavigator} component.
  *
  * @author Imatia Innovation SL
  * @since 5.2057EN-1.0
@@ -11,22 +12,24 @@ import java.util.EventObject;
  */
 public class NavigationEvent extends EventObject {
 
-	public static final int FORM_MANAGER_CHANGED = 0;
+    public static final int FORM_MANAGER_CHANGED = 0;
 
-	protected int type = 0;
-	protected String formManager;
+    protected int type = 0;
 
-	public NavigationEvent(Object source, int type, String formManager) {
-		super(source);
-		this.type = type;
-		this.formManager = formManager;
-	}
+    protected String formManager;
 
-	public int getType() {
-		return this.type;
-	}
+    public NavigationEvent(Object source, int type, String formManager) {
+        super(source);
+        this.type = type;
+        this.formManager = formManager;
+    }
 
-	public String getFormManager() {
-		return this.formManager;
-	}
+    public int getType() {
+        return this.type;
+    }
+
+    public String getFormManager() {
+        return this.formManager;
+    }
+
 }

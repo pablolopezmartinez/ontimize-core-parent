@@ -32,109 +32,123 @@ import com.ontimize.gui.images.ImageManager;
 
 public class DURLToConnect extends JDialog {
 
-	private static final Logger		logger	= LoggerFactory.getLogger(DURLToConnect.class);
+    private static final Logger logger = LoggerFactory.getLogger(DURLToConnect.class);
 
-	private final JTextArea urlText = new JTextArea();
-	private final JButton ok = new JButton(ImageManager.getIcon(ImageManager.OK));
-	private final JLabel icon = new JLabel(ImageManager.getIcon(ImageManager.LICENSE_WARNING_48));
+    private final JTextArea urlText = new JTextArea();
 
-	private static DURLToConnect durl = null;
-	private final JPopupMenu popup = new JPopupMenu();
+    private final JButton ok = new JButton(ImageManager.getIcon(ImageManager.OK));
 
-	class PopupListener extends MouseAdapter {
+    private final JLabel icon = new JLabel(ImageManager.getIcon(ImageManager.LICENSE_WARNING_48));
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				DURLToConnect.this.popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		}
+    private static DURLToConnect durl = null;
 
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				DURLToConnect.this.popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		}
-	}
+    private final JPopupMenu popup = new JPopupMenu();
 
-	public DURLToConnect(Dialog owner, ResourceBundle bundle) {
-		super(owner);
-		this.init(bundle);
-	}
+    class PopupListener extends MouseAdapter {
 
-	public DURLToConnect(Frame owner, ResourceBundle bundle) {
-		super(owner);
-		this.init(bundle);
-	}
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (e.isPopupTrigger()) {
+                DURLToConnect.this.popup.show(e.getComponent(), e.getX(), e.getY());
+            }
+        }
 
-	private void init(ResourceBundle bundle) {
-		this.getContentPane().setLayout(new GridBagLayout());
-		this.setTitle(ApplicationManager.getTranslation("DURLToConnect.Title", bundle));
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (e.isPopupTrigger()) {
+                DURLToConnect.this.popup.show(e.getComponent(), e.getX(), e.getY());
+            }
+        }
 
-		this.ok.addActionListener(new ActionListener() {
+    }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Window w = SwingUtilities.getWindowAncestor((Component) e.getSource());
-				w.setVisible(false);
-			}
-		});
+    public DURLToConnect(Dialog owner, ResourceBundle bundle) {
+        super(owner);
+        this.init(bundle);
+    }
 
-		this.urlText.setEditable(false);
-		this.urlText.setRows(2);
+    public DURLToConnect(Frame owner, ResourceBundle bundle) {
+        super(owner);
+        this.init(bundle);
+    }
 
-		JMenuItem mi = new JMenuItem(ApplicationManager.getTranslation("DURLToConnect.COPIAR_PORTAPAPELES", bundle));
-		mi.addActionListener(new ActionListener() {
+    private void init(ResourceBundle bundle) {
+        this.getContentPane().setLayout(new GridBagLayout());
+        this.setTitle(ApplicationManager.getTranslation("DURLToConnect.Title", bundle));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ApplicationManager.copyToClipboard(DURLToConnect.this.urlText.getText());
-				} catch (Exception ex) {
-					DURLToConnect.logger.error(null, ex);
-				}
-			}
-		});
+        this.ok.addActionListener(new ActionListener() {
 
-		this.popup.add(mi);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Window w = SwingUtilities.getWindowAncestor((Component) e.getSource());
+                w.setVisible(false);
+            }
+        });
 
-		this.urlText.addMouseListener(new PopupListener());
+        this.urlText.setEditable(false);
+        this.urlText.setRows(2);
 
-		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		buttons.add(this.ok);
+        JMenuItem mi = new JMenuItem(ApplicationManager.getTranslation("DURLToConnect.COPIAR_PORTAPAPELES", bundle));
+        mi.addActionListener(new ActionListener() {
 
-		this.getContentPane().add(this.icon, new GridBagConstraints(0, 0, 1, 3, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(30, 4, 2, 4), 0, 0));
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ApplicationManager.copyToClipboard(DURLToConnect.this.urlText.getText());
+                } catch (Exception ex) {
+                    DURLToConnect.logger.error(null, ex);
+                }
+            }
+        });
 
-		this.getContentPane().add(new JLabel(ApplicationManager.getTranslation("DURLToConnect.URL_TO_CONNECT_1", bundle)),
-				new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        this.popup.add(mi);
 
-		this.getContentPane().add(new JScrollPane(this.urlText),
-				new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+        this.urlText.addMouseListener(new PopupListener());
 
-		this.getContentPane().add(new JLabel(ApplicationManager.getTranslation("DURLToConnect.URL_TO_CONNECT_2", bundle)),
-				new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttons.add(this.ok);
 
-		this.getContentPane().add(buttons, new GridBagConstraints(0, 3, 2, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
-		this.pack();
-		ApplicationManager.center(this);
-	}
+        this.getContentPane()
+            .add(this.icon, new GridBagConstraints(0, 0, 1, 3, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE,
+                    new Insets(30, 4, 2, 4), 0, 0));
 
-	public void setText(String url) {
-		this.urlText.setText(url);
-	}
+        this.getContentPane()
+            .add(new JLabel(ApplicationManager.getTranslation("DURLToConnect.URL_TO_CONNECT_1", bundle)),
+                    new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                            GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-	public static void showDURLToConnect(Component owner, ResourceBundle bundle, String text) {
-		if (DURLToConnect.durl == null) {
-			if (owner instanceof Frame) {
-				DURLToConnect.durl = new DURLToConnect((Frame) owner, bundle);
-			} else {
-				DURLToConnect.durl = new DURLToConnect((Dialog) owner, bundle);
-			}
-		}
-		DURLToConnect.durl.setText(text);
-		DURLToConnect.durl.setVisible(true);
+        this.getContentPane()
+            .add(new JScrollPane(this.urlText),
+                    new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                            new Insets(2, 2, 2, 2), 0, 0));
 
-	}
+        this.getContentPane()
+            .add(new JLabel(ApplicationManager.getTranslation("DURLToConnect.URL_TO_CONNECT_2", bundle)),
+                    new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                            GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+
+        this.getContentPane()
+            .add(buttons, new GridBagConstraints(0, 3, 2, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                    GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        this.pack();
+        ApplicationManager.center(this);
+    }
+
+    public void setText(String url) {
+        this.urlText.setText(url);
+    }
+
+    public static void showDURLToConnect(Component owner, ResourceBundle bundle, String text) {
+        if (DURLToConnect.durl == null) {
+            if (owner instanceof Frame) {
+                DURLToConnect.durl = new DURLToConnect((Frame) owner, bundle);
+            } else {
+                DURLToConnect.durl = new DURLToConnect((Dialog) owner, bundle);
+            }
+        }
+        DURLToConnect.durl.setText(text);
+        DURLToConnect.durl.setVisible(true);
+
+    }
 
 }

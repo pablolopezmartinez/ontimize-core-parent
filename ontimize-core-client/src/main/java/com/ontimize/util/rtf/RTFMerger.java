@@ -13,46 +13,46 @@ import com.ontimize.util.rtf.style.RTFDocument;
 
 public class RTFMerger {
 
-	private static final Logger logger = LoggerFactory.getLogger(RTFMerger.class);
+    private static final Logger logger = LoggerFactory.getLogger(RTFMerger.class);
 
-	public static String mergeRTFStrings(List rtfContents) {
-		RTFEditorKit editor = new RTFEditorKit();
-		RTFDocument doc = new RTFDocument();
-		for (int i = 0; i < rtfContents.size(); i++) {
-			String currentRTFContent = (String) rtfContents.get(i);
-			try {
-				editor.read(new StringReader(currentRTFContent), doc, doc.getLength());
-			} catch (Exception e) {
-				RTFMerger.logger.error(null, e);
-			}
-		}
-		OutputStream out = new ByteArrayOutputStream();
-		try {
-			editor.write(out, doc, 0, doc.getLength());
-		} catch (Exception e) {
-			RTFMerger.logger.error(null, e);
-		}
-		return out.toString();
-	}
+    public static String mergeRTFStrings(List rtfContents) {
+        RTFEditorKit editor = new RTFEditorKit();
+        RTFDocument doc = new RTFDocument();
+        for (int i = 0; i < rtfContents.size(); i++) {
+            String currentRTFContent = (String) rtfContents.get(i);
+            try {
+                editor.read(new StringReader(currentRTFContent), doc, doc.getLength());
+            } catch (Exception e) {
+                RTFMerger.logger.error(null, e);
+            }
+        }
+        OutputStream out = new ByteArrayOutputStream();
+        try {
+            editor.write(out, doc, 0, doc.getLength());
+        } catch (Exception e) {
+            RTFMerger.logger.error(null, e);
+        }
+        return out.toString();
+    }
 
-	public static OutputStream mergeRTFStreams(List rtfContents) {
-		RTFEditorKit editor = new RTFEditorKit();
-		RTFDocument doc = new RTFDocument();
-		for (int i = 0; i < rtfContents.size(); i++) {
-			InputStream currentRTFInput = (InputStream) rtfContents.get(i);
-			try {
-				editor.read(currentRTFInput, doc, doc.getLength());
-			} catch (Exception e) {
-				RTFMerger.logger.error(null, e);
-			}
-		}
-		OutputStream out = new ByteArrayOutputStream();
-		try {
-			editor.write(out, doc, 0, doc.getLength());
-		} catch (Exception e) {
-			RTFMerger.logger.error(null, e);
-		}
-		return out;
-	}
+    public static OutputStream mergeRTFStreams(List rtfContents) {
+        RTFEditorKit editor = new RTFEditorKit();
+        RTFDocument doc = new RTFDocument();
+        for (int i = 0; i < rtfContents.size(); i++) {
+            InputStream currentRTFInput = (InputStream) rtfContents.get(i);
+            try {
+                editor.read(currentRTFInput, doc, doc.getLength());
+            } catch (Exception e) {
+                RTFMerger.logger.error(null, e);
+            }
+        }
+        OutputStream out = new ByteArrayOutputStream();
+        try {
+            editor.write(out, doc, 0, doc.getLength());
+        } catch (Exception e) {
+            RTFMerger.logger.error(null, e);
+        }
+        return out;
+    }
 
 }

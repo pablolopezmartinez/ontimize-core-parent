@@ -2,13 +2,14 @@ package com.ontimize.util.calendar;
 
 public abstract class TimePeriodParserManager {
 
-	private static TimePeriodParser parser = BasicTimePeriodParser.getInstance();
+    private static TimePeriodParser parser = BasicTimePeriodParser.getInstance();
 
-	public static final void setTimePeriodParser(TimePeriodParser p) {
-		TimePeriodParserManager.parser = p;
-	}
+    public static final void setTimePeriodParser(TimePeriodParser p) {
+        TimePeriodParserManager.parser = p;
+    }
 
-	public static final TimePeriodParser getTimePeriodParser() {
-		return TimePeriodParserManager.parser;
-	}
+    public static final TimePeriodParser getTimePeriodParser() {
+        return TimePeriodParserManager.parser;
+    }
+
 }

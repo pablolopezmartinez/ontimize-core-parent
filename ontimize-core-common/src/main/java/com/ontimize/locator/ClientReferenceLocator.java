@@ -8,53 +8,46 @@ import java.util.List;
  */
 public interface ClientReferenceLocator {
 
-	/**
-	 * Get the time between two verifications of new chat messages
-	 *
-	 * @return
-	 */
-	public int getChatCheckTime();
+    /**
+     * Get the time between two verifications of new chat messages
+     * @return
+     */
+    public int getChatCheckTime();
 
-	public int getMessageCheckTime();
+    public int getMessageCheckTime();
 
-	/**
-	 * True when the application has a chat configured
-	 *
-	 * @return
-	 */
-	public boolean hasChat();
+    /**
+     * True when the application has a chat configured
+     * @return
+     */
+    public boolean hasChat();
 
-	public void showMessageDialog(Component c);
+    public void showMessageDialog(Component c);
 
-	/**
-	 * Get the current user name
-	 *
-	 * @return
-	 */
-	public String getUser();
+    /**
+     * Get the current user name
+     * @return
+     */
+    public String getUser();
 
-	public InitialContext getInitialContext();
+    public InitialContext getInitialContext();
 
-	/**
-	 * Allows to get local references defined in 'references.xml' file <b> when
-	 * app is built in local mode. </b>. For remote references is used
-	 * {@link #getRemoteReference(String, int)}
-	 *
-	 * @param name
-	 *            The name of reference defined in 'references.xml' file.
-	 * @return Object for this reference
-	 * @throws Exception
-	 *             When application is not in local mode or when something
-	 *             fails.
-	 * @since 5.2073EN-0.2
-	 */
-	public Object getReference(String name) throws Exception;
+    /**
+     * Allows to get local references defined in 'references.xml' file <b> when app is built in local
+     * mode. </b>. For remote references is used {@link #getRemoteReference(String, int)}
+     * @param name The name of reference defined in 'references.xml' file.
+     * @return Object for this reference
+     * @throws Exception When application is not in local mode or when something fails.
+     * @since 5.2073EN-0.2
+     */
+    public Object getReference(String name) throws Exception;
 
-	public Object getLocaleId(int sessionId) throws Exception;
-	
-	public void addModuleMemoryEntity(String localEntityPackage, List<String> localEntities);
-	
-	public boolean isLocalMode();
-	
-	public boolean isAllowCertificateLogin();
+    public Object getLocaleId(int sessionId) throws Exception;
+
+    public void addModuleMemoryEntity(String localEntityPackage, List<String> localEntities);
+
+    public boolean isLocalMode();
+
+    public boolean isAllowCertificateLogin();
+
 }

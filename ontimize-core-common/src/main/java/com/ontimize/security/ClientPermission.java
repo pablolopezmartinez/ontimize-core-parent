@@ -3,7 +3,8 @@ package com.ontimize.security;
 import com.ontimize.util.calendar.TimePeriod;
 
 /**
- * Interface that defines methods for client permission components. It is implemented in class {@link AbstractClientPermission}:
+ * Interface that defines methods for client permission components. It is implemented in class
+ * {@link AbstractClientPermission}:
  * <ul>
  * <li>getAttribute()
  * <li>getPermissionName()
@@ -16,13 +17,14 @@ import com.ontimize.util.calendar.TimePeriod;
  */
 public interface ClientPermission extends java.io.Serializable {
 
-	public String getAttribute();
+    public String getAttribute();
 
-	public String getPermissionName();
+    public String getPermissionName();
 
-	public boolean hasPermission();
+    public boolean hasPermission();
 
-	public void setAttribute(String atribute);
+    public void setAttribute(String atribute);
 
-	public TimePeriod getPeriod();
+    public TimePeriod getPeriod();
+
 }

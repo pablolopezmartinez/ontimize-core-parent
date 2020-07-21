@@ -12,42 +12,42 @@ import com.ontimize.util.swing.CollapsiblePopupPanel;
 
 public class GroupTableButton extends TableButton {
 
-	protected CollapsiblePopupPanel panel = new CollapsiblePopupPanel();
+    protected CollapsiblePopupPanel panel = new CollapsiblePopupPanel();
 
-	public GroupTableButton() {
-		super(ImageManager.getIcon(ImageManager.GROUP));
-		this.setTransferHandler(new ButtonTransferHandler());
-	}
+    public GroupTableButton() {
+        super(ImageManager.getIcon(ImageManager.GROUP));
+        this.setTransferHandler(new ButtonTransferHandler());
+    }
 
-	@Override
-	protected void init() {
-		this.setMargin(new Insets(0, 0, 0, 0));
-		this.addActionListener(new ActionListener() {
+    @Override
+    protected void init() {
+        this.setMargin(new Insets(0, 0, 0, 0));
+        this.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				GroupTableButton.this.panel.show((JButton) e.getSource(), 0, ((JButton) e.getSource()).getHeight());
-			}
-		});
-	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GroupTableButton.this.panel.show((JButton) e.getSource(), 0, ((JButton) e.getSource()).getHeight());
+            }
+        });
+    }
 
-	protected void hideCollapsible() {
-		this.panel.setVisible(false);
-	}
+    protected void hideCollapsible() {
+        this.panel.setVisible(false);
+    }
 
-	@Override
-	public Component add(Component comp) {
-		return this.panel.add(comp);
-	}
+    @Override
+    public Component add(Component comp) {
+        return this.panel.add(comp);
+    }
 
-	public Component add(Component comp, boolean fireProperty) {
-		Component c = this.add(comp);
-		this.firePropertyChange(ControlPanel.CHANGE_BUTTON_PROPERTY, false, true);
-		return c;
-	}
+    public Component add(Component comp, boolean fireProperty) {
+        Component c = this.add(comp);
+        this.firePropertyChange(ControlPanel.CHANGE_BUTTON_PROPERTY, false, true);
+        return c;
+    }
 
-	public Component[] getInnerComponents() {
-		return this.panel.getInnerComponents();
-	}
+    public Component[] getInnerComponents() {
+        return this.panel.getInnerComponents();
+    }
 
 }

@@ -19,99 +19,107 @@ import com.ontimize.gui.button.Button;
 
 public class PasswordDialog extends JDialog implements ActionListener {
 
-	public static final String HELP_TEXT = "passworddialog.help";
-	public static final String HELP_TITLE = "passworddialog.title";
+    public static final String HELP_TEXT = "passworddialog.help";
 
-	private static PasswordDialog pf = null;
+    public static final String HELP_TITLE = "passworddialog.title";
 
-	Button okButton = null;
-	Button cancelButton = null;
-	JPasswordField passwordField = new JPasswordField(10);
-	JLabel help = new JLabel("");
+    private static PasswordDialog pf = null;
 
-	public PasswordDialog(Frame owner) {
-		super(owner, true);
+    Button okButton = null;
 
-		this.okButton = this.createOKButton();
-		this.cancelButton = this.createCancelButton();
-		this.okButton.setIcon(ApplicationManager.getDefaultOKIcon());
-		this.okButton.setResourceBundle(ApplicationManager.getApplicationBundle());
-		this.cancelButton.setIcon(ApplicationManager.getDefaultCancelIcon());
-		this.cancelButton.setResourceBundle(ApplicationManager.getApplicationBundle());
+    Button cancelButton = null;
 
-		this.okButton.addActionListener(this);
-		this.okButton.setActionCommand("OK");
-		this.passwordField.addActionListener(this);
-		this.passwordField.setActionCommand("OK");
-		this.passwordField.setEchoChar('*');
-		this.cancelButton.addActionListener(this);
-		this.cancelButton.setActionCommand("CANCEL");
+    JPasswordField passwordField = new JPasswordField(10);
 
-		this.setLayout(new GridBagLayout());
-		this.add(this.help, new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 2, 2));
+    JLabel help = new JLabel("");
 
-		this.add(this.passwordField, new GridBagConstraints(0, 1, 2, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 2, 2));
+    public PasswordDialog(Frame owner) {
+        super(owner, true);
 
-		this.add(this.okButton, new GridBagConstraints(0, 2, 1, 1, 1, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
+        this.okButton = this.createOKButton();
+        this.cancelButton = this.createCancelButton();
+        this.okButton.setIcon(ApplicationManager.getDefaultOKIcon());
+        this.okButton.setResourceBundle(ApplicationManager.getApplicationBundle());
+        this.cancelButton.setIcon(ApplicationManager.getDefaultCancelIcon());
+        this.cancelButton.setResourceBundle(ApplicationManager.getApplicationBundle());
 
-		this.add(this.cancelButton, new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
-	}
+        this.okButton.addActionListener(this);
+        this.okButton.setActionCommand("OK");
+        this.passwordField.addActionListener(this);
+        this.passwordField.setActionCommand("OK");
+        this.passwordField.setEchoChar('*');
+        this.cancelButton.addActionListener(this);
+        this.cancelButton.setActionCommand("CANCEL");
 
-	private Button createOKButton() {
-		Hashtable p = new Hashtable();
-		p.put("key", "application.accept");
-		p.put("text", "application.accept");
-		return new Button(p);
-	}
+        this.setLayout(new GridBagLayout());
+        this.add(this.help, new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 2, 2));
 
-	private Button createCancelButton() {
-		Hashtable p = new Hashtable();
-		p.put("key", "application.cancel");
-		p.put("text", "application.cancel");
-		return new Button(p);
-	}
+        this.add(this.passwordField, new GridBagConstraints(0, 1, 2, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 2, 2));
 
-	protected String getPassword() {
-		return new String(this.passwordField.getPassword());
-	}
+        this.add(this.okButton, new GridBagConstraints(0, 2, 1, 1, 1, 0, GridBagConstraints.EAST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
 
-	@Override
-	public void setVisible(boolean b) {
-		if (b) {
-			this.passwordField.setText("");
-		}
-		super.setVisible(b);
-	}
+        this.add(this.cancelButton, new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
+    }
 
-	public void setBundle(ResourceBundle bundle) {
-		this.help.setText(ApplicationManager.getTranslation(PasswordDialog.HELP_TEXT, bundle));
-		this.setTitle(ApplicationManager.getTranslation(PasswordDialog.HELP_TITLE, bundle));
-		this.okButton.setResourceBundle(bundle);
-		this.cancelButton.setResourceBundle(bundle);
-	}
+    private Button createOKButton() {
+        Hashtable p = new Hashtable();
+        p.put("key", "application.accept");
+        p.put("text", "application.accept");
+        return new Button(p);
+    }
 
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(221, 123);
-	}
+    private Button createCancelButton() {
+        Hashtable p = new Hashtable();
+        p.put("key", "application.cancel");
+        p.put("text", "application.cancel");
+        return new Button(p);
+    }
 
-	public static String showPasswordDialog(Frame owner, ResourceBundle bundle) {
-		if (PasswordDialog.pf == null) {
-			PasswordDialog.pf = new PasswordDialog(owner);
-		}
-		PasswordDialog.pf.pack();
-		ApplicationManager.center(PasswordDialog.pf);
-		PasswordDialog.pf.setBundle(bundle);
-		PasswordDialog.pf.setVisible(true);
-		return PasswordDialog.pf.getPassword();
-	}
+    protected String getPassword() {
+        return new String(this.passwordField.getPassword());
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if ("CANCEL".equals(e.getActionCommand())) {
-			this.passwordField.setText("");
-		}
-		this.setVisible(false);
-	}
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            this.passwordField.setText("");
+        }
+        super.setVisible(b);
+    }
+
+    public void setBundle(ResourceBundle bundle) {
+        this.help.setText(ApplicationManager.getTranslation(PasswordDialog.HELP_TEXT, bundle));
+        this.setTitle(ApplicationManager.getTranslation(PasswordDialog.HELP_TITLE, bundle));
+        this.okButton.setResourceBundle(bundle);
+        this.cancelButton.setResourceBundle(bundle);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(221, 123);
+    }
+
+    public static String showPasswordDialog(Frame owner, ResourceBundle bundle) {
+        if (PasswordDialog.pf == null) {
+            PasswordDialog.pf = new PasswordDialog(owner);
+        }
+        PasswordDialog.pf.pack();
+        ApplicationManager.center(PasswordDialog.pf);
+        PasswordDialog.pf.setBundle(bundle);
+        PasswordDialog.pf.setVisible(true);
+        return PasswordDialog.pf.getPassword();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if ("CANCEL".equals(e.getActionCommand())) {
+            this.passwordField.setText("");
+        }
+        this.setVisible(false);
+    }
 
 }

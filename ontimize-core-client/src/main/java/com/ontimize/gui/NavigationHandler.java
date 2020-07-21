@@ -5,8 +5,9 @@ import java.util.Vector;
 import javax.swing.event.EventListenerList;
 
 /**
- * This class is a singleton to manage the navigation between forms. It is used in component {@link ApToolBarNavigator} to get the last visited forms. List with last visited forms
- * is updated in {@link MainApplication#showFormManagerContainer(String)}.
+ * This class is a singleton to manage the navigation between forms. It is used in component
+ * {@link ApToolBarNavigator} to get the last visited forms. List with last visited forms is updated
+ * in {@link MainApplication#showFormManagerContainer(String)}.
  *
  * @author Imatia Innovation SL
  * @since 5.2057EN-1.0
@@ -14,72 +15,81 @@ import javax.swing.event.EventListenerList;
  */
 public class NavigationHandler {
 
-	private static NavigationHandler handler;
+    private static NavigationHandler handler;
 
-	protected String previousFormManager = new String();
+    protected String previousFormManager = new String();
 
-	private NavigationHandler() {}
+    private NavigationHandler() {
+    }
 
-	public static NavigationHandler getInstance() {
-		if (NavigationHandler.handler == null) {
-			NavigationHandler.handler = new NavigationHandler();
-		}
-		return NavigationHandler.handler;
-	}
+    public static NavigationHandler getInstance() {
+        if (NavigationHandler.handler == null) {
+            NavigationHandler.handler = new NavigationHandler();
+        }
+        return NavigationHandler.handler;
+    }
 
-	protected int currentNavigationPosition = 0;
-	public int previousNavigationPosition = 0;
-	protected int defaultNumberFormManagersShowed = 15;
-	protected Vector vLastVisitedFormManagers = new Vector();
-	protected int numberFormManagersShowed = this.defaultNumberFormManagersShowed;
+    protected int currentNavigationPosition = 0;
 
-	public Vector getLastVisitedFormManagers() {
-		return this.vLastVisitedFormManagers;
-	}
+    public int previousNavigationPosition = 0;
 
-	public void setNavigationPosition(int position) {
-		this.currentNavigationPosition = position;
-	}
+    protected int defaultNumberFormManagersShowed = 15;
 
-	public int getNavigationPosition() {
-		return this.currentNavigationPosition;
-	}
+    protected Vector vLastVisitedFormManagers = new Vector();
 
-	public void updateLastVisitedFormManagers(String formManager) {
-		if (formManager != null) {
-			if (this.vLastVisitedFormManagers.size() == 0) {
-				this.previousFormManager = ((MainApplication) ApplicationManager.getApplication()).panelIds.get(0).toString();
-				if (!formManager.equals(this.previousFormManager)) {
-					this.vLastVisitedFormManagers.add(((MainApplication) ApplicationManager.getApplication()).panelIds.get(0).toString());
-					this.fireNavigationEvent(
-							new NavigationEvent(this, NavigationEvent.FORM_MANAGER_CHANGED, ((MainApplication) ApplicationManager.getApplication()).panelIds.get(0).toString()));
-				}
-			}
-			if (!formManager.equals(this.previousFormManager)) {
-				this.vLastVisitedFormManagers.add(formManager);
-				this.fireNavigationEvent(new NavigationEvent(this, NavigationEvent.FORM_MANAGER_CHANGED, formManager));
-			}
-			this.previousFormManager = formManager;
-		}
-	}
+    protected int numberFormManagersShowed = this.defaultNumberFormManagersShowed;
 
-	protected EventListenerList navigationListenerList = new EventListenerList();
+    public Vector getLastVisitedFormManagers() {
+        return this.vLastVisitedFormManagers;
+    }
 
-	public void addNavigationListener(INavigationEvent l) {
-		this.navigationListenerList.add(INavigationEvent.class, l);
-	}
+    public void setNavigationPosition(int position) {
+        this.currentNavigationPosition = position;
+    }
 
-	public void removeNavigationListener(INavigationEvent l) {
-		this.navigationListenerList.remove(INavigationEvent.class, l);
-	}
+    public int getNavigationPosition() {
+        return this.currentNavigationPosition;
+    }
 
-	protected void fireNavigationEvent(NavigationEvent formManagerChangedEvent) {
-		Object[] listeners = this.navigationListenerList.getListenerList();
-		for (int i = listeners.length - 2; i >= 0; i -= 2) {
-			if (listeners[i] == INavigationEvent.class) {
-				((INavigationEvent) listeners[i + 1]).formManagerChanged(formManagerChangedEvent);
-			}
-		}
-	}
+    public void updateLastVisitedFormManagers(String formManager) {
+        if (formManager != null) {
+            if (this.vLastVisitedFormManagers.size() == 0) {
+                this.previousFormManager = ((MainApplication) ApplicationManager.getApplication()).panelIds.get(0)
+                    .toString();
+                if (!formManager.equals(this.previousFormManager)) {
+                    this.vLastVisitedFormManagers
+                        .add(((MainApplication) ApplicationManager.getApplication()).panelIds.get(0).toString());
+                    this.fireNavigationEvent(
+                            new NavigationEvent(this, NavigationEvent.FORM_MANAGER_CHANGED,
+                                    ((MainApplication) ApplicationManager.getApplication()).panelIds.get(0)
+                                        .toString()));
+                }
+            }
+            if (!formManager.equals(this.previousFormManager)) {
+                this.vLastVisitedFormManagers.add(formManager);
+                this.fireNavigationEvent(new NavigationEvent(this, NavigationEvent.FORM_MANAGER_CHANGED, formManager));
+            }
+            this.previousFormManager = formManager;
+        }
+    }
+
+    protected EventListenerList navigationListenerList = new EventListenerList();
+
+    public void addNavigationListener(INavigationEvent l) {
+        this.navigationListenerList.add(INavigationEvent.class, l);
+    }
+
+    public void removeNavigationListener(INavigationEvent l) {
+        this.navigationListenerList.remove(INavigationEvent.class, l);
+    }
+
+    protected void fireNavigationEvent(NavigationEvent formManagerChangedEvent) {
+        Object[] listeners = this.navigationListenerList.getListenerList();
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == INavigationEvent.class) {
+                ((INavigationEvent) listeners[i + 1]).formManagerChanged(formManagerChangedEvent);
+            }
+        }
+    }
 
 }

@@ -10,24 +10,25 @@ import javax.swing.JTextArea;
 
 public class DefaultBasicHTMLViewer extends BasicHTMLViewer {
 
-	protected JTextArea text = new JTextArea();
+    protected JTextArea text = new JTextArea();
 
-	protected JScrollPane js;
+    protected JScrollPane js;
 
-	public DefaultBasicHTMLViewer() {
-		super();
-		this.text.setEnabled(false);
-		this.js = new JScrollPane(this.text);
+    public DefaultBasicHTMLViewer() {
+        super();
+        this.text.setEnabled(false);
+        this.js = new JScrollPane(this.text);
 
-		this.js.getViewport().setPreferredSize(new Dimension(200, 400));
+        this.js.getViewport().setPreferredSize(new Dimension(200, 400));
 
-		this.setLayout(new GridBagLayout());
-		this.add(this.js, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 2, 2));
-	}
+        this.setLayout(new GridBagLayout());
+        this.add(this.js, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 2, 2));
+    }
 
-	@Override
-	public void setHTML(String html) {
-		this.text.setText(html);
-	}
+    @Override
+    public void setHTML(String html) {
+        this.text.setText(html);
+    }
 
 }

@@ -19,39 +19,40 @@ import com.ontimize.gui.images.ImageManager;
  */
 public class CutAction extends BasicEditAction {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public CutAction() {
-		super("");
-		this.putValue("ID", "HTMLShef.cut");
-		this.putValue(Action.NAME, HTMLTextEditAction.i18n.str("HTMLShef.cut"));
-		this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.COPY));
-		this.putValue(ActionManager.LARGE_ICON, ImageManager.getIcon(ImageManager.COPY));
-		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
-		this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.cut")));
-		this.addShouldBeEnabledDelegate(new ShouldBeEnabledDelegate() {
+    public CutAction() {
+        super("");
+        this.putValue("ID", "HTMLShef.cut");
+        this.putValue(Action.NAME, HTMLTextEditAction.i18n.str("HTMLShef.cut"));
+        this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.COPY));
+        this.putValue(ActionManager.LARGE_ICON, ImageManager.getIcon(ImageManager.COPY));
+        this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+        this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("HTMLShef.cut")));
+        this.addShouldBeEnabledDelegate(new ShouldBeEnabledDelegate() {
 
-			@Override
-			public boolean shouldBeEnabled(Action a) {
-				JEditorPane ed = CutAction.this.getCurrentEditor();
-				return (ed != null) && (ed.getSelectionStart() != ed.getSelectionEnd());
-				// return true;
-			}
-		});
-		this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
-	}
+            @Override
+            public boolean shouldBeEnabled(Action a) {
+                JEditorPane ed = CutAction.this.getCurrentEditor();
+                return (ed != null) && (ed.getSelectionStart() != ed.getSelectionEnd());
+                // return true;
+            }
+        });
+        this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
+    }
 
-	@Override
-	protected void doEdit(ActionEvent e, JEditorPane editor) {
-		editor.cut();
-	}
+    @Override
+    protected void doEdit(ActionEvent e, JEditorPane editor) {
+        editor.cut();
+    }
 
-	@Override
-	protected void contextChanged() {
-		super.contextChanged();
-		this.updateEnabledState();
-	}
+    @Override
+    protected void contextChanged() {
+        super.contextChanged();
+        this.updateEnabledState();
+    }
+
 }

@@ -9,19 +9,21 @@ import com.ontimize.util.calendar.TimePeriod;
  */
 public class PermissionInfo implements java.io.Serializable {
 
-	private boolean restricted = false;
-	private TimePeriod period = null;
+    private boolean restricted = false;
 
-	public PermissionInfo(boolean restricted, TimePeriod period) {
-		this.restricted = restricted;
-		this.period = period;
-	}
+    private TimePeriod period = null;
 
-	public boolean isRestricted() {
-		return this.restricted;
-	}
+    public PermissionInfo(boolean restricted, TimePeriod period) {
+        this.restricted = restricted;
+        this.period = period;
+    }
 
-	public TimePeriod getPeriod() {
-		return this.period;
-	}
+    public boolean isRestricted() {
+        return this.restricted;
+    }
+
+    public TimePeriod getPeriod() {
+        return this.period;
+    }
+
 }

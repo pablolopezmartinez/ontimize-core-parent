@@ -34,284 +34,298 @@ import com.ontimize.gui.images.ImageManager;
  */
 public class HTMLBlockAction extends HTMLTextEditAction {
 
-	private static final Logger		logger				= LoggerFactory.getLogger(HTMLBlockAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(HTMLBlockAction.class);
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-	public static final int DIV = 0;
-	public static final int P = 1;
-	public static final int H1 = 2;
-	public static final int H2 = 3;
-	public static final int H3 = 4;
-	public static final int H4 = 5;
-	public static final int H5 = 6;
-	public static final int H6 = 7;
-	public static final int PRE = 8;
-	public static final int BLOCKQUOTE = 9;
-	public static final int OL = 10;
-	public static final int UL = 11;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static final int		KEYS[]				= { KeyEvent.VK_D, KeyEvent.VK_ENTER, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_R, KeyEvent.VK_Q, KeyEvent.VK_N, KeyEvent.VK_U };
+    public static final int DIV = 0;
 
-	private static final String[] ELEMENT_TYPES = { "HTMLShef.body_text", "HTMLShef.paragraph", "HTMLShef.heading_1", "HTMLShef.heading_2", "HTMLShef.heading_3",
-			"HTMLShef.heading_4", "HTMLShef.heading_5", "HTMLShef.heading_6", "HTMLShef.preformatted", "HTMLShef.blockquote", "HTMLShef.ordered_list", "HTMLShef.unordered_list" };
+    public static final int P = 1;
 
-	protected int type;
+    public static final int H1 = 2;
 
-	/**
-	 * Creates a new HTMLBlockAction
-	 *
-	 * @param type
-	 *            A block type - P, PRE, BLOCKQUOTE, H1, H2, etc
-	 *
-	 * @throws IllegalArgumentException
-	 */
-	public HTMLBlockAction(int type) throws IllegalArgumentException {
-		super("");
-		if ((type < 0) || (type >= HTMLBlockAction.ELEMENT_TYPES.length)) {
-			throw new IllegalArgumentException("Illegal argument");
-		}
+    public static final int H2 = 3;
 
-		this.type = type;
-		this.putValue("ID", HTMLBlockAction.ELEMENT_TYPES[type]);
-		this.putValue(Action.NAME, HTMLTextEditAction.i18n.str(HTMLBlockAction.ELEMENT_TYPES[type]));
-		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(HTMLBlockAction.KEYS[type], Event.ALT_MASK));
-		if (type == HTMLBlockAction.P) {
-			this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("paragraph")));
-		} else if (type == HTMLBlockAction.PRE) {
-			this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("preformatted")));
-		} else if (type == HTMLBlockAction.BLOCKQUOTE) {
-			this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("blockquote")));
-		} else if (type == HTMLBlockAction.OL) {
-			this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.LIST_ORDERED));
-			this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("ordered_list")));
-		} else if (type == HTMLBlockAction.UL) {
-			this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.LIST_UNORDERED));
-			this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("unordered_list")));
-		} else {
-			String s = type + "";
-			this.putValue(Action.MNEMONIC_KEY, new Integer(s.charAt(0)));
-		}
-		this.putValue(ActionManager.BUTTON_TYPE, ActionManager.BUTTON_TYPE_VALUE_RADIO);
-		this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
-	}
+    public static final int H3 = 4;
 
-	@Override
-	protected void updateContextState(JEditorPane ed) {
-		HTMLDocument document = (HTMLDocument) ed.getDocument();
-		Element elem = document.getParagraphElement(ed.getCaretPosition());
+    public static final int H4 = 5;
 
-		String elemName = elem.getName();
-		if (elemName.equals("p-implied")) {
-			elemName = elem.getParentElement().getName();
-		}
+    public static final int H5 = 6;
 
-		if ((this.type == HTMLBlockAction.DIV) && (elemName.equals("div") || elemName.equals("body") || elemName.equals("td"))) //$NON-NLS-3$
-		{
-			this.setSelected(true);
-		} else if (this.type == HTMLBlockAction.UL) {
-			Element listElem = HTMLUtils.getListParent(elem);
-			this.setSelected((listElem != null) && listElem.getName().equals("ul"));
-		} else if (this.type == HTMLBlockAction.OL) {
-			Element listElem = HTMLUtils.getListParent(elem);
-			this.setSelected((listElem != null) && listElem.getName().equals("ol"));
-		} else if (elemName.equals(this.getTag().toString().toLowerCase())) {
-			this.setSelected(true);
-		} else {
-			this.setSelected(false);
-		}
-	}
+    public static final int H6 = 7;
 
-	@Override
-	protected void editPerformed(ActionEvent e, JEditorPane editor) {
-		HTMLDocument document = (HTMLDocument) editor.getDocument();
-		int caret = editor.getCaretPosition();
-		CompoundUndoManager.beginCompoundEdit(document);
-		try {
-			if ((this.type == HTMLBlockAction.OL) || (this.type == HTMLBlockAction.UL)) {
-				this.insertList(editor, e);
-			} else {
-				this.changeBlockType(editor, e);
-			}
-			editor.setCaretPosition(caret);
-		} catch (Exception awwCrap) {
-			HTMLBlockAction.logger.error(null, awwCrap);
-		}
+    public static final int PRE = 8;
 
-		CompoundUndoManager.endCompoundEdit(document);
-	}
+    public static final int BLOCKQUOTE = 9;
 
-	protected HTML.Tag getRootTag(Element elem) {
-		HTML.Tag root = HTML.Tag.BODY;
-		if (HTMLUtils.getParent(elem, HTML.Tag.TD) != null) {
-			root = HTML.Tag.TD;
-		}
-		return root;
-	}
+    public static final int OL = 10;
 
-	/*
-	 * protected String cutOutElement(Element el) throws BadLocationException { String txt = HTMLUtils.getElementHTML(el, false); HTMLUtils.removeElement(el); return txt; }
-	 */
+    public static final int UL = 11;
 
-	protected void insertHTML(String html, HTML.Tag tag, HTML.Tag root, ActionEvent e) {
-		HTMLEditorKit.InsertHTMLTextAction a = new HTMLEditorKit.InsertHTMLTextAction("insertHTML", html, root, tag);
-		a.actionPerformed(e);
-	}
+    private static final int KEYS[] = { KeyEvent.VK_D, KeyEvent.VK_ENTER, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3,
+            KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_R, KeyEvent.VK_Q, KeyEvent.VK_N, KeyEvent.VK_U };
 
-	protected void changeListType(Element listParent, HTML.Tag replaceTag, HTMLDocument document) {
-		StringWriter out = new StringWriter();
-		ElementWriter w = new ElementWriter(out, listParent);
-		try {
-			w.write();
-			String html = out.toString();
-			html = html.substring(html.indexOf('>') + 1, html.length());
-			html = html.substring(0, html.lastIndexOf('<'));
-			html = '<' + replaceTag.toString() + '>' + html + "</" + replaceTag.toString() + '>';
-			document.setOuterHTML(listParent, html);
-		} catch (Exception idiotic) {
-			HTMLBlockAction.logger.trace(null, idiotic);
-		}
-	}
+    private static final String[] ELEMENT_TYPES = { "HTMLShef.body_text", "HTMLShef.paragraph", "HTMLShef.heading_1",
+            "HTMLShef.heading_2", "HTMLShef.heading_3",
+            "HTMLShef.heading_4", "HTMLShef.heading_5", "HTMLShef.heading_6", "HTMLShef.preformatted",
+            "HTMLShef.blockquote", "HTMLShef.ordered_list", "HTMLShef.unordered_list" };
 
-	protected void insertList(JEditorPane editor, ActionEvent e) throws BadLocationException {
-		HTMLDocument document = (HTMLDocument) editor.getDocument();
-		int caretPos = editor.getCaretPosition();
-		Element elem = document.getParagraphElement(caretPos);
-		HTML.Tag parentTag = HTML.getTag(elem.getParentElement().getName());
+    protected int type;
 
-		// check if we need to change the list from one type to another
-		Element listParent = elem.getParentElement().getParentElement();
-		HTML.Tag listTag = HTML.getTag(listParent.getName());
-		if (listTag.equals(HTML.Tag.UL) || listTag.equals(HTML.Tag.OL)) {
-			HTML.Tag t = HTML.getTag(listParent.getName());
-			if ((this.type == HTMLBlockAction.OL) && t.equals(HTML.Tag.UL)) {
-				this.changeListType(listParent, HTML.Tag.OL, document);
-				return;
-			} else if ((this.type == HTMLBlockAction.UL) && listTag.equals(HTML.Tag.OL)) {
-				this.changeListType(listParent, HTML.Tag.UL, document);
-				return;
-			}
-		}
+    /**
+     * Creates a new HTMLBlockAction
+     * @param type A block type - P, PRE, BLOCKQUOTE, H1, H2, etc
+     * @throws IllegalArgumentException
+     */
+    public HTMLBlockAction(int type) throws IllegalArgumentException {
+        super("");
+        if ((type < 0) || (type >= HTMLBlockAction.ELEMENT_TYPES.length)) {
+            throw new IllegalArgumentException("Illegal argument");
+        }
 
-		if (!parentTag.equals(HTML.Tag.LI))// don't allow nested lists
-		{
-			this.changeBlockType(editor, e);
-		} else// is already a list, so turn off list
-		{
-			HTML.Tag root = this.getRootTag(elem);
-			String txt = HTMLUtils.getElementHTML(elem, false);
-			editor.setCaretPosition(elem.getEndOffset());
-			this.insertHTML("<p>" + txt + "</p>", HTML.Tag.P, root, e);
-			HTMLUtils.removeElement(elem);
-		}
+        this.type = type;
+        this.putValue("ID", HTMLBlockAction.ELEMENT_TYPES[type]);
+        this.putValue(Action.NAME, HTMLTextEditAction.i18n.str(HTMLBlockAction.ELEMENT_TYPES[type]));
+        this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(HTMLBlockAction.KEYS[type], Event.ALT_MASK));
+        if (type == HTMLBlockAction.P) {
+            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("paragraph")));
+        } else if (type == HTMLBlockAction.PRE) {
+            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("preformatted")));
+        } else if (type == HTMLBlockAction.BLOCKQUOTE) {
+            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("blockquote")));
+        } else if (type == HTMLBlockAction.OL) {
+            this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.LIST_ORDERED));
+            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("ordered_list")));
+        } else if (type == HTMLBlockAction.UL) {
+            this.putValue(Action.SMALL_ICON, ImageManager.getIcon(ImageManager.LIST_UNORDERED));
+            this.putValue(Action.MNEMONIC_KEY, new Integer(HTMLTextEditAction.i18n.mnem("unordered_list")));
+        } else {
+            String s = type + "";
+            this.putValue(Action.MNEMONIC_KEY, new Integer(s.charAt(0)));
+        }
+        this.putValue(ActionManager.BUTTON_TYPE, ActionManager.BUTTON_TYPE_VALUE_RADIO);
+        this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
+    }
 
-	}
+    @Override
+    protected void updateContextState(JEditorPane ed) {
+        HTMLDocument document = (HTMLDocument) ed.getDocument();
+        Element elem = document.getParagraphElement(ed.getCaretPosition());
 
-	protected void changeBlockType(JEditorPane editor, ActionEvent e) throws BadLocationException {
-		HTMLDocument doc = (HTMLDocument) editor.getDocument();
-		Element curE = doc.getParagraphElement(editor.getSelectionStart());
-		Element endE = doc.getParagraphElement(editor.getSelectionEnd());
+        String elemName = elem.getName();
+        if (elemName.equals("p-implied")) {
+            elemName = elem.getParentElement().getName();
+        }
 
-		Element curTD = HTMLUtils.getParent(curE, HTML.Tag.TD);
-		HTML.Tag tag = this.getTag();
-		HTML.Tag rootTag = this.getRootTag(curE);
-		String html = "";
+        if ((this.type == HTMLBlockAction.DIV)
+                && (elemName.equals("div") || elemName.equals("body") || elemName.equals("td"))) //$NON-NLS-3$
+        {
+            this.setSelected(true);
+        } else if (this.type == HTMLBlockAction.UL) {
+            Element listElem = HTMLUtils.getListParent(elem);
+            this.setSelected((listElem != null) && listElem.getName().equals("ul"));
+        } else if (this.type == HTMLBlockAction.OL) {
+            Element listElem = HTMLUtils.getListParent(elem);
+            this.setSelected((listElem != null) && listElem.getName().equals("ol"));
+        } else if (elemName.equals(this.getTag().toString().toLowerCase())) {
+            this.setSelected(true);
+        } else {
+            this.setSelected(false);
+        }
+    }
 
-		if (this.isListType()) {
-			html = "<" + this.getTag() + ">";
-			tag = HTML.Tag.LI;
-		}
+    @Override
+    protected void editPerformed(ActionEvent e, JEditorPane editor) {
+        HTMLDocument document = (HTMLDocument) editor.getDocument();
+        int caret = editor.getCaretPosition();
+        CompoundUndoManager.beginCompoundEdit(document);
+        try {
+            if ((this.type == HTMLBlockAction.OL) || (this.type == HTMLBlockAction.UL)) {
+                this.insertList(editor, e);
+            } else {
+                this.changeBlockType(editor, e);
+            }
+            editor.setCaretPosition(caret);
+        } catch (Exception awwCrap) {
+            HTMLBlockAction.logger.error(null, awwCrap);
+        }
 
-		// a list to hold the elements we want to change
-		List elToRemove = new ArrayList();
-		elToRemove.add(curE);
+        CompoundUndoManager.endCompoundEdit(document);
+    }
 
-		while (true) {
-			html += HTMLUtils.createTag(tag, curE.getAttributes(), HTMLUtils.getElementHTML(curE, false));
-			if ((curE.getEndOffset() >= endE.getEndOffset()) || (curE.getEndOffset() >= doc.getLength())) {
-				break;
-			}
-			curE = doc.getParagraphElement(curE.getEndOffset() + 1);
-			elToRemove.add(curE);
+    protected HTML.Tag getRootTag(Element elem) {
+        HTML.Tag root = HTML.Tag.BODY;
+        if (HTMLUtils.getParent(elem, HTML.Tag.TD) != null) {
+            root = HTML.Tag.TD;
+        }
+        return root;
+    }
 
-			// did we enter a (different) table cell?
-			Element ckTD = HTMLUtils.getParent(curE, HTML.Tag.TD);
-			if ((ckTD != null) && !ckTD.equals(curTD)) {
-				break;// stop here so we don't mess up the table
-			}
-		}
+    /*
+     * protected String cutOutElement(Element el) throws BadLocationException { String txt =
+     * HTMLUtils.getElementHTML(el, false); HTMLUtils.removeElement(el); return txt; }
+     */
 
-		if (this.isListType()) {
-			html += "</" + this.getTag() + ">";
-		}
+    protected void insertHTML(String html, HTML.Tag tag, HTML.Tag root, ActionEvent e) {
+        HTMLEditorKit.InsertHTMLTextAction a = new HTMLEditorKit.InsertHTMLTextAction("insertHTML", html, root, tag);
+        a.actionPerformed(e);
+    }
 
-		// set the caret to the start of the last selected block element
-		editor.setCaretPosition(curE.getStartOffset());
+    protected void changeListType(Element listParent, HTML.Tag replaceTag, HTMLDocument document) {
+        StringWriter out = new StringWriter();
+        ElementWriter w = new ElementWriter(out, listParent);
+        try {
+            w.write();
+            String html = out.toString();
+            html = html.substring(html.indexOf('>') + 1, html.length());
+            html = html.substring(0, html.lastIndexOf('<'));
+            html = '<' + replaceTag.toString() + '>' + html + "</" + replaceTag.toString() + '>';
+            document.setOuterHTML(listParent, html);
+        } catch (Exception idiotic) {
+            HTMLBlockAction.logger.trace(null, idiotic);
+        }
+    }
 
-		// insert our changed block
-		// we insert first and then remove, because of a bug in jdk 6.0
-		this.insertHTML(html, this.getTag(), rootTag, e);
+    protected void insertList(JEditorPane editor, ActionEvent e) throws BadLocationException {
+        HTMLDocument document = (HTMLDocument) editor.getDocument();
+        int caretPos = editor.getCaretPosition();
+        Element elem = document.getParagraphElement(caretPos);
+        HTML.Tag parentTag = HTML.getTag(elem.getParentElement().getName());
 
-		// now, remove the elements that were changed.
-		for (Iterator it = elToRemove.iterator(); it.hasNext();) {
-			Element c = (Element) it.next();
-			HTMLUtils.removeElement(c);
-		}
-	}
+        // check if we need to change the list from one type to another
+        Element listParent = elem.getParentElement().getParentElement();
+        HTML.Tag listTag = HTML.getTag(listParent.getName());
+        if (listTag.equals(HTML.Tag.UL) || listTag.equals(HTML.Tag.OL)) {
+            HTML.Tag t = HTML.getTag(listParent.getName());
+            if ((this.type == HTMLBlockAction.OL) && t.equals(HTML.Tag.UL)) {
+                this.changeListType(listParent, HTML.Tag.OL, document);
+                return;
+            } else if ((this.type == HTMLBlockAction.UL) && listTag.equals(HTML.Tag.OL)) {
+                this.changeListType(listParent, HTML.Tag.UL, document);
+                return;
+            }
+        }
 
-	protected boolean isListType() {
-		return (this.type == HTMLBlockAction.OL) || (this.type == HTMLBlockAction.UL);
-	}
+        if (!parentTag.equals(HTML.Tag.LI))// don't allow nested lists
+        {
+            this.changeBlockType(editor, e);
+        } else// is already a list, so turn off list
+        {
+            HTML.Tag root = this.getRootTag(elem);
+            String txt = HTMLUtils.getElementHTML(elem, false);
+            editor.setCaretPosition(elem.getEndOffset());
+            this.insertHTML("<p>" + txt + "</p>", HTML.Tag.P, root, e);
+            HTMLUtils.removeElement(elem);
+        }
 
-	/**
-	 * Gets the tag
-	 *
-	 * @return
-	 */
-	public HTML.Tag getTag() {
-		HTML.Tag tag = HTML.Tag.DIV;
+    }
 
-		switch (this.type) {
-		case P:
-			tag = HTML.Tag.P;
-			break;
-		case H1:
-			tag = HTML.Tag.H1;
-			break;
-		case H2:
-			tag = HTML.Tag.H2;
-			break;
-		case H3:
-			tag = HTML.Tag.H3;
-			break;
-		case H4:
-			tag = HTML.Tag.H4;
-			break;
-		case H5:
-			tag = HTML.Tag.H5;
-			break;
-		case H6:
-			tag = HTML.Tag.H6;
-			break;
-		case PRE:
-			tag = HTML.Tag.PRE;
-			break;
-		case UL:
-			tag = HTML.Tag.UL;
-			break;
-		case OL:
-			tag = HTML.Tag.OL;
-			break;
-		case BLOCKQUOTE:
-			tag = HTML.Tag.BLOCKQUOTE;
-			break;
-		case DIV:
-			tag = HTML.Tag.DIV;
-			break;
-		}
+    protected void changeBlockType(JEditorPane editor, ActionEvent e) throws BadLocationException {
+        HTMLDocument doc = (HTMLDocument) editor.getDocument();
+        Element curE = doc.getParagraphElement(editor.getSelectionStart());
+        Element endE = doc.getParagraphElement(editor.getSelectionEnd());
 
-		return tag;
-	}
+        Element curTD = HTMLUtils.getParent(curE, HTML.Tag.TD);
+        HTML.Tag tag = this.getTag();
+        HTML.Tag rootTag = this.getRootTag(curE);
+        String html = "";
+
+        if (this.isListType()) {
+            html = "<" + this.getTag() + ">";
+            tag = HTML.Tag.LI;
+        }
+
+        // a list to hold the elements we want to change
+        List elToRemove = new ArrayList();
+        elToRemove.add(curE);
+
+        while (true) {
+            html += HTMLUtils.createTag(tag, curE.getAttributes(), HTMLUtils.getElementHTML(curE, false));
+            if ((curE.getEndOffset() >= endE.getEndOffset()) || (curE.getEndOffset() >= doc.getLength())) {
+                break;
+            }
+            curE = doc.getParagraphElement(curE.getEndOffset() + 1);
+            elToRemove.add(curE);
+
+            // did we enter a (different) table cell?
+            Element ckTD = HTMLUtils.getParent(curE, HTML.Tag.TD);
+            if ((ckTD != null) && !ckTD.equals(curTD)) {
+                break;// stop here so we don't mess up the table
+            }
+        }
+
+        if (this.isListType()) {
+            html += "</" + this.getTag() + ">";
+        }
+
+        // set the caret to the start of the last selected block element
+        editor.setCaretPosition(curE.getStartOffset());
+
+        // insert our changed block
+        // we insert first and then remove, because of a bug in jdk 6.0
+        this.insertHTML(html, this.getTag(), rootTag, e);
+
+        // now, remove the elements that were changed.
+        for (Iterator it = elToRemove.iterator(); it.hasNext();) {
+            Element c = (Element) it.next();
+            HTMLUtils.removeElement(c);
+        }
+    }
+
+    protected boolean isListType() {
+        return (this.type == HTMLBlockAction.OL) || (this.type == HTMLBlockAction.UL);
+    }
+
+    /**
+     * Gets the tag
+     * @return
+     */
+    public HTML.Tag getTag() {
+        HTML.Tag tag = HTML.Tag.DIV;
+
+        switch (this.type) {
+            case P:
+                tag = HTML.Tag.P;
+                break;
+            case H1:
+                tag = HTML.Tag.H1;
+                break;
+            case H2:
+                tag = HTML.Tag.H2;
+                break;
+            case H3:
+                tag = HTML.Tag.H3;
+                break;
+            case H4:
+                tag = HTML.Tag.H4;
+                break;
+            case H5:
+                tag = HTML.Tag.H5;
+                break;
+            case H6:
+                tag = HTML.Tag.H6;
+                break;
+            case PRE:
+                tag = HTML.Tag.PRE;
+                break;
+            case UL:
+                tag = HTML.Tag.UL;
+                break;
+            case OL:
+                tag = HTML.Tag.OL;
+                break;
+            case BLOCKQUOTE:
+                tag = HTML.Tag.BLOCKQUOTE;
+                break;
+            case DIV:
+                tag = HTML.Tag.DIV;
+                break;
+        }
+
+        return tag;
+    }
+
 }

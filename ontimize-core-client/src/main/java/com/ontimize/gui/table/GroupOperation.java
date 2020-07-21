@@ -7,15 +7,16 @@ import javax.swing.JMenuItem;
 
 public interface GroupOperation {
 
-	public Number getOperationValue(List columnValues, List rowIndexes, Map requiredColsValues);
+    public Number getOperationValue(List columnValues, List rowIndexes, Map requiredColsValues);
 
-	public int getOperationId();
+    public int getOperationId();
 
-	public String getOperationText();
+    public String getOperationText();
 
-	public String getHeaderText();
+    public String getHeaderText();
 
-	public JMenuItem getItem();
+    public JMenuItem getItem();
 
-	public List<String> getRequiredColumns();
+    public List<String> getRequiredColumns();
+
 }

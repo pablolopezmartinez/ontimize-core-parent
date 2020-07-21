@@ -6,118 +6,128 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 
 public class CustomField implements JRField {
 
-	public static final String NAME_KEY = "NAME", DESCRIPTION_KEY = "DESCRIPTION", VALUE_CLASS_KEY = "VALUE_CLASS", VALUE_CLASS_NAME_KEY = "VALUE_CLASS_KEY",
-			PROPERTIES_MAP_KEY = "PROPERTIES_MAP";
+    public static final String NAME_KEY = "NAME", DESCRIPTION_KEY = "DESCRIPTION", VALUE_CLASS_KEY = "VALUE_CLASS",
+            VALUE_CLASS_NAME_KEY = "VALUE_CLASS_KEY",
+            PROPERTIES_MAP_KEY = "PROPERTIES_MAP";
 
-	private static final String MSG_NAME_NULL = "Parameter name must be exits";
-	private static final String MSG_DESCRIPTION_DEFAULT = "CustomField -> Default description.";
-	private static final String MSG_CLASS_DEFAULT = "CustomField -> Default class.";
-	private static final String MSG_CLASS_NAME_DEFAULT = "CustomField -> Default class name.";
-	private static final String MSG_PROPERTIES_DEFAULT = "CustomField -> Default properties map.";
+    private static final String MSG_NAME_NULL = "Parameter name must be exits";
 
-	protected String name;
-	protected String description;
-	protected Class valueClass;
-	protected String valueClassName;
-	protected JRPropertiesMap propertiesMap;
+    private static final String MSG_DESCRIPTION_DEFAULT = "CustomField -> Default description.";
 
-	public CustomField(java.util.Map m) throws IllegalArgumentException {
-		Object o = m.get(CustomField.NAME_KEY);
-		if ((o == null) || !(o instanceof String)) {
-			throw new IllegalArgumentException(CustomField.MSG_NAME_NULL);
-		}
-		this.name = (String) o;
+    private static final String MSG_CLASS_DEFAULT = "CustomField -> Default class.";
 
-		o = m.get(CustomField.DESCRIPTION_KEY);
-		if ((o != null) && (o instanceof String)) {
-			this.description = (String) o;
-		} else {
-			this.description = new String();
+    private static final String MSG_CLASS_NAME_DEFAULT = "CustomField -> Default class name.";
 
-			ReportProperty.log(CustomField.MSG_DESCRIPTION_DEFAULT);
-		}
+    private static final String MSG_PROPERTIES_DEFAULT = "CustomField -> Default properties map.";
 
-		o = m.get(CustomField.VALUE_CLASS_KEY);
-		if ((o != null) && (o instanceof Class)) {
-			this.valueClass = (Class) o;
-		} else {
-			this.valueClass = Object.class;
+    protected String name;
 
-			ReportProperty.log(CustomField.MSG_CLASS_DEFAULT);
-		}
+    protected String description;
 
-		o = m.get(CustomField.VALUE_CLASS_NAME_KEY);
-		if ((o != null) && (o instanceof String)) {
-			this.valueClassName = (String) o;
-		} else {
-			this.valueClassName = new String();
+    protected Class valueClass;
 
-			ReportProperty.log(CustomField.MSG_CLASS_NAME_DEFAULT);
-		}
+    protected String valueClassName;
 
-		o = m.get(CustomField.PROPERTIES_MAP_KEY);
-		if ((o != null) && (o instanceof JRPropertiesMap)) {
-			this.propertiesMap = (JRPropertiesMap) o;
-		} else {
-			this.propertiesMap = new JRPropertiesMap();
+    protected JRPropertiesMap propertiesMap;
 
-			ReportProperty.log(CustomField.MSG_PROPERTIES_DEFAULT);
-		}
-	}
+    public CustomField(java.util.Map m) throws IllegalArgumentException {
+        Object o = m.get(CustomField.NAME_KEY);
+        if ((o == null) || !(o instanceof String)) {
+            throw new IllegalArgumentException(CustomField.MSG_NAME_NULL);
+        }
+        this.name = (String) o;
 
-	@Override
-	public String getDescription() {
-		return this.description;
-	}
+        o = m.get(CustomField.DESCRIPTION_KEY);
+        if ((o != null) && (o instanceof String)) {
+            this.description = (String) o;
+        } else {
+            this.description = new String();
 
-	@Override
-	public String getName() {
-		return this.name;
-	}
+            ReportProperty.log(CustomField.MSG_DESCRIPTION_DEFAULT);
+        }
 
-	@Override
-	public Class getValueClass() {
-		return this.valueClass;
-	}
+        o = m.get(CustomField.VALUE_CLASS_KEY);
+        if ((o != null) && (o instanceof Class)) {
+            this.valueClass = (Class) o;
+        } else {
+            this.valueClass = Object.class;
 
-	@Override
-	public String getValueClassName() {
-		return this.valueClassName;
-	}
+            ReportProperty.log(CustomField.MSG_CLASS_DEFAULT);
+        }
 
-	@Override
-	public JRPropertiesHolder getParentProperties() {
-		return null;
-	}
+        o = m.get(CustomField.VALUE_CLASS_NAME_KEY);
+        if ((o != null) && (o instanceof String)) {
+            this.valueClassName = (String) o;
+        } else {
+            this.valueClassName = new String();
 
-	@Override
-	public boolean hasProperties() {
-		return false;
-	}
+            ReportProperty.log(CustomField.MSG_CLASS_NAME_DEFAULT);
+        }
 
-	@Override
-	public JRPropertiesMap getPropertiesMap() {
-		return this.propertiesMap;
-	}
+        o = m.get(CustomField.PROPERTIES_MAP_KEY);
+        if ((o != null) && (o instanceof JRPropertiesMap)) {
+            this.propertiesMap = (JRPropertiesMap) o;
+        } else {
+            this.propertiesMap = new JRPropertiesMap();
 
-	@Override
-	public void setDescription(String description) {
-		this.description = description;
-	}
+            ReportProperty.log(CustomField.MSG_PROPERTIES_DEFAULT);
+        }
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.name);
-		sb.append(", ");
-		sb.append(this.description);
-		sb.append(", ");
-		sb.append(this.valueClassName);
-		return sb.toString();
-	}
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
 
-	@Override
-	public Object clone() {
-		return this;
-	}
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public Class getValueClass() {
+        return this.valueClass;
+    }
+
+    @Override
+    public String getValueClassName() {
+        return this.valueClassName;
+    }
+
+    @Override
+    public JRPropertiesHolder getParentProperties() {
+        return null;
+    }
+
+    @Override
+    public boolean hasProperties() {
+        return false;
+    }
+
+    @Override
+    public JRPropertiesMap getPropertiesMap() {
+        return this.propertiesMap;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.name);
+        sb.append(", ");
+        sb.append(this.description);
+        sb.append(", ");
+        sb.append(this.valueClassName);
+        return sb.toString();
+    }
+
+    @Override
+    public Object clone() {
+        return this;
+    }
+
 }

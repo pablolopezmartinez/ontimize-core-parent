@@ -23,46 +23,52 @@ import com.ontimize.util.share.SharedElement;
 
 public class SharedEditItemListener implements ActionListener {
 
-	protected String preferenceKey;
-	protected DefaultReportDialog defaultReportDialog;
-	protected EntityReferenceLocator locator;
+    protected String preferenceKey;
 
-	private static final Logger logger = LoggerFactory.getLogger(SharedEditItemListener.class);
+    protected DefaultReportDialog defaultReportDialog;
 
-	public SharedEditItemListener(String preferenceKey, DefaultReportDialog defaultReportDialog) {
-		this.preferenceKey = preferenceKey;
-		this.defaultReportDialog = defaultReportDialog;
-		this.locator = ApplicationManager.getApplication().getReferenceLocator();
-	}
+    protected EntityReferenceLocator locator;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		try {
-			int shareId = Integer.parseInt(e.getActionCommand());
-			int sessionID = this.locator.getSessionId();
-			Point p = ((Component) e.getSource()).getLocationOnScreen();
-			String user = ((ClientReferenceLocator) this.locator).getUser();
+    private static final Logger logger = LoggerFactory.getLogger(SharedEditItemListener.class);
 
-			IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator).getRemoteReference(IShareRemoteReference.REMOTE_NAME, sessionID);
-			SharedElement sharedItem = remoteReference.getSharedItem(shareId, sessionID);
+    public SharedEditItemListener(String preferenceKey, DefaultReportDialog defaultReportDialog) {
+        this.preferenceKey = preferenceKey;
+        this.defaultReportDialog = defaultReportDialog;
+        this.locator = ApplicationManager.getApplication().getReferenceLocator();
+    }
 
-			String filterContent = this.defaultReportDialog.getCurrentConfiguration();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            int shareId = Integer.parseInt(e.getActionCommand());
+            int sessionID = this.locator.getSessionId();
+            Point p = ((Component) e.getSource()).getLocationOnScreen();
+            String user = ((ClientReferenceLocator) this.locator).getUser();
 
-			FormUpdateSharedReference f = new FormUpdateSharedReference(
-					SwingUtilities.getWindowAncestor(SwingUtilities.getAncestorOfClass(Window.class, (Component) e.getSource())), true, this.locator, p, sharedItem);
-			if (f.getUpdateStatus()) {
-				String nameUpdate = f.getName();
-				String contentShareUpdate = filterContent;
-				String messageUpdate = (String) f.getMessage();
+            IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator)
+                .getRemoteReference(IShareRemoteReference.REMOTE_NAME, sessionID);
+            SharedElement sharedItem = remoteReference.getSharedItem(shareId, sessionID);
 
-				remoteReference.updateSharedItem(shareId, contentShareUpdate, messageUpdate, nameUpdate, sessionID);
-			}
+            String filterContent = this.defaultReportDialog.getCurrentConfiguration();
 
-		} catch (Exception ex) {
-			SharedEditItemListener.logger.error("{}", ApplicationManager.getTranslation("shareRemote.not_retrive_message"), ex.getMessage(), ex);
-			MessageDialog.showErrorMessage(this.defaultReportDialog.getContainer(), "shareRemote.not_retrive_message");
-		}
+            FormUpdateSharedReference f = new FormUpdateSharedReference(
+                    SwingUtilities
+                        .getWindowAncestor(SwingUtilities.getAncestorOfClass(Window.class, (Component) e.getSource())),
+                    true, this.locator, p, sharedItem);
+            if (f.getUpdateStatus()) {
+                String nameUpdate = f.getName();
+                String contentShareUpdate = filterContent;
+                String messageUpdate = (String) f.getMessage();
 
-	}
+                remoteReference.updateSharedItem(shareId, contentShareUpdate, messageUpdate, nameUpdate, sessionID);
+            }
+
+        } catch (Exception ex) {
+            SharedEditItemListener.logger.error("{}",
+                    ApplicationManager.getTranslation("shareRemote.not_retrive_message"), ex.getMessage(), ex);
+            MessageDialog.showErrorMessage(this.defaultReportDialog.getContainer(), "shareRemote.not_retrive_message");
+        }
+
+    }
 
 }

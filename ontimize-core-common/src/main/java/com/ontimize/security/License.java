@@ -5,24 +5,25 @@ import java.io.UnsupportedEncodingException;
 
 public class License implements Serializable {
 
-	byte[] contents = null;
-	byte[] signature = null;
+    byte[] contents = null;
 
-	public License(byte[] c, byte[] sig) {
-		this.contents = c;
-		this.signature = sig;
-	}
+    byte[] signature = null;
 
-	public String getContentsStr() throws UnsupportedEncodingException {
-		return new String(this.contents, "UTF-8");
-	}
+    public License(byte[] c, byte[] sig) {
+        this.contents = c;
+        this.signature = sig;
+    }
 
-	public byte[] getContents() {
-		return this.contents;
-	}
+    public String getContentsStr() throws UnsupportedEncodingException {
+        return new String(this.contents, "UTF-8");
+    }
 
-	public byte[] getSignature() {
-		return this.signature;
-	}
+    public byte[] getContents() {
+        return this.contents;
+    }
+
+    public byte[] getSignature() {
+        return this.signature;
+    }
 
 }

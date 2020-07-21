@@ -21,148 +21,150 @@ import com.ontimize.gui.i18n.Internationalization;
 
 public class CustomSpinnerDateModel extends SpinnerDateModel {
 
-	private static final Logger	logger	= LoggerFactory.getLogger(CustomSpinnerDateModel.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomSpinnerDateModel.class);
 
-	protected Calendar value;
+    protected Calendar value;
 
-	public CustomSpinnerDateModel() {
-		super();
-	}
+    public CustomSpinnerDateModel() {
+        super();
+    }
 
-	public CustomSpinnerDateModel(Comparable start, Comparable end, int calendarField) {
-		this(new Date(), start, end, calendarField);
-	}
+    public CustomSpinnerDateModel(Comparable start, Comparable end, int calendarField) {
+        this(new Date(), start, end, calendarField);
+    }
 
-	public CustomSpinnerDateModel(Date value, Comparable start, Comparable end, int calendarField) {
-		super(value, start, end, calendarField);
-	}
+    public CustomSpinnerDateModel(Date value, Comparable start, Comparable end, int calendarField) {
+        super(value, start, end, calendarField);
+    }
 
-	@Override
-	public Object getValue() {
-		if (this.value == null) {
-			return null;
-		}
-		return this.value.getTime();
-	}
+    @Override
+    public Object getValue() {
+        if (this.value == null) {
+            return null;
+        }
+        return this.value.getTime();
+    }
 
-	@Override
-	public void setValue(Object value) {
-		if (value == null) {
-			if (value != this.value) {
-				this.value = null;
-				this.fireStateChanged();
-			}
-			return;
-		}
-		if ((value == null) || !(value instanceof Date)) {
-			throw new IllegalArgumentException("null value");
-		}
-		if (this.value == null) {
-			this.value = Calendar.getInstance();
-		}
-		if (!value.equals(this.value.getTime())) {
-			this.value.setTime((Date) value);
-			this.fireStateChanged();
-		}
-	}
+    @Override
+    public void setValue(Object value) {
+        if (value == null) {
+            if (value != this.value) {
+                this.value = null;
+                this.fireStateChanged();
+            }
+            return;
+        }
+        if ((value == null) || !(value instanceof Date)) {
+            throw new IllegalArgumentException("null value");
+        }
+        if (this.value == null) {
+            this.value = Calendar.getInstance();
+        }
+        if (!value.equals(this.value.getTime())) {
+            this.value.setTime((Date) value);
+            this.fireStateChanged();
+        }
+    }
 
-	@Override
-	public Object getNextValue() {
-		if (this.value == null) {
-			this.value = Calendar.getInstance();
-			if (this.getStart() instanceof Date) {
-				this.value.setTime((Date) this.getStart());
-			}
-			return this.value.getTime();
-		} else {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(this.value.getTime());
-			cal.add(this.getCalendarField(), 1);
-			Date next = cal.getTime();
-			return (this.getEnd() == null) || (this.getEnd().compareTo(next) >= 0) ? next : null;
-		}
-	}
+    @Override
+    public Object getNextValue() {
+        if (this.value == null) {
+            this.value = Calendar.getInstance();
+            if (this.getStart() instanceof Date) {
+                this.value.setTime((Date) this.getStart());
+            }
+            return this.value.getTime();
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(this.value.getTime());
+            cal.add(this.getCalendarField(), 1);
+            Date next = cal.getTime();
+            return (this.getEnd() == null) || (this.getEnd().compareTo(next) >= 0) ? next : null;
+        }
+    }
 
-	@Override
-	public Object getPreviousValue() {
-		if (this.value == null) {
-			this.value = Calendar.getInstance();
-			if (this.getStart() instanceof Date) {
-				this.value.setTime((Date) this.getEnd());
-			}
-			return this.value.getTime();
-		} else {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(this.value.getTime());
-			cal.add(this.getCalendarField(), -1);
-			Date prev = cal.getTime();
-			return (this.getStart() == null) || (this.getStart().compareTo(prev) <= 0) ? prev : null;
-		}
-	}
+    @Override
+    public Object getPreviousValue() {
+        if (this.value == null) {
+            this.value = Calendar.getInstance();
+            if (this.getStart() instanceof Date) {
+                this.value.setTime((Date) this.getEnd());
+            }
+            return this.value.getTime();
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(this.value.getTime());
+            cal.add(this.getCalendarField(), -1);
+            Date prev = cal.getTime();
+            return (this.getStart() == null) || (this.getStart().compareTo(prev) <= 0) ? prev : null;
+        }
+    }
 
-	public static class SpinnerDateDocument extends PlainDocument implements Internationalization {
+    public static class SpinnerDateDocument extends PlainDocument implements Internationalization {
 
-		protected static Locale defaultLocale = Locale.getDefault();
+        protected static Locale defaultLocale = Locale.getDefault();
 
-		protected SimpleDateFormat dateFormat = null;
+        protected SimpleDateFormat dateFormat = null;
 
-		protected String datePattern;
+        protected String datePattern;
 
-		protected Date currentDate;
+        protected Date currentDate;
 
-		protected Timestamp currentTimestamp = null;
+        protected Timestamp currentTimestamp = null;
 
-		protected Locale locale = SpinnerDateDocument.defaultLocale;
+        protected Locale locale = SpinnerDateDocument.defaultLocale;
 
-		public SpinnerDateDocument() {
-			super();
-		}
+        public SpinnerDateDocument() {
+            super();
+        }
 
-		public SpinnerDateDocument(String datePattern) {
-			super();
-			this.datePattern = datePattern;
+        public SpinnerDateDocument(String datePattern) {
+            super();
+            this.datePattern = datePattern;
 
-			this.dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, SpinnerDateDocument.defaultLocale);
+            this.dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM,
+                    SpinnerDateDocument.defaultLocale);
 
-			DateFormatSymbols symbols = new DateFormatSymbols();
-			symbols.setLocalPatternChars("GyMdkHmsSEDFwWahKz");
-			this.dateFormat.setDateFormatSymbols(symbols);
+            DateFormatSymbols symbols = new DateFormatSymbols();
+            symbols.setLocalPatternChars("GyMdkHmsSEDFwWahKz");
+            this.dateFormat.setDateFormatSymbols(symbols);
 
-			this.dateFormat.applyPattern(datePattern);
-			this.currentDate = this.dateFormat.getCalendar().getTime();
-		}
+            this.dateFormat.applyPattern(datePattern);
+            this.currentDate = this.dateFormat.getCalendar().getTime();
+        }
 
-		public void setValue(Date value) {
-			try {
-				String stringDate = this.dateFormat.format(value);
-				this.remove(0, this.getLength());
-				this.insertString(0, stringDate, null);
-				this.currentDate = this.dateFormat.getCalendar().getTime();
-			} catch (Exception e) {
-				if (ApplicationManager.DEBUG) {
-					CustomSpinnerDateModel.logger.debug(this.getClass().toString() + ": " + e.getMessage().length(), e);
-				}
-			}
-		}
+        public void setValue(Date value) {
+            try {
+                String stringDate = this.dateFormat.format(value);
+                this.remove(0, this.getLength());
+                this.insertString(0, stringDate, null);
+                this.currentDate = this.dateFormat.getCalendar().getTime();
+            } catch (Exception e) {
+                if (ApplicationManager.DEBUG) {
+                    CustomSpinnerDateModel.logger.debug(this.getClass().toString() + ": " + e.getMessage().length(), e);
+                }
+            }
+        }
 
-		@Override
-		public void setComponentLocale(Locale l) {
-			this.locale = l;
-			if (this.dateFormat != null) {
-				this.dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, this.locale);
-				this.dateFormat.getCalendar().setTime(this.currentDate);
-				this.dateFormat.applyPattern(this.datePattern);
-			}
-		}
+        @Override
+        public void setComponentLocale(Locale l) {
+            this.locale = l;
+            if (this.dateFormat != null) {
+                this.dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, this.locale);
+                this.dateFormat.getCalendar().setTime(this.currentDate);
+                this.dateFormat.applyPattern(this.datePattern);
+            }
+        }
 
-		@Override
-		public Vector getTextsToTranslate() {
-			return null;
-		}
+        @Override
+        public Vector getTextsToTranslate() {
+            return null;
+        }
 
-		@Override
-		public void setResourceBundle(ResourceBundle resourceBundle) {}
+        @Override
+        public void setResourceBundle(ResourceBundle resourceBundle) {
+        }
 
-	}
+    }
 
 }

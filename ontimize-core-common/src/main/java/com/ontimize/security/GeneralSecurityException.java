@@ -7,7 +7,8 @@ package com.ontimize.security;
  */
 public class GeneralSecurityException extends Exception {
 
-	public GeneralSecurityException(String s) {
-		super(s);
-	}
+    public GeneralSecurityException(String s) {
+        super(s);
+    }
+
 }

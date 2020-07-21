@@ -12,19 +12,20 @@ import com.ontimize.gui.field.DateDataField;
 @Deprecated
 public class DateTableRenderer extends DefaultTableCellRenderer {
 
-	DateDataField dateDataField = new DateDataField(new Hashtable());
+    DateDataField dateDataField = new DateDataField(new Hashtable());
 
-	public DateTableRenderer() {}
+    public DateTableRenderer() {
+    }
 
-	@Override
-	protected void setValue(Object value) {
-		if (value instanceof java.sql.Timestamp) {
-			this.dateDataField.setValue(value);
-			String sFieldValue = this.dateDataField.getText();
-			super.setValue(sFieldValue);
-		} else {
-			super.setValue(value);
-		}
-	}
+    @Override
+    protected void setValue(Object value) {
+        if (value instanceof java.sql.Timestamp) {
+            this.dateDataField.setValue(value);
+            String sFieldValue = this.dateDataField.getText();
+            super.setValue(sFieldValue);
+        } else {
+            super.setValue(value);
+        }
+    }
 
 }

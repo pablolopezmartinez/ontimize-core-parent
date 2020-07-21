@@ -25,237 +25,240 @@ import com.ontimize.gui.field.html.utils.I18n;
 import com.ontimize.gui.i18n.Internationalization;
 
 /**
- * This class implements a standard data entry dialog with "OK" and "Cancel" buttons. Subclasses can override the isDataValid(), okButtonPressed(), and cancelButtonPressed()
- * methods to perform implementation specific processing.
+ * This class implements a standard data entry dialog with "OK" and "Cancel" buttons. Subclasses can
+ * override the isDataValid(), okButtonPressed(), and cancelButtonPressed() methods to perform
+ * implementation specific processing.
  * <P>
  * By default, the dialog is modal, and has a JPanel with a BorderLayout for its content pane.
  *
  */
 public class StandardDialog extends EJDialog implements Internationalization {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance();
+    private static final I18n i18n = I18n.getInstance();
 
-	// Constants
-	public static final int BUTTONS_CENTER = FlowLayout.CENTER;
-	public static final int BUTTONS_LEFT = FlowLayout.LEFT;
-	public static final int BUTTONS_RIGHT = FlowLayout.RIGHT;
+    // Constants
+    public static final int BUTTONS_CENTER = FlowLayout.CENTER;
 
-	/** The spacing between components in pixels */
-	public static final int COMPONENT_SPACING = 5;
+    public static final int BUTTONS_LEFT = FlowLayout.LEFT;
 
-	// Attributes
+    public static final int BUTTONS_RIGHT = FlowLayout.RIGHT;
 
-	/** Flag indicating if the "Cancel" button was pressed to close dialog */
-	protected boolean myIsDialogCancelled = true;
+    /** The spacing between components in pixels */
+    public static final int COMPONENT_SPACING = 5;
 
-	/** The content pane for holding user components */
-	protected Container myUserContentPane;
+    // Attributes
 
-	protected ResourceBundle resourceBundle;
+    /** Flag indicating if the "Cancel" button was pressed to close dialog */
+    protected boolean myIsDialogCancelled = true;
 
-	protected JButton okB;
-	protected JButton cancelB;
-	protected String dialogTitle;
+    /** The content pane for holding user components */
+    protected Container myUserContentPane;
 
-	// Methods
+    protected ResourceBundle resourceBundle;
 
-	/**
-	 * This method creates a StandardDialog with the given parent frame and title.
-	 *
-	 * @param parent
-	 *            The parent frame for the dialog.
-	 * @param title
-	 *            The title to display in the dialog.
-	 */
-	public StandardDialog(Frame parent, String title) {
-		super(parent, StandardDialog.i18n.str(title));
-		this.dialogTitle = title;
-		this.init(StandardDialog.BUTTONS_CENTER, StandardDialog.COMPONENT_SPACING);
-	}
+    protected JButton okB;
 
-	/**
-	 * This method creates a StandardDialog with the given parent dialog and title.
-	 *
-	 * @param parent
-	 *            The parent dialog for the dialog.
-	 * @param title
-	 *            The title to display in the dialog.
-	 */
-	public StandardDialog(Dialog parent, String title) {
-		super(parent, StandardDialog.i18n.str(title));
-		this.dialogTitle = title;
-		this.init(StandardDialog.BUTTONS_CENTER, StandardDialog.COMPONENT_SPACING);
-	}
+    protected JButton cancelB;
 
-	public StandardDialog(Dialog parent, String title, int orientation, int spacing) {
-		super(parent, StandardDialog.i18n.str(title));
-		this.dialogTitle = title;
-		this.init(orientation, spacing);
-	}
+    protected String dialogTitle;
 
-	public StandardDialog(Frame parent, String title, int orientation, int spacing) {
-		super(parent, StandardDialog.i18n.str(title));
-		this.dialogTitle = title;
-		this.init(orientation, spacing);
-	}
+    // Methods
 
-	public StandardDialog(Frame parent, String title, int orientation) {
-		super(parent, StandardDialog.i18n.str(title));
-		this.dialogTitle = title;
-		this.init(orientation, StandardDialog.COMPONENT_SPACING);
-	}
+    /**
+     * This method creates a StandardDialog with the given parent frame and title.
+     * @param parent The parent frame for the dialog.
+     * @param title The title to display in the dialog.
+     */
+    public StandardDialog(Frame parent, String title) {
+        super(parent, StandardDialog.i18n.str(title));
+        this.dialogTitle = title;
+        this.init(StandardDialog.BUTTONS_CENTER, StandardDialog.COMPONENT_SPACING);
+    }
 
-	public StandardDialog(Dialog parent, String title, int orientation) {
-		super(parent, StandardDialog.i18n.str(title));
-		this.dialogTitle = title;
-		this.init(orientation, StandardDialog.COMPONENT_SPACING);
-	}
+    /**
+     * This method creates a StandardDialog with the given parent dialog and title.
+     * @param parent The parent dialog for the dialog.
+     * @param title The title to display in the dialog.
+     */
+    public StandardDialog(Dialog parent, String title) {
+        super(parent, StandardDialog.i18n.str(title));
+        this.dialogTitle = title;
+        this.init(StandardDialog.BUTTONS_CENTER, StandardDialog.COMPONENT_SPACING);
+    }
 
-	/**
-	 * This method sets up the default attributes of the dialog and the content pane.
-	 */
-	protected void init(int orientation, int spacing) {
-		this.setModal(true);
-		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    public StandardDialog(Dialog parent, String title, int orientation, int spacing) {
+        super(parent, StandardDialog.i18n.str(title));
+        this.dialogTitle = title;
+        this.init(orientation, spacing);
+    }
 
-		// Setup the internal content pane to hold the user content pane
-		// and the standard button panel
+    public StandardDialog(Frame parent, String title, int orientation, int spacing) {
+        super(parent, StandardDialog.i18n.str(title));
+        this.dialogTitle = title;
+        this.init(orientation, spacing);
+    }
 
-		JPanel internalContentPane = new JPanel();
+    public StandardDialog(Frame parent, String title, int orientation) {
+        super(parent, StandardDialog.i18n.str(title));
+        this.dialogTitle = title;
+        this.init(orientation, StandardDialog.COMPONENT_SPACING);
+    }
 
-		internalContentPane.setLayout(new BorderLayout(StandardDialog.COMPONENT_SPACING, StandardDialog.COMPONENT_SPACING));
+    public StandardDialog(Dialog parent, String title, int orientation) {
+        super(parent, StandardDialog.i18n.str(title));
+        this.dialogTitle = title;
+        this.init(orientation, StandardDialog.COMPONENT_SPACING);
+    }
 
-		Action okAction = new AbstractAction(StandardDialog.i18n.str("Accept")) {
+    /**
+     * This method sets up the default attributes of the dialog and the content pane.
+     */
+    protected void init(int orientation, int spacing) {
+        this.setModal(true);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-			/**
-			 *
-			 */
-			private static final long serialVersionUID = 1L;
+        // Setup the internal content pane to hold the user content pane
+        // and the standard button panel
 
-			@Override
-			public void actionPerformed(ActionEvent actionEvent) {
-				if (StandardDialog.this.isValidData()) {
-					StandardDialog.this.myIsDialogCancelled = false;
-					StandardDialog.this.dispose();
-				}
-			}
-		};
+        JPanel internalContentPane = new JPanel();
 
-		Action cancelAction = new AbstractAction(StandardDialog.i18n.str("cancel")) {
+        internalContentPane
+            .setLayout(new BorderLayout(StandardDialog.COMPONENT_SPACING, StandardDialog.COMPONENT_SPACING));
 
-			/**
-			 *
-			 */
-			private static final long serialVersionUID = 1L;
+        Action okAction = new AbstractAction(StandardDialog.i18n.str("Accept")) {
 
-			@Override
-			public void actionPerformed(ActionEvent actionEvent) {
-				StandardDialog.this.myIsDialogCancelled = true;
-				StandardDialog.this.dispose();
-			}
-		};
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
 
-		JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
-		this.okB = new JButton(okAction);
-		buttonPanel.add(this.okB);
-		this.cancelB = new JButton(cancelAction);
-		buttonPanel.add(this.cancelB);
-		this.getRootPane().setDefaultButton(this.okB);
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (StandardDialog.this.isValidData()) {
+                    StandardDialog.this.myIsDialogCancelled = false;
+                    StandardDialog.this.dispose();
+                }
+            }
+        };
 
-		JPanel spacer = new JPanel(new FlowLayout(orientation));
-		spacer.add(buttonPanel);
+        Action cancelAction = new AbstractAction(StandardDialog.i18n.str("cancel")) {
 
-		internalContentPane.add(spacer, BorderLayout.SOUTH);
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
 
-		// Initialize the user content pane with a JPanel
-		this.myUserContentPane = new JPanel(new BorderLayout());
-		super.setContentPane(internalContentPane);
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                StandardDialog.this.myIsDialogCancelled = true;
+                StandardDialog.this.dispose();
+            }
+        };
 
-		// Finally, add a listener for the window close button.
-		// Process this event the same as the "Cancel" button.
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
+        this.okB = new JButton(okAction);
+        buttonPanel.add(this.okB);
+        this.cancelB = new JButton(cancelAction);
+        buttonPanel.add(this.cancelB);
+        this.getRootPane().setDefaultButton(this.okB);
 
-		WindowAdapter windowAdapter = new WindowAdapter() {
+        JPanel spacer = new JPanel(new FlowLayout(orientation));
+        spacer.add(buttonPanel);
 
-			@Override
-			public void windowClosing(WindowEvent windowEvent) {
-				StandardDialog.this.myIsDialogCancelled = true;
-				StandardDialog.this.dispose();
-			}
-		};
+        internalContentPane.add(spacer, BorderLayout.SOUTH);
 
-		this.addWindowListener(windowAdapter);
-	}
+        // Initialize the user content pane with a JPanel
+        this.myUserContentPane = new JPanel(new BorderLayout());
+        super.setContentPane(internalContentPane);
 
-	/**
-	 * This method gets the content pane for adding components. Components should not be added directly to the dialog.
-	 *
-	 * @returns the content pane for the dialog.
-	 */
-	@Override
-	public Container getContentPane() {
-		return this.myUserContentPane;
-	}
+        // Finally, add a listener for the window close button.
+        // Process this event the same as the "Cancel" button.
 
-	/**
-	 * This method sets the content pane for adding components. Components should not be added directly to the dialog.
-	 *
-	 * @param contentPane
-	 *            The content pane for the dialog.
-	 */
-	@Override
-	public void setContentPane(Container contentPane) {
-		this.myUserContentPane = contentPane;
-		super.getContentPane().add(this.myUserContentPane, BorderLayout.CENTER);
-	}
+        WindowAdapter windowAdapter = new WindowAdapter() {
 
-	/**
-	 * This method returns <code>true</code> if the User cancelled the dialog otherwise <code>false</code>. The dialog is cancelled if the "Cancel" button is pressed or the "Close"
-	 * window button is pressed, or the "Escape" key is pressed. In other words, if the User has caused the dialog to close by any method other than by pressing the "Ok" button,
-	 * this method will return <code>true</code>.
-	 */
-	public boolean hasUserCancelled() {
-		return this.myIsDialogCancelled;
-	}
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                StandardDialog.this.myIsDialogCancelled = true;
+                StandardDialog.this.dispose();
+            }
+        };
 
-	/**
-	 * This method is used to validate the current dialog box. This method provides a default response of <code>true</code>. This method should be implemented by each dialog that
-	 * extends this class.
-	 *
-	 * @returns a boolean indicating if the data is valid. <code>true</code> indicates that all of the fields were validated correctly and <code>false</code> indicates the
-	 *          validation failed
-	 */
-	protected boolean isValidData() {
-		return true;
-	}
+        this.addWindowListener(windowAdapter);
+    }
 
-	@Override
-	public void setComponentLocale(Locale l) {
+    /**
+     * This method gets the content pane for adding components. Components should not be added directly
+     * to the dialog.
+     *
+     * @returns the content pane for the dialog.
+     */
+    @Override
+    public Container getContentPane() {
+        return this.myUserContentPane;
+    }
 
-	}
+    /**
+     * This method sets the content pane for adding components. Components should not be added directly
+     * to the dialog.
+     * @param contentPane The content pane for the dialog.
+     */
+    @Override
+    public void setContentPane(Container contentPane) {
+        this.myUserContentPane = contentPane;
+        super.getContentPane().add(this.myUserContentPane, BorderLayout.CENTER);
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		this.resourceBundle = resourceBundle;
-		if (this.dialogTitle != null) {
-			this.setTitle(StandardDialog.i18n.str(this.dialogTitle));
-		}
-		if (this.okB != null) {
-			this.okB.setText(StandardDialog.i18n.str("Accept"));
-		}
-		if (this.cancelB != null) {
-			this.cancelB.setText(StandardDialog.i18n.str("cancel"));
-		}
+    /**
+     * This method returns <code>true</code> if the User cancelled the dialog otherwise
+     * <code>false</code>. The dialog is cancelled if the "Cancel" button is pressed or the "Close"
+     * window button is pressed, or the "Escape" key is pressed. In other words, if the User has caused
+     * the dialog to close by any method other than by pressing the "Ok" button, this method will return
+     * <code>true</code>.
+     */
+    public boolean hasUserCancelled() {
+        return this.myIsDialogCancelled;
+    }
 
-	}
+    /**
+     * This method is used to validate the current dialog box. This method provides a default response
+     * of <code>true</code>. This method should be implemented by each dialog that extends this class.
+     *
+     * @returns a boolean indicating if the data is valid. <code>true</code> indicates that all of the
+     *          fields were validated correctly and <code>false</code> indicates the validation failed
+     */
+    protected boolean isValidData() {
+        return true;
+    }
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return null;
-	}
+    @Override
+    public void setComponentLocale(Locale l) {
+
+    }
+
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
+        if (this.dialogTitle != null) {
+            this.setTitle(StandardDialog.i18n.str(this.dialogTitle));
+        }
+        if (this.okB != null) {
+            this.okB.setText(StandardDialog.i18n.str("Accept"));
+        }
+        if (this.cancelB != null) {
+            this.cancelB.setText(StandardDialog.i18n.str("cancel"));
+        }
+
+    }
+
+    @Override
+    public Vector getTextsToTranslate() {
+        return null;
+    }
+
 }

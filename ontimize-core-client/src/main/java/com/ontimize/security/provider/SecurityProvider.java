@@ -4,5 +4,6 @@ import java.security.Provider;
 
 public interface SecurityProvider {
 
-	public Provider getProvider();
+    public Provider getProvider();
+
 }

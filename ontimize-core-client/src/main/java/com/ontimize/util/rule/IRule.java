@@ -4,15 +4,15 @@ import java.util.List;
 
 public interface IRule {
 
-	public ICondition getCondition();
+    public ICondition getCondition();
 
-	public void setCondition(ICondition condition);
+    public void setCondition(ICondition condition);
 
-	public List getActions();
+    public List getActions();
 
-	public void addAction(IAction action);
+    public void addAction(IAction action);
 
-	@Override
-	public String toString();
+    @Override
+    public String toString();
 
 }

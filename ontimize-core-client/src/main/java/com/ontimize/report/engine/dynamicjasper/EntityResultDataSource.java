@@ -25,124 +25,125 @@ import net.sf.jasperreports.engine.JasperReport;
 
 /**
  * <p>
- * Wrappers a Ontimize {@link EntityResult} into a Jasper data source to allow fill reports without data transformation.
+ * Wrappers a Ontimize {@link EntityResult} into a Jasper data source to allow fill reports without
+ * data transformation.
  *
  * @see JRDataSource
  * @see JasperFillManager#fillReport(JasperReport, String, Map, JRDataSource)
- *
  * @see EntityDataSource
  * @see ReportServer#fill(int, Hashtable, Hashtable, EntityResult)
- *
  * @author Imatia Innovation S.L.
  * @since 05/11/2008
  */
 public class EntityResultDataSource implements JRDataSource, JRRewindableDataSource {
 
-	private static final Logger logger = LoggerFactory.getLogger(EntityResultDataSource.class);
+    private static final Logger logger = LoggerFactory.getLogger(EntityResultDataSource.class);
 
-	protected EntityResult result;
+    protected EntityResult result;
 
-	private int index;
-	private final int size;
+    private int index;
 
-	public EntityResultDataSource(EntityResult result) {
-		this.result = result;
+    private final int size;
 
-		this.size = result.calculateRecordNumber();
-		this.index = -1;
-	}
+    public EntityResultDataSource(EntityResult result) {
+        this.result = result;
 
-	public EntityResultDataSource(TableModel originalmodel, TableSorter sorter) {
-		this.result = this.createEntityResultFromTableSorter(originalmodel, sorter);
-		this.size = this.result.calculateRecordNumber();
-		this.index = -1;
-	}
+        this.size = result.calculateRecordNumber();
+        this.index = -1;
+    }
 
-	public EntityResult createEntityResultFromTableSorter(TableModel model, TableSorter sorter) {
-		return sorter.getOrderedEntityResult(model);
-	}
+    public EntityResultDataSource(TableModel originalmodel, TableSorter sorter) {
+        this.result = this.createEntityResultFromTableSorter(originalmodel, sorter);
+        this.size = this.result.calculateRecordNumber();
+        this.index = -1;
+    }
 
-	@Override
-	public Object getFieldValue(JRField field) throws JRException {
-		Object obj = this.result.get(field.getName());
-		if ((obj == null) || !(obj instanceof Vector)) {
-			return null;
-		}
+    public EntityResult createEntityResultFromTableSorter(TableModel model, TableSorter sorter) {
+        return sorter.getOrderedEntityResult(model);
+    }
 
-		Vector v = (Vector) obj;
+    @Override
+    public Object getFieldValue(JRField field) throws JRException {
+        Object obj = this.result.get(field.getName());
+        if ((obj == null) || !(obj instanceof Vector)) {
+            return null;
+        }
 
-		Class fieldClass = field.getValueClass();
-		Object value = (this.index >= 0) && (this.index < this.size) ? v.get(this.index) : null;
+        Vector v = (Vector) obj;
 
-		if (java.awt.Image.class.equals(fieldClass) && (value instanceof BytesBlock)) {
-			Image im = new ImageIcon(((BytesBlock) value).getBytes()).getImage();
-			v.setElementAt(im, this.index);
-			value = im;
-		}
-		return value;
-	}
+        Class fieldClass = field.getValueClass();
+        Object value = (this.index >= 0) && (this.index < this.size) ? v.get(this.index) : null;
 
-	@Override
-	public boolean next() throws JRException {
-		this.index++;
-		return this.index < this.size;
-	}
+        if (java.awt.Image.class.equals(fieldClass) && (value instanceof BytesBlock)) {
+            Image im = new ImageIcon(((BytesBlock) value).getBytes()).getImage();
+            v.setElementAt(im, this.index);
+            value = im;
+        }
+        return value;
+    }
 
-	public void reset() {
-		this.index = -1;
-	}
+    @Override
+    public boolean next() throws JRException {
+        this.index++;
+        return this.index < this.size;
+    }
 
-	@Override
-	public void moveFirst() throws JRException {
-		this.index = -1;
-	}
+    public void reset() {
+        this.index = -1;
+    }
 
-	public EntityResult getEntityResult() {
-		return this.result;
-	}
+    @Override
+    public void moveFirst() throws JRException {
+        this.index = -1;
+    }
 
-	public JRField[] getFields() {
-		return EntityResultDataSource.getFields(this.result);
-	}
+    public EntityResult getEntityResult() {
+        return this.result;
+    }
 
-	public static JRField[] getFields(EntityResult result) {
-		Enumeration keys = result.keys();
-		Vector tmp = new Vector();
+    public JRField[] getFields() {
+        return EntityResultDataSource.getFields(this.result);
+    }
 
-		try {
-			while (keys.hasMoreElements()) {
-				Object o = keys.nextElement();
-				if ((o == null) || !(o instanceof String)) {
-					continue;
-				}
+    public static JRField[] getFields(EntityResult result) {
+        Enumeration keys = result.keys();
+        Vector tmp = new Vector();
 
-				String name = (String) o;
-				int type = result.getColumnSQLType(name);
-				Class classClass = TypeMappingsUtils.getClass(type);
-				String className = TypeMappingsUtils.getClassName(type);
+        try {
+            while (keys.hasMoreElements()) {
+                Object o = keys.nextElement();
+                if ((o == null) || !(o instanceof String)) {
+                    continue;
+                }
 
-				Hashtable m = new Hashtable();
-				m.put(CustomField.NAME_KEY, name);
-				m.put(CustomField.VALUE_CLASS_NAME_KEY, className);
-				m.put(CustomField.VALUE_CLASS_KEY, classClass);
+                String name = (String) o;
+                int type = result.getColumnSQLType(name);
+                Class classClass = TypeMappingsUtils.getClass(type);
+                String className = TypeMappingsUtils.getClassName(type);
 
-				tmp.add(new CustomField(m));
-			}
+                Hashtable m = new Hashtable();
+                m.put(CustomField.NAME_KEY, name);
+                m.put(CustomField.VALUE_CLASS_NAME_KEY, className);
+                m.put(CustomField.VALUE_CLASS_KEY, classClass);
 
-		} catch (Exception ex) {
-			EntityResultDataSource.logger.error(ex.getMessage(), ex);
-		}
+                tmp.add(new CustomField(m));
+            }
 
-		// To array
-		int s = tmp.size();
-		CustomField[] a = new CustomField[s];
-		for (int i = 0; i < s; i++) {
-			Object o = tmp.get(i);
-			if ((o == null) || !(o instanceof CustomField)) {
-				continue;
-			}
-			a[i] = (CustomField) o;
-		}
-		return a;
-	}
+        } catch (Exception ex) {
+            EntityResultDataSource.logger.error(ex.getMessage(), ex);
+        }
+
+        // To array
+        int s = tmp.size();
+        CustomField[] a = new CustomField[s];
+        for (int i = 0; i < s; i++) {
+            Object o = tmp.get(i);
+            if ((o == null) || !(o instanceof CustomField)) {
+                continue;
+            }
+            a[i] = (CustomField) o;
+        }
+        return a;
+    }
+
 }
