@@ -565,8 +565,10 @@ public class CurrencyDataField extends TextFieldDataField
         if (this.tipKey != null) {
             // since 5.2074EN
             // Allows to define custom tip according to 'tip' attribute in xml
-            ((JTextField) this.dataField).setToolTipText(this.tipKey.toString());
+            String tipKeyString = this.resources != null ? this.resources.getString(this.tipKey) : this.tipKey.toString();
+            ((JTextField) this.dataField).setToolTipText(tipKeyString);
             return;
+
         }
         CurrencyDocument doc = (CurrencyDocument) ((JTextField) this.dataField).getDocument();
         Object oValue = this.getValue();
