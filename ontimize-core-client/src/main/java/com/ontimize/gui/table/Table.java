@@ -2576,7 +2576,15 @@ public class Table extends JRootPane
             this.table.hideWaitPanel();
         }
 
-        /**
+        public boolean isStop() {
+			return stop;
+		}
+
+		public void setStop(boolean stop) {
+			this.stop = stop;
+		}
+
+		/**
          * Executes the table query
          */
         @Override
