@@ -5,25 +5,26 @@ import com.ontimize.gui.IBackgroundFormBuilder;
 
 public class DetailFormBuilder implements IBackgroundFormBuilder {
 
-	protected Table table;
-	protected Form form;
+    protected Table table;
 
-	public DetailFormBuilder(Table table) {
-		this.table = table;
-	}
+    protected Form form;
 
-	@Override
-	public String getFormName() {
-		return this.table.getFormName();
-	}
+    public DetailFormBuilder(Table table) {
+        this.table = table;
+    }
 
-	@Override
-	public synchronized Form getForm() {
-		if (this.form == null) {
-			String sFormName = this.table.getFormName();
-			this.form = this.table.getParentForm().getFormManager().getFormCopyInEDTh(sFormName);
-		}
-		return this.form;
-	}
+    @Override
+    public String getFormName() {
+        return this.table.getFormName();
+    }
+
+    @Override
+    public synchronized Form getForm() {
+        if (this.form == null) {
+            String sFormName = this.table.getFormName();
+            this.form = this.table.getParentForm().getFormManager().getFormCopyInEDTh(sFormName);
+        }
+        return this.form;
+    }
 
 }

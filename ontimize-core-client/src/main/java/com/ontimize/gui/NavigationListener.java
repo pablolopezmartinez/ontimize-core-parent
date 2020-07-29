@@ -4,5 +4,6 @@ import java.util.EventListener;
 
 public interface NavigationListener extends EventListener {
 
-	public void dataWillChange(DataNavigationEvent e);
+    public void dataWillChange(DataNavigationEvent e);
+
 }

@@ -4,8 +4,8 @@ import com.ontimize.gui.Form;
 
 public interface IConfigureFormBundleGUI extends Internationalization {
 
-	public void setForm(Form form) throws Exception;
+    public void setForm(Form form) throws Exception;
 
-	public void setVisible(boolean visible);
+    public void setVisible(boolean visible);
 
 }

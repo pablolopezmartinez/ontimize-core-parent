@@ -10,30 +10,31 @@ import com.ontimize.gui.ApplicationManager;
 
 public class LabelItem extends JLabel {
 
-	protected boolean paintBorder = false;
+    protected boolean paintBorder = false;
 
-	public LabelItem(Icon image) {
-		super(image);
-		if (!ApplicationManager.useOntimizePlaf) {
-			this.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-		}
-	}
+    public LabelItem(Icon image) {
+        super(image);
+        if (!ApplicationManager.useOntimizePlaf) {
+            this.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+        }
+    }
 
-	public LabelItem() {
-		super();
-		if (!ApplicationManager.useOntimizePlaf) {
-			this.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-		}
-	}
+    public LabelItem() {
+        super();
+        if (!ApplicationManager.useOntimizePlaf) {
+            this.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+        }
+    }
 
-	public void setBorderPainted(boolean paint) {
-		this.paintBorder = paint;
-	}
+    public void setBorderPainted(boolean paint) {
+        this.paintBorder = paint;
+    }
 
-	@Override
-	public void paintBorder(Graphics g) {
-		if (this.paintBorder) {
-			super.paintBorder(g);
-		}
-	}
+    @Override
+    public void paintBorder(Graphics g) {
+        if (this.paintBorder) {
+            super.paintBorder(g);
+        }
+    }
+
 }

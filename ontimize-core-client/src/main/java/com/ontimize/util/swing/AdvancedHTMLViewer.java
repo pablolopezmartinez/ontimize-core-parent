@@ -19,56 +19,59 @@ import org.xhtmlrenderer.swing.ScalableXHTMLPanel;
 
 public class AdvancedHTMLViewer extends BasicHTMLViewer {
 
-	private static final Logger				logger				= LoggerFactory.getLogger(AdvancedHTMLViewer.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdvancedHTMLViewer.class);
 
-	protected ScalableXHTMLPanel view = null;
-	protected NaiveUserAgent manager = null;
+    protected ScalableXHTMLPanel view = null;
 
-	protected JScrollPane scroll = null;
+    protected NaiveUserAgent manager = null;
 
-	private DocumentBuilder documentBuilder = null;
+    protected JScrollPane scroll = null;
 
-	private final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+    private DocumentBuilder documentBuilder = null;
 
-	public AdvancedHTMLViewer() {
-		super();
-		this.manager = new NaiveUserAgent();
-		this.view = new ScalableXHTMLPanel(this.manager);
-		this.view.addDocumentListener(this.manager);
-		this.view.setCenteredPagedView(true);
-		this.scroll = new FSScrollPane(this.view);
+    private final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
-		try {
-			this.documentBuilder = this.docBuilderFactory.newDocumentBuilder();
-		} catch (Exception ex) {
-			AdvancedHTMLViewer.logger.error(null, ex);
-		}
+    public AdvancedHTMLViewer() {
+        super();
+        this.manager = new NaiveUserAgent();
+        this.view = new ScalableXHTMLPanel(this.manager);
+        this.view.addDocumentListener(this.manager);
+        this.view.setCenteredPagedView(true);
+        this.scroll = new FSScrollPane(this.view);
 
-		this.setLayout(new GridBagLayout());
+        try {
+            this.documentBuilder = this.docBuilderFactory.newDocumentBuilder();
+        } catch (Exception ex) {
+            AdvancedHTMLViewer.logger.error(null, ex);
+        }
 
-		this.add(this.scroll, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 2, 2));
+        this.setLayout(new GridBagLayout());
 
-	}
+        this.add(this.scroll, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 2, 2));
 
-	@Override
-	public void setHTML(String html) {
-		if ((html == null) || "".equals(html)) {
-			this.view.removeAll();
-		} else {
-			Document d = AdvancedHTMLViewer.htmlToDocument(this.documentBuilder, html);
-			this.view.setDocument(d);
-		}
-	}
+    }
 
-	public static Document htmlToDocument(DocumentBuilder documentBuilder, String htmltext) {
-		Tidy tidy = new Tidy();
-		tidy.setXHTML(false);
-		try {
-			ByteArrayInputStream bis = new ByteArrayInputStream(htmltext.getBytes());
-			return tidy.parseDOM(bis, null);
-		} catch (Exception ex) {
-			AdvancedHTMLViewer.logger.error(null, ex);
-		}
-		return null;
-	}
+    @Override
+    public void setHTML(String html) {
+        if ((html == null) || "".equals(html)) {
+            this.view.removeAll();
+        } else {
+            Document d = AdvancedHTMLViewer.htmlToDocument(this.documentBuilder, html);
+            this.view.setDocument(d);
+        }
+    }
+
+    public static Document htmlToDocument(DocumentBuilder documentBuilder, String htmltext) {
+        Tidy tidy = new Tidy();
+        tidy.setXHTML(false);
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(htmltext.getBytes());
+            return tidy.parseDOM(bis, null);
+        } catch (Exception ex) {
+            AdvancedHTMLViewer.logger.error(null, ex);
+        }
+        return null;
+    }
+
 }

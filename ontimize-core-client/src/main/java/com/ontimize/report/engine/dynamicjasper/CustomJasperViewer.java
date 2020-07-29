@@ -16,58 +16,58 @@ import net.sf.jasperreports.swing.JRViewerToolbar;
 
 public class CustomJasperViewer extends JRViewer implements Internationalization {
 
-	protected DefaultReportDialog reportDialog;
+    protected DefaultReportDialog reportDialog;
 
-	public CustomJasperViewer(JasperPrint jasperPrint, DefaultReportDialog reportDialog) {
-		super(jasperPrint);
-		this.setReportDialog(reportDialog);
-	}
+    public CustomJasperViewer(JasperPrint jasperPrint, DefaultReportDialog reportDialog) {
+        super(jasperPrint);
+        this.setReportDialog(reportDialog);
+    }
 
-	protected void setReportDialog(DefaultReportDialog reportDialog) {
-		this.reportDialog = reportDialog;
-	}
+    protected void setReportDialog(DefaultReportDialog reportDialog) {
+        this.reportDialog = reportDialog;
+    }
 
-	public DefaultReportDialog getReportDialog() {
-		return this.reportDialog;
-	}
+    public DefaultReportDialog getReportDialog() {
+        return this.reportDialog;
+    }
 
-	public JRViewerController getViewerController() {
-		return this.viewerContext;
-	}
+    public JRViewerController getViewerController() {
+        return this.viewerContext;
+    }
 
-	public JPanel getToolbar() {
-		return this.tlbToolBar;
-	}
+    public JPanel getToolbar() {
+        return this.tlbToolBar;
+    }
 
-	@Override
-	protected JRViewerToolbar createToolbar() {
-		return this.tlbToolBar = new CustomJasperViewerToolbar(this.viewerContext, this.reportDialog);
-	}
+    @Override
+    protected JRViewerToolbar createToolbar() {
+        return this.tlbToolBar = new CustomJasperViewerToolbar(this.viewerContext, this.reportDialog);
+    }
 
-	public JPanel getStatusBar() {
-		return this.pnlStatus;
-	}
+    public JPanel getStatusBar() {
+        return this.pnlStatus;
+    }
 
-	public void refresh(JasperPrint jasperPrint) {
-		this.viewerContext.loadReport(jasperPrint);
-	}
+    public void refresh(JasperPrint jasperPrint) {
+        this.viewerContext.loadReport(jasperPrint);
+    }
 
-	@Override
-	public void setComponentLocale(Locale l) {
-		// TODO Auto-generated method stub
+    @Override
+    public void setComponentLocale(Locale l) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		if ((this.tlbToolBar != null) && (this.tlbToolBar instanceof Internationalization)) {
-			((Internationalization) this.tlbToolBar).setResourceBundle(resourceBundle);
-		}
-	}
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        if ((this.tlbToolBar != null) && (this.tlbToolBar instanceof Internationalization)) {
+            ((Internationalization) this.tlbToolBar).setResourceBundle(resourceBundle);
+        }
+    }
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return null;
-	}
+    @Override
+    public Vector getTextsToTranslate() {
+        return null;
+    }
 
 }

@@ -11,10 +11,10 @@ import java.lang.annotation.Target;
 @Documented
 public @interface FormComponent {
 
-	/**
-	 * Attribute name.
-	 *
-	 * @return the string
-	 */
-	String attr();
+    /**
+     * Attribute name.
+     * @return the string
+     */
+    String attr();
+
 }

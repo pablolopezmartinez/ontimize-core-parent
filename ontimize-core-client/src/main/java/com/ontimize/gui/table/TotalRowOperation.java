@@ -7,12 +7,12 @@ import javax.swing.JMenuItem;
 
 public interface TotalRowOperation {
 
-	public Number getOperationValue(List columnValues, Map requiredColumnValues);
+    public Number getOperationValue(List columnValues, Map requiredColumnValues);
 
-	public String getOperationText();
+    public String getOperationText();
 
-	public JMenuItem getItem();
+    public JMenuItem getItem();
 
-	public List<String> getRequiredColumns();
+    public List<String> getRequiredColumns();
 
 }

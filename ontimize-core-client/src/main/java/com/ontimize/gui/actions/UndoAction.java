@@ -9,20 +9,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class UndoAction extends AbstractAction {
-	private static final Logger	logger	= LoggerFactory.getLogger(UndoAction.class);
 
-	protected UndoManager undoManager;
+    private static final Logger logger = LoggerFactory.getLogger(UndoAction.class);
 
-	public UndoAction(UndoManager manager) {
-		this.undoManager = manager;
-	}
+    protected UndoManager undoManager;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		try {
-			this.undoManager.undo();
-		} catch (Exception cre) {
-			UndoAction.logger.trace(null, cre);
-		}
-	}
+    public UndoAction(UndoManager manager) {
+        this.undoManager = manager;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            this.undoManager.undo();
+        } catch (Exception cre) {
+            UndoAction.logger.trace(null, cre);
+        }
+    }
+
 }

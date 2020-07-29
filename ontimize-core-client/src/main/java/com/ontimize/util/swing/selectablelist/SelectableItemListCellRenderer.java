@@ -13,109 +13,110 @@ import com.ontimize.gui.ApplicationManager;
 
 public class SelectableItemListCellRenderer extends JCheckBox implements ListCellRenderer {
 
-	protected Color selectedBackground = UIManager.getColor("List.selectionBackground");
-	protected Color selectedForeground = UIManager.getColor("List.selectionForeground");
+    protected Color selectedBackground = UIManager.getColor("List.selectionBackground");
 
-	protected Color notSelectedForeground = UIManager.getColor("List.foreground");
+    protected Color selectedForeground = UIManager.getColor("List.selectionForeground");
 
-	protected Color notSelectedBackground = UIManager.getColor("List.background");
+    protected Color notSelectedForeground = UIManager.getColor("List.foreground");
 
-	protected ResourceBundle bundle = null;
+    protected Color notSelectedBackground = UIManager.getColor("List.background");
 
-	public SelectableItemListCellRenderer() {
-		this.setBorderPaintedFlat(true);
-	}
+    protected ResourceBundle bundle = null;
 
-	public SelectableItemListCellRenderer(ResourceBundle resource) {
-		this.setBorderPaintedFlat(true);
-		this.bundle = resource;
-	}
+    public SelectableItemListCellRenderer() {
+        this.setBorderPaintedFlat(true);
+    }
 
-	@Override
-	public String getName() {
-		return "SelectableItem";
-	}
+    public SelectableItemListCellRenderer(ResourceBundle resource) {
+        this.setBorderPaintedFlat(true);
+        this.bundle = resource;
+    }
 
-	@Override
-	public Component getListCellRendererComponent(JList l, Object v, int r, boolean sel, boolean foc) {
+    @Override
+    public String getName() {
+        return "SelectableItem";
+    }
 
-		this.selectedBackground = UIManager.getColor("List[Selected].textBackground");
-		this.selectedForeground = UIManager.getColor("List[Selected].textForeground");
+    @Override
+    public Component getListCellRendererComponent(JList l, Object v, int r, boolean sel, boolean foc) {
 
-		if (this.selectedBackground == null) {
-			this.selectedBackground = UIManager.getColor("List.selectionBackground");
-		}
-		if (this.selectedForeground == null) {
-			this.selectedForeground = UIManager.getColor("List.selectionForeground");
-		}
+        this.selectedBackground = UIManager.getColor("List[Selected].textBackground");
+        this.selectedForeground = UIManager.getColor("List[Selected].textForeground");
 
-		this.notSelectedBackground = UIManager.getColor("\"SelectableItem\".background");
-		this.notSelectedForeground = UIManager.getColor("\"SelectableItem\".foreground");
+        if (this.selectedBackground == null) {
+            this.selectedBackground = UIManager.getColor("List.selectionBackground");
+        }
+        if (this.selectedForeground == null) {
+            this.selectedForeground = UIManager.getColor("List.selectionForeground");
+        }
 
-		if (this.notSelectedBackground == null) {
-			this.notSelectedBackground = UIManager.getColor("List.background");
-		}
-		if (this.notSelectedForeground == null) {
-			this.notSelectedForeground = UIManager.getColor("List.foreground");
-		}
+        this.notSelectedBackground = UIManager.getColor("\"SelectableItem\".background");
+        this.notSelectedForeground = UIManager.getColor("\"SelectableItem\".foreground");
 
-		this.setOpaque(true);
-		if (sel) {
-			this.setForeground(this.selectedForeground);
-			this.setBackground(this.selectedBackground);
-		} else {
-			this.setForeground(this.notSelectedForeground);
-			this.setBackground(this.notSelectedBackground);
-		}
+        if (this.notSelectedBackground == null) {
+            this.notSelectedBackground = UIManager.getColor("List.background");
+        }
+        if (this.notSelectedForeground == null) {
+            this.notSelectedForeground = UIManager.getColor("List.foreground");
+        }
 
-		if (v instanceof SelectableItem) {
-			this.setText(ApplicationManager.getTranslation(((SelectableItem) v).toString(), this.bundle));
-			// this.setText(((SelectableItem) v).toString());
-			boolean bSelected = ((SelectableItem) v).isSelected();
-			this.setSelected(bSelected);
-		}
+        this.setOpaque(true);
+        if (sel) {
+            this.setForeground(this.selectedForeground);
+            this.setBackground(this.selectedBackground);
+        } else {
+            this.setForeground(this.notSelectedForeground);
+            this.setBackground(this.notSelectedBackground);
+        }
 
-		return this;
-	}
+        if (v instanceof SelectableItem) {
+            this.setText(ApplicationManager.getTranslation(((SelectableItem) v).toString(), this.bundle));
+            // this.setText(((SelectableItem) v).toString());
+            boolean bSelected = ((SelectableItem) v).isSelected();
+            this.setSelected(bSelected);
+        }
 
-	public ResourceBundle getResourceBundle() {
-		return this.bundle;
-	}
+        return this;
+    }
 
-	public void setResourceBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
-	}
+    public ResourceBundle getResourceBundle() {
+        return this.bundle;
+    }
 
-	public Color getSelectedBackground() {
-		return this.selectedBackground;
-	}
+    public void setResourceBundle(ResourceBundle bundle) {
+        this.bundle = bundle;
+    }
 
-	public void setSelectedBackground(Color selectedBackground) {
-		this.selectedBackground = selectedBackground;
-	}
+    public Color getSelectedBackground() {
+        return this.selectedBackground;
+    }
 
-	public Color getSelectedForeground() {
-		return this.selectedForeground;
-	}
+    public void setSelectedBackground(Color selectedBackground) {
+        this.selectedBackground = selectedBackground;
+    }
 
-	public void setSelectedForeground(Color selectedForeground) {
-		this.selectedForeground = selectedForeground;
-	}
+    public Color getSelectedForeground() {
+        return this.selectedForeground;
+    }
 
-	public Color getNotSelectedForeground() {
-		return this.notSelectedForeground;
-	}
+    public void setSelectedForeground(Color selectedForeground) {
+        this.selectedForeground = selectedForeground;
+    }
 
-	public void setNotSelectedForeground(Color notSelectedForeground) {
-		this.notSelectedForeground = notSelectedForeground;
-	}
+    public Color getNotSelectedForeground() {
+        return this.notSelectedForeground;
+    }
 
-	public Color getNotSelectedBackground() {
-		return this.notSelectedBackground;
-	}
+    public void setNotSelectedForeground(Color notSelectedForeground) {
+        this.notSelectedForeground = notSelectedForeground;
+    }
 
-	public void setNotSelectedBackground(Color notSelectedBackground) {
-		this.notSelectedBackground = notSelectedBackground;
-	}
+    public Color getNotSelectedBackground() {
+        return this.notSelectedBackground;
+    }
+
+    public void setNotSelectedBackground(Color notSelectedBackground) {
+        this.notSelectedBackground = notSelectedBackground;
+    }
 
 }

@@ -33,427 +33,426 @@ import com.ontimize.gui.ValueEvent;
  */
 public class SliderDataField extends DataField implements DataComponent, AdvancedDataComponent {
 
-	private static final Logger logger = LoggerFactory.getLogger(SliderDataField.class);
+    private static final Logger logger = LoggerFactory.getLogger(SliderDataField.class);
 
-	/**
-	 * The default value. By default, 0.
-	 */
-	protected int defaultValue = 0;
+    /**
+     * The default value. By default, 0.
+     */
+    protected int defaultValue = 0;
 
-	/**
-	 * An instance of a listener list.
-	 */
-	protected Vector listenersList = new Vector();
+    /**
+     * An instance of a listener list.
+     */
+    protected Vector listenersList = new Vector();
 
-	/**
-	 * A reference for an inner document listener. By default, null.
-	 */
-	protected InnerDocumentListener innerListener = null;
+    /**
+     * A reference for an inner document listener. By default, null.
+     */
+    protected InnerDocumentListener innerListener = null;
 
-	/**
-	 * The scale. By default, 1.0.
-	 */
-	protected double scale = 1.0d;
+    /**
+     * The scale. By default, 1.0.
+     */
+    protected double scale = 1.0d;
 
-	/**
-	 * The key for including menu in search.
-	 */
-	public static String INCLUDE_MENU_KEY = "datafield.include_in_search";
+    /**
+     * The key for including menu in search.
+     */
+    public static String INCLUDE_MENU_KEY = "datafield.include_in_search";
 
-	/**
-	 * A checkbox menu item for including menu in search.
-	 */
-	protected JCheckBoxMenuItem includeMenu = new JCheckBoxMenuItem(SliderDataField.INCLUDE_MENU_KEY, true);;
+    /**
+     * A checkbox menu item for including menu in search.
+     */
+    protected JCheckBoxMenuItem includeMenu = new JCheckBoxMenuItem(SliderDataField.INCLUDE_MENU_KEY, true);
 
-	/**
-	 * An instance for not including borders.
-	 */
-	protected Border notIncludeBorder = new CompoundBorder(new LineBorder(Color.red, 2), new BevelBorder(BevelBorder.LOWERED));
+    ;
 
-	/**
-	 * This class implements a inner document listener for field.
-	 * <p>
-	 *
-	 * @author Imatia Innovation
-	 */
-	protected class InnerDocumentListener implements javax.swing.event.ChangeListener {
+    /**
+     * An instance for not including borders.
+     */
+    protected Border notIncludeBorder = new CompoundBorder(new LineBorder(Color.red, 2),
+            new BevelBorder(BevelBorder.LOWERED));
 
-		protected boolean activateInnerListener = true;
+    /**
+     * This class implements a inner document listener for field.
+     * <p>
+     *
+     * @author Imatia Innovation
+     */
+    protected class InnerDocumentListener implements javax.swing.event.ChangeListener {
 
-		public void setActiveInnerListener(boolean act) {
-			this.activateInnerListener = act;
-		}
+        protected boolean activateInnerListener = true;
 
-		@Override
-		public void stateChanged(ChangeEvent e) {
-			if (this.activateInnerListener && (e.getSource() instanceof JSlider) && !((JSlider) e.getSource()).getValueIsAdjusting()) {
-				SliderDataField.this.fireValueChanged(SliderDataField.this.getValue(), SliderDataField.this.valueSave, ValueEvent.USER_CHANGE);
-			}
-		}
-	}
+        public void setActiveInnerListener(boolean act) {
+            this.activateInnerListener = act;
+        }
 
-	/**
-	 * The class constructor. Inits parameters and installs inner listeners.
-	 * <p>
-	 *
-	 * @param parameters
-	 *            the <code>Hashtable</code> with parameters
-	 */
-	public SliderDataField(Hashtable parameters) {
-		this.init(parameters);
-		Object or = parameters.get("orientation");
-		if (or != null) {
-			if ("v".equalsIgnoreCase(or.toString())) {
-				((JSlider) this.dataField).setOrientation(SwingConstants.VERTICAL);
-			}
-		}
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            if (this.activateInnerListener && (e.getSource() instanceof JSlider)
+                    && !((JSlider) e.getSource()).getValueIsAdjusting()) {
+                SliderDataField.this.fireValueChanged(SliderDataField.this.getValue(), SliderDataField.this.valueSave,
+                        ValueEvent.USER_CHANGE);
+            }
+        }
 
-		Object attr = parameters.get("attr");
-		if (attr == null) {
-			throw new IllegalArgumentException(this.getClass().toString() + " parameter 'attr' is required");
-		} else {
-			this.attribute = attr;
-		}
+    }
 
-		Object label = parameters.get("label");
-		if (label != null) {
-			if (label.toString().equalsIgnoreCase("no")) {
-				((JSlider) this.dataField).setPaintLabels(false);
-				((JSlider) this.dataField).setPaintTicks(false);
-			} else {
-				((JSlider) this.dataField).setPaintTicks(true);
-				((JSlider) this.dataField).setPaintLabels(true);
-			}
-		} else {
-			((JSlider) this.dataField).setPaintTicks(true);
-			((JSlider) this.dataField).setPaintLabels(true);
-		}
+    /**
+     * The class constructor. Inits parameters and installs inner listeners.
+     * <p>
+     * @param parameters the <code>Hashtable</code> with parameters
+     */
+    public SliderDataField(Hashtable parameters) {
+        this.init(parameters);
+        Object or = parameters.get("orientation");
+        if (or != null) {
+            if ("v".equalsIgnoreCase(or.toString())) {
+                ((JSlider) this.dataField).setOrientation(SwingConstants.VERTICAL);
+            }
+        }
 
-		Object max = parameters.get("max");
-		if (max != null) {
-			try {
-				int m = Integer.parseInt(max.toString());
-				((JSlider) this.dataField).setMaximum(m);
-			} catch (Exception ex) {
-				SliderDataField.logger.error("Error in parameter 'max'", ex);
-			}
-		}
+        Object attr = parameters.get("attr");
+        if (attr == null) {
+            throw new IllegalArgumentException(this.getClass().toString() + " parameter 'attr' is required");
+        } else {
+            this.attribute = attr;
+        }
 
-		Object min = parameters.get("min");
-		if (min != null) {
-			try {
-				int m = Integer.parseInt(min.toString());
-				((JSlider) this.dataField).setMinimum(m);
-			} catch (Exception ex) {
-				SliderDataField.logger.error("Error in parameter 'min'", ex);
-			}
-		}
+        Object label = parameters.get("label");
+        if (label != null) {
+            if (label.toString().equalsIgnoreCase("no")) {
+                ((JSlider) this.dataField).setPaintLabels(false);
+                ((JSlider) this.dataField).setPaintTicks(false);
+            } else {
+                ((JSlider) this.dataField).setPaintTicks(true);
+                ((JSlider) this.dataField).setPaintLabels(true);
+            }
+        } else {
+            ((JSlider) this.dataField).setPaintTicks(true);
+            ((JSlider) this.dataField).setPaintLabels(true);
+        }
 
-		Object scale = parameters.get("scale");
-		if (scale != null) {
-			try {
-				this.scale = Double.parseDouble(scale.toString());
-			} catch (Exception ex) {
-				SliderDataField.logger.error("Error in parameter 'scale'", ex);
-			}
-		}
+        Object max = parameters.get("max");
+        if (max != null) {
+            try {
+                int m = Integer.parseInt(max.toString());
+                ((JSlider) this.dataField).setMaximum(m);
+            } catch (Exception ex) {
+                SliderDataField.logger.error("Error in parameter 'max'", ex);
+            }
+        }
 
-		this.installInnerListener();
+        Object min = parameters.get("min");
+        if (min != null) {
+            try {
+                int m = Integer.parseInt(min.toString());
+                ((JSlider) this.dataField).setMinimum(m);
+            } catch (Exception ex) {
+                SliderDataField.logger.error("Error in parameter 'min'", ex);
+            }
+        }
 
-	}
+        Object scale = parameters.get("scale");
+        if (scale != null) {
+            try {
+                this.scale = Double.parseDouble(scale.toString());
+            } catch (Exception ex) {
+                SliderDataField.logger.error("Error in parameter 'scale'", ex);
+            }
+        }
 
-	/**
-	 * Installs inner listener.
-	 */
-	protected void installInnerListener() {
-		this.innerListener = new InnerDocumentListener();
-		((JSlider) this.dataField).addChangeListener(this.innerListener);
-	}
+        this.installInnerListener();
 
-	/**
-	 * Returns the internal value or returns <code>scale</code> internal value when <code>scale</code> is distinct to 1.0.
-	 * <p>
-	 *
-	 * @param innerValue
-	 *            the internal value
-	 * @return the value
-	 */
-	public Number internal2ExternalValue(int innerValue) {
-		if (Double.compare(this.scale, 1.0d) == 0) {
-			return new Integer(innerValue);
-		} else {
-			return new Double(this.scale * innerValue);
-		}
-	}
+    }
 
-	/**
-	 * Returns <code>d</code> divided by <code>scale</code> value.
-	 * <p>
-	 *
-	 * @param d
-	 *            the value
-	 * @return the converted value
-	 */
-	protected int externalToInnerValue(double d) {
-		return (int) (d / this.scale);
-	}
+    /**
+     * Installs inner listener.
+     */
+    protected void installInnerListener() {
+        this.innerListener = new InnerDocumentListener();
+        ((JSlider) this.dataField).addChangeListener(this.innerListener);
+    }
 
-	/**
-	 * Creates component and initializes parameters.
-	 * <p>
-	 *
-	 * @param parameters
-	 *            the <code>Hashtable</code> with parameters
-	 *            <p>
-	 *            <Table BORDER=1 CELLPADDING=3 CELLSPACING=1 RULES=ROWS FRAME=BOX>
-	 *            <tr>
-	 *            <td><b>attribute</td>
-	 *            <td><b>values</td>
-	 *            <td><b>default</td>
-	 *            <td><b>required</td>
-	 *            <td><b>meaning</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td>attr</td>
-	 *            <td></td>
-	 *            <td></td>
-	 *            <td>yes</td>
-	 *            <td>The attribute for component.</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td>orientation</td>
-	 *            <td><i>h/v</td>
-	 *            <td>h</td>
-	 *            <td>no</td>
-	 *            <td>Indicates the orientation slider.</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td>label</td>
-	 *            <td><i>yes/no</td>
-	 *            <td>yes</td>
-	 *            <td>no</td>
-	 *            <td>Indicates whether labels and separators are used.</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td>max</td>
-	 *            <td></td>
-	 *            <td></td>
-	 *            <td>no</td>
-	 *            <td>The maximum value for slider.</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td>min</td>
-	 *            <td></td>
-	 *            <td></td>
-	 *            <td>no</td>
-	 *            <td>The minimum value for slider.</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td>scale</td>
-	 *            <td></td>
-	 *            <td></td>
-	 *            <td>no</td>
-	 *            <td>The scale for internal component value.</td>
-	 *            </tr>
-	 *            </TABLE>
-	 */
-	@Override
-	public void init(Hashtable parameters) {
-		this.createDataField();
-		super.init(parameters);
-	}
+    /**
+     * Returns the internal value or returns <code>scale</code> internal value when <code>scale</code>
+     * is distinct to 1.0.
+     * <p>
+     * @param innerValue the internal value
+     * @return the value
+     */
+    public Number internal2ExternalValue(int innerValue) {
+        if (Double.compare(this.scale, 1.0d) == 0) {
+            return new Integer(innerValue);
+        } else {
+            return new Double(this.scale * innerValue);
+        }
+    }
 
-	/**
-	 * Creates the slider.
-	 */
-	protected void createDataField() {
-		this.dataField = new JSlider() {
+    /**
+     * Returns <code>d</code> divided by <code>scale</code> value.
+     * <p>
+     * @param d the value
+     * @return the converted value
+     */
+    protected int externalToInnerValue(double d) {
+        return (int) (d / this.scale);
+    }
 
-			@Override
-			public String getToolTipText() {
-				return String.valueOf(SliderDataField.this.internal2ExternalValue(((JSlider) SliderDataField.this.dataField).getValue()));
-			}
-		};
-		javax.swing.ToolTipManager.sharedInstance().registerComponent(this.dataField);
-		this.backgroundColor = this.dataField.getBackground();
-	}
+    /**
+     * Creates component and initializes parameters.
+     * <p>
+     * @param parameters the <code>Hashtable</code> with parameters
+     *        <p>
+     *        <Table BORDER=1 CELLPADDING=3 CELLSPACING=1 RULES=ROWS FRAME=BOX>
+     *        <tr>
+     *        <td><b>attribute</td>
+     *        <td><b>values</td>
+     *        <td><b>default</td>
+     *        <td><b>required</td>
+     *        <td><b>meaning</td>
+     *        </tr>
+     *        <tr>
+     *        <td>attr</td>
+     *        <td></td>
+     *        <td></td>
+     *        <td>yes</td>
+     *        <td>The attribute for component.</td>
+     *        </tr>
+     *        <tr>
+     *        <td>orientation</td>
+     *        <td><i>h/v</td>
+     *        <td>h</td>
+     *        <td>no</td>
+     *        <td>Indicates the orientation slider.</td>
+     *        </tr>
+     *        <tr>
+     *        <td>label</td>
+     *        <td><i>yes/no</td>
+     *        <td>yes</td>
+     *        <td>no</td>
+     *        <td>Indicates whether labels and separators are used.</td>
+     *        </tr>
+     *        <tr>
+     *        <td>max</td>
+     *        <td></td>
+     *        <td></td>
+     *        <td>no</td>
+     *        <td>The maximum value for slider.</td>
+     *        </tr>
+     *        <tr>
+     *        <td>min</td>
+     *        <td></td>
+     *        <td></td>
+     *        <td>no</td>
+     *        <td>The minimum value for slider.</td>
+     *        </tr>
+     *        <tr>
+     *        <td>scale</td>
+     *        <td></td>
+     *        <td></td>
+     *        <td>no</td>
+     *        <td>The scale for internal component value.</td>
+     *        </tr>
+     *        </TABLE>
+     */
+    @Override
+    public void init(Hashtable parameters) {
+        this.createDataField();
+        super.init(parameters);
+    }
 
-	@Override
-	public int getSQLDataType() {
-		return java.sql.Types.INTEGER;
-	}
+    /**
+     * Creates the slider.
+     */
+    protected void createDataField() {
+        this.dataField = new JSlider() {
 
-	@Override
-	public void deleteData() {
-		this.setValue(new Integer(this.defaultValue));
-	}
+            @Override
+            public String getToolTipText() {
+                return String.valueOf(SliderDataField.this
+                    .internal2ExternalValue(((JSlider) SliderDataField.this.dataField).getValue()));
+            }
+        };
+        javax.swing.ToolTipManager.sharedInstance().registerComponent(this.dataField);
+        this.backgroundColor = this.dataField.getBackground();
+    }
 
-	@Override
-	public void setValue(Object value) {
-		try {
-			this.enabledInnerListener(false);
-			if (value instanceof Number) {
-				((JSlider) this.dataField).setValue(this.externalToInnerValue(((Number) value).doubleValue()));
-			} else {
-				this.deleteData();
-			}
-			this.fireValueChanged(this.getValue(), this.valueSave, ValueEvent.PROGRAMMATIC_CHANGE);
-			this.valueSave = this.getValue();
-		} catch (Exception ex) {
-			SliderDataField.logger.error(null, ex);
-		} finally {
-			this.enabledInnerListener(true);
-		}
+    @Override
+    public int getSQLDataType() {
+        return java.sql.Types.INTEGER;
+    }
 
-	}
+    @Override
+    public void deleteData() {
+        this.setValue(new Integer(this.defaultValue));
+    }
 
-	@Override
-	public Object getValue() {
-		if (this.isEmpty()) {
-			return null;
-		} else {
-			return this.internal2ExternalValue(((JSlider) this.dataField).getValue());
-		}
-	}
+    @Override
+    public void setValue(Object value) {
+        try {
+            this.enabledInnerListener(false);
+            if (value instanceof Number) {
+                ((JSlider) this.dataField).setValue(this.externalToInnerValue(((Number) value).doubleValue()));
+            } else {
+                this.deleteData();
+            }
+            this.fireValueChanged(this.getValue(), this.valueSave, ValueEvent.PROGRAMMATIC_CHANGE);
+            this.valueSave = this.getValue();
+        } catch (Exception ex) {
+            SliderDataField.logger.error(null, ex);
+        } finally {
+            this.enabledInnerListener(true);
+        }
 
-	@Override
-	public boolean isEmpty() {
-		this.empty = false;
-		if (this.advancedQueryMode) {
-			// The item ZERO is not include.
-			if (this.includeMenu.isSelected()) {
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			return this.empty;
-		}
-	}
+    }
 
-	@Override
-	protected void createPopupMenu() {
-		if (this.popupMenu == null) {
-			this.popupMenu = new ExtendedJPopupMenu();
-			this.addHelpMenuPopup(this.popupMenu);
-			this.popupMenu.addSeparator();
-			String sMenuText = SliderDataField.INCLUDE_MENU_KEY;
-			try {
-				if (this.resources != null) {
-					sMenuText = this.resources.getString(SliderDataField.INCLUDE_MENU_KEY);
-				}
-			} catch (Exception e) {
-				SliderDataField.logger.trace(null, e);
-			}
-			this.includeMenu.setText(sMenuText);
-			this.popupMenu.add(this.includeMenu);
-			this.includeMenu.addActionListener(new ActionListener() {
+    @Override
+    public Object getValue() {
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            return this.internal2ExternalValue(((JSlider) this.dataField).getValue());
+        }
+    }
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (!SliderDataField.this.includeMenu.isSelected()) {
-						// Update the Checkbox
-						((AbstractButton) SliderDataField.this.dataField).setEnabled(false);
-					} else {
-						((AbstractButton) SliderDataField.this.dataField).setEnabled(true);
-					}
-				}
-			});
+    @Override
+    public boolean isEmpty() {
+        this.empty = false;
+        if (this.advancedQueryMode) {
+            // The item ZERO is not include.
+            if (this.includeMenu.isSelected()) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return this.empty;
+        }
+    }
 
-		}
-	}
+    @Override
+    protected void createPopupMenu() {
+        if (this.popupMenu == null) {
+            this.popupMenu = new ExtendedJPopupMenu();
+            this.addHelpMenuPopup(this.popupMenu);
+            this.popupMenu.addSeparator();
+            String sMenuText = SliderDataField.INCLUDE_MENU_KEY;
+            try {
+                if (this.resources != null) {
+                    sMenuText = this.resources.getString(SliderDataField.INCLUDE_MENU_KEY);
+                }
+            } catch (Exception e) {
+                SliderDataField.logger.trace(null, e);
+            }
+            this.includeMenu.setText(sMenuText);
+            this.popupMenu.add(this.includeMenu);
+            this.includeMenu.addActionListener(new ActionListener() {
 
-	@Override
-	protected void showPopupMenu(Component c, int x, int y) {
-		if (this.popupMenu == null) {
-			this.createPopupMenu();
-		}
-		if (this.popupMenu != null) {
-			this.includeMenu.setVisible(this.advancedQueryMode);
-			this.configurePopupMenuHelp();
-			this.popupMenu.show(c, x, y);
-		}
-	}
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!SliderDataField.this.includeMenu.isSelected()) {
+                        // Update the Checkbox
+                        ((AbstractButton) SliderDataField.this.dataField).setEnabled(false);
+                    } else {
+                        ((AbstractButton) SliderDataField.this.dataField).setEnabled(true);
+                    }
+                }
+            });
 
-	@Override
-	public void setResourceBundle(ResourceBundle resources) {
-		super.setResourceBundle(resources);
-		// Set the condition texts
-		try {
-			if (resources != null) {
-				if (this.includeMenu != null) {
-					this.includeMenu.setText(this.resources.getString(SliderDataField.INCLUDE_MENU_KEY));
-				}
-			} else {
-				if (this.includeMenu != null) {
-					this.includeMenu.setText(SliderDataField.INCLUDE_MENU_KEY);
-				}
-			}
-		} catch (Exception e) {
-			if (ApplicationManager.DEBUG) {
-				SliderDataField.logger.debug(null, e);
-			} else {
-				SliderDataField.logger.trace(null, e);
-			}
-		}
+        }
+    }
 
-	}
+    @Override
+    protected void showPopupMenu(Component c, int x, int y) {
+        if (this.popupMenu == null) {
+            this.createPopupMenu();
+        }
+        if (this.popupMenu != null) {
+            this.includeMenu.setVisible(this.advancedQueryMode);
+            this.configurePopupMenuHelp();
+            this.popupMenu.show(c, x, y);
+        }
+    }
 
-	@Override
-	public void setAdvancedQueryMode(boolean enabled) {
-		this.advancedQueryMode = enabled;
-		if (!this.advancedQueryMode) {
-			this.dataField.setEnabled(this.isEnabled());
-		} else {
-			// Default --> not include in query
-			this.includeMenu.setSelected(false);
-			this.dataField.setEnabled(false);
-		}
-	}
+    @Override
+    public void setResourceBundle(ResourceBundle resources) {
+        super.setResourceBundle(resources);
+        // Set the condition texts
+        try {
+            if (resources != null) {
+                if (this.includeMenu != null) {
+                    this.includeMenu.setText(this.resources.getString(SliderDataField.INCLUDE_MENU_KEY));
+                }
+            } else {
+                if (this.includeMenu != null) {
+                    this.includeMenu.setText(SliderDataField.INCLUDE_MENU_KEY);
+                }
+            }
+        } catch (Exception e) {
+            if (ApplicationManager.DEBUG) {
+                SliderDataField.logger.debug(null, e);
+            } else {
+                SliderDataField.logger.trace(null, e);
+            }
+        }
 
-	@Override
-	public void setEnabled(boolean enabled) {
-		if (!enabled) {
-			this.setAdvancedQueryMode(false);
-		}
+    }
 
-		if (!enabled) {
-			this.advancedQueryMode = false;
-		}
-		if (enabled) {
-			boolean permission = this.checkEnabledPermission();
-			if (permission) {
-				if (!this.advancedQueryMode) {
-					this.dataField.setEnabled(enabled);
-				} else {
-					if (this.includeMenu.isSelected()) {
-						this.dataField.setEnabled(true);
-					} else {
-						this.dataField.setEnabled(false);
-					}
-				}
-				this.enabled = enabled;
-				this.updateBackgroundColor();
-			}
-		} else {
-			super.setEnabled(enabled);
-		}
-	}
+    @Override
+    public void setAdvancedQueryMode(boolean enabled) {
+        this.advancedQueryMode = enabled;
+        if (!this.advancedQueryMode) {
+            this.dataField.setEnabled(this.isEnabled());
+        } else {
+            // Default --> not include in query
+            this.includeMenu.setSelected(false);
+            this.dataField.setEnabled(false);
+        }
+    }
 
-	@Override
-	public boolean isModified() {
-		boolean res = super.isModified();
-		return res;
-	}
+    @Override
+    public void setEnabled(boolean enabled) {
+        if (!enabled) {
+            this.setAdvancedQueryMode(false);
+        }
 
-	/**
-	 * Enables/disables the inner listener according the condition.
-	 * <p>
-	 *
-	 * @param enable
-	 *            the enabled condition
-	 */
-	protected void enabledInnerListener(boolean enable) {
-		this.innerListener.setActiveInnerListener(enable);
-	}
+        if (!enabled) {
+            this.advancedQueryMode = false;
+        }
+        if (enabled) {
+            boolean permission = this.checkEnabledPermission();
+            if (permission) {
+                if (!this.advancedQueryMode) {
+                    this.dataField.setEnabled(enabled);
+                } else {
+                    if (this.includeMenu.isSelected()) {
+                        this.dataField.setEnabled(true);
+                    } else {
+                        this.dataField.setEnabled(false);
+                    }
+                }
+                this.enabled = enabled;
+                this.updateBackgroundColor();
+            }
+        } else {
+            super.setEnabled(enabled);
+        }
+    }
+
+    @Override
+    public boolean isModified() {
+        boolean res = super.isModified();
+        return res;
+    }
+
+    /**
+     * Enables/disables the inner listener according the condition.
+     * <p>
+     * @param enable the enabled condition
+     */
+    protected void enabledInnerListener(boolean enable) {
+        this.innerListener.setActiveInnerListener(enable);
+    }
+
 }

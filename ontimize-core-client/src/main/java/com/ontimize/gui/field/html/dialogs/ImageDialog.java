@@ -16,90 +16,92 @@ import com.ontimize.gui.images.ImageManager;
 
 public class ImageDialog extends HTMLOptionDialog {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance();
+    private static final I18n i18n = I18n.getInstance();
 
-	public static Icon icon = ImageManager.getIcon(ImageManager.IMAGE);
-	public static String title = "HTMLShef.image";
-	public static String desc = "HTMLShef.image_desc";
+    public static Icon icon = ImageManager.getIcon(ImageManager.IMAGE);
 
-	protected ImagePanel imagePanel;
+    public static String title = "HTMLShef.image";
 
-	public ImageDialog(Frame parent) {
-		super(parent, ImageDialog.title, ImageDialog.desc, ImageDialog.icon);
-		this.init();
-	}
+    public static String desc = "HTMLShef.image_desc";
 
-	public ImageDialog(Dialog parent) {
-		super(parent, ImageDialog.title, ImageDialog.desc, ImageDialog.icon);
-		this.init();
-	}
+    protected ImagePanel imagePanel;
 
-	protected void init() {
-		this.imagePanel = new ImagePanel();
-		this.setContentPane(this.imagePanel);
-		this.setSize(300, 345);
-		this.setResizable(false);
-	}
+    public ImageDialog(Frame parent) {
+        super(parent, ImageDialog.title, ImageDialog.desc, ImageDialog.icon);
+        this.init();
+    }
 
-	public void setImageAttributes(Map attr) {
-		this.imagePanel.setAttributes(attr);
-	}
+    public ImageDialog(Dialog parent) {
+        super(parent, ImageDialog.title, ImageDialog.desc, ImageDialog.icon);
+        this.init();
+    }
 
-	public Map getImageAttributes() {
-		return this.imagePanel.getAttributes();
-	}
+    protected void init() {
+        this.imagePanel = new ImagePanel();
+        this.setContentPane(this.imagePanel);
+        this.setSize(300, 345);
+        this.setResizable(false);
+    }
 
-	protected String createImgAttributes(Map ht) {
-		String html = "";
+    public void setImageAttributes(Map attr) {
+        this.imagePanel.setAttributes(attr);
+    }
 
-		boolean embed = false;
-		if (ht.containsKey("embed") && "yes".equalsIgnoreCase((String) ht.get("embed"))) {
-			embed = true;
-		}
+    public Map getImageAttributes() {
+        return this.imagePanel.getAttributes();
+    }
 
-		for (Iterator e = ht.keySet().iterator(); e.hasNext();) {
-			Object k = e.next();
-			if (k.toString().equals("src") && embed) {
-				html += " " + k + "=" + "\"data:image/png;base64," + ht.get(k) + "\"";
-				continue;
-			}
-			html += " " + k + "=" + "\"" + ht.get(k) + "\"";
-		}
+    protected String createImgAttributes(Map ht) {
+        String html = "";
 
-		return html;
-	}
+        boolean embed = false;
+        if (ht.containsKey("embed") && "yes".equalsIgnoreCase((String) ht.get("embed"))) {
+            embed = true;
+        }
 
-	@Override
-	public String getHTML() {
-		Map imgAttr = this.imagePanel.getAttributes();
+        for (Iterator e = ht.keySet().iterator(); e.hasNext();) {
+            Object k = e.next();
+            if (k.toString().equals("src") && embed) {
+                html += " " + k + "=" + "\"data:image/png;base64," + ht.get(k) + "\"";
+                continue;
+            }
+            html += " " + k + "=" + "\"" + ht.get(k) + "\"";
+        }
 
-		String html = "";
-		html += "<img" + this.createImgAttributes(imgAttr) + ">";
+        return html;
+    }
 
-		return html;
-	}
+    @Override
+    public String getHTML() {
+        Map imgAttr = this.imagePanel.getAttributes();
 
-	@Override
-	public void setComponentLocale(Locale l) {
+        String html = "";
+        html += "<img" + this.createImgAttributes(imgAttr) + ">";
 
-	}
+        return html;
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		super.setResourceBundle(resourceBundle);
-		if (this.imagePanel != null) {
-			this.imagePanel.setResourceBundle(resourceBundle);
-		}
-	}
+    @Override
+    public void setComponentLocale(Locale l) {
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return null;
-	}
+    }
+
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        super.setResourceBundle(resourceBundle);
+        if (this.imagePanel != null) {
+            this.imagePanel.setResourceBundle(resourceBundle);
+        }
+    }
+
+    @Override
+    public Vector getTextsToTranslate() {
+        return null;
+    }
 
 }

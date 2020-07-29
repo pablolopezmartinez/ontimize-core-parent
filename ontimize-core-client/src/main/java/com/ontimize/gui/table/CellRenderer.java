@@ -26,328 +26,342 @@ import com.ontimize.gui.field.DataComponent;
 
 public abstract class CellRenderer extends DefaultTableCellRenderer {
 
-	private static final Logger	logger				= LoggerFactory.getLogger(CellRenderer.class);
+    private static final Logger logger = LoggerFactory.getLogger(CellRenderer.class);
 
-	/**
-	 * The name of class. Used by L&F to put UI properties.
-	 *
-	 * @since 5.2062EN
-	 */
-	public static final String CELLRENDERER_NAME = "Table.cellRenderer";
+    /**
+     * The name of class. Used by L&F to put UI properties.
+     *
+     * @since 5.2062EN
+     */
+    public static final String CELLRENDERER_NAME = "Table.cellRenderer";
 
-	public static interface CellRendererColorManager {
+    public static interface CellRendererColorManager {
 
-		public Color getForeground(JTable t, int row, int col, boolean sel);
+        public Color getForeground(JTable t, int row, int col, boolean sel);
 
-		public Color getBackground(JTable t, int row, int col, boolean sel);
-	}
+        public Color getBackground(JTable t, int row, int col, boolean sel);
 
-	public static interface CellRendererFontManager {
+    }
 
-		public Font getFont(JTable t, int row, int col, boolean sel);
+    public static interface CellRendererFontManager {
 
-	}
+        public Font getFont(JTable t, int row, int col, boolean sel);
 
-	protected boolean remarkLines = true;
+    }
 
-	protected boolean remarkEditable = true;
+    protected boolean remarkLines = true;
 
-	public static Color focusBorderColor = Color.yellow;
+    protected boolean remarkEditable = true;
 
-	public static Border focusBorder;
+    public static Color focusBorderColor = Color.yellow;
 
-	public static Border emptyBorder = new EmptyBorder(0, 2, 0, 2);
+    public static Border focusBorder;
 
-	protected Format format = null;
+    public static Border emptyBorder = new EmptyBorder(0, 2, 0, 2);
 
-	protected JComponent component = null;
+    protected Format format = null;
 
-	protected Dimension prefSize = new Dimension(10, 10);
+    protected JComponent component = null;
 
-	public static Color evenRowBackgroundColor = DataComponent.VERY_LIGHT_SKYBLUE;
+    protected Dimension prefSize = new Dimension(10, 10);
 
-	public static Color oddRowBackgroundColor = Color.white;
+    public static Color evenRowBackgroundColor = DataComponent.VERY_LIGHT_SKYBLUE;
 
-	public static Color oddEditableBackgroundColor = DataComponent.VERY_LIGHT_YELLOW_2;
+    public static Color oddRowBackgroundColor = Color.white;
 
-	public static Color evenEditableBackgroundColor = CellRenderer.getSoftDarker(CellRenderer.oddEditableBackgroundColor);
+    public static Color oddEditableBackgroundColor = DataComponent.VERY_LIGHT_YELLOW_2;
 
-	public static Color selectedBackgroundColor = Color.blue;
+    public static Color evenEditableBackgroundColor = CellRenderer
+        .getSoftDarker(CellRenderer.oddEditableBackgroundColor);
 
-	public static Color selectedEditableBackgroundColor = Color.blue.brighter();
+    public static Color selectedBackgroundColor = Color.blue;
 
-	public static Color requiredInsertColumns = new Color(0xb8bacb);
+    public static Color selectedEditableBackgroundColor = Color.blue.brighter();
 
-	public static Color noRequiredInsertColumns = new Color(0xcdced9);
+    public static Color requiredInsertColumns = new Color(0xb8bacb);
 
-	public static Font font = null;
+    public static Color noRequiredInsertColumns = new Color(0xcdced9);
 
-	public static Color selectedFontColor = Color.white;
+    public static Font font = null;
 
-	public static Color editableFontColor = Color.black;
+    public static Color selectedFontColor = Color.white;
 
-	public static Color fontColor = Color.black;
+    public static Color editableFontColor = Color.black;
 
-	protected CellRendererColorManager cellRendererColorManager = null;
+    public static Color fontColor = Color.black;
 
-	protected CellRendererFontManager cellRendererFontManager = null;
+    protected CellRendererColorManager cellRendererColorManager = null;
 
-	protected boolean configureRenderer = true;
+    protected CellRendererFontManager cellRendererFontManager = null;
 
-	public CellRenderer() {
-		this.component = this;
-	}
+    protected boolean configureRenderer = true;
 
-	public void setFormater(Format f) {
-		this.format = f;
-	}
+    public CellRenderer() {
+        this.component = this;
+    }
 
-	public void setLineRemark(boolean lineRemark) {
-		this.remarkLines = lineRemark;
-	}
+    public void setFormater(Format f) {
+        this.format = f;
+    }
 
-	public void setEditableRemark(boolean editableRemark) {
-		this.remarkEditable = editableRemark;
-	}
+    public void setLineRemark(boolean lineRemark) {
+        this.remarkLines = lineRemark;
+    }
 
-	@Override
-	public Dimension getPreferredSize() {
-		if (this.component == this) {
-			this.prefSize.width = CellRenderer.calculatePreferredTextWidth(this);
-			this.prefSize.height = this.getFontMetrics(this.getFont()).getHeight();
-			return this.prefSize;
-		} else if (this.component instanceof JTextField) {
-			this.prefSize.width = CellRenderer.calculatePreferredTextWidth((JTextField) this.component);
-			this.prefSize.height = this.component.getFontMetrics(this.component.getFont()).getHeight();
-			return this.prefSize;
-		} else {
-			return this.component.getPreferredSize();
-		}
-	}
+    public void setEditableRemark(boolean editableRemark) {
+        this.remarkEditable = editableRemark;
+    }
 
-	protected static int calculatePreferredTextWidth(JTextField tf) {
-		if ((tf == null) || (tf.getText() == null)) {
-			return 0;
-		}
-		FontMetrics fontMetrics = tf.getFontMetrics(tf.getFont());
-		int iAuxWidth = fontMetrics.stringWidth(tf.getText());
-		return iAuxWidth + 4;
-	}
+    @Override
+    public Dimension getPreferredSize() {
+        if (this.component == this) {
+            this.prefSize.width = CellRenderer.calculatePreferredTextWidth(this);
+            this.prefSize.height = this.getFontMetrics(this.getFont()).getHeight();
+            return this.prefSize;
+        } else if (this.component instanceof JTextField) {
+            this.prefSize.width = CellRenderer.calculatePreferredTextWidth((JTextField) this.component);
+            this.prefSize.height = this.component.getFontMetrics(this.component.getFont()).getHeight();
+            return this.prefSize;
+        } else {
+            return this.component.getPreferredSize();
+        }
+    }
 
-	@Override
-	public Font getFont() {
-		if ((this.component != null) && (this.component != this)) {
-			return this.component.getFont();
-		} else {
-			return super.getFont();
-		}
-	}
+    protected static int calculatePreferredTextWidth(JTextField tf) {
+        if ((tf == null) || (tf.getText() == null)) {
+            return 0;
+        }
+        FontMetrics fontMetrics = tf.getFontMetrics(tf.getFont());
+        int iAuxWidth = fontMetrics.stringWidth(tf.getText());
+        return iAuxWidth + 4;
+    }
 
-	@Override
-	public FontMetrics getFontMetrics(Font f) {
-		if ((this.component != null) && (this.component != this)) {
-			return this.component.getFontMetrics(f);
-		} else {
-			return super.getFontMetrics(f);
-		}
-	}
+    @Override
+    public Font getFont() {
+        if ((this.component != null) && (this.component != this)) {
+            return this.component.getFont();
+        } else {
+            return super.getFont();
+        }
+    }
 
-	protected static int calculatePreferredTextWidth(JLabel l) {
-		if (l == null) {
-			return 0;
-		}
-		FontMetrics fontMetrics = l.getFontMetrics(l.getFont());
-		if (l.getText() == null) {
-			return 0;
-		}
-		int auxWidth = fontMetrics.stringWidth(l.getText());
-		return auxWidth + 4;
+    @Override
+    public FontMetrics getFontMetrics(Font f) {
+        if ((this.component != null) && (this.component != this)) {
+            return this.component.getFontMetrics(f);
+        } else {
+            return super.getFontMetrics(f);
+        }
+    }
 
-	}
+    protected static int calculatePreferredTextWidth(JLabel l) {
+        if (l == null) {
+            return 0;
+        }
+        FontMetrics fontMetrics = l.getFontMetrics(l.getFont());
+        if (l.getText() == null) {
+            return 0;
+        }
+        int auxWidth = fontMetrics.stringWidth(l.getText());
+        return auxWidth + 4;
 
-	@Override
-	public void updateUI() {
-		super.updateUI();
-	}
+    }
 
-	@Override
-	public String getName() {
-		return CellRenderer.CELLRENDERER_NAME;
-	}
+    @Override
+    public void updateUI() {
+        super.updateUI();
+    }
 
-	protected Color getForegroundColor(JTable table, Object value, boolean selected, boolean editable, boolean hasFocus, int row, int column) {
-		if (selected) {
-			return CellRenderer.selectedFontColor;
-		}
-		if (editable) {
-			return CellRenderer.editableFontColor;
-		}
+    @Override
+    public String getName() {
+        return CellRenderer.CELLRENDERER_NAME;
+    }
 
-		return CellRenderer.fontColor;
-	}
+    protected Color getForegroundColor(JTable table, Object value, boolean selected, boolean editable, boolean hasFocus,
+            int row, int column) {
+        if (selected) {
+            return CellRenderer.selectedFontColor;
+        }
+        if (editable) {
+            return CellRenderer.editableFontColor;
+        }
 
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean hasFocus, int row, int column) {
-		if (this.configureRenderer) {
-			if (table != null) {
-				this.component.setFont(CellRenderer.font == null ? table.getFont() : CellRenderer.font);
-			}
+        return CellRenderer.fontColor;
+    }
 
-			if (CellRenderer.isInsertingRow(row, table)) {
-				if (CellRenderer.isRequiredInsertingRow(row, column, table)) {
-					this.component.setBackground(CellRenderer.requiredInsertColumns);
-				} else {
-					this.component.setBackground(CellRenderer.noRequiredInsertColumns);
-				}
-			} else if (selected) {
-				this.component.setForeground(this.getForegroundColor(table, value, selected, false, hasFocus, row, column));
-				if (this.remarkEditable && table.isCellEditable(row, column)) {
-					this.component.setBackground(CellRenderer.selectedEditableBackgroundColor);
-				} else {
-					this.component.setBackground(CellRenderer.selectedBackgroundColor);
-				}
-			} else {
-				if ((table != null) && this.remarkEditable && table.isCellEditable(row, column)) {
-					if (table.isEnabled()) {
-						if ((row % 2) == 0) { // odd row
-							this.component.setBackground(CellRenderer.oddEditableBackgroundColor);
-						} else {
-							this.component.setBackground(CellRenderer.evenEditableBackgroundColor);
-						}
-					} else {
-						if ((row % 2) == 0) { // odd row
-							this.component.setBackground(CellRenderer.getSoftDarker(CellRenderer.oddEditableBackgroundColor));
-						} else {
-							this.component.setBackground(CellRenderer.getSoftDarker(CellRenderer.evenEditableBackgroundColor));
-						}
-					}
-					this.component.setForeground(this.getForegroundColor(table, value, false, true, hasFocus, row, column));
-				} else {
-					if ((row % 2) == 0) { // odd row
-						if ((table == null) || table.isEnabled()) {
-							this.component.setBackground(CellRenderer.oddRowBackgroundColor);
-						} else {
-							this.component.setBackground(DataComponent.VERY_LIGHT_GRAY);
-						}
-					} else {
-						if (this.remarkLines) {
-							if ((table == null) || table.isEnabled()) {
-								this.component.setBackground(CellRenderer.evenRowBackgroundColor);
-							} else {
-								this.component.setBackground(CellRenderer.getDarker(CellRenderer.evenRowBackgroundColor));
-							}
-						} else {
-							if ((table == null) || table.isEnabled()) {
-								this.component.setBackground(CellRenderer.oddRowBackgroundColor);
-							} else {
-								this.component.setBackground(DataComponent.VERY_LIGHT_GRAY);
-							}
-						}
-					}
-					this.component.setForeground(this.getForegroundColor(table, value, false, false, hasFocus, row, column));
-				}
-			}
-			if (hasFocus) {
-				this.component.setBorder(this.getDefaultFocusBorder());
-			} else {
-				this.component.setBorder(CellRenderer.emptyBorder);
-			}
-			if (this.cellRendererColorManager != null) {
-				Color bg = this.cellRendererColorManager.getBackground(table, row, column, selected);
-				if (bg != null) {
-					this.component.setBackground(bg);
-				}
-				Color fg = this.cellRendererColorManager.getForeground(table, row, column, selected);
-				if (fg != null) {
-					this.component.setForeground(fg);
-				}
-			}
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean hasFocus,
+            int row, int column) {
+        if (this.configureRenderer) {
+            if (table != null) {
+                this.component.setFont(CellRenderer.font == null ? table.getFont() : CellRenderer.font);
+            }
 
-			if (this.cellRendererFontManager != null) {
-				Font f = this.cellRendererFontManager.getFont(table, row, column, selected);
-				if (f != null) {
-					this.component.setFont(f);
-				}
-			}
-		}
-		return this.component;
-	}
+            if (CellRenderer.isInsertingRow(row, table)) {
+                if (CellRenderer.isRequiredInsertingRow(row, column, table)) {
+                    this.component.setBackground(CellRenderer.requiredInsertColumns);
+                } else {
+                    this.component.setBackground(CellRenderer.noRequiredInsertColumns);
+                }
+            } else if (selected) {
+                this.component
+                    .setForeground(this.getForegroundColor(table, value, selected, false, hasFocus, row, column));
+                if (this.remarkEditable && table.isCellEditable(row, column)) {
+                    this.component.setBackground(CellRenderer.selectedEditableBackgroundColor);
+                } else {
+                    this.component.setBackground(CellRenderer.selectedBackgroundColor);
+                }
+            } else {
+                if ((table != null) && this.remarkEditable && table.isCellEditable(row, column)) {
+                    if (table.isEnabled()) {
+                        if ((row % 2) == 0) { // odd row
+                            this.component.setBackground(CellRenderer.oddEditableBackgroundColor);
+                        } else {
+                            this.component.setBackground(CellRenderer.evenEditableBackgroundColor);
+                        }
+                    } else {
+                        if ((row % 2) == 0) { // odd row
+                            this.component
+                                .setBackground(CellRenderer.getSoftDarker(CellRenderer.oddEditableBackgroundColor));
+                        } else {
+                            this.component
+                                .setBackground(CellRenderer.getSoftDarker(CellRenderer.evenEditableBackgroundColor));
+                        }
+                    }
+                    this.component
+                        .setForeground(this.getForegroundColor(table, value, false, true, hasFocus, row, column));
+                } else {
+                    if ((row % 2) == 0) { // odd row
+                        if ((table == null) || table.isEnabled()) {
+                            this.component.setBackground(CellRenderer.oddRowBackgroundColor);
+                        } else {
+                            this.component.setBackground(DataComponent.VERY_LIGHT_GRAY);
+                        }
+                    } else {
+                        if (this.remarkLines) {
+                            if ((table == null) || table.isEnabled()) {
+                                this.component.setBackground(CellRenderer.evenRowBackgroundColor);
+                            } else {
+                                this.component
+                                    .setBackground(CellRenderer.getDarker(CellRenderer.evenRowBackgroundColor));
+                            }
+                        } else {
+                            if ((table == null) || table.isEnabled()) {
+                                this.component.setBackground(CellRenderer.oddRowBackgroundColor);
+                            } else {
+                                this.component.setBackground(DataComponent.VERY_LIGHT_GRAY);
+                            }
+                        }
+                    }
+                    this.component
+                        .setForeground(this.getForegroundColor(table, value, false, false, hasFocus, row, column));
+                }
+            }
+            if (hasFocus) {
+                this.component.setBorder(this.getDefaultFocusBorder());
+            } else {
+                this.component.setBorder(CellRenderer.emptyBorder);
+            }
+            if (this.cellRendererColorManager != null) {
+                Color bg = this.cellRendererColorManager.getBackground(table, row, column, selected);
+                if (bg != null) {
+                    this.component.setBackground(bg);
+                }
+                Color fg = this.cellRendererColorManager.getForeground(table, row, column, selected);
+                if (fg != null) {
+                    this.component.setForeground(fg);
+                }
+            }
 
-	public void setJComponent(JComponent c) {
-		this.component = c;
-	}
+            if (this.cellRendererFontManager != null) {
+                Font f = this.cellRendererFontManager.getFont(table, row, column, selected);
+                if (f != null) {
+                    this.component.setFont(f);
+                }
+            }
+        }
+        return this.component;
+    }
 
-	public void setTipWhenNeeded(JTable table, Object value, int column) {
-		// TIP
-		try {
-			this.setToolTipText(null);
-			if (table != null) {
-				if (this.component instanceof JLabel) {
-					TableColumn tc = table.getColumn(table.getColumnName(column));
-					if (tc.getWidth() < CellRenderer.calculatePreferredTextWidth((JLabel) this.component)) {
-						this.component.setToolTipText(this.getText());
-					}
-				}
-			}
-		} catch (Exception e) {
-			CellRenderer.logger.error(null, e);
-		}
-	}
+    public void setJComponent(JComponent c) {
+        this.component = c;
+    }
 
-	public Border getDefaultFocusBorder() {
-		if (CellRenderer.focusBorder == null) {
-			CellRenderer.focusBorder = BorderFactory.createLineBorder(CellRenderer.focusBorderColor, 2);
-		}
-		return CellRenderer.focusBorder;
-	}
+    public void setTipWhenNeeded(JTable table, Object value, int column) {
+        // TIP
+        try {
+            this.setToolTipText(null);
+            if (table != null) {
+                if (this.component instanceof JLabel) {
+                    TableColumn tc = table.getColumn(table.getColumnName(column));
+                    if (tc.getWidth() < CellRenderer.calculatePreferredTextWidth((JLabel) this.component)) {
+                        this.component.setToolTipText(this.getText());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            CellRenderer.logger.error(null, e);
+        }
+    }
 
-	public static void setEvenRowBackgroundColor(Color c) {
-		CellRenderer.evenRowBackgroundColor = c;
-	}
+    public Border getDefaultFocusBorder() {
+        if (CellRenderer.focusBorder == null) {
+            CellRenderer.focusBorder = BorderFactory.createLineBorder(CellRenderer.focusBorderColor, 2);
+        }
+        return CellRenderer.focusBorder;
+    }
 
-	public static Color getEvenRowBackgroundColor() {
-		return CellRenderer.evenRowBackgroundColor;
-	}
+    public static void setEvenRowBackgroundColor(Color c) {
+        CellRenderer.evenRowBackgroundColor = c;
+    }
 
-	public static Color getDarker(Color c) {
-		return new Color(Math.max((int) (c.getRed() * 0.9), 0), Math.max((int) (c.getGreen() * 0.9), 0), Math.max((int) (c.getBlue() * 0.9), 0));
-	}
+    public static Color getEvenRowBackgroundColor() {
+        return CellRenderer.evenRowBackgroundColor;
+    }
 
-	public static Color getSoftDarker(Color c) {
-		return new Color(Math.max((int) (c.getRed() * 0.96), 0), Math.max((int) (c.getGreen() * 0.96), 0), Math.max((int) (c.getBlue() * 0.96), 0));
-	}
+    public static Color getDarker(Color c) {
+        return new Color(Math.max((int) (c.getRed() * 0.9), 0), Math.max((int) (c.getGreen() * 0.9), 0),
+                Math.max((int) (c.getBlue() * 0.9), 0));
+    }
 
-	public String getShownText() {
-		if ((this.component != null) && (this.component instanceof JTextComponent)) {
-			return ((JTextComponent) this.component).getText();
-		} else if ((this.component != null) && (this.component instanceof JLabel)) {
-			return ((JLabel) this.component).getText();
-		} else {
-			return this.getText();
-		}
-	}
+    public static Color getSoftDarker(Color c) {
+        return new Color(Math.max((int) (c.getRed() * 0.96), 0), Math.max((int) (c.getGreen() * 0.96), 0),
+                Math.max((int) (c.getBlue() * 0.96), 0));
+    }
 
-	public void setCellRendererColorManager(CellRendererColorManager rend) {
-		this.cellRendererColorManager = rend;
-	}
+    public String getShownText() {
+        if ((this.component != null) && (this.component instanceof JTextComponent)) {
+            return ((JTextComponent) this.component).getText();
+        } else if ((this.component != null) && (this.component instanceof JLabel)) {
+            return ((JLabel) this.component).getText();
+        } else {
+            return this.getText();
+        }
+    }
 
-	public void setCellRendererFontManager(CellRendererFontManager rend) {
-		this.cellRendererFontManager = rend;
-	}
+    public void setCellRendererColorManager(CellRendererColorManager rend) {
+        this.cellRendererColorManager = rend;
+    }
 
-	public static boolean isInsertingRow(int row, JTable table) {
-		if ((table != null) && (table.getModel() != null) && (table.getModel() instanceof TableSorter) && ((TableSorter) table.getModel()).isInsertingRow(row)) {
-			return true;
-		}
-		return false;
-	}
+    public void setCellRendererFontManager(CellRendererFontManager rend) {
+        this.cellRendererFontManager = rend;
+    }
 
-	public static boolean isRequiredInsertingRow(int row, int column, JTable table) {
-		Table oTable = (Table) SwingUtilities.getAncestorOfClass(Table.class, table);
-		if ((oTable != null) && oTable.isInsertingEnabled() && oTable.getRequieredCols().contains(table.getColumnName(column))) {
-			return true;
-		}
-		return false;
-	}
+    public static boolean isInsertingRow(int row, JTable table) {
+        if ((table != null) && (table.getModel() != null) && (table.getModel() instanceof TableSorter)
+                && ((TableSorter) table.getModel()).isInsertingRow(row)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isRequiredInsertingRow(int row, int column, JTable table) {
+        Table oTable = (Table) SwingUtilities.getAncestorOfClass(Table.class, table);
+        if ((oTable != null) && oTable.isInsertingEnabled()
+                && oTable.getRequieredCols().contains(table.getColumnName(column))) {
+            return true;
+        }
+        return false;
+    }
 
 }

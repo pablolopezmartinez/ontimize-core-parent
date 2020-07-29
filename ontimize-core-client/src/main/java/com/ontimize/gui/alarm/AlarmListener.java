@@ -5,7 +5,8 @@ package com.ontimize.gui.alarm;
  */
 public interface AlarmListener {
 
-	public void alarmFired(Alarm a);
+    public void alarmFired(Alarm a);
 
-	public void alarmAcknowledge(Alarm a);
+    public void alarmAcknowledge(Alarm a);
+
 }

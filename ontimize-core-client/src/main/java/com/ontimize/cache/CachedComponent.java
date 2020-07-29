@@ -4,9 +4,10 @@ import java.util.Vector;
 
 public interface CachedComponent {
 
-	public String getEntity();
+    public String getEntity();
 
-	public Vector getAttributes();
+    public Vector getAttributes();
 
-	public void setCacheManager(CacheManager c);
+    public void setCacheManager(CacheManager c);
+
 }

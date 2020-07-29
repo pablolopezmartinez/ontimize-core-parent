@@ -10,165 +10,177 @@ import com.ontimize.builder.xml.CustomNode;
 
 public class OModule {
 
-	protected String id;
-	protected String resources;
-	protected String clientBaseClasspath = "";
-	protected List<CustomNode> formManagers = new ArrayList<CustomNode>();
+    protected String id;
 
-	protected CustomNode toolbar;
-	protected CustomNode menu;
-	protected String toolbarListener;
-	protected String menuListener;
+    protected String resources;
 
-	protected String localEntityPackage;
-	protected List<String> localEntities;
+    protected String clientBaseClasspath = "";
 
-	// Server
-	protected String serverPackage;
-	protected Properties entityProperties;
-	protected String entityClass;
-	protected Node remoteReferences;
-	protected Node references;
+    protected List<CustomNode> formManagers = new ArrayList<CustomNode>();
 
-	public OModule(String id) {
-		this.id = id;
-	}
+    protected CustomNode toolbar;
 
-	public String getClientBaseClasspath() {
-		return this.clientBaseClasspath;
-	}
+    protected CustomNode menu;
 
-	public void setClientBaseClasspath(String clientPackage) {
-		this.clientBaseClasspath = clientPackage;
-		if ((this.clientBaseClasspath == null) || (this.clientBaseClasspath.length() == 0)) {
-			this.clientBaseClasspath = "";
-		} else {
-			this.clientBaseClasspath = this.clientBaseClasspath.replace('.', '/').concat("/");
-		}
-	}
+    protected String toolbarListener;
 
-	public List<CustomNode> getFormManagers() {
-		return this.formManagers;
-	}
+    protected String menuListener;
 
-	public void setFormManagers(List<CustomNode> formManagers) {
-		this.formManagers = formManagers;
-	}
+    protected String localEntityPackage;
 
-	public CustomNode getToolbar() {
-		return this.toolbar;
-	}
+    protected List<String> localEntities;
 
-	public void setToolbar(CustomNode toolbar) {
-		this.toolbar = toolbar;
-	}
+    // Server
+    protected String serverPackage;
 
-	public String getToolbarListener() {
-		return this.toolbarListener;
-	}
+    protected Properties entityProperties;
 
-	public void setToolbarListener(String toolbarListener) {
-		this.toolbarListener = toolbarListener;
-	}
+    protected String entityClass;
 
-	public String getId() {
-		return this.id;
-	}
+    protected Node remoteReferences;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    protected Node references;
 
-	public String getResources() {
-		return this.resources;
-	}
+    public OModule(String id) {
+        this.id = id;
+    }
 
-	public void setResources(String resources) {
-		this.resources = resources;
-	}
+    public String getClientBaseClasspath() {
+        return this.clientBaseClasspath;
+    }
 
-	public CustomNode getMenu() {
-		return this.menu;
-	}
+    public void setClientBaseClasspath(String clientPackage) {
+        this.clientBaseClasspath = clientPackage;
+        if ((this.clientBaseClasspath == null) || (this.clientBaseClasspath.length() == 0)) {
+            this.clientBaseClasspath = "";
+        } else {
+            this.clientBaseClasspath = this.clientBaseClasspath.replace('.', '/').concat("/");
+        }
+    }
 
-	public void setMenu(CustomNode menu) {
-		this.menu = menu;
-	}
+    public List<CustomNode> getFormManagers() {
+        return this.formManagers;
+    }
 
-	public String getMenuListener() {
-		return this.menuListener;
-	}
+    public void setFormManagers(List<CustomNode> formManagers) {
+        this.formManagers = formManagers;
+    }
 
-	public void setMenuListener(String menuListener) {
-		this.menuListener = menuListener;
-	}
+    public CustomNode getToolbar() {
+        return this.toolbar;
+    }
 
-	public String getLocalEntityPackage() {
-		return this.localEntityPackage;
-	}
+    public void setToolbar(CustomNode toolbar) {
+        this.toolbar = toolbar;
+    }
 
-	public void setLocalEntityPackage(String localEntityPackage) {
-		this.localEntityPackage = localEntityPackage;
-	}
+    public String getToolbarListener() {
+        return this.toolbarListener;
+    }
 
-	public List<String> getLocalEntities() {
-		return this.localEntities;
-	}
+    public void setToolbarListener(String toolbarListener) {
+        this.toolbarListener = toolbarListener;
+    }
 
-	public void setLocalEntities(List<String> localEntities) {
-		this.localEntities = localEntities;
-	}
+    public String getId() {
+        return this.id;
+    }
 
-	public String getServerPackage() {
-		return this.serverPackage;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setServerPackage(String serverPackage) {
-		this.serverPackage = serverPackage;
-	}
+    public String getResources() {
+        return this.resources;
+    }
 
-	public Properties getEntityProperties() {
-		return this.entityProperties;
-	}
+    public void setResources(String resources) {
+        this.resources = resources;
+    }
 
-	public void setEntityProperties(Properties entityProperties) {
-		this.entityProperties = entityProperties;
-	}
+    public CustomNode getMenu() {
+        return this.menu;
+    }
 
-	public String getEntityClass() {
-		return this.entityClass == null ? "com.ontimize.db.DefaultTableEntity" : this.entityClass;
-	}
+    public void setMenu(CustomNode menu) {
+        this.menu = menu;
+    }
 
-	public void setEntityClass(String entityClass) {
-		this.entityClass = entityClass;
-	}
+    public String getMenuListener() {
+        return this.menuListener;
+    }
 
-	public Node getRemoteReferences() {
-		return this.remoteReferences;
-	}
+    public void setMenuListener(String menuListener) {
+        this.menuListener = menuListener;
+    }
 
-	public void setRemoteReferences(Node remoteReferences) {
-		this.remoteReferences = remoteReferences;
-	}
+    public String getLocalEntityPackage() {
+        return this.localEntityPackage;
+    }
 
-	public Node getReferences() {
-		return this.references;
-	}
+    public void setLocalEntityPackage(String localEntityPackage) {
+        this.localEntityPackage = localEntityPackage;
+    }
 
-	public void setReferences(Node references) {
-		this.references = references;
-	}
+    public List<String> getLocalEntities() {
+        return this.localEntities;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof OModule) {
-			return this.id.equals(((OModule) obj).getId());
-		}
-		return false;
-	}
+    public void setLocalEntities(List<String> localEntities) {
+        this.localEntities = localEntities;
+    }
 
-	@Override
-	public int hashCode() {
-		return this.id.hashCode();
-	}
+    public String getServerPackage() {
+        return this.serverPackage;
+    }
+
+    public void setServerPackage(String serverPackage) {
+        this.serverPackage = serverPackage;
+    }
+
+    public Properties getEntityProperties() {
+        return this.entityProperties;
+    }
+
+    public void setEntityProperties(Properties entityProperties) {
+        this.entityProperties = entityProperties;
+    }
+
+    public String getEntityClass() {
+        return this.entityClass == null ? "com.ontimize.db.DefaultTableEntity" : this.entityClass;
+    }
+
+    public void setEntityClass(String entityClass) {
+        this.entityClass = entityClass;
+    }
+
+    public Node getRemoteReferences() {
+        return this.remoteReferences;
+    }
+
+    public void setRemoteReferences(Node remoteReferences) {
+        this.remoteReferences = remoteReferences;
+    }
+
+    public Node getReferences() {
+        return this.references;
+    }
+
+    public void setReferences(Node references) {
+        this.references = references;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof OModule) {
+            return this.id.equals(((OModule) obj).getId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
+
 }

@@ -19,135 +19,137 @@ import com.ontimize.util.swing.CollapsiblePopupPanel;
 
 public class ButtonTransferHandler extends TransferHandler {
 
-	private static final Logger logger = LoggerFactory.getLogger(ButtonTransferHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ButtonTransferHandler.class);
 
-	// Export Methods
-	@Override
-	public int getSourceActions(JComponent c) {
-		return TransferHandler.MOVE;
-	}
+    // Export Methods
+    @Override
+    public int getSourceActions(JComponent c) {
+        return TransferHandler.MOVE;
+    }
 
-	@Override
-	protected Transferable createTransferable(JComponent c) {
-		if (c instanceof Transferable) {
-			return (Transferable) c;
-		}
-		return super.createTransferable(c);
-	}
+    @Override
+    protected Transferable createTransferable(JComponent c) {
+        if (c instanceof Transferable) {
+            return (Transferable) c;
+        }
+        return super.createTransferable(c);
+    }
 
-	@Override
-	protected void exportDone(JComponent source, Transferable data, int action) {}
+    @Override
+    protected void exportDone(JComponent source, Transferable data, int action) {
+    }
 
-	// Import Methods
-	@Override
-	public boolean canImport(TransferSupport support) {
-		Component component = support.getComponent();
-		if (component instanceof GroupTableButton) {
-			Component c = ((GroupTableButton) component).getParent();
-			if (c instanceof ControlPanel) {
-				((ControlPanel) c).removeLocationComponent();
-			}
-			return true;
-		} else if (component instanceof ControlPanel) {
-			((ControlPanel) component).setDropLocation(support);
-			return true;
-		}
-		return false;
-	}
+    // Import Methods
+    @Override
+    public boolean canImport(TransferSupport support) {
+        Component component = support.getComponent();
+        if (component instanceof GroupTableButton) {
+            Component c = ((GroupTableButton) component).getParent();
+            if (c instanceof ControlPanel) {
+                ((ControlPanel) c).removeLocationComponent();
+            }
+            return true;
+        } else if (component instanceof ControlPanel) {
+            ((ControlPanel) component).setDropLocation(support);
+            return true;
+        }
+        return false;
+    }
 
-	protected boolean isValidTarget(Component targetComponent, Component sourceComponent) {
-		if (targetComponent instanceof GroupTableButton) {
-			targetComponent = targetComponent.getParent();
-		}
+    protected boolean isValidTarget(Component targetComponent, Component sourceComponent) {
+        if (targetComponent instanceof GroupTableButton) {
+            targetComponent = targetComponent.getParent();
+        }
 
-		Component parent = SwingUtilities.getAncestorOfClass(CollapsiblePopupPanel.class, sourceComponent);
-		if (parent instanceof CollapsiblePopupPanel) {
-			sourceComponent = ((CollapsiblePopupPanel) parent).getInvoker();
-		}
+        Component parent = SwingUtilities.getAncestorOfClass(CollapsiblePopupPanel.class, sourceComponent);
+        if (parent instanceof CollapsiblePopupPanel) {
+            sourceComponent = ((CollapsiblePopupPanel) parent).getInvoker();
+        }
 
-		ControlPanel source = (ControlPanel) SwingUtilities.getAncestorOfClass(ControlPanel.class, sourceComponent);
+        ControlPanel source = (ControlPanel) SwingUtilities.getAncestorOfClass(ControlPanel.class, sourceComponent);
 
-		if ((source != null) && (targetComponent != null) && source.equals(targetComponent)) {
-			return true;
-		}
-		return false;
-	}
+        if ((source != null) && (targetComponent != null) && source.equals(targetComponent)) {
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public boolean importData(TransferSupport support) {
-		Component targetComponent = support.getComponent();
-		Transferable t = support.getTransferable();
-		try {
-			Object sourceComponent = t.getTransferData(t.getTransferDataFlavors()[0]);
+    @Override
+    public boolean importData(TransferSupport support) {
+        Component targetComponent = support.getComponent();
+        Transferable t = support.getTransferable();
+        try {
+            Object sourceComponent = t.getTransferData(t.getTransferDataFlavors()[0]);
 
-			if (!this.isValidTarget(targetComponent, (Component) sourceComponent)) {
-				return false;
-			}
+            if (!this.isValidTarget(targetComponent, (Component) sourceComponent)) {
+                return false;
+            }
 
-			if ((targetComponent instanceof GroupTableButton) && (sourceComponent instanceof Component)) {
-				((GroupTableButton) targetComponent).add((JComponent) sourceComponent, true);
-				Component c = ((GroupTableButton) targetComponent).getParent();
-				if (c instanceof ControlPanel) {
-					((ControlPanel) c).doLayout();
-				}
-			} else if (targetComponent instanceof ControlPanel) {
-				ControlPanel panel = (ControlPanel) targetComponent;
-				int locationIndex = this.getLocationIndex(support);
-				JComponent source = (JComponent) sourceComponent;
-				if (!(source.getParent() instanceof ControlPanel)) {
-					CollapsiblePopupPanel collapsible = (CollapsiblePopupPanel) SwingUtilities.getAncestorOfClass(CollapsiblePopupPanel.class, source);
-					collapsible.setVisible(false);
-				}
-				panel.add((JComponent) sourceComponent, locationIndex);
-				panel.doLayout();
-			}
-			((JComponent) sourceComponent).requestFocus();
-			return true;
-		} catch (Exception e) {
-			ButtonTransferHandler.logger.error(null, e);
-		}
-		return super.importData(support);
-	}
+            if ((targetComponent instanceof GroupTableButton) && (sourceComponent instanceof Component)) {
+                ((GroupTableButton) targetComponent).add((JComponent) sourceComponent, true);
+                Component c = ((GroupTableButton) targetComponent).getParent();
+                if (c instanceof ControlPanel) {
+                    ((ControlPanel) c).doLayout();
+                }
+            } else if (targetComponent instanceof ControlPanel) {
+                ControlPanel panel = (ControlPanel) targetComponent;
+                int locationIndex = this.getLocationIndex(support);
+                JComponent source = (JComponent) sourceComponent;
+                if (!(source.getParent() instanceof ControlPanel)) {
+                    CollapsiblePopupPanel collapsible = (CollapsiblePopupPanel) SwingUtilities
+                        .getAncestorOfClass(CollapsiblePopupPanel.class, source);
+                    collapsible.setVisible(false);
+                }
+                panel.add((JComponent) sourceComponent, locationIndex);
+                panel.doLayout();
+            }
+            ((JComponent) sourceComponent).requestFocus();
+            return true;
+        } catch (Exception e) {
+            ButtonTransferHandler.logger.error(null, e);
+        }
+        return super.importData(support);
+    }
 
-	protected int getLocationIndex(TransferSupport support) {
-		ControlPanel panel = (ControlPanel) support.getComponent();
-		int members = panel.getComponentCount();
-		Point dropPoint = support.getDropLocation().getDropPoint();
-		int locationIndex = 0;
-		for (int i = 0; i < members; i++) {
-			Rectangle bound = panel.getComponent(i).getBounds();
-			if (dropPoint.x < (bound.x + (bound.width / 2))) {
-				return locationIndex;
-			}
-			locationIndex++;
-		}
-		return -1;
-	}
+    protected int getLocationIndex(TransferSupport support) {
+        ControlPanel panel = (ControlPanel) support.getComponent();
+        int members = panel.getComponentCount();
+        Point dropPoint = support.getDropLocation().getDropPoint();
+        int locationIndex = 0;
+        for (int i = 0; i < members; i++) {
+            Rectangle bound = panel.getComponent(i).getBounds();
+            if (dropPoint.x < (bound.x + (bound.width / 2))) {
+                return locationIndex;
+            }
+            locationIndex++;
+        }
+        return -1;
+    }
 
-	protected boolean isDropSupported(DropTargetDropEvent dtde) {
-		if (dtde.getSource() instanceof DropTarget) {
-			DropTarget target = (DropTarget) dtde.getSource();
-			Transferable transferable = dtde.getTransferable();
-			Object sourceComponent;
-			// try {
-			// sourceComponent =
-			// transferable.getTransferData(transferable.getTransferDataFlavors()[0]);
-			// for(int i=0;i<getComponentCount();i++){
-			// if (getComponent(i).equals(sourceComponent)){
-			// return false;
-			// }
-			// }
-			// } catch (Exception e) {
-			// logger.error(null,e);
-			// }
+    protected boolean isDropSupported(DropTargetDropEvent dtde) {
+        if (dtde.getSource() instanceof DropTarget) {
+            DropTarget target = (DropTarget) dtde.getSource();
+            Transferable transferable = dtde.getTransferable();
+            Object sourceComponent;
+            // try {
+            // sourceComponent =
+            // transferable.getTransferData(transferable.getTransferDataFlavors()[0]);
+            // for(int i=0;i<getComponentCount();i++){
+            // if (getComponent(i).equals(sourceComponent)){
+            // return false;
+            // }
+            // }
+            // } catch (Exception e) {
+            // logger.error(null,e);
+            // }
 
-		}
-		return true;
-	}
+        }
+        return true;
+    }
 
-	@Override
-	public Icon getVisualRepresentation(Transferable t) {
-		return super.getVisualRepresentation(t);
-	}
+    @Override
+    public Icon getVisualRepresentation(Transferable t) {
+        return super.getVisualRepresentation(t);
+    }
 
 }

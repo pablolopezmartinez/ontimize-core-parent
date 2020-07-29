@@ -23,133 +23,144 @@ import com.ontimize.gui.button.Button;
 
 public class CertificateChooserDialog extends JDialog implements ActionListener {
 
-	private static CertificateChooserDialog ccd = null;
+    private static CertificateChooserDialog ccd = null;
 
-	public static final String HELP_TEXT = "certificatechooserdialog.help";
-	public static final String HELP_TITLE = "certificatechooserdialog.title";
+    public static final String HELP_TEXT = "certificatechooserdialog.help";
 
-	private CertificateTable ct = null;
-	private final JLabel jlHelp = new JLabel();
-	private Button okButton = null;
-	private Button cancelButton = null;
-	private AliasCertPair aliasCert = null;
+    public static final String HELP_TITLE = "certificatechooserdialog.title";
 
-	public CertificateChooserDialog(Frame owner) {
-		super(owner, "select", true);
+    private CertificateTable ct = null;
 
-		this.ct = new CertificateTable();
+    private final JLabel jlHelp = new JLabel();
 
-		this.okButton = this.createOKButton();
-		this.cancelButton = this.createCancelButton();
+    private Button okButton = null;
 
-		this.okButton.setActionCommand("ok");
-		this.okButton.addActionListener(this);
-		this.okButton.setIcon(ApplicationManager.getDefaultOKIcon());
-		this.okButton.setResourceBundle(ApplicationManager.getApplicationBundle());
-		this.cancelButton.setActionCommand("cancel");
-		this.cancelButton.addActionListener(this);
-		this.cancelButton.setIcon(ApplicationManager.getDefaultCancelIcon());
-		this.cancelButton.setResourceBundle(ApplicationManager.getApplicationBundle());
+    private Button cancelButton = null;
 
-		this.ct.addMouseListener(new MouseAdapter() {
+    private AliasCertPair aliasCert = null;
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (SwingUtilities.isLeftMouseButton(e) && (e.getClickCount() == 2) && (CertificateChooserDialog.this.ct.getSelectedRowCount() == 1)) {
-					CertificateChooserDialog.this.okButton.doClick();
-				}
-			}
-		});
+    public CertificateChooserDialog(Frame owner) {
+        super(owner, "select", true);
 
-		JScrollPane js = new JScrollPane(this.ct);
-		this.getContentPane().setLayout(new GridBagLayout());
-		this.add(this.jlHelp, new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 2, 2));
-		this.add(js, new GridBagConstraints(0, 1, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 2, 2));
-		this.add(this.okButton, new GridBagConstraints(0, 2, 1, 1, 1, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
-		this.add(this.cancelButton, new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
-	}
+        this.ct = new CertificateTable();
 
-	private Button createOKButton() {
-		Hashtable p = new Hashtable();
-		p.put("key", "application.accept");
-		p.put("text", "application.accept");
-		return new Button(p);
-	}
+        this.okButton = this.createOKButton();
+        this.cancelButton = this.createCancelButton();
 
-	private Button createCancelButton() {
-		Hashtable p = new Hashtable();
-		p.put("key", "application.cancel");
-		p.put("text", "application.cancel");
-		return new Button(p);
-	}
+        this.okButton.setActionCommand("ok");
+        this.okButton.addActionListener(this);
+        this.okButton.setIcon(ApplicationManager.getDefaultOKIcon());
+        this.okButton.setResourceBundle(ApplicationManager.getApplicationBundle());
+        this.cancelButton.setActionCommand("cancel");
+        this.cancelButton.addActionListener(this);
+        this.cancelButton.setIcon(ApplicationManager.getDefaultCancelIcon());
+        this.cancelButton.setResourceBundle(ApplicationManager.getApplicationBundle());
 
-	public void setValues(List l) {
-		this.ct.setValues(l);
+        this.ct.addMouseListener(new MouseAdapter() {
 
-	}
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (SwingUtilities.isLeftMouseButton(e) && (e.getClickCount() == 2)
+                        && (CertificateChooserDialog.this.ct.getSelectedRowCount() == 1)) {
+                    CertificateChooserDialog.this.okButton.doClick();
+                }
+            }
+        });
 
-	private AliasCertPair getTableSelectedCertificate() {
-		int row = this.ct.getSelectedRow();
-		if (row == -1) {
-			return null;
-		}
-		return this.ct.getAliasCertAt(row);
-	}
+        JScrollPane js = new JScrollPane(this.ct);
+        this.getContentPane().setLayout(new GridBagLayout());
+        this.add(this.jlHelp, new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 2, 2));
+        this.add(js, new GridBagConstraints(0, 1, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(2, 2, 2, 2), 2, 2));
+        this.add(this.okButton, new GridBagConstraints(0, 2, 1, 1, 1, 0, GridBagConstraints.EAST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
+        this.add(this.cancelButton, new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2));
+    }
 
-	public AliasCertPair getSelectedCertificate() {
-		return this.aliasCert;
-	}
+    private Button createOKButton() {
+        Hashtable p = new Hashtable();
+        p.put("key", "application.accept");
+        p.put("text", "application.accept");
+        return new Button(p);
+    }
 
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(477, 355);
-	}
+    private Button createCancelButton() {
+        Hashtable p = new Hashtable();
+        p.put("key", "application.cancel");
+        p.put("text", "application.cancel");
+        return new Button(p);
+    }
 
-	@Override
-	public void setVisible(boolean b) {
-		if (b) {
-			this.aliasCert = null;
-		}
-		super.setVisible(b);
-	}
+    public void setValues(List l) {
+        this.ct.setValues(l);
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if ("ok".equals(e.getActionCommand())) {
-			this.aliasCert = this.getTableSelectedCertificate();
-		}
+    }
 
-		if ("cancel".endsWith(e.getActionCommand())) {
-			this.aliasCert = null;
-		}
-		this.setVisible(false);
-	}
+    private AliasCertPair getTableSelectedCertificate() {
+        int row = this.ct.getSelectedRow();
+        if (row == -1) {
+            return null;
+        }
+        return this.ct.getAliasCertAt(row);
+    }
 
-	private void setBundle(ResourceBundle bundle) {
-		if (this.jlHelp != null) {
-			this.jlHelp.setText(ApplicationManager.getTranslation(CertificateChooserDialog.HELP_TEXT, bundle));
-		}
-		if (this.okButton != null) {
-			this.okButton.setResourceBundle(bundle);
-		}
-		if (this.cancelButton != null) {
-			this.cancelButton.setResourceBundle(bundle);
-		}
-		if (this.ct != null) {
-			this.ct.setBundle(bundle);
-		}
-		this.setTitle(ApplicationManager.getTranslation(CertificateChooserDialog.HELP_TITLE, bundle));
-	}
+    public AliasCertPair getSelectedCertificate() {
+        return this.aliasCert;
+    }
 
-	public static AliasCertPair selectCertificate(List l, Frame f, ResourceBundle bundle) {
-		if (CertificateChooserDialog.ccd == null) {
-			CertificateChooserDialog.ccd = new CertificateChooserDialog(f);
-		}
-		CertificateChooserDialog.ccd.setValues(l);
-		CertificateChooserDialog.ccd.setBundle(bundle);
-		CertificateChooserDialog.ccd.pack();
-		ApplicationManager.center(CertificateChooserDialog.ccd);
-		CertificateChooserDialog.ccd.setVisible(true);
-		return CertificateChooserDialog.ccd.getSelectedCertificate();
-	}
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(477, 355);
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            this.aliasCert = null;
+        }
+        super.setVisible(b);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if ("ok".equals(e.getActionCommand())) {
+            this.aliasCert = this.getTableSelectedCertificate();
+        }
+
+        if ("cancel".endsWith(e.getActionCommand())) {
+            this.aliasCert = null;
+        }
+        this.setVisible(false);
+    }
+
+    private void setBundle(ResourceBundle bundle) {
+        if (this.jlHelp != null) {
+            this.jlHelp.setText(ApplicationManager.getTranslation(CertificateChooserDialog.HELP_TEXT, bundle));
+        }
+        if (this.okButton != null) {
+            this.okButton.setResourceBundle(bundle);
+        }
+        if (this.cancelButton != null) {
+            this.cancelButton.setResourceBundle(bundle);
+        }
+        if (this.ct != null) {
+            this.ct.setBundle(bundle);
+        }
+        this.setTitle(ApplicationManager.getTranslation(CertificateChooserDialog.HELP_TITLE, bundle));
+    }
+
+    public static AliasCertPair selectCertificate(List l, Frame f, ResourceBundle bundle) {
+        if (CertificateChooserDialog.ccd == null) {
+            CertificateChooserDialog.ccd = new CertificateChooserDialog(f);
+        }
+        CertificateChooserDialog.ccd.setValues(l);
+        CertificateChooserDialog.ccd.setBundle(bundle);
+        CertificateChooserDialog.ccd.pack();
+        ApplicationManager.center(CertificateChooserDialog.ccd);
+        CertificateChooserDialog.ccd.setVisible(true);
+        return CertificateChooserDialog.ccd.getSelectedCertificate();
+    }
+
 }

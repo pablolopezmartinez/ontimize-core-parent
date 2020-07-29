@@ -4,20 +4,21 @@ import java.security.cert.Certificate;
 
 public class AliasCertPair {
 
-	private String alias = null;
-	private Certificate cert = null;
+    private String alias = null;
 
-	public AliasCertPair(String alias, Certificate cert) {
-		this.alias = alias;
-		this.cert = cert;
-	}
+    private Certificate cert = null;
 
-	public String getAlias() {
-		return this.alias;
-	}
+    public AliasCertPair(String alias, Certificate cert) {
+        this.alias = alias;
+        this.cert = cert;
+    }
 
-	public Certificate getCert() {
-		return this.cert;
-	}
+    public String getAlias() {
+        return this.alias;
+    }
+
+    public Certificate getCert() {
+        return this.cert;
+    }
 
 }

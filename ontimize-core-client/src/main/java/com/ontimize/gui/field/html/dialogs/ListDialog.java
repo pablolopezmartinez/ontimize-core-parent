@@ -13,61 +13,65 @@ import com.ontimize.gui.images.ImageManager;
 
 public class ListDialog extends OptionDialog {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance();
+    private static final I18n i18n = I18n.getInstance();
 
-	public static final int UNORDERED = ListAttributesPanel.UL_LIST;
-	public static final int ORDERED = ListAttributesPanel.OL_LIST;
+    public static final int UNORDERED = ListAttributesPanel.UL_LIST;
 
-	public static Icon icon = ImageManager.getIcon(ImageManager.LIST_ORDERED);
-	public static String title = "HTMLShef.list_properties";
-	public static String desc = "HTMLShef.list_properties_desc";
+    public static final int ORDERED = ListAttributesPanel.OL_LIST;
 
-	protected ListAttributesPanel listAttrPanel;
+    public static Icon icon = ImageManager.getIcon(ImageManager.LIST_ORDERED);
 
-	public ListDialog(Frame parent) {
-		super(parent, ListDialog.title, ListDialog.desc, ListDialog.icon);
-		this.init();
-	}
+    public static String title = "HTMLShef.list_properties";
 
-	public ListDialog(Dialog parent) {
-		super(parent, ListDialog.title, ListDialog.desc, ListDialog.icon);
-		this.init();
-	}
+    public static String desc = "HTMLShef.list_properties_desc";
 
-	protected void init() {
-		this.listAttrPanel = new ListAttributesPanel();
-		this.setContentPane(this.listAttrPanel);
-		this.pack();
-		this.setSize(220, this.getHeight());
-		this.setResizable(false);
-	}
+    protected ListAttributesPanel listAttrPanel;
 
-	public void setListType(int t) {
-		this.listAttrPanel.setListType(t);
-	}
+    public ListDialog(Frame parent) {
+        super(parent, ListDialog.title, ListDialog.desc, ListDialog.icon);
+        this.init();
+    }
 
-	public int getListType() {
-		return this.listAttrPanel.getListType();
-	}
+    public ListDialog(Dialog parent) {
+        super(parent, ListDialog.title, ListDialog.desc, ListDialog.icon);
+        this.init();
+    }
 
-	public void setListAttributes(Map attr) {
-		this.listAttrPanel.setAttributes(attr);
-	}
+    protected void init() {
+        this.listAttrPanel = new ListAttributesPanel();
+        this.setContentPane(this.listAttrPanel);
+        this.pack();
+        this.setSize(220, this.getHeight());
+        this.setResizable(false);
+    }
 
-	public Map getListAttributes() {
-		return this.listAttrPanel.getAttributes();
-	}
+    public void setListType(int t) {
+        this.listAttrPanel.setListType(t);
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		super.setResourceBundle(resourceBundle);
-		if (this.listAttrPanel != null) {
-			this.listAttrPanel.setResourceBundle(resourceBundle);
-		}
-	}
+    public int getListType() {
+        return this.listAttrPanel.getListType();
+    }
+
+    public void setListAttributes(Map attr) {
+        this.listAttrPanel.setAttributes(attr);
+    }
+
+    public Map getListAttributes() {
+        return this.listAttrPanel.getAttributes();
+    }
+
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        super.setResourceBundle(resourceBundle);
+        if (this.listAttrPanel != null) {
+            this.listAttrPanel.setResourceBundle(resourceBundle);
+        }
+    }
+
 }

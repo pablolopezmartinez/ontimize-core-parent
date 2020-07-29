@@ -10,20 +10,21 @@ import org.slf4j.LoggerFactory;
 
 public class RedoAction extends AbstractAction {
 
-	private static final Logger	logger	= LoggerFactory.getLogger(RedoAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedoAction.class);
 
-	protected UndoManager undoManager;
+    protected UndoManager undoManager;
 
-	public RedoAction(UndoManager manager) {
-		this.undoManager = manager;
-	}
+    public RedoAction(UndoManager manager) {
+        this.undoManager = manager;
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		try {
-			this.undoManager.redo();
-		} catch (Exception cre) {
-			RedoAction.logger.trace(null, cre);
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            this.undoManager.redo();
+        } catch (Exception cre) {
+            RedoAction.logger.trace(null, cre);
+        }
+    }
+
 }

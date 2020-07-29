@@ -11,99 +11,107 @@ import com.ontimize.db.SQLStatementBuilder.SQLStatement;
 
 public class HSQLDBSQLStatementHandler extends DefaultSQLStatementHandler {
 
-	static final Logger logger = LoggerFactory.getLogger(SQLStatementBuilder.class);
+    static final Logger logger = LoggerFactory.getLogger(SQLStatementBuilder.class);
 
-	public static final String LIMIT = " LIMIT ";
-	public static final String OFFSET = " OFFSET ";
+    public static final String LIMIT = " LIMIT ";
 
-	@Override
-	public boolean isPageable() {
-		return true;
-	}
+    public static final String OFFSET = " OFFSET ";
 
-	@Override
-	public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards, Vector columnSorting, int recordCount, boolean descending,
-			boolean forceDistinct) {
-		return super.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount, 0, descending, forceDistinct);
-	}
+    @Override
+    public boolean isPageable() {
+        return true;
+    }
 
-	@Override
-	public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards, Vector columnSorting, int recordCount, int offset,
-			boolean descending, boolean forceDistinct) {
-		StringBuilder sql = new StringBuilder();
-		Vector vValues = new Vector();
-		if ((columnSorting != null) && !requestedColumns.isEmpty()) {
-			for (int i = 0; i < columnSorting.size(); i++) {
-				if (!requestedColumns.contains(columnSorting.get(i).toString())) {
-					requestedColumns.add(columnSorting.get(i).toString());
-				}
-			}
-		}
+    @Override
+    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
+            Vector columnSorting, int recordCount, boolean descending,
+            boolean forceDistinct) {
+        return super.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount, 0,
+                descending, forceDistinct);
+    }
 
-		sql.append(this.createSelectQuery(table, requestedColumns, forceDistinct));
+    @Override
+    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
+            Vector columnSorting, int recordCount, int offset,
+            boolean descending, boolean forceDistinct) {
+        StringBuilder sql = new StringBuilder();
+        Vector vValues = new Vector();
+        if ((columnSorting != null) && !requestedColumns.isEmpty()) {
+            for (int i = 0; i < columnSorting.size(); i++) {
+                if (!requestedColumns.contains(columnSorting.get(i).toString())) {
+                    requestedColumns.add(columnSorting.get(i).toString());
+                }
+            }
+        }
 
-		String cond = this.createQueryConditions(conditions, wildcards, vValues);
-		if (cond != null) {
-			sql.append(cond);
-		}
-		if ((columnSorting != null) && (!columnSorting.isEmpty())) {
-			String sort = this.createSortStatement(columnSorting, descending);
-			sql.append(sort);
-		}
+        sql.append(this.createSelectQuery(table, requestedColumns, forceDistinct));
 
-		if (recordCount >= 0) {
-			sql.append(HSQLDBSQLStatementHandler.LIMIT);
-			sql.append(recordCount);
-		}
+        String cond = this.createQueryConditions(conditions, wildcards, vValues);
+        if (cond != null) {
+            sql.append(cond);
+        }
+        if ((columnSorting != null) && (!columnSorting.isEmpty())) {
+            String sort = this.createSortStatement(columnSorting, descending);
+            sql.append(sort);
+        }
 
-		if (offset >= 0) {
-			sql.append(HSQLDBSQLStatementHandler.OFFSET);
-			sql.append(offset);
-		}
+        if (recordCount >= 0) {
+            sql.append(HSQLDBSQLStatementHandler.LIMIT);
+            sql.append(recordCount);
+        }
 
-		HSQLDBSQLStatementHandler.logger.debug(sql.toString());
-		return new SQLStatement(sql.toString(), vValues);
-	}
+        if (offset >= 0) {
+            sql.append(HSQLDBSQLStatementHandler.OFFSET);
+            sql.append(offset);
+        }
 
-	@Override
-	public SQLStatement createLeftJoinSelectQueryPageable(String mainTable, String subquery, String secondaryTable, Vector mainKeys, Vector secondaryKeys,
-			Vector mainTableRequestedColumns, Vector secondaryTableRequestedColumns, Hashtable mainTableConditions, Hashtable secondaryTableConditions, Vector wildcards,
-			Vector columnSorting, boolean forceDistinct, boolean descending, int recordNumber, int startIndex) {
+        HSQLDBSQLStatementHandler.logger.debug(sql.toString());
+        return new SQLStatement(sql.toString(), vValues);
+    }
 
-		SQLStatement stSQL = this.createLeftJoinSelectQuery(mainTable, subquery, secondaryTable, mainKeys, secondaryKeys, mainTableRequestedColumns, secondaryTableRequestedColumns,
-				mainTableConditions, secondaryTableConditions, wildcards, columnSorting, forceDistinct, descending);
+    @Override
+    public SQLStatement createLeftJoinSelectQueryPageable(String mainTable, String subquery, String secondaryTable,
+            Vector mainKeys, Vector secondaryKeys,
+            Vector mainTableRequestedColumns, Vector secondaryTableRequestedColumns, Hashtable mainTableConditions,
+            Hashtable secondaryTableConditions, Vector wildcards,
+            Vector columnSorting, boolean forceDistinct, boolean descending, int recordNumber, int startIndex) {
 
-		StringBuilder stSQLString = new StringBuilder(stSQL.getSQLStatement());
-		Vector vValues = stSQL.getValues();
+        SQLStatement stSQL = this.createLeftJoinSelectQuery(mainTable, subquery, secondaryTable, mainKeys,
+                secondaryKeys, mainTableRequestedColumns, secondaryTableRequestedColumns,
+                mainTableConditions, secondaryTableConditions, wildcards, columnSorting, forceDistinct, descending);
 
-		if (recordNumber >= 0) {
-			stSQLString.append(HSQLDBSQLStatementHandler.LIMIT);
-			stSQLString.append(recordNumber);
-		}
+        StringBuilder stSQLString = new StringBuilder(stSQL.getSQLStatement());
+        Vector vValues = stSQL.getValues();
 
-		if (startIndex >= 0) {
-			stSQLString.append(HSQLDBSQLStatementHandler.OFFSET);
-			stSQLString.append(startIndex);
-		}
+        if (recordNumber >= 0) {
+            stSQLString.append(HSQLDBSQLStatementHandler.LIMIT);
+            stSQLString.append(recordNumber);
+        }
 
-		HSQLDBSQLStatementHandler.logger.debug(stSQLString.toString());
-		return new SQLStatement(stSQLString.toString(), vValues);
-	}
-	
-	@Override
-	public String convertPaginationStatement(String sqlTemplate, int startIndex, int recordNumber) {
-		StringBuilder sql = new StringBuilder(sqlTemplate);
-		
-		if (recordNumber >= 0) {
-			sql.append(HSQLDBSQLStatementHandler.LIMIT);
-			sql.append(recordNumber);
-		}
+        if (startIndex >= 0) {
+            stSQLString.append(HSQLDBSQLStatementHandler.OFFSET);
+            stSQLString.append(startIndex);
+        }
 
-		if (startIndex >= 0) {
-			sql.append(HSQLDBSQLStatementHandler.OFFSET);
-			sql.append(startIndex);
-		}
-		
-		return sql.toString();
-	}
+        HSQLDBSQLStatementHandler.logger.debug(stSQLString.toString());
+        return new SQLStatement(stSQLString.toString(), vValues);
+    }
+
+    @Override
+    public String convertPaginationStatement(String sqlTemplate, int startIndex, int recordNumber) {
+        StringBuilder sql = new StringBuilder(sqlTemplate);
+
+        if (recordNumber >= 0) {
+            sql.append(HSQLDBSQLStatementHandler.LIMIT);
+            sql.append(recordNumber);
+        }
+
+        if (startIndex >= 0) {
+            sql.append(HSQLDBSQLStatementHandler.OFFSET);
+            sql.append(startIndex);
+        }
+
+        return sql.toString();
+    }
+
 }

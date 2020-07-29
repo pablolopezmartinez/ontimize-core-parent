@@ -35,262 +35,291 @@ import com.ontimize.report.DefaultReportDialog;
 
 public class ColumnConfigurationWindow extends EJDialog implements Internationalization {
 
-	public DefaultReportDialog reportDialog;
+    public DefaultReportDialog reportDialog;
 
-	protected ResourceBundle res = null;
+    protected ResourceBundle res = null;
 
-	protected String title;
+    protected String title;
 
-	protected String column;
+    protected String column;
 
-	protected final JButton acceptButton = new JButton(ImageManager.getIcon(ImageManager.OK));
+    protected final JButton acceptButton = new JButton(ImageManager.getIcon(ImageManager.OK));
 
-	protected final JButton cancelButton = new JButton(ImageManager.getIcon(ImageManager.CANCEL));
+    protected final JButton cancelButton = new JButton(ImageManager.getIcon(ImageManager.CANCEL));
 
-	protected JLabel columnLabel;
-	protected JLabel nameColumnLabel;
+    protected JLabel columnLabel;
 
-	protected JCheckBox autoConfigurationCheck;
-	protected JCheckBox fixedWidthCheck;
-	protected JTextField widthField;
+    protected JLabel nameColumnLabel;
 
-	protected JCheckBox alignmentCheck;
+    protected JCheckBox autoConfigurationCheck;
 
-	protected JToggleButton leftAlignBt;
-	protected JToggleButton centerAlignBt;
-	protected JToggleButton rightAlignBt;
+    protected JCheckBox fixedWidthCheck;
 
-	protected static final String	AUTO_CONFIGURATION_TEXT	= "reportdesigner.autoconfiguration";
-	protected static final String	FIXED_WIDTH_TEXT		= "reportdesigner.fixedwidth";
-	protected static final String	COLUMN_NAME_TEXT		= "reportdesigner.columnname";
-	protected static final String	ALIGNMENT_TEXT			= "reportdesigner.alignment";
+    protected JTextField widthField;
 
-	public ColumnConfigurationWindow(Dialog d, String title, ResourceBundle bundle, DefaultReportDialog reportDialog) {
-		super(d, true);
-		this.res = bundle;
-		this.reportDialog = reportDialog;
-		this.title = title;
-		this.init();
-	}
+    protected JCheckBox alignmentCheck;
 
-	public ColumnConfigurationWindow(Frame f, String title, ResourceBundle bundle, DefaultReportDialog reportDialog) {
-		super(f, true);
-		this.res = bundle;
-		this.reportDialog = reportDialog;
-		this.title = title;
-		this.init();
-	}
+    protected JToggleButton leftAlignBt;
 
-	protected void selectAutoConfiguration(boolean selected) {
-		if (selected) {
-			this.fixedWidthCheck.setEnabled(false);
-			this.widthField.setEnabled(false);
-			this.alignmentCheck.setEnabled(false);
-			this.leftAlignBt.setEnabled(false);
-			this.centerAlignBt.setEnabled(false);
-			this.rightAlignBt.setEnabled(false);
-		} else {
-			this.fixedWidthCheck.setEnabled(true);
-			this.widthField.setEnabled(this.fixedWidthCheck.isSelected());
-			if ((this.widthField.getText() == null) && (this.widthField.getText().length() == 0)) {
-				this.widthField.setText("70");
-			}
-			this.alignmentCheck.setEnabled(true);
-			this.leftAlignBt.setEnabled(this.alignmentCheck.isSelected());
-			this.centerAlignBt.setEnabled(this.alignmentCheck.isSelected());
-			this.rightAlignBt.setEnabled(this.alignmentCheck.isSelected());
-		}
-	}
+    protected JToggleButton centerAlignBt;
 
-	public void init() {
-		this.setTitle(ApplicationManager.getTranslation(this.title, this.res));
-		this.getContentPane().setLayout(new BorderLayout());
-		JPanel centerPanel = new JPanel(new GridBagLayout());
+    protected JToggleButton rightAlignBt;
 
-		this.columnLabel = new JLabel(ApplicationManager.getTranslation(ColumnConfigurationWindow.COLUMN_NAME_TEXT, this.res));
-		centerPanel.add(this.columnLabel, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 4, 2, 2), 0, 0));
-		this.nameColumnLabel = new JLabel();
-		Font font = this.nameColumnLabel.getFont().deriveFont(Font.BOLD);
-		this.nameColumnLabel.setFont(font);
+    protected static final String AUTO_CONFIGURATION_TEXT = "reportdesigner.autoconfiguration";
 
-		centerPanel.add(this.nameColumnLabel, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+    protected static final String FIXED_WIDTH_TEXT = "reportdesigner.fixedwidth";
 
-		this.autoConfigurationCheck = new JCheckBox(ApplicationManager.getTranslation(ColumnConfigurationWindow.AUTO_CONFIGURATION_TEXT, this.res));
-		this.autoConfigurationCheck.setSelected(true);
+    protected static final String COLUMN_NAME_TEXT = "reportdesigner.columnname";
 
-		this.autoConfigurationCheck.addActionListener(new ActionListener() {
+    protected static final String ALIGNMENT_TEXT = "reportdesigner.alignment";
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ColumnConfigurationWindow.this.selectAutoConfiguration(ColumnConfigurationWindow.this.autoConfigurationCheck.isSelected());
-			}
-		});
+    public ColumnConfigurationWindow(Dialog d, String title, ResourceBundle bundle, DefaultReportDialog reportDialog) {
+        super(d, true);
+        this.res = bundle;
+        this.reportDialog = reportDialog;
+        this.title = title;
+        this.init();
+    }
 
-		this.fixedWidthCheck = new JCheckBox(ApplicationManager.getTranslation(ColumnConfigurationWindow.FIXED_WIDTH_TEXT, this.res));
-		this.widthField = new JTextField(5);
-		this.widthField.setDocument(new IntegerDocument());
+    public ColumnConfigurationWindow(Frame f, String title, ResourceBundle bundle, DefaultReportDialog reportDialog) {
+        super(f, true);
+        this.res = bundle;
+        this.reportDialog = reportDialog;
+        this.title = title;
+        this.init();
+    }
 
-		centerPanel.add(this.autoConfigurationCheck, new GridBagConstraints(0, 1, 2, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+    protected void selectAutoConfiguration(boolean selected) {
+        if (selected) {
+            this.fixedWidthCheck.setEnabled(false);
+            this.widthField.setEnabled(false);
+            this.alignmentCheck.setEnabled(false);
+            this.leftAlignBt.setEnabled(false);
+            this.centerAlignBt.setEnabled(false);
+            this.rightAlignBt.setEnabled(false);
+        } else {
+            this.fixedWidthCheck.setEnabled(true);
+            this.widthField.setEnabled(this.fixedWidthCheck.isSelected());
+            if ((this.widthField.getText() == null) && (this.widthField.getText().length() == 0)) {
+                this.widthField.setText("70");
+            }
+            this.alignmentCheck.setEnabled(true);
+            this.leftAlignBt.setEnabled(this.alignmentCheck.isSelected());
+            this.centerAlignBt.setEnabled(this.alignmentCheck.isSelected());
+            this.rightAlignBt.setEnabled(this.alignmentCheck.isSelected());
+        }
+    }
 
-		JPanel configPanel = new JPanel(new GridBagLayout());
-		configPanel.setBorder(new TitledBorder(""));
-		centerPanel.add(configPanel, new GridBagConstraints(0, 2, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(4, 4, 4, 4), 0, 0));
+    public void init() {
+        this.setTitle(ApplicationManager.getTranslation(this.title, this.res));
+        this.getContentPane().setLayout(new BorderLayout());
+        JPanel centerPanel = new JPanel(new GridBagLayout());
 
-		configPanel.add(this.fixedWidthCheck, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-		this.widthField.setEnabled(this.fixedWidthCheck.isSelected());
-		this.fixedWidthCheck.addActionListener(new ActionListener() {
+        this.columnLabel = new JLabel(
+                ApplicationManager.getTranslation(ColumnConfigurationWindow.COLUMN_NAME_TEXT, this.res));
+        centerPanel.add(this.columnLabel, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(2, 4, 2, 2), 0, 0));
+        this.nameColumnLabel = new JLabel();
+        Font font = this.nameColumnLabel.getFont().deriveFont(Font.BOLD);
+        this.nameColumnLabel.setFont(font);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ColumnConfigurationWindow.this.widthField.setEnabled(ColumnConfigurationWindow.this.fixedWidthCheck.isSelected());
-			}
-		});
-		configPanel.add(this.widthField, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+        centerPanel.add(this.nameColumnLabel, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
 
-		this.alignmentCheck = new JCheckBox(ApplicationManager.getTranslation(ColumnConfigurationWindow.ALIGNMENT_TEXT, this.res));
-		configPanel.add(this.alignmentCheck, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+        this.autoConfigurationCheck = new JCheckBox(
+                ApplicationManager.getTranslation(ColumnConfigurationWindow.AUTO_CONFIGURATION_TEXT, this.res));
+        this.autoConfigurationCheck.setSelected(true);
 
-		this.leftAlignBt = new JToggleButton(ImageManager.getIcon(ImageManager.LEFT_ALIGN));
-		this.centerAlignBt = new JToggleButton(ImageManager.getIcon(ImageManager.CENTER_ALIGN));
-		this.rightAlignBt = new JToggleButton(ImageManager.getIcon(ImageManager.RIGHT_ALIGN));
+        this.autoConfigurationCheck.addActionListener(new ActionListener() {
 
-		this.alignmentCheck.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ColumnConfigurationWindow.this
+                    .selectAutoConfiguration(ColumnConfigurationWindow.this.autoConfigurationCheck.isSelected());
+            }
+        });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ColumnConfigurationWindow.this.leftAlignBt.setEnabled(ColumnConfigurationWindow.this.alignmentCheck.isSelected());
-				ColumnConfigurationWindow.this.centerAlignBt.setEnabled(ColumnConfigurationWindow.this.alignmentCheck.isSelected());
-				ColumnConfigurationWindow.this.rightAlignBt.setEnabled(ColumnConfigurationWindow.this.alignmentCheck.isSelected());
-			}
-		});
+        this.fixedWidthCheck = new JCheckBox(
+                ApplicationManager.getTranslation(ColumnConfigurationWindow.FIXED_WIDTH_TEXT, this.res));
+        this.widthField = new JTextField(5);
+        this.widthField.setDocument(new IntegerDocument());
 
-		ButtonGroup group = new ButtonGroup();
-		group.add(this.leftAlignBt);
-		group.add(this.centerAlignBt);
-		group.add(this.rightAlignBt);
+        centerPanel.add(this.autoConfigurationCheck, new GridBagConstraints(0, 1, 2, 1, 1, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
 
-		JPanel alignmentPanel = new JPanel(new GridBagLayout());
-		configPanel.add(alignmentPanel, new GridBagConstraints(0, 2, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
-		alignmentPanel.add(this.leftAlignBt, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
-		alignmentPanel.add(this.centerAlignBt, new GridBagConstraints(1, 0, 1, 1, 0, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
-		alignmentPanel.add(this.rightAlignBt, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
+        JPanel configPanel = new JPanel(new GridBagLayout());
+        configPanel.setBorder(new TitledBorder(""));
+        centerPanel.add(configPanel, new GridBagConstraints(0, 2, 2, 1, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.BOTH, new Insets(4, 4, 4, 4), 0, 0));
 
-		this.getContentPane().add(new JScrollPane(centerPanel));
-		JPanel panel = new JPanel();
-		panel.add(this.acceptButton);
-		panel.add(this.cancelButton);
+        configPanel.add(this.fixedWidthCheck, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+        this.widthField.setEnabled(this.fixedWidthCheck.isSelected());
+        this.fixedWidthCheck.addActionListener(new ActionListener() {
 
-		this.getContentPane().add(panel, BorderLayout.SOUTH);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ColumnConfigurationWindow.this.widthField
+                    .setEnabled(ColumnConfigurationWindow.this.fixedWidthCheck.isSelected());
+            }
+        });
+        configPanel.add(this.widthField, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
 
-		this.acceptButton.setText(ApplicationManager.getTranslation("ReportDesigner.Aceptar", this.res));
-		this.acceptButton.addActionListener(new ActionListener() {
+        this.alignmentCheck = new JCheckBox(
+                ApplicationManager.getTranslation(ColumnConfigurationWindow.ALIGNMENT_TEXT, this.res));
+        configPanel.add(this.alignmentCheck, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ColumnConfigurationWindow.this.save();
-				ColumnConfigurationWindow.this.setVisible(false);
-				ColumnConfigurationWindow.this.reportDialog.updateReport();
-			}
-		});
+        this.leftAlignBt = new JToggleButton(ImageManager.getIcon(ImageManager.LEFT_ALIGN));
+        this.centerAlignBt = new JToggleButton(ImageManager.getIcon(ImageManager.CENTER_ALIGN));
+        this.rightAlignBt = new JToggleButton(ImageManager.getIcon(ImageManager.RIGHT_ALIGN));
 
-		this.cancelButton.setText(ApplicationManager.getTranslation("ReportDesigner.Cancelar", this.res));
-		this.cancelButton.addActionListener(new ActionListener() {
+        this.alignmentCheck.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ColumnConfigurationWindow.this.setVisible(false);
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ColumnConfigurationWindow.this.leftAlignBt
+                    .setEnabled(ColumnConfigurationWindow.this.alignmentCheck.isSelected());
+                ColumnConfigurationWindow.this.centerAlignBt
+                    .setEnabled(ColumnConfigurationWindow.this.alignmentCheck.isSelected());
+                ColumnConfigurationWindow.this.rightAlignBt
+                    .setEnabled(ColumnConfigurationWindow.this.alignmentCheck.isSelected());
+            }
+        });
 
-		this.selectAutoConfiguration(true);
-	}
+        ButtonGroup group = new ButtonGroup();
+        group.add(this.leftAlignBt);
+        group.add(this.centerAlignBt);
+        group.add(this.rightAlignBt);
 
-	@Override
-	public void setComponentLocale(Locale l) {
+        JPanel alignmentPanel = new JPanel(new GridBagLayout());
+        configPanel.add(alignmentPanel, new GridBagConstraints(0, 2, 2, 1, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+        alignmentPanel.add(this.leftAlignBt, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.EAST,
+                GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
+        alignmentPanel.add(this.centerAlignBt, new GridBagConstraints(1, 0, 1, 1, 0, 1, GridBagConstraints.NORTH,
+                GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
+        alignmentPanel.add(this.rightAlignBt, new GridBagConstraints(2, 0, 1, 1, 1, 1, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
 
-	}
+        this.getContentPane().add(new JScrollPane(centerPanel));
+        JPanel panel = new JPanel();
+        panel.add(this.acceptButton);
+        panel.add(this.cancelButton);
 
-	@Override
-	public void setResourceBundle(ResourceBundle resources) {
-		this.res = resources;
-	}
+        this.getContentPane().add(panel, BorderLayout.SOUTH);
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return null;
-	}
+        this.acceptButton.setText(ApplicationManager.getTranslation("ReportDesigner.Aceptar", this.res));
+        this.acceptButton.addActionListener(new ActionListener() {
 
-	protected void save() {
-		List<String> configuredColumns = this.reportDialog.getConfiguredColumns();
-		Map<String, Integer> columnFixedWidth = this.reportDialog.getColumnFixedWidth();
-		Map<String, Integer> columnAlignment = this.reportDialog.getColumnAlignment();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ColumnConfigurationWindow.this.save();
+                ColumnConfigurationWindow.this.setVisible(false);
+                ColumnConfigurationWindow.this.reportDialog.updateReport();
+            }
+        });
 
-		configuredColumns.remove(this.column);
-		columnFixedWidth.remove(this.column);
-		if (!this.autoConfigurationCheck.isSelected()) {
-			configuredColumns.add(this.column);
-			if (this.fixedWidthCheck.isSelected()) {
-				String value = this.widthField.getText();
-				columnFixedWidth.put(this.column, Integer.valueOf(value));
-			}
-			if (this.alignmentCheck.isSelected()) {
-				if (this.leftAlignBt.isSelected()) {
-					columnAlignment.put(this.column, StyleConstants.ALIGN_LEFT);
-				} else if (this.centerAlignBt.isSelected()) {
-					columnAlignment.put(this.column, StyleConstants.ALIGN_CENTER);
-				} else if (this.rightAlignBt.isSelected()) {
-					columnAlignment.put(this.column, StyleConstants.ALIGN_RIGHT);
-				}
-			}
+        this.cancelButton.setText(ApplicationManager.getTranslation("ReportDesigner.Cancelar", this.res));
+        this.cancelButton.addActionListener(new ActionListener() {
 
-		}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ColumnConfigurationWindow.this.setVisible(false);
+            }
+        });
 
-	}
+        this.selectAutoConfiguration(true);
+    }
 
-	public void showColumnConfigurator(String columnName) {
-		this.column = columnName;
-		this.nameColumnLabel.setText(ApplicationManager.getTranslation(columnName, this.res));
+    @Override
+    public void setComponentLocale(Locale l) {
 
-		List<String> configuredColumns = this.reportDialog.getConfiguredColumns();
-		if (configuredColumns.contains(columnName)) {
-			Map<String, Integer> columnFixedWidth = this.reportDialog.getColumnFixedWidth();
-			if (columnFixedWidth.containsKey(columnName)) {
-				this.fixedWidthCheck.setSelected(true);
-				Integer width = columnFixedWidth.get(columnName);
-				this.widthField.setText(width.toString());
-			} else {
-				this.fixedWidthCheck.setSelected(false);
-			}
+    }
 
-			Map<String, Integer> columnAlignment = this.reportDialog.getColumnAlignment();
-			if (columnAlignment.containsKey(columnName)) {
-				this.alignmentCheck.setSelected(true);
-				Integer align = columnAlignment.get(columnName);
-				switch (align) {
-				case StyleConstants.ALIGN_LEFT:
-					this.leftAlignBt.setSelected(true);
-					break;
-				case StyleConstants.ALIGN_CENTER:
-					this.centerAlignBt.setSelected(true);
-					break;
-				case StyleConstants.ALIGN_RIGHT:
-					this.rightAlignBt.setSelected(true);
-					break;
-				}
-			} else {
-				this.alignmentCheck.setSelected(false);
-			}
+    @Override
+    public void setResourceBundle(ResourceBundle resources) {
+        this.res = resources;
+    }
 
-			this.selectAutoConfiguration(false);
-		} else {
-			this.autoConfigurationCheck.setSelected(true);
-			this.selectAutoConfiguration(true);
-			this.fixedWidthCheck.setSelected(false);
-			this.widthField.setText("");
-			this.alignmentCheck.setSelected(false);
-		}
-		this.pack();
-		ApplicationManager.center(this);
-		this.setVisible(true);
-	}
+    @Override
+    public Vector getTextsToTranslate() {
+        return null;
+    }
+
+    protected void save() {
+        List<String> configuredColumns = this.reportDialog.getConfiguredColumns();
+        Map<String, Integer> columnFixedWidth = this.reportDialog.getColumnFixedWidth();
+        Map<String, Integer> columnAlignment = this.reportDialog.getColumnAlignment();
+
+        configuredColumns.remove(this.column);
+        columnFixedWidth.remove(this.column);
+        if (!this.autoConfigurationCheck.isSelected()) {
+            configuredColumns.add(this.column);
+            if (this.fixedWidthCheck.isSelected()) {
+                String value = this.widthField.getText();
+                columnFixedWidth.put(this.column, Integer.valueOf(value));
+            }
+            if (this.alignmentCheck.isSelected()) {
+                if (this.leftAlignBt.isSelected()) {
+                    columnAlignment.put(this.column, StyleConstants.ALIGN_LEFT);
+                } else if (this.centerAlignBt.isSelected()) {
+                    columnAlignment.put(this.column, StyleConstants.ALIGN_CENTER);
+                } else if (this.rightAlignBt.isSelected()) {
+                    columnAlignment.put(this.column, StyleConstants.ALIGN_RIGHT);
+                }
+            }
+
+        }
+
+    }
+
+    public void showColumnConfigurator(String columnName) {
+        this.column = columnName;
+        this.nameColumnLabel.setText(ApplicationManager.getTranslation(columnName, this.res));
+
+        List<String> configuredColumns = this.reportDialog.getConfiguredColumns();
+        if (configuredColumns.contains(columnName)) {
+            Map<String, Integer> columnFixedWidth = this.reportDialog.getColumnFixedWidth();
+            if (columnFixedWidth.containsKey(columnName)) {
+                this.fixedWidthCheck.setSelected(true);
+                Integer width = columnFixedWidth.get(columnName);
+                this.widthField.setText(width.toString());
+            } else {
+                this.fixedWidthCheck.setSelected(false);
+            }
+
+            Map<String, Integer> columnAlignment = this.reportDialog.getColumnAlignment();
+            if (columnAlignment.containsKey(columnName)) {
+                this.alignmentCheck.setSelected(true);
+                Integer align = columnAlignment.get(columnName);
+                switch (align) {
+                    case StyleConstants.ALIGN_LEFT:
+                        this.leftAlignBt.setSelected(true);
+                        break;
+                    case StyleConstants.ALIGN_CENTER:
+                        this.centerAlignBt.setSelected(true);
+                        break;
+                    case StyleConstants.ALIGN_RIGHT:
+                        this.rightAlignBt.setSelected(true);
+                        break;
+                }
+            } else {
+                this.alignmentCheck.setSelected(false);
+            }
+
+            this.selectAutoConfiguration(false);
+        } else {
+            this.autoConfigurationCheck.setSelected(true);
+            this.selectAutoConfiguration(true);
+            this.fixedWidthCheck.setSelected(false);
+            this.widthField.setText("");
+            this.alignmentCheck.setSelected(false);
+        }
+        this.pack();
+        ApplicationManager.center(this);
+        this.setVisible(true);
+    }
+
 }

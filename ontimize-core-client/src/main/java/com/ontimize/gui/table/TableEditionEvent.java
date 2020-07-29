@@ -19,52 +19,53 @@ import java.util.EventObject;
  */
 public class TableEditionEvent extends EventObject {
 
-	private Object value = null;
+    private Object value = null;
 
-	private int row = -1;
+    private int row = -1;
 
-	private int column = -1;
+    private int column = -1;
 
-	private String columnId = null;
+    private String columnId = null;
 
-	private Object oldValue = null;
+    private Object oldValue = null;
 
-	public TableEditionEvent(Table source, Object value, int row, int column, String columnId) {
-		this(source, value, row, column, columnId, null);
-	}
+    public TableEditionEvent(Table source, Object value, int row, int column, String columnId) {
+        this(source, value, row, column, columnId, null);
+    }
 
-	public TableEditionEvent(Table source, Object value, int row, int column, String columnId, Object oldValue) {
-		super(source);
-		this.value = value;
-		this.row = row;
-		this.column = column;
-		this.columnId = columnId;
-		this.oldValue = oldValue;
-	}
+    public TableEditionEvent(Table source, Object value, int row, int column, String columnId, Object oldValue) {
+        super(source);
+        this.value = value;
+        this.row = row;
+        this.column = column;
+        this.columnId = columnId;
+        this.oldValue = oldValue;
+    }
 
-	public Object getValue() {
-		return this.value;
-	}
+    public Object getValue() {
+        return this.value;
+    }
 
-	public Object getOldValue() {
-		return this.oldValue;
-	}
+    public Object getOldValue() {
+        return this.oldValue;
+    }
 
-	public int getRow() {
-		return this.row;
-	}
+    public int getRow() {
+        return this.row;
+    }
 
-	public int getColumn() {
-		return this.column;
-	}
+    public int getColumn() {
+        return this.column;
+    }
 
-	public String getColumnId() {
-		return this.columnId;
-	}
+    public String getColumnId() {
+        return this.columnId;
+    }
 
-	@Override
-	public String toString() {
-		return "TableEditionEvent: Value: " + this.value + " , row: " + this.row + " , column: " + this.column + " , Column name: " + this.columnId + " , Old value: " + this.oldValue;
-	}
+    @Override
+    public String toString() {
+        return "TableEditionEvent: Value: " + this.value + " , row: " + this.row + " , column: " + this.column
+                + " , Column name: " + this.columnId + " , Old value: " + this.oldValue;
+    }
 
 }

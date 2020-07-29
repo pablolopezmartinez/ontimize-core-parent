@@ -2,25 +2,28 @@ package com.ontimize.gui.customcharts;
 
 public class Coordinate {
 
-	float x = 0;
-	float y = 0;
-	float z = 0;
+    float x = 0;
 
-	public Coordinate(float x, float y, float z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
+    float y = 0;
 
-	public float getX() {
-		return this.x;
-	}
+    float z = 0;
 
-	public float getZ() {
-		return this.z;
-	}
+    public Coordinate(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 
-	public float getY() {
-		return this.y;
-	}
+    public float getX() {
+        return this.x;
+    }
+
+    public float getZ() {
+        return this.z;
+    }
+
+    public float getY() {
+        return this.y;
+    }
+
 }

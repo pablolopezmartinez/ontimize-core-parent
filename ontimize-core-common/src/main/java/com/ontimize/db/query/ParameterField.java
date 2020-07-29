@@ -4,18 +4,18 @@ import com.ontimize.db.SQLStatementBuilder;
 
 public class ParameterField extends SQLStatementBuilder.BasicField {
 
-	Object value = null;
+    Object value = null;
 
-	public ParameterField() {
-		super("{Parameter}");
-	}
+    public ParameterField() {
+        super("{Parameter}");
+    }
 
-	public void setValue(Object value) {
-		this.value = value;
-	}
+    public void setValue(Object value) {
+        this.value = value;
+    }
 
-	public Object getValue() {
-		return this.value;
-	}
+    public Object getValue() {
+        return this.value;
+    }
 
 }

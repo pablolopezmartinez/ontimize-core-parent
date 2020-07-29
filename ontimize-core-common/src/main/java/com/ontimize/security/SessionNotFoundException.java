@@ -7,7 +7,8 @@ package com.ontimize.security;
  */
 public class SessionNotFoundException extends GeneralSecurityException {
 
-	public SessionNotFoundException(String s) {
-		super(s);
-	}
+    public SessionNotFoundException(String s) {
+        super(s);
+    }
+
 }

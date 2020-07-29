@@ -7,5 +7,6 @@ import java.rmi.Remote;
  */
 public interface ClientWatch extends Remote {
 
-	public int getId() throws Exception;
+    public int getId() throws Exception;
+
 }

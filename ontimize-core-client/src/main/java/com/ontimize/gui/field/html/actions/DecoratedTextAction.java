@@ -9,14 +9,15 @@ import javax.swing.text.TextAction;
  */
 public abstract class DecoratedTextAction extends TextAction {
 
-	Action delegate;
+    Action delegate;
 
-	public DecoratedTextAction(String name, Action delegate) {
-		super(name);
-		this.delegate = delegate;
-	}
+    public DecoratedTextAction(String name, Action delegate) {
+        super(name);
+        this.delegate = delegate;
+    }
 
-	public Action getDelegate() {
-		return this.delegate;
-	}
+    public Action getDelegate() {
+        return this.delegate;
+    }
+
 }

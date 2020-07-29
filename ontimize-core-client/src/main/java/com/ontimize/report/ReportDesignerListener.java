@@ -4,6 +4,6 @@ import java.util.EventListener;
 
 public interface ReportDesignerListener extends EventListener {
 
-	public void reportDesignerChanged(ReportDesignerEvent event);
+    public void reportDesignerChanged(ReportDesignerEvent event);
 
 }

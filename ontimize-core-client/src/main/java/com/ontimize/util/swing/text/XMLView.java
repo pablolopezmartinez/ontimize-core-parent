@@ -19,83 +19,89 @@ import javax.swing.text.Utilities;
 
 public class XMLView extends PlainView {
 
-	private static HashMap patternColors;
-	private static String TAG_PATTERN = "(</?[A-Za-z\\-_]*)\\s?>?";
-	private static String TAG_END_PATTERN = "(/>)";
-	private static String TAG_ATTRIBUTE_PATTERN = "\\s(\\w*)\\=";
-	private static String TAG_ATTRIBUTE_VALUE = "[a-z\\-]*\\=(\"[^\"]*\")";
-	private static String TAG_COMMENT = "(<\\!--[\\w ]*-->)";
-	private static String TAG_CDATA = "(<\\!\\[CDATA\\[.*\\]\\]>)";
+    private static HashMap patternColors;
 
-	static {
-		XMLView.patternColors = new LinkedHashMap();
-		XMLView.patternColors.put(Pattern.compile(XMLView.TAG_PATTERN), new Color(63, 127, 127));
-		XMLView.patternColors.put(Pattern.compile(XMLView.TAG_CDATA), Color.GRAY);
-		XMLView.patternColors.put(Pattern.compile(XMLView.TAG_ATTRIBUTE_PATTERN), new Color(127, 0, 127));
-		XMLView.patternColors.put(Pattern.compile(XMLView.TAG_END_PATTERN), new Color(63, 127, 127));
-		XMLView.patternColors.put(Pattern.compile(XMLView.TAG_ATTRIBUTE_VALUE), new Color(42, 0, 255));
-		XMLView.patternColors.put(Pattern.compile(XMLView.TAG_COMMENT), Color.BLUE);
-	}
+    private static String TAG_PATTERN = "(</?[A-Za-z\\-_]*)\\s?>?";
 
-	public XMLView(Element elem) {
-		super(elem);
-	}
+    private static String TAG_END_PATTERN = "(/>)";
 
-	@Override
-	protected int drawUnselectedText(Graphics graphics, int x, int y, int p0, int p1) throws BadLocationException {
+    private static String TAG_ATTRIBUTE_PATTERN = "\\s(\\w*)\\=";
 
-		Document doc = this.getDocument();
-		String text = doc.getText(p0, p1 - p0);
+    private static String TAG_ATTRIBUTE_VALUE = "[a-z\\-]*\\=(\"[^\"]*\")";
 
-		Segment segment = this.getLineBuffer();
+    private static String TAG_COMMENT = "(<\\!--[\\w ]*-->)";
 
-		// Integer,Integer
-		SortedMap startMap = new TreeMap();
-		// Integer,Color
-		SortedMap colorMap = new TreeMap();
+    private static String TAG_CDATA = "(<\\!\\[CDATA\\[.*\\]\\]>)";
 
-		Iterator patterColorKeys = XMLView.patternColors.keySet().iterator();
-		while (patterColorKeys.hasNext()) {
-			Pattern currentKey = (Pattern) patterColorKeys.next();
-			Matcher matcher = currentKey.matcher(text);
+    static {
+        XMLView.patternColors = new LinkedHashMap();
+        XMLView.patternColors.put(Pattern.compile(XMLView.TAG_PATTERN), new Color(63, 127, 127));
+        XMLView.patternColors.put(Pattern.compile(XMLView.TAG_CDATA), Color.GRAY);
+        XMLView.patternColors.put(Pattern.compile(XMLView.TAG_ATTRIBUTE_PATTERN), new Color(127, 0, 127));
+        XMLView.patternColors.put(Pattern.compile(XMLView.TAG_END_PATTERN), new Color(63, 127, 127));
+        XMLView.patternColors.put(Pattern.compile(XMLView.TAG_ATTRIBUTE_VALUE), new Color(42, 0, 255));
+        XMLView.patternColors.put(Pattern.compile(XMLView.TAG_COMMENT), Color.BLUE);
+    }
 
-			while (matcher.find()) {
-				startMap.put(new Integer(matcher.start(1)), new Integer(matcher.end()));
-				colorMap.put(new Integer(matcher.start(1)), XMLView.patternColors.get(currentKey));
-			}
-		}
+    public XMLView(Element elem) {
+        super(elem);
+    }
 
-		int i = 0;
+    @Override
+    protected int drawUnselectedText(Graphics graphics, int x, int y, int p0, int p1) throws BadLocationException {
 
-		// Colour the parts
-		Iterator startIterator = startMap.keySet().iterator();
-		while (startIterator.hasNext()) {
-			Object currentKey = startIterator.next();
-			Object currentValue = startMap.get(currentKey);
+        Document doc = this.getDocument();
+        String text = doc.getText(p0, p1 - p0);
 
-			int start = ((Integer) currentKey).intValue();
-			int end = ((Integer) currentValue).intValue();
+        Segment segment = this.getLineBuffer();
 
-			if (i < start) {
-				graphics.setColor(Color.black);
-				doc.getText(p0 + i, start - i, segment);
-				x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
-			}
+        // Integer,Integer
+        SortedMap startMap = new TreeMap();
+        // Integer,Color
+        SortedMap colorMap = new TreeMap();
 
-			graphics.setColor((Color) colorMap.get(currentKey));
-			i = end;
-			doc.getText(p0 + start, i - start, segment);
-			x = Utilities.drawTabbedText(segment, x, y, graphics, this, start);
-		}
+        Iterator patterColorKeys = XMLView.patternColors.keySet().iterator();
+        while (patterColorKeys.hasNext()) {
+            Pattern currentKey = (Pattern) patterColorKeys.next();
+            Matcher matcher = currentKey.matcher(text);
 
-		// Paint possible remaining text black
-		if (i < text.length()) {
-			graphics.setColor(Color.black);
-			doc.getText(p0 + i, text.length() - i, segment);
-			x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
-		}
+            while (matcher.find()) {
+                startMap.put(new Integer(matcher.start(1)), new Integer(matcher.end()));
+                colorMap.put(new Integer(matcher.start(1)), XMLView.patternColors.get(currentKey));
+            }
+        }
 
-		return x;
-	}
+        int i = 0;
+
+        // Colour the parts
+        Iterator startIterator = startMap.keySet().iterator();
+        while (startIterator.hasNext()) {
+            Object currentKey = startIterator.next();
+            Object currentValue = startMap.get(currentKey);
+
+            int start = ((Integer) currentKey).intValue();
+            int end = ((Integer) currentValue).intValue();
+
+            if (i < start) {
+                graphics.setColor(Color.black);
+                doc.getText(p0 + i, start - i, segment);
+                x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
+            }
+
+            graphics.setColor((Color) colorMap.get(currentKey));
+            i = end;
+            doc.getText(p0 + start, i - start, segment);
+            x = Utilities.drawTabbedText(segment, x, y, graphics, this, start);
+        }
+
+        // Paint possible remaining text black
+        if (i < text.length()) {
+            graphics.setColor(Color.black);
+            doc.getText(p0 + i, text.length() - i, segment);
+            x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
+        }
+
+        return x;
+    }
 
 }

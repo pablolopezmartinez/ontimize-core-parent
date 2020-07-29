@@ -2,26 +2,27 @@ package com.ontimize.util.base64;
 
 public class Base64UtilsImpl implements IBase64Utils {
 
-	private IBase64Decoder decoder;
-	private IBase64Encoder encoder;
+    private IBase64Decoder decoder;
 
-	@Override
-	public IBase64Decoder getDecoder() {
-		if (this.decoder == null) {
-			this.decoder = new Base64UtilsDecoder();
-		}
+    private IBase64Encoder encoder;
 
-		return this.decoder;
-	}
+    @Override
+    public IBase64Decoder getDecoder() {
+        if (this.decoder == null) {
+            this.decoder = new Base64UtilsDecoder();
+        }
 
-	@Override
-	public IBase64Encoder getEncoder() {
+        return this.decoder;
+    }
 
-		if (this.encoder == null) {
-			this.encoder = new Base64UtilsEncoder();
-		}
+    @Override
+    public IBase64Encoder getEncoder() {
 
-		return this.encoder;
-	}
+        if (this.encoder == null) {
+            this.encoder = new Base64UtilsEncoder();
+        }
+
+        return this.encoder;
+    }
 
 }

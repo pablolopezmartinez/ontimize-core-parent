@@ -6,8 +6,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 public class XmlStaticAdapters {
 
-	public static Date xmlGregorianCalendarToDate(XMLGregorianCalendar cal) {
-		return cal.toGregorianCalendar().getTime();
-	}
+    public static Date xmlGregorianCalendarToDate(XMLGregorianCalendar cal) {
+        return cal.toGregorianCalendar().getTime();
+    }
 
 }

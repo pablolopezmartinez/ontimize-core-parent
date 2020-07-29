@@ -10,12 +10,12 @@ import com.ontimize.gui.Form;
  */
 public interface AccessForm {
 
-	/**
-	 * Method declaration to set the form that contains the component. This method must be called automatically during the form building.
-	 * <p>
-	 *
-	 * @param form
-	 *            the form reference
-	 */
-	public void setParentForm(Form form);
+    /**
+     * Method declaration to set the form that contains the component. This method must be called
+     * automatically during the form building.
+     * <p>
+     * @param form the form reference
+     */
+    public void setParentForm(Form form);
+
 }

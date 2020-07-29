@@ -6,85 +6,92 @@ import java.util.Hashtable;
 
 public class RectangleElement extends AbstractPrintingElement {
 
-	protected int xi = 0;
-	protected int yi = 0;
-	protected int width = -1;
-	protected int high = -1;
+    protected int xi = 0;
 
-	public RectangleElement(Hashtable parameters) {
-		this.setBasicParameters(parameters);
-		Object xini = parameters.get("xi");
-		if (xini != null) {
-			this.xi = this.getInteger(xini);
-		}
-		Object yini = parameters.get("yi");
-		if (yini != null) {
-			this.yi = this.getInteger(yini);
-		}
-		Object width = parameters.get("width");
-		if (width != null) {
-			this.width = this.getInteger(width);
-		}
-		Object height = parameters.get("height");
-		if (height != null) {
-			this.high = this.getInteger(height);
-		}
-	}
+    protected int yi = 0;
 
-	@Override
-	public int getX() {
-		return this.xi;
-	}
+    protected int width = -1;
 
-	@Override
-	public int getY() {
-		return this.yi;
-	}
+    protected int high = -1;
 
-	@Override
-	public int getWidth() {
-		return this.width;
-	}
+    public RectangleElement(Hashtable parameters) {
+        this.setBasicParameters(parameters);
+        Object xini = parameters.get("xi");
+        if (xini != null) {
+            this.xi = this.getInteger(xini);
+        }
+        Object yini = parameters.get("yi");
+        if (yini != null) {
+            this.yi = this.getInteger(yini);
+        }
+        Object width = parameters.get("width");
+        if (width != null) {
+            this.width = this.getInteger(width);
+        }
+        Object height = parameters.get("height");
+        if (height != null) {
+            this.high = this.getInteger(height);
+        }
+    }
 
-	@Override
-	public int getHeight() {
-		return this.high;
-	}
+    @Override
+    public int getX() {
+        return this.xi;
+    }
 
-	@Override
-	public void setX(int x) {
-		this.xi = x;
-	}
+    @Override
+    public int getY() {
+        return this.yi;
+    }
 
-	@Override
-	public void setY(int y) {
-		this.yi = y;
-	}
+    @Override
+    public int getWidth() {
+        return this.width;
+    }
 
-	@Override
-	public void setWidth(int w) {
-		this.width = w;
-	}
+    @Override
+    public int getHeight() {
+        return this.high;
+    }
 
-	@Override
-	public void setHeight(int h) {
-		this.high = h;
-	}
+    @Override
+    public void setX(int x) {
+        this.xi = x;
+    }
 
-	@Override
-	public void paint(Graphics g, double scale) {
-		Color c = g.getColor();
-		if (this.bgcolor != null) {
-			g.setColor(this.bgcolor);
-			g.fillRect((int) (AbstractPrintingElement.millimeterToPagePixels(this.xi) * scale), (int) (AbstractPrintingElement.millimeterToPagePixels(this.yi) * scale),
-					(int) (AbstractPrintingElement.millimeterToPagePixels(this.width) * scale), (int) (AbstractPrintingElement.millimeterToPagePixels(this.high) * scale));
-		}
-		if (this.color != null) {
-			g.setColor(this.color);
-			g.drawRect((int) (AbstractPrintingElement.millimeterToPagePixels(this.xi) * scale), (int) (AbstractPrintingElement.millimeterToPagePixels(this.yi) * scale),
-					(int) (AbstractPrintingElement.millimeterToPagePixels(this.width) * scale), (int) (AbstractPrintingElement.millimeterToPagePixels(this.high) * scale));
-		}
-		g.setColor(c);
-	}
+    @Override
+    public void setY(int y) {
+        this.yi = y;
+    }
+
+    @Override
+    public void setWidth(int w) {
+        this.width = w;
+    }
+
+    @Override
+    public void setHeight(int h) {
+        this.high = h;
+    }
+
+    @Override
+    public void paint(Graphics g, double scale) {
+        Color c = g.getColor();
+        if (this.bgcolor != null) {
+            g.setColor(this.bgcolor);
+            g.fillRect((int) (AbstractPrintingElement.millimeterToPagePixels(this.xi) * scale),
+                    (int) (AbstractPrintingElement.millimeterToPagePixels(this.yi) * scale),
+                    (int) (AbstractPrintingElement.millimeterToPagePixels(this.width) * scale),
+                    (int) (AbstractPrintingElement.millimeterToPagePixels(this.high) * scale));
+        }
+        if (this.color != null) {
+            g.setColor(this.color);
+            g.drawRect((int) (AbstractPrintingElement.millimeterToPagePixels(this.xi) * scale),
+                    (int) (AbstractPrintingElement.millimeterToPagePixels(this.yi) * scale),
+                    (int) (AbstractPrintingElement.millimeterToPagePixels(this.width) * scale),
+                    (int) (AbstractPrintingElement.millimeterToPagePixels(this.high) * scale));
+        }
+        g.setColor(c);
+    }
 
 }

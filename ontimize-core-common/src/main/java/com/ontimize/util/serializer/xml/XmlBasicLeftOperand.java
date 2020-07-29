@@ -12,8 +12,7 @@ import com.ontimize.db.SQLStatementBuilder.BasicField;
  * Java class for basic-left-operand complex type.
  *
  * <p>
- * The following schema fragment specifies the expected content contained within
- * this class.
+ * The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
  * &lt;complexType name="basic-left-operand">
@@ -34,58 +33,55 @@ import com.ontimize.db.SQLStatementBuilder.BasicField;
 @XmlType(name = "basic-left-operand", propOrder = { "basicField", "basicExpression" })
 public class XmlBasicLeftOperand {
 
-	@XmlElement(name = "basic-field") protected String basicField;
-	@XmlElement(name = "basic-expression") protected XmlFilterBasicExpression basicExpression;
+    @XmlElement(name = "basic-field")
+    protected String basicField;
 
-	/**
-	 * Gets the value of the basicField property.
-	 *
-	 * @return possible object is {@link String }
-	 *
-	 */
-	public String getBasicField() {
-		return this.basicField;
-	}
+    @XmlElement(name = "basic-expression")
+    protected XmlFilterBasicExpression basicExpression;
 
-	/**
-	 * Sets the value of the basicField property.
-	 *
-	 * @param value
-	 *            allowed object is {@link String }
-	 *
-	 */
-	public void setBasicField(String value) {
-		this.basicField = value;
-	}
+    /**
+     * Gets the value of the basicField property.
+     * @return possible object is {@link String }
+     *
+     */
+    public String getBasicField() {
+        return this.basicField;
+    }
 
-	/**
-	 * Gets the value of the basicExpression property.
-	 *
-	 * @return possible object is {@link XmlFilterBasicExpression }
-	 *
-	 */
-	public XmlFilterBasicExpression getBasicExpression() {
-		return this.basicExpression;
-	}
+    /**
+     * Sets the value of the basicField property.
+     * @param value allowed object is {@link String }
+     *
+     */
+    public void setBasicField(String value) {
+        this.basicField = value;
+    }
 
-	/**
-	 * Sets the value of the basicExpression property.
-	 *
-	 * @param value
-	 *            allowed object is {@link XmlFilterBasicExpression }
-	 *
-	 */
-	public void setBasicExpression(XmlFilterBasicExpression value) {
-		this.basicExpression = value;
-	}
+    /**
+     * Gets the value of the basicExpression property.
+     * @return possible object is {@link XmlFilterBasicExpression }
+     *
+     */
+    public XmlFilterBasicExpression getBasicExpression() {
+        return this.basicExpression;
+    }
 
-	public Object getBasicValue() {
-		if ((this.basicField != null) && (this.basicExpression == null)) {
-			return new BasicField(this.basicField);
-		} else if ((this.basicField == null) && (this.basicExpression != null)) {
-			return this.basicExpression.getBasicExpression();
-		}
-		return null;
-	}
+    /**
+     * Sets the value of the basicExpression property.
+     * @param value allowed object is {@link XmlFilterBasicExpression }
+     *
+     */
+    public void setBasicExpression(XmlFilterBasicExpression value) {
+        this.basicExpression = value;
+    }
+
+    public Object getBasicValue() {
+        if ((this.basicField != null) && (this.basicExpression == null)) {
+            return new BasicField(this.basicField);
+        } else if ((this.basicField == null) && (this.basicExpression != null)) {
+            return this.basicExpression.getBasicExpression();
+        }
+        return null;
+    }
 
 }

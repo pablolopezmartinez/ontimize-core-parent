@@ -7,7 +7,8 @@ package com.ontimize.security;
  */
 public class NotInPeriodException extends GeneralSecurityException {
 
-	public NotInPeriodException(String message) {
-		super(message);
-	}
+    public NotInPeriodException(String message) {
+        super(message);
+    }
+
 }

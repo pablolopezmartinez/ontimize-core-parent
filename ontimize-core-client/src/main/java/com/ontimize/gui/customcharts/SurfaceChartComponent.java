@@ -16,79 +16,87 @@ import com.ontimize.gui.field.IdentifiedElement;
 
 public class SurfaceChartComponent extends SurfaceChart implements FormComponent, IdentifiedElement, Freeable {
 
-	public static final String CHANGE_EXPRESSION = "changeexpression";
-	public static final String EXPRESSION = "expression";
-	public static final String POPUP_MENU = "popupmenu";
-	public static final String ATTR = "attr";
+    public static final String CHANGE_EXPRESSION = "changeexpression";
 
-	protected Object attr = null;
+    public static final String EXPRESSION = "expression";
 
-	public SurfaceChartComponent(Hashtable parameters) {
-		super();
-		this.init(parameters);
-	}
+    public static final String POPUP_MENU = "popupmenu";
 
-	@Override
-	public Object getAttribute() {
-		return this.attr;
-	}
+    public static final String ATTR = "attr";
 
-	@Override
-	public boolean isRestricted() {
-		return false;
-	}
+    protected Object attr = null;
 
-	@Override
-	public void initPermissions() {}
+    public SurfaceChartComponent(Hashtable parameters) {
+        super();
+        this.init(parameters);
+    }
 
-	@Override
-	public void init(Hashtable parameters) {
-		Object attr = parameters.get(SurfaceChartComponent.ATTR);
-		if (attr != null) {
-			this.attr = attr.toString();
-		}
+    @Override
+    public Object getAttribute() {
+        return this.attr;
+    }
 
-		Object expr = parameters.get(SurfaceChartComponent.EXPRESSION);
-		if (expr != null) {
-			this.setExpression(expr.toString());
-		}
+    @Override
+    public boolean isRestricted() {
+        return false;
+    }
 
-		Object v = parameters.get(SurfaceChartComponent.CHANGE_EXPRESSION);
-		if (v != null) {
-			boolean allow = ApplicationManager.parseStringValue(v.toString(), true);
-			this.canvas.setAllowChangeExpression(allow);
-		}
-		v = parameters.get(SurfaceChartComponent.POPUP_MENU);
-		if (v != null) {
-			boolean p = ApplicationManager.parseStringValue(v.toString(), true);
-			this.canvas.setPopupMenuEnabled(p);
-		}
-	}
+    @Override
+    public void initPermissions() {
+    }
 
-	@Override
-	public Object getConstraints(LayoutManager paretLayout) {
-		if (paretLayout instanceof GridBagLayout) {
-			return new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
-		} else {
-			return null;
-		}
-	}
+    @Override
+    public void init(Hashtable parameters) {
+        Object attr = parameters.get(SurfaceChartComponent.ATTR);
+        if (attr != null) {
+            this.attr = attr.toString();
+        }
 
-	@Override
-	public Vector getTextsToTranslate() {
-		Vector v = new Vector();
-		return v;
-	}
+        Object expr = parameters.get(SurfaceChartComponent.EXPRESSION);
+        if (expr != null) {
+            this.setExpression(expr.toString());
+        }
 
-	@Override
-	public void setResourceBundle(ResourceBundle res) {}
+        Object v = parameters.get(SurfaceChartComponent.CHANGE_EXPRESSION);
+        if (v != null) {
+            boolean allow = ApplicationManager.parseStringValue(v.toString(), true);
+            this.canvas.setAllowChangeExpression(allow);
+        }
+        v = parameters.get(SurfaceChartComponent.POPUP_MENU);
+        if (v != null) {
+            boolean p = ApplicationManager.parseStringValue(v.toString(), true);
+            this.canvas.setPopupMenuEnabled(p);
+        }
+    }
 
-	@Override
-	public void setComponentLocale(Locale l) {}
+    @Override
+    public Object getConstraints(LayoutManager paretLayout) {
+        if (paretLayout instanceof GridBagLayout) {
+            return new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0);
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public void free() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public Vector getTextsToTranslate() {
+        Vector v = new Vector();
+        return v;
+    }
+
+    @Override
+    public void setResourceBundle(ResourceBundle res) {
+    }
+
+    @Override
+    public void setComponentLocale(Locale l) {
+    }
+
+    @Override
+    public void free() {
+        // TODO Auto-generated method stub
+
+    }
+
 }

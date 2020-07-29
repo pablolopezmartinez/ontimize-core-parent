@@ -20,99 +20,105 @@ import com.ontimize.gui.images.ImageManager;
 
 public class TablePropertiesDialog extends OptionDialog {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance();
+    private static final I18n i18n = I18n.getInstance();
 
-	public static Icon icon = ImageManager.getIcon(ImageManager.TABLE_VIEW);
-	public static String title = "HTMLShef.table_properties";
-	public static String desc = "HTMLShef.table_properties_desc";
+    public static Icon icon = ImageManager.getIcon(ImageManager.TABLE_VIEW);
 
-	protected TableAttributesPanel tableProps = new TableAttributesPanel();
-	protected RowAttributesPanel rowProps = new RowAttributesPanel();
-	protected CellAttributesPanel cellProps = new CellAttributesPanel();
+    public static String title = "HTMLShef.table_properties";
 
-	protected JTabbedPane tabs;
+    public static String desc = "HTMLShef.table_properties_desc";
 
-	protected TitledBorder tablePropertiesBorder;
+    protected TableAttributesPanel tableProps = new TableAttributesPanel();
 
-	public TablePropertiesDialog(Frame parent) {
-		super(parent, TablePropertiesDialog.title, TablePropertiesDialog.desc, TablePropertiesDialog.icon);
-		this.init();
-	}
+    protected RowAttributesPanel rowProps = new RowAttributesPanel();
 
-	public TablePropertiesDialog(Dialog parent) {
-		super(parent, TablePropertiesDialog.title, TablePropertiesDialog.desc, TablePropertiesDialog.icon);
-		this.init();
-	}
+    protected CellAttributesPanel cellProps = new CellAttributesPanel();
 
-	protected void init() {
-		Border emptyBorder = new EmptyBorder(5, 5, 5, 5);
-		this.tablePropertiesBorder = BorderFactory.createTitledBorder(TablePropertiesDialog.i18n.str("HTMLShef.table_properties"));
+    protected JTabbedPane tabs;
 
-		this.tableProps.setBorder(BorderFactory.createCompoundBorder(emptyBorder, this.tablePropertiesBorder));
-		this.rowProps.setBorder(emptyBorder);
-		this.cellProps.setBorder(emptyBorder);
+    protected TitledBorder tablePropertiesBorder;
 
-		this.tabs = new JTabbedPane();
-		this.tabs.addTab(TablePropertiesDialog.i18n.str("HTMLShef.table"), this.tableProps);
-		this.tabs.addTab(TablePropertiesDialog.i18n.str("HTMLShef.row"), this.rowProps);
-		this.tabs.addTab(TablePropertiesDialog.i18n.str("HTMLShef.cell"), this.cellProps);
+    public TablePropertiesDialog(Frame parent) {
+        super(parent, TablePropertiesDialog.title, TablePropertiesDialog.desc, TablePropertiesDialog.icon);
+        this.init();
+    }
 
-		this.setContentPane(this.tabs);
-		this.setSize(440, 375);
-		this.setResizable(false);
-	}
+    public TablePropertiesDialog(Dialog parent) {
+        super(parent, TablePropertiesDialog.title, TablePropertiesDialog.desc, TablePropertiesDialog.icon);
+        this.init();
+    }
 
-	public void setTableAttributes(Map at) {
-		this.tableProps.setAttributes(at);
-	}
+    protected void init() {
+        Border emptyBorder = new EmptyBorder(5, 5, 5, 5);
+        this.tablePropertiesBorder = BorderFactory
+            .createTitledBorder(TablePropertiesDialog.i18n.str("HTMLShef.table_properties"));
 
-	public void setRowAttributes(Map at) {
-		this.rowProps.setAttributes(at);
-	}
+        this.tableProps.setBorder(BorderFactory.createCompoundBorder(emptyBorder, this.tablePropertiesBorder));
+        this.rowProps.setBorder(emptyBorder);
+        this.cellProps.setBorder(emptyBorder);
 
-	public void setCellAttributes(Map at) {
-		this.cellProps.setAttributes(at);
-	}
+        this.tabs = new JTabbedPane();
+        this.tabs.addTab(TablePropertiesDialog.i18n.str("HTMLShef.table"), this.tableProps);
+        this.tabs.addTab(TablePropertiesDialog.i18n.str("HTMLShef.row"), this.rowProps);
+        this.tabs.addTab(TablePropertiesDialog.i18n.str("HTMLShef.cell"), this.cellProps);
 
-	public Map getTableAttributes() {
-		return this.tableProps.getAttributes();
-	}
+        this.setContentPane(this.tabs);
+        this.setSize(440, 375);
+        this.setResizable(false);
+    }
 
-	public Map getRowAttribures() {
-		return this.rowProps.getAttributes();
-	}
+    public void setTableAttributes(Map at) {
+        this.tableProps.setAttributes(at);
+    }
 
-	public Map getCellAttributes() {
-		return this.cellProps.getAttributes();
-	}
+    public void setRowAttributes(Map at) {
+        this.rowProps.setAttributes(at);
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		// TODO Auto-generated method stub
-		super.setResourceBundle(resourceBundle);
+    public void setCellAttributes(Map at) {
+        this.cellProps.setAttributes(at);
+    }
 
-		if (this.tablePropertiesBorder != null) {
-			this.tablePropertiesBorder.setTitle(TablePropertiesDialog.i18n.str("HTMLShef.table_properties"));
-		}
-		if (this.tabs != null) {
-			this.tabs.setTitleAt(0, TablePropertiesDialog.i18n.str("HTMLShef.table"));
-			this.tabs.setTitleAt(1, TablePropertiesDialog.i18n.str("HTMLShef.row"));
-			this.tabs.setTitleAt(2, TablePropertiesDialog.i18n.str("HTMLShef.cell"));
-		}
+    public Map getTableAttributes() {
+        return this.tableProps.getAttributes();
+    }
 
-		if (this.tableProps != null) {
-			this.tableProps.setResourceBundle(resourceBundle);
-		}
-		if (this.rowProps != null) {
-			this.rowProps.setResourceBundle(resourceBundle);
-		}
-		if (this.cellProps != null) {
-			this.cellProps.setResourceBundle(resourceBundle);
-		}
-	}
+    public Map getRowAttribures() {
+        return this.rowProps.getAttributes();
+    }
+
+    public Map getCellAttributes() {
+        return this.cellProps.getAttributes();
+    }
+
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        // TODO Auto-generated method stub
+        super.setResourceBundle(resourceBundle);
+
+        if (this.tablePropertiesBorder != null) {
+            this.tablePropertiesBorder.setTitle(TablePropertiesDialog.i18n.str("HTMLShef.table_properties"));
+        }
+        if (this.tabs != null) {
+            this.tabs.setTitleAt(0, TablePropertiesDialog.i18n.str("HTMLShef.table"));
+            this.tabs.setTitleAt(1, TablePropertiesDialog.i18n.str("HTMLShef.row"));
+            this.tabs.setTitleAt(2, TablePropertiesDialog.i18n.str("HTMLShef.cell"));
+        }
+
+        if (this.tableProps != null) {
+            this.tableProps.setResourceBundle(resourceBundle);
+        }
+        if (this.rowProps != null) {
+            this.rowProps.setResourceBundle(resourceBundle);
+        }
+        if (this.cellProps != null) {
+            this.cellProps.setResourceBundle(resourceBundle);
+        }
+    }
+
 }

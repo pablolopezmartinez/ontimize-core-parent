@@ -4,12 +4,12 @@ import java.io.ByteArrayOutputStream;
 
 public interface IIncidenceLogger {
 
-	public String getClientLogger();
+    public String getClientLogger();
 
-	public ByteArrayOutputStream getCompressClientLogger();
+    public ByteArrayOutputStream getCompressClientLogger();
 
-	public String getServerLogger();
+    public String getServerLogger();
 
-	public ByteArrayOutputStream getCompressServerLogger();
+    public ByteArrayOutputStream getCompressServerLogger();
 
 }

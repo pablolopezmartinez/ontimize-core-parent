@@ -19,42 +19,47 @@ import com.ontimize.util.swing.Toast;
 
 public class SharedMessageItemListener implements ActionListener {
 
-	protected String preferenceKey;
-	protected DefaultReportDialog defaultReportDialog;
-	protected EntityReferenceLocator locator;
+    protected String preferenceKey;
 
-	private static final Logger logger = LoggerFactory.getLogger(SharedMessageItemListener.class);
+    protected DefaultReportDialog defaultReportDialog;
 
-	public SharedMessageItemListener(String preferenceKey, DefaultReportDialog defaultReportDialog) {
-		this.preferenceKey = preferenceKey;
-		this.defaultReportDialog = defaultReportDialog;
-		this.locator = ApplicationManager.getApplication().getReferenceLocator();
-	}
+    protected EntityReferenceLocator locator;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		try {
-			Object o = e.getSource();
-			if (o instanceof AbstractButton) {
-				int shareId = Integer.parseInt(e.getActionCommand());
-				int sessionID = this.locator.getSessionId();
+    private static final Logger logger = LoggerFactory.getLogger(SharedMessageItemListener.class);
 
-				IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator).getRemoteReference(IShareRemoteReference.REMOTE_NAME,
-						sessionID);
-				String message = remoteReference.getSharedElementMessage(shareId, sessionID);
-				if (!message.isEmpty()) {
+    public SharedMessageItemListener(String preferenceKey, DefaultReportDialog defaultReportDialog) {
+        this.preferenceKey = preferenceKey;
+        this.defaultReportDialog = defaultReportDialog;
+        this.locator = ApplicationManager.getApplication().getReferenceLocator();
+    }
 
-					Toast.showMessage(this.defaultReportDialog.getContainer(), message, null, 1500);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            Object o = e.getSource();
+            if (o instanceof AbstractButton) {
+                int shareId = Integer.parseInt(e.getActionCommand());
+                int sessionID = this.locator.getSessionId();
 
-				} else {
-					JOptionPane.showMessageDialog(this.defaultReportDialog.getContainer(), ApplicationManager.getTranslation("shareRemote.message_empty"),
-							ApplicationManager.getTranslation("shareRemote.message_dialog"), JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-		} catch (Exception e1) {
-			SharedMessageItemListener.logger.error("ERROR -> {}", e1.getMessage(), e1);
-			MessageDialog.showErrorMessage(this.defaultReportDialog.getContainer(), "shareRemote.not_retrive_message");
-		}
-	}
+                IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator)
+                    .getRemoteReference(IShareRemoteReference.REMOTE_NAME,
+                            sessionID);
+                String message = remoteReference.getSharedElementMessage(shareId, sessionID);
+                if (!message.isEmpty()) {
+
+                    Toast.showMessage(this.defaultReportDialog.getContainer(), message, null, 1500);
+
+                } else {
+                    JOptionPane.showMessageDialog(this.defaultReportDialog.getContainer(),
+                            ApplicationManager.getTranslation("shareRemote.message_empty"),
+                            ApplicationManager.getTranslation("shareRemote.message_dialog"),
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } catch (Exception e1) {
+            SharedMessageItemListener.logger.error("ERROR -> {}", e1.getMessage(), e1);
+            MessageDialog.showErrorMessage(this.defaultReportDialog.getContainer(), "shareRemote.not_retrive_message");
+        }
+    }
 
 }

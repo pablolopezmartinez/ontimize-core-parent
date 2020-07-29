@@ -7,21 +7,22 @@ import java.awt.Insets;
 
 public class CustomRowGridBagLayout extends GridBagLayout {
 
-	public CustomRowGridBagLayout() {
-		super();
+    public CustomRowGridBagLayout() {
+        super();
 
-		this.defaultConstraints = new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0,
-				0);
-	}
+        this.defaultConstraints = new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
+                GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0,
+                0);
+    }
 
-	@Override
-	public void addLayoutComponent(Component componente, Object constraints) {
-		if (constraints instanceof GridBagConstraints) {
-			((GridBagConstraints) constraints).gridx = GridBagConstraints.RELATIVE;
-			((GridBagConstraints) constraints).gridy = 0;
-			((GridBagConstraints) constraints).weighty = 1;
-		}
-		super.addLayoutComponent(componente, constraints);
-	}
+    @Override
+    public void addLayoutComponent(Component componente, Object constraints) {
+        if (constraints instanceof GridBagConstraints) {
+            ((GridBagConstraints) constraints).gridx = GridBagConstraints.RELATIVE;
+            ((GridBagConstraints) constraints).gridy = 0;
+            ((GridBagConstraints) constraints).weighty = 1;
+        }
+        super.addLayoutComponent(componente, constraints);
+    }
 
 }

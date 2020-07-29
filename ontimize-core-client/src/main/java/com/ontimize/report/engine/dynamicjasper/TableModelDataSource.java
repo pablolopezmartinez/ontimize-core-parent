@@ -11,62 +11,65 @@ import net.sf.jasperreports.engine.JRField;
 
 public class TableModelDataSource implements JRDataSource {
 
-	private final TableModel model;
-	private int index;
-	private final int size;
+    private final TableModel model;
 
-	public TableModelDataSource(TableModel model) {
-		this.model = model;
-		this.size = model.getRowCount();
-		this.index = -1;
-	}
+    private int index;
 
-	public int findColumnIndex(String name) {
-		for (int i = 0; i < this.model.getColumnCount(); i++) {
-			if (this.model.getColumnName(i).equals(name)) {
-				return i;
-			}
-		}
-		return -1;
-	}
+    private final int size;
 
-	@Override
-	public Object getFieldValue(JRField jrField) throws JRException {
-		return this.model.getValueAt(this.index, this.findColumnIndex(jrField.getName()));
-	}
+    public TableModelDataSource(TableModel model) {
+        this.model = model;
+        this.size = model.getRowCount();
+        this.index = -1;
+    }
 
-	@Override
-	public boolean next() throws JRException {
-		this.index++;
-		return this.index < this.size;
-	}
+    public int findColumnIndex(String name) {
+        for (int i = 0; i < this.model.getColumnCount(); i++) {
+            if (this.model.getColumnName(i).equals(name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-	public static JRField[] getFields(TableModel model) {
-		Vector tmp = new Vector();
+    @Override
+    public Object getFieldValue(JRField jrField) throws JRException {
+        return this.model.getValueAt(this.index, this.findColumnIndex(jrField.getName()));
+    }
 
-		for (int i = 0; i < model.getColumnCount(); i++) {
+    @Override
+    public boolean next() throws JRException {
+        this.index++;
+        return this.index < this.size;
+    }
 
-			Class classClass = model.getColumnClass(i);
-			String className = model.getColumnClass(i).getName();
+    public static JRField[] getFields(TableModel model) {
+        Vector tmp = new Vector();
 
-			Hashtable m = new Hashtable();
-			m.put(CustomField.NAME_KEY, model.getColumnName(i));
-			m.put(CustomField.VALUE_CLASS_NAME_KEY, className);
-			m.put(CustomField.VALUE_CLASS_KEY, classClass);
+        for (int i = 0; i < model.getColumnCount(); i++) {
 
-			tmp.add(new CustomField(m));
-		}
+            Class classClass = model.getColumnClass(i);
+            String className = model.getColumnClass(i).getName();
 
-		// To array
-		int s = tmp.size();
-		CustomField[] a = new CustomField[s];
-		for (int i = 0; i < s; i++) {
-			Object o = tmp.get(i);
-			if ((o == null) || !(o instanceof CustomField)) {
-				continue;
-			}
-			a[i] = (CustomField) o;
-		}
-		return a;
-	}
+            Hashtable m = new Hashtable();
+            m.put(CustomField.NAME_KEY, model.getColumnName(i));
+            m.put(CustomField.VALUE_CLASS_NAME_KEY, className);
+            m.put(CustomField.VALUE_CLASS_KEY, classClass);
+
+            tmp.add(new CustomField(m));
+        }
+
+        // To array
+        int s = tmp.size();
+        CustomField[] a = new CustomField[s];
+        for (int i = 0; i < s; i++) {
+            Object o = tmp.get(i);
+            if ((o == null) || !(o instanceof CustomField)) {
+                continue;
+            }
+            a[i] = (CustomField) o;
+        }
+        return a;
+    }
+
 }

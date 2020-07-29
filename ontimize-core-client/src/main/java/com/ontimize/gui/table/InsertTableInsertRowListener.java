@@ -4,6 +4,6 @@ import java.util.EventListener;
 
 public interface InsertTableInsertRowListener extends EventListener {
 
-	public void insertTableInsertRowChange(InsertTableInsertRowEvent e);
+    public void insertTableInsertRowChange(InsertTableInsertRowEvent e);
 
 }

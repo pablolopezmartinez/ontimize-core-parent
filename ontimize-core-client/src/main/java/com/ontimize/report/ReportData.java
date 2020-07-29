@@ -11,26 +11,26 @@ import com.ontimize.report.store.ReportStore;
  */
 public interface ReportData extends java.io.Serializable {
 
-	public Object getKey();
+    public Object getKey();
 
-	public String getName();
+    public String getName();
 
-	public String getDescription();
+    public String getDescription();
 
-	public ReportStore getStore();
+    public ReportStore getStore();
 
-	public String getInternalID();
+    public String getInternalID();
 
-	// Operations
+    // Operations
 
-	public void edit(ReportConfig config) throws Exception;
+    public void edit(ReportConfig config) throws Exception;
 
-	public void view(ReportConfig config) throws Exception;
+    public void view(ReportConfig config) throws Exception;
 
-	public void print(ReportConfig config) throws Exception;
+    public void print(ReportConfig config) throws Exception;
 
-	public boolean delete(ReportConfig config) throws Exception;
+    public boolean delete(ReportConfig config) throws Exception;
 
-	public void add(ReportConfig config) throws Exception;
+    public void add(ReportConfig config) throws Exception;
 
 }

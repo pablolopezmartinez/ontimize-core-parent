@@ -15,43 +15,45 @@ import com.ontimize.gui.container.EJDialog;
 
 public abstract class PreviewDialog extends EJDialog {
 
-	public PreviewDialog(Dialog owner, String title, boolean modal) {
-		super(owner, title, modal);
-	}
+    public PreviewDialog(Dialog owner, String title, boolean modal) {
+        super(owner, title, modal);
+    }
 
-	public PreviewDialog(Frame owner, String title, boolean modal) {
-		super(owner, title, modal);
-	}
+    public PreviewDialog(Frame owner, String title, boolean modal) {
+        super(owner, title, modal);
+    }
 
-	protected Object emptyReport = null;
+    protected Object emptyReport = null;
 
-	protected boolean allowAddComponentListeners = true;
+    protected boolean allowAddComponentListeners = true;
 
-	public synchronized void setAllowAddComponentListeners(boolean b) {
-		this.allowAddComponentListeners = b;
-	}
+    public synchronized void setAllowAddComponentListeners(boolean b) {
+        this.allowAddComponentListeners = b;
+    }
 
-	@Override
-	public void addComponentListener(ComponentListener l) {
-		if (this.allowAddComponentListeners) {
-			super.addComponentListener(l);
-		}
-	}
+    @Override
+    public void addComponentListener(ComponentListener l) {
+        if (this.allowAddComponentListeners) {
+            super.addComponentListener(l);
+        }
+    }
 
-	public Action createDefaultCloseAction() {
-		return new AbstractAction() {
+    public Action createDefaultCloseAction() {
+        return new AbstractAction() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {}
-		};
-	};
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        };
+    };
 
-	public abstract void setReport(TableModel m, String xMLTemplate, URL reportBase) throws Exception;
+    public abstract void setReport(TableModel m, String xMLTemplate, URL reportBase) throws Exception;
 
-	public abstract void setReport(TableModel m, URL template, URL base, String[] order, boolean[] asc, ReportProcessor r, PageFormat pf) throws Exception;
+    public abstract void setReport(TableModel m, URL template, URL base, String[] order, boolean[] asc,
+            ReportProcessor r, PageFormat pf) throws Exception;
 
-	public abstract void print(boolean showPrintDialog);
+    public abstract void print(boolean showPrintDialog);
 
-	public abstract Object getReport();
+    public abstract Object getReport();
 
 }

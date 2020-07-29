@@ -21,56 +21,63 @@ import com.ontimize.gui.ApplicationManager;
 
 public class LoggerPanel extends JPanel {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoggerPanel.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoggerPanel.class);
 
-	public static final String	REFRESH_logger_BUTTON	= "servermonitor.refresh_logger_button";
+    public static final String REFRESH_logger_BUTTON = "servermonitor.refresh_logger_button";
 
-	protected JButton refreshLoggerButton;
-	protected JTable loggerTable;
-	protected ResourceBundle bundle;
-	protected IRemoteLogManager remoteManager;
+    protected JButton refreshLoggerButton;
 
-	public LoggerPanel(ResourceBundle bundle, IRemoteLogManager remoteLogManager) {
-		this.setLayout(new GridBagLayout());
-		this.bundle = bundle;
-		this.remoteManager = remoteLogManager;
-		this.createComponents();
-	}
+    protected JTable loggerTable;
 
-	protected void createComponents() {
+    protected ResourceBundle bundle;
 
-		this.refreshLoggerButton = new JButton(ApplicationManager.getTranslation(LoggerPanel.REFRESH_logger_BUTTON, this.bundle));
-		this.refreshLoggerButton.addActionListener(new ActionListener() {
+    protected IRemoteLogManager remoteManager;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				List<Logger> loggers = LoggerPanel.this.getLoggerList();
-				((LoggerModel) LoggerPanel.this.loggerTable.getModel()).setList(loggers);
-			}
-		});
+    public LoggerPanel(ResourceBundle bundle, IRemoteLogManager remoteLogManager) {
+        this.setLayout(new GridBagLayout());
+        this.bundle = bundle;
+        this.remoteManager = remoteLogManager;
+        this.createComponents();
+    }
 
-		this.loggerTable = new JTable();
+    protected void createComponents() {
 
-		List<Logger> loggers = this.getLoggerList();
-		LoggerModel tableModel = new LoggerModel(this.remoteManager);
-		this.loggerTable.setModel(tableModel);
-		this.loggerTable.setDefaultEditor(Level.class, new LevelCellEditor());
-		this.loggerTable.setDefaultRenderer(Level.class, new LevelCellRenderer());
-		tableModel.setList(loggers);
+        this.refreshLoggerButton = new JButton(
+                ApplicationManager.getTranslation(LoggerPanel.REFRESH_logger_BUTTON, this.bundle));
+        this.refreshLoggerButton.addActionListener(new ActionListener() {
 
-		this.add(this.refreshLoggerButton, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-		this.add(new JScrollPane(this.loggerTable), new GridBagConstraints(0, 1, 3, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
-	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Logger> loggers = LoggerPanel.this.getLoggerList();
+                ((LoggerModel) LoggerPanel.this.loggerTable.getModel()).setList(loggers);
+            }
+        });
 
-	protected List<Logger> getLoggerList() {
-		if (this.remoteManager != null) {
-			try {
-				return this.remoteManager.getLoggerList("");
-			} catch (Exception e) {
-				LoggerPanel.logger.error("getLoggerList exception", e);
-				return new ArrayList<Logger>();
-			}
-		}
-		return LogManagerFactory.getLogManager().getLoggerList();
-	}
+        this.loggerTable = new JTable();
+
+        List<Logger> loggers = this.getLoggerList();
+        LoggerModel tableModel = new LoggerModel(this.remoteManager);
+        this.loggerTable.setModel(tableModel);
+        this.loggerTable.setDefaultEditor(Level.class, new LevelCellEditor());
+        this.loggerTable.setDefaultRenderer(Level.class, new LevelCellRenderer());
+        tableModel.setList(loggers);
+
+        this.add(this.refreshLoggerButton, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.EAST,
+                GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+        this.add(new JScrollPane(this.loggerTable), new GridBagConstraints(0, 1, 3, 1, 1, 1, GridBagConstraints.EAST,
+                GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+    }
+
+    protected List<Logger> getLoggerList() {
+        if (this.remoteManager != null) {
+            try {
+                return this.remoteManager.getLoggerList("");
+            } catch (Exception e) {
+                LoggerPanel.logger.error("getLoggerList exception", e);
+                return new ArrayList<Logger>();
+            }
+        }
+        return LogManagerFactory.getLogManager().getLoggerList();
+    }
+
 }

@@ -5,15 +5,16 @@ import java.util.Hashtable;
 
 public class InsertTableInsertRowEvent extends EventObject {
 
-	Hashtable rowData = null;
+    Hashtable rowData = null;
 
-	public InsertTableInsertRowEvent(InsertTableInsertRowChange source, Hashtable rowData) {
-		super(source);
+    public InsertTableInsertRowEvent(InsertTableInsertRowChange source, Hashtable rowData) {
+        super(source);
 
-		this.rowData = rowData;
-	}
+        this.rowData = rowData;
+    }
 
-	public Hashtable getRowData() {
-		return this.rowData;
-	}
+    public Hashtable getRowData() {
+        return this.rowData;
+    }
+
 }

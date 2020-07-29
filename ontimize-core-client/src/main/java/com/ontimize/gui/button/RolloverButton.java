@@ -10,35 +10,32 @@ import javax.swing.Icon;
  */
 public class RolloverButton extends com.ontimize.util.swing.RolloverButton {
 
-	/**
-	 * Class constructor. Only calls to <code>super()</code>.
-	 */
-	public RolloverButton() {
-		super();
+    /**
+     * Class constructor. Only calls to <code>super()</code>.
+     */
+    public RolloverButton() {
+        super();
 
-	}
+    }
 
-	/**
-	 * Class constructor. Only calls to <code>super()</code> with parameter.
-	 * <p>
-	 *
-	 * @param text
-	 *            the text for button
-	 */
-	public RolloverButton(String text) {
-		super(text);
+    /**
+     * Class constructor. Only calls to <code>super()</code> with parameter.
+     * <p>
+     * @param text the text for button
+     */
+    public RolloverButton(String text) {
+        super(text);
 
-	}
+    }
 
-	/**
-	 * Class constructor. Only calls to <code>super()</code> with parameter.
-	 * <p>
-	 *
-	 * @param icon
-	 *            the icon for button
-	 */
-	public RolloverButton(Icon icon) {
-		super(icon);
+    /**
+     * Class constructor. Only calls to <code>super()</code> with parameter.
+     * <p>
+     * @param icon the icon for button
+     */
+    public RolloverButton(Icon icon) {
+        super(icon);
 
-	}
+    }
+
 }

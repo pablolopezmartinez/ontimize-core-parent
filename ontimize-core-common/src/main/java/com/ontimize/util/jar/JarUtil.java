@@ -45,266 +45,274 @@ import org.slf4j.LoggerFactory;
 
 public class JarUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(JarUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(JarUtil.class);
 
-	public static final String TITLE_PROPERTY = "Implementation-Title";
-	public static final String TITLE_VALUE = "Ontimize";
-	
-	public static final String IMATIA_ICON = "iconimatia.gif";
-	public static final String ONTIMIZE_LOGO = "logoontimize.jpg";
+    public static final String TITLE_PROPERTY = "Implementation-Title";
 
-	public static String getManifest(Component d) throws Exception {
-		Manifest manifest = JarUtil.retrieveManifest();
-		if (manifest != null) {
-			try {
-				String version = JarUtil.getAttribute("Version-number", manifest).toString();
-				String date = JarUtil.getAttribute("Version-date", manifest).toString();
-				URL urlHtml = JarUtil.class.getClassLoader().getResource("com/ontimize/util/jar/template.html");
-				if (urlHtml != null) {
-					InputStream iS = urlHtml.openStream();
-					BufferedReader bR = new BufferedReader(new InputStreamReader(iS));
-					StringBuilder html = new StringBuilder();
-					try {
-						String str;
-						while ((str = bR.readLine()) != null) {
-							html.append(str);
-						}
-					} catch (Exception e) {
-						JarUtil.logger.error(null, e);
-					}
-					bR.close();
-					String sOutput = html.toString();
-					sOutput = sOutput.replaceAll("%version%", version);
-					sOutput = sOutput.replaceAll("%fecha%", date);
-					return sOutput;
-				}
-			} catch (IOException e) {
-				JarUtil.logger.error(null, e);
-			}
-		}
-		return null;
-	}
+    public static final String TITLE_VALUE = "Ontimize";
 
-	public static String ontimizeVersion() throws Exception {
-		Manifest manifest = JarUtil.retrieveManifest();
-		try {
-			if (manifest == null) {
-				return null;
-			}
-			String attr = JarUtil.getAttribute("Version-number", manifest);
-			if (attr == null) {
-				return null;
-			}
-			return attr.toString().trim();
-		} catch (Exception e) {
-			JarUtil.logger.error(null, e);
-		}
-		return null;
-	}
+    public static final String IMATIA_ICON = "iconimatia.gif";
 
-	protected static String getAttribute(Object key, Manifest m) {
-		Attributes.Name aN = new Attributes.Name(key.toString());
-		Attributes ats = m.getMainAttributes();
-		if (ats.containsKey(aN)) {
-			return ats.getValue(key.toString());
-		}
-		return null;
-	}
+    public static final String ONTIMIZE_LOGO = "logoontimize.jpg";
 
-	protected static Manifest retrieveManifest() {
-		try {
-			URL url = JarUtil.class.getProtectionDomain().getCodeSource().getLocation();
-			JarFile file = null;
-			Manifest manifest = null;
-			if (url != null) {
-				file = new JarFile(URLDecoder.decode(url.getFile(), "UTF-8"));
-				manifest = file.getManifest();
-				return manifest;
-			}
-		} catch (Exception e) {
-			JarUtil.logger.trace(null, e);
-		}
+    public static String getManifest(Component d) throws Exception {
+        Manifest manifest = JarUtil.retrieveManifest();
+        if (manifest != null) {
+            try {
+                String version = JarUtil.getAttribute("Version-number", manifest).toString();
+                String date = JarUtil.getAttribute("Version-date", manifest).toString();
+                URL urlHtml = JarUtil.class.getClassLoader().getResource("com/ontimize/util/jar/template.html");
+                if (urlHtml != null) {
+                    InputStream iS = urlHtml.openStream();
+                    BufferedReader bR = new BufferedReader(new InputStreamReader(iS));
+                    StringBuilder html = new StringBuilder();
+                    try {
+                        String str;
+                        while ((str = bR.readLine()) != null) {
+                            html.append(str);
+                        }
+                    } catch (Exception e) {
+                        JarUtil.logger.error(null, e);
+                    }
+                    bR.close();
+                    String sOutput = html.toString();
+                    sOutput = sOutput.replaceAll("%version%", version);
+                    sOutput = sOutput.replaceAll("%fecha%", date);
+                    return sOutput;
+                }
+            } catch (IOException e) {
+                JarUtil.logger.error(null, e);
+            }
+        }
+        return null;
+    }
 
-		try {
-			Enumeration enumeration = JarUtil.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
-			while (enumeration.hasMoreElements()) {
-				URL url = (URL) enumeration.nextElement();
-				Manifest manifest = new Manifest(url.openStream());
-				String title = JarUtil.getAttribute(JarUtil.TITLE_PROPERTY, manifest);
-				if (JarUtil.TITLE_VALUE.equalsIgnoreCase(title)) {
-					return manifest;
-				}
-			}
-		} catch (Exception e) {
-			JarUtil.logger.trace(null, e);
-		}
-		JarUtil.logger.debug("WARNING: -> Ontimize Manifest can't be retrieved");
-		return null;
-	}
+    public static String ontimizeVersion() throws Exception {
+        Manifest manifest = JarUtil.retrieveManifest();
+        try {
+            if (manifest == null) {
+                return null;
+            }
+            String attr = JarUtil.getAttribute("Version-number", manifest);
+            if (attr == null) {
+                return null;
+            }
+            return attr.toString().trim();
+        } catch (Exception e) {
+            JarUtil.logger.error(null, e);
+        }
+        return null;
+    }
 
-	public static class InformationDialog extends JFrame {
+    protected static String getAttribute(Object key, Manifest m) {
+        Attributes.Name aN = new Attributes.Name(key.toString());
+        Attributes ats = m.getMainAttributes();
+        if (ats.containsKey(aN)) {
+            return ats.getValue(key.toString());
+        }
+        return null;
+    }
 
-		protected JLabel lVersion = null;
+    protected static Manifest retrieveManifest() {
+        try {
+            URL url = JarUtil.class.getProtectionDomain().getCodeSource().getLocation();
+            JarFile file = null;
+            Manifest manifest = null;
+            if (url != null) {
+                file = new JarFile(URLDecoder.decode(url.getFile(), "UTF-8"));
+                manifest = file.getManifest();
+                return manifest;
+            }
+        } catch (Exception e) {
+            JarUtil.logger.trace(null, e);
+        }
 
-		protected JLabel lHtml = null;
+        try {
+            Enumeration enumeration = JarUtil.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
+            while (enumeration.hasMoreElements()) {
+                URL url = (URL) enumeration.nextElement();
+                Manifest manifest = new Manifest(url.openStream());
+                String title = JarUtil.getAttribute(JarUtil.TITLE_PROPERTY, manifest);
+                if (JarUtil.TITLE_VALUE.equalsIgnoreCase(title)) {
+                    return manifest;
+                }
+            }
+        } catch (Exception e) {
+            JarUtil.logger.trace(null, e);
+        }
+        JarUtil.logger.debug("WARNING: -> Ontimize Manifest can't be retrieved");
+        return null;
+    }
 
-		protected JLabel iOntimize = null;
+    public static class InformationDialog extends JFrame {
 
-		protected JLabel tPanel = null;
+        protected JLabel lVersion = null;
 
-		protected boolean hideFrame = false;
+        protected JLabel lHtml = null;
 
-		class EAction extends AbstractAction {
+        protected JLabel iOntimize = null;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JarUtil.logger.debug("Event " + e);
-				if (SwingUtilities.getWindowAncestor((Component) e.getSource()) instanceof InformationDialog) {
-					((InformationDialog) SwingUtilities.getWindowAncestor((Component) e.getSource()))
-							.processWindowEvent(
-									new WindowEvent(SwingUtilities.getWindowAncestor((Component) e.getSource()),
-											WindowEvent.WINDOW_CLOSING));
-				}
-			}
-		}
+        protected JLabel tPanel = null;
 
-		public InformationDialog(boolean hideFrame) {
-			this.hideFrame = hideFrame;
-			ActionMap aM = ((JComponent) this.getContentPane()).getActionMap();
-			InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        protected boolean hideFrame = false;
 
-			aM.put("close", new EAction());
-			inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
+        class EAction extends AbstractAction {
 
-			this.setTitle("Imatia");
-			ImageIcon iconImatia = JarUtil.getIcon(IMATIA_ICON);
-			if (iconImatia != null) {
-				this.setIconImage(iconImatia.getImage());
-			}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JarUtil.logger.debug("Event " + e);
+                if (SwingUtilities.getWindowAncestor((Component) e.getSource()) instanceof InformationDialog) {
+                    ((InformationDialog) SwingUtilities.getWindowAncestor((Component) e.getSource()))
+                        .processWindowEvent(
+                                new WindowEvent(SwingUtilities.getWindowAncestor((Component) e.getSource()),
+                                        WindowEvent.WINDOW_CLOSING));
+                }
+            }
 
-			((JComponent) this.getContentPane()).setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inMap);
-			((JComponent) this.getContentPane()).setActionMap(aM);
+        }
 
-			this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-			this.addWindowListener(new WindowAdapter() {
+        public InformationDialog(boolean hideFrame) {
+            this.hideFrame = hideFrame;
+            ActionMap aM = ((JComponent) this.getContentPane()).getActionMap();
+            InputMap inMap = ((JComponent) this.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-				@Override
-				public void windowClosing(WindowEvent e) {
-					if (InformationDialog.this.hideFrame) {
-						InformationDialog.this.setVisible(false);
-					} else {
-						JarUtil.systemExit();
-					}
-				}
-			});
+            aM.put("close", new EAction());
+            inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
 
-			this.setResizable(false);
-			this.getContentPane().setBackground(Color.white);
-			ImageIcon icon = JarUtil.getIcon(ONTIMIZE_LOGO);
-			if (icon != null) {
-				this.iOntimize = new JLabel(icon);
-			}
-			String version = null;
-			try {
-				version = JarUtil.getManifest(this);
-			} catch (Exception ex) {
-				JarUtil.logger.trace(null, ex);
-				version = "";
-			}
-			this.lHtml = new JLabel("", SwingConstants.CENTER);
-			this.lHtml.setText(version);
-			this.getContentPane().setLayout(new GridBagLayout());
-			this.getContentPane().add(this.iOntimize, new GridBagConstraints(0, 0, 1, 1, 1, 1,
-					GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
-			this.getContentPane().add(this.lHtml, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.CENTER,
-					GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
-			this.getContentPane().setFocusable(true);
-			this.getContentPane().requestFocus();
-			this.pack();
+            this.setTitle("Imatia");
+            ImageIcon iconImatia = JarUtil.getIcon(IMATIA_ICON);
+            if (iconImatia != null) {
+                this.setIconImage(iconImatia.getImage());
+            }
 
-		}
+            ((JComponent) this.getContentPane()).setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inMap);
+            ((JComponent) this.getContentPane()).setActionMap(aM);
 
-	}
+            this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            this.addWindowListener(new WindowAdapter() {
 
-	public static final void main(String[] arg) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-			JarUtil.logger.error(null, e);
-		} catch (InstantiationException e) {
-			JarUtil.logger.error(null, e);
-		} catch (IllegalAccessException e) {
-			JarUtil.logger.error(null, e);
-		} catch (UnsupportedLookAndFeelException e) {
-			JarUtil.logger.error(null, e);
-		}
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    if (InformationDialog.this.hideFrame) {
+                        InformationDialog.this.setVisible(false);
+                    } else {
+                        JarUtil.systemExit();
+                    }
+                }
+            });
 
-		InformationDialog id = new InformationDialog(false);
-		JarUtil.center(id);
-		id.setVisible(true);
-	}
+            this.setResizable(false);
+            this.getContentPane().setBackground(Color.white);
+            ImageIcon icon = JarUtil.getIcon(ONTIMIZE_LOGO);
+            if (icon != null) {
+                this.iOntimize = new JLabel(icon);
+            }
+            String version = null;
+            try {
+                version = JarUtil.getManifest(this);
+            } catch (Exception ex) {
+                JarUtil.logger.trace(null, ex);
+                version = "";
+            }
+            this.lHtml = new JLabel("", SwingConstants.CENTER);
+            this.lHtml.setText(version);
+            this.getContentPane().setLayout(new GridBagLayout());
+            this.getContentPane()
+                .add(this.iOntimize, new GridBagConstraints(0, 0, 1, 1, 1, 1,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+            this.getContentPane()
+                .add(this.lHtml, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.CENTER,
+                        GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+            this.getContentPane().setFocusable(true);
+            this.getContentPane().requestFocus();
+            this.pack();
 
-	public static void center(Window window) {
-		int x = 0;
-		int y = 0;
+        }
 
-		Rectangle bounds = null;
+    }
 
-		Window parentWindow = null;
-		if (window.getParent() instanceof Window) {
-			parentWindow = (Window) window.getParent();
-		} else {
-			parentWindow = window;
-		}
+    public static final void main(String[] arg) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            JarUtil.logger.error(null, e);
+        } catch (InstantiationException e) {
+            JarUtil.logger.error(null, e);
+        } catch (IllegalAccessException e) {
+            JarUtil.logger.error(null, e);
+        } catch (UnsupportedLookAndFeelException e) {
+            JarUtil.logger.error(null, e);
+        }
 
-		GraphicsEnvironment graphicsEnviroment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice[] graphicsDevice = graphicsEnviroment.getScreenDevices();
-		// Find main application bounds.
-		Rectangle parentBounds = parentWindow.getBounds();
-		Point centerPoint = new Point(parentBounds.x + (parentBounds.width / 2),
-				parentBounds.y + (parentBounds.height / 2));
-		for (int i = 0; i < graphicsDevice.length; i++) {
-			Rectangle currentBounds = graphicsDevice[i].getDefaultConfiguration().getBounds();
-			if (currentBounds.contains(centerPoint)) {
-				bounds = currentBounds;
-				break;
-			}
-		}
+        InformationDialog id = new InformationDialog(false);
+        JarUtil.center(id);
+        id.setVisible(true);
+    }
 
-		if (bounds == null) {
-			bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
-					.getDefaultConfiguration().getBounds();
-		}
+    public static void center(Window window) {
+        int x = 0;
+        int y = 0;
 
-		x = (bounds.width / 2) - (window.getWidth() / 2);
-		y = (bounds.height / 2) - (window.getHeight() / 2);
+        Rectangle bounds = null;
 
-		if (x < 0) {
-			x = 0;
-		}
-		if (y < 0) {
-			y = 0;
-		}
-		if (x > bounds.width) {
-			x = 0;
-		}
-		if (y > bounds.height) {
-			y = 0;
-		}
-		window.setLocation(bounds.x + x, bounds.y + y);
-	}
+        Window parentWindow = null;
+        if (window.getParent() instanceof Window) {
+            parentWindow = (Window) window.getParent();
+        } else {
+            parentWindow = window;
+        }
 
-	public static void systemExit() {
-		try {
-			Method exitMethod = System.class.getMethod("exit", new Class[] { int.class });
-			exitMethod.invoke(null, new Object[] { 0 });
-		} catch (Exception e) {
-			JarUtil.logger.error("", e);
-		}
-	}
-	
-	public static ImageIcon getIcon(String name) {
-		URL url = JarUtil.class.getResource(name);
-		return new ImageIcon(url);
-	}
+        GraphicsEnvironment graphicsEnviroment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] graphicsDevice = graphicsEnviroment.getScreenDevices();
+        // Find main application bounds.
+        Rectangle parentBounds = parentWindow.getBounds();
+        Point centerPoint = new Point(parentBounds.x + (parentBounds.width / 2),
+                parentBounds.y + (parentBounds.height / 2));
+        for (int i = 0; i < graphicsDevice.length; i++) {
+            Rectangle currentBounds = graphicsDevice[i].getDefaultConfiguration().getBounds();
+            if (currentBounds.contains(centerPoint)) {
+                bounds = currentBounds;
+                break;
+            }
+        }
+
+        if (bounds == null) {
+            bounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice()
+                .getDefaultConfiguration()
+                .getBounds();
+        }
+
+        x = (bounds.width / 2) - (window.getWidth() / 2);
+        y = (bounds.height / 2) - (window.getHeight() / 2);
+
+        if (x < 0) {
+            x = 0;
+        }
+        if (y < 0) {
+            y = 0;
+        }
+        if (x > bounds.width) {
+            x = 0;
+        }
+        if (y > bounds.height) {
+            y = 0;
+        }
+        window.setLocation(bounds.x + x, bounds.y + y);
+    }
+
+    public static void systemExit() {
+        try {
+            Method exitMethod = System.class.getMethod("exit", new Class[] { int.class });
+            exitMethod.invoke(null, new Object[] { 0 });
+        } catch (Exception e) {
+            JarUtil.logger.error("", e);
+        }
+    }
+
+    public static ImageIcon getIcon(String name) {
+        URL url = JarUtil.class.getResource(name);
+        return new ImageIcon(url);
+    }
+
 }

@@ -30,182 +30,182 @@ import org.w3c.dom.NodeList;
 
 public class XMLUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(XMLUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(XMLUtil.class);
 
-	protected static DocumentBuilderFactory factory = null;
+    protected static DocumentBuilderFactory factory = null;
 
-	protected static DocumentBuilder builder = null;
+    protected static DocumentBuilder builder = null;
 
-	public static Document getDOMDocument(String value) throws Exception {
-		if (value == null) {
-			return null;
-		}
+    public static Document getDOMDocument(String value) throws Exception {
+        if (value == null) {
+            return null;
+        }
 
-		if (XMLUtil.factory == null) {
-			XMLUtil.factory = DocumentBuilderFactory.newInstance();
-		}
+        if (XMLUtil.factory == null) {
+            XMLUtil.factory = DocumentBuilderFactory.newInstance();
+        }
 
-		if (XMLUtil.builder == null) {
-			try {
-				XMLUtil.builder = XMLUtil.factory.newDocumentBuilder();
-			} catch (ParserConfigurationException e) {
-				XMLUtil.logger.error(null, e);
-			}
-		}
-		ByteArrayInputStream input = new ByteArrayInputStream(value.getBytes());
-		Document document = null;
-		try {
-			document = XMLUtil.builder.parse(input);
-		} catch (Exception ex) {
-			XMLUtil.builder = null;
-			throw ex;
-		} finally {
-			if (input != null) {
-				input.close();
-			}
-		}
-		return document;
-	}
+        if (XMLUtil.builder == null) {
+            try {
+                XMLUtil.builder = XMLUtil.factory.newDocumentBuilder();
+            } catch (ParserConfigurationException e) {
+                XMLUtil.logger.error(null, e);
+            }
+        }
+        ByteArrayInputStream input = new ByteArrayInputStream(value.getBytes());
+        Document document = null;
+        try {
+            document = XMLUtil.builder.parse(input);
+        } catch (Exception ex) {
+            XMLUtil.builder = null;
+            throw ex;
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+        }
+        return document;
+    }
 
-	public static Document getXMLDocument() {
-		if (XMLUtil.factory == null) {
-			XMLUtil.factory = DocumentBuilderFactory.newInstance();
-		}
+    public static Document getXMLDocument() {
+        if (XMLUtil.factory == null) {
+            XMLUtil.factory = DocumentBuilderFactory.newInstance();
+        }
 
-		if (XMLUtil.builder == null) {
-			try {
-				XMLUtil.builder = XMLUtil.factory.newDocumentBuilder();
-			} catch (ParserConfigurationException e) {
-				XMLUtil.logger.error(null, e);
-			}
-		}
+        if (XMLUtil.builder == null) {
+            try {
+                XMLUtil.builder = XMLUtil.factory.newDocumentBuilder();
+            } catch (ParserConfigurationException e) {
+                XMLUtil.logger.error(null, e);
+            }
+        }
 
-		try {
-			Document document = XMLUtil.builder.newDocument();
-			return document;
-		} catch (Exception e) {
-			XMLUtil.logger.error(null, e);
-			return null;
-		}
-	}
+        try {
+            Document document = XMLUtil.builder.newDocument();
+            return document;
+        } catch (Exception e) {
+            XMLUtil.logger.error(null, e);
+            return null;
+        }
+    }
 
-	public static Document getDocumentModel(String fileURI) {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		// First of all the labels file
-		long initialTime = System.currentTimeMillis();
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(fileURI);
-			long finalTime = System.currentTimeMillis();
-			double passTime = (finalTime - initialTime) / 1000.0;
-			XMLUtil.logger.trace("Time parsing xml {} seconds", new Double(passTime).toString());
-			return document;
-		} catch (Exception e) {
-			XMLUtil.logger.error("{}", e.getMessage(), e);
-			return null;
-		}
-	}
+    public static Document getDocumentModel(String fileURI) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // First of all the labels file
+        long initialTime = System.currentTimeMillis();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(fileURI);
+            long finalTime = System.currentTimeMillis();
+            double passTime = (finalTime - initialTime) / 1000.0;
+            XMLUtil.logger.trace("Time parsing xml {} seconds", new Double(passTime).toString());
+            return document;
+        } catch (Exception e) {
+            XMLUtil.logger.error("{}", e.getMessage(), e);
+            return null;
+        }
+    }
 
-	public static Document getExtendedDocument(InputStream input) {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(input);
-			return document;
-		} catch (Exception e) {
-			XMLUtil.logger.error("{}", e.getMessage(), e);
-			return null;
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					XMLUtil.logger.error(null, e);
-				}
-			}
-		}
-	}
+    public static Document getExtendedDocument(InputStream input) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(input);
+            return document;
+        } catch (Exception e) {
+            XMLUtil.logger.error("{}", e.getMessage(), e);
+            return null;
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    XMLUtil.logger.error(null, e);
+                }
+            }
+        }
+    }
 
-	public static String dom2String(Document doc, String encoding) {
-		try {
-			TransformerFactory factory = TransformerFactory.newInstance();
-			Transformer xformer = factory.newTransformer();
+    public static String dom2String(Document doc, String encoding) {
+        try {
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer xformer = factory.newTransformer();
 
-			xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			xformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-			xformer.setOutputProperty(OutputKeys.STANDALONE, "no");
-			xformer.setOutputProperty(OutputKeys.ENCODING, encoding);
-			xformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            xformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            xformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+            xformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+            xformer.setOutputProperty(OutputKeys.METHOD, "xml");
 
-			Source source = new DOMSource(doc);
-			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			Result result = new StreamResult(stream);
-			xformer.transform(source, result);
-			return new String(stream.toByteArray());
-		} catch (Exception e) {
-			XMLUtil.logger.error(null, e);
-		}
-		return "";
-	}
+            Source source = new DOMSource(doc);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            Result result = new StreamResult(stream);
+            xformer.transform(source, result);
+            return new String(stream.toByteArray());
+        } catch (Exception e) {
+            XMLUtil.logger.error(null, e);
+        }
+        return "";
+    }
 
-	public static String dom2String(Document doc) {
-		return XMLUtil.dom2String(doc, "UTF-8");
-	}
+    public static String dom2String(Document doc) {
+        return XMLUtil.dom2String(doc, "UTF-8");
+    }
 
-	public static String dom2String(String sFileURI) {
-		Document doc = XMLUtil.getDocumentModel(sFileURI);
-		return XMLUtil.dom2String(doc);
-	}
+    public static String dom2String(String sFileURI) {
+        Document doc = XMLUtil.getDocumentModel(sFileURI);
+        return XMLUtil.dom2String(doc);
+    }
 
-	public static File dom2File(Document doc, String filename) {
-		try {
-			// Prepare the DOM document for writing
-			Source source = new DOMSource(doc);
+    public static File dom2File(Document doc, String filename) {
+        try {
+            // Prepare the DOM document for writing
+            Source source = new DOMSource(doc);
 
-			// Prepare the output file
-			File file = new File(filename);
-			Result result = new StreamResult(file);
+            // Prepare the output file
+            File file = new File(filename);
+            Result result = new StreamResult(file);
 
-			// Write the DOM document to the file
-			Transformer xformer = TransformerFactory.newInstance().newTransformer();
-			xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			xformer.setOutputProperty(OutputKeys.STANDALONE, "no");
-			xformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-			xformer.setOutputProperty(OutputKeys.METHOD, "xml");
-			xformer.transform(source, result);
+            // Write the DOM document to the file
+            Transformer xformer = TransformerFactory.newInstance().newTransformer();
+            xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            xformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+            xformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            xformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            xformer.transform(source, result);
 
-			return file;
-		} catch (TransformerConfigurationException e) {
-			XMLUtil.logger.error(null, e);
-		} catch (TransformerException e) {
-			XMLUtil.logger.error(null, e);
-		}
-		return null;
-	}
+            return file;
+        } catch (TransformerConfigurationException e) {
+            XMLUtil.logger.error(null, e);
+        } catch (TransformerException e) {
+            XMLUtil.logger.error(null, e);
+        }
+        return null;
+    }
 
-	public static String getTextValue(Node son) {
-		NodeList nodeList = son.getChildNodes();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node n = nodeList.item(i);
-			if (n instanceof CharacterData) {
-				// !CDATA
-				CharacterData cd = (CharacterData) n;
-				return cd.getData();
-			} else if (n.getNodeType() == Node.TEXT_NODE) {
-				return n.getNodeValue();
-			}
-		}
-		return "";
-	}
+    public static String getTextValue(Node son) {
+        NodeList nodeList = son.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node n = nodeList.item(i);
+            if (n instanceof CharacterData) {
+                // !CDATA
+                CharacterData cd = (CharacterData) n;
+                return cd.getData();
+            } else if (n.getNodeType() == Node.TEXT_NODE) {
+                return n.getNodeValue();
+            }
+        }
+        return "";
+    }
 
-	public static Hashtable parseAttributes(NamedNodeMap nodeAttributes) {
-		Hashtable attributes = new Hashtable();
-		for (int i = 0; i < nodeAttributes.getLength(); i++) {
-			attributes.put(nodeAttributes.item(i).getNodeName(), nodeAttributes.item(i).getNodeValue());
-		}
-		return attributes;
-	}
+    public static Hashtable parseAttributes(NamedNodeMap nodeAttributes) {
+        Hashtable attributes = new Hashtable();
+        for (int i = 0; i < nodeAttributes.getLength(); i++) {
+            attributes.put(nodeAttributes.item(i).getNodeName(), nodeAttributes.item(i).getNodeValue());
+        }
+        return attributes;
+    }
 
 }

@@ -20,98 +20,104 @@ import com.ontimize.gui.field.FormComponent;
 
 public class CollapsiblePanelFiller extends JComponent implements FormComponent, Freeable {
 
-	private static final Logger	logger		= LoggerFactory.getLogger(CollapsiblePanelFiller.class);
+    private static final Logger logger = LoggerFactory.getLogger(CollapsiblePanelFiller.class);
 
-	protected boolean deployed = true;
+    protected boolean deployed = true;
 
-	public CollapsiblePanelFiller(Hashtable h) {}
+    public CollapsiblePanelFiller(Hashtable h) {
+    }
 
-	@Override
-	public void validate() {
-		super.validate();
-		if (this.changeState()) {
-			LayoutManager manager = this.getParent().getLayout();
-			if (manager instanceof GridBagLayout) {
-				GridBagConstraints currentConstraints = ((GridBagLayout) manager).getConstraints(this);
-				if (this.deployed) {
-					currentConstraints.weightx = 1.0;
-					currentConstraints.weighty = 1.0;
-				} else {
-					currentConstraints.weightx = 0.0;
-					currentConstraints.weighty = 0.0;
-				}
-				((GridBagLayout) manager).setConstraints(this, currentConstraints);
-			}
-			this.getParent().validate();
-		}
-	}
+    @Override
+    public void validate() {
+        super.validate();
+        if (this.changeState()) {
+            LayoutManager manager = this.getParent().getLayout();
+            if (manager instanceof GridBagLayout) {
+                GridBagConstraints currentConstraints = ((GridBagLayout) manager).getConstraints(this);
+                if (this.deployed) {
+                    currentConstraints.weightx = 1.0;
+                    currentConstraints.weighty = 1.0;
+                } else {
+                    currentConstraints.weightx = 0.0;
+                    currentConstraints.weighty = 0.0;
+                }
+                ((GridBagLayout) manager).setConstraints(this, currentConstraints);
+            }
+            this.getParent().validate();
+        }
+    }
 
-	@Override
-	public Object getConstraints(LayoutManager parentLayout) {
-		return new GridBagConstraints(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				new Insets(0, 0, 0, 0), 0, 0);
-	}
+    @Override
+    public Object getConstraints(LayoutManager parentLayout) {
+        return new GridBagConstraints(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0);
+    }
 
-	protected boolean isExpanded(CollapsiblePanel cPanel) {
-		try {
-			LayoutManager manager = this.getParent().getLayout();
-			if (manager instanceof GridBagLayout) {
-				GridBagConstraints panelConstraints = ((GridBagLayout) manager).getConstraints(cPanel);
-				if (panelConstraints.weighty > 0) {
-					return true;
-				}
-				return false;
-			}
-		} catch (Exception e) {
-			CollapsiblePanelFiller.logger.error(null, e);
-		}
-		return true;
-	}
+    protected boolean isExpanded(CollapsiblePanel cPanel) {
+        try {
+            LayoutManager manager = this.getParent().getLayout();
+            if (manager instanceof GridBagLayout) {
+                GridBagConstraints panelConstraints = ((GridBagLayout) manager).getConstraints(cPanel);
+                if (panelConstraints.weighty > 0) {
+                    return true;
+                }
+                return false;
+            }
+        } catch (Exception e) {
+            CollapsiblePanelFiller.logger.error(null, e);
+        }
+        return true;
+    }
 
-	protected boolean changeState() {
-		Container container = this.getParent();
-		int count = container.getComponentCount();
+    protected boolean changeState() {
+        Container container = this.getParent();
+        int count = container.getComponentCount();
 
-		boolean allCollapsed = true;
+        boolean allCollapsed = true;
 
-		for (int i = 0; i < count; i++) {
-			if (container.getComponent(i) instanceof CollapsiblePanel) {
-				CollapsiblePanel cPanel = (CollapsiblePanel) container.getComponent(i);
-				if (cPanel.isDeploy() && this.isExpanded(cPanel)) {
-					allCollapsed = false;
-					if (this.deployed) {
-						this.deployed = false;
-						return true;
-					}
-				}
-			}
-		}
+        for (int i = 0; i < count; i++) {
+            if (container.getComponent(i) instanceof CollapsiblePanel) {
+                CollapsiblePanel cPanel = (CollapsiblePanel) container.getComponent(i);
+                if (cPanel.isDeploy() && this.isExpanded(cPanel)) {
+                    allCollapsed = false;
+                    if (this.deployed) {
+                        this.deployed = false;
+                        return true;
+                    }
+                }
+            }
+        }
 
-		if (allCollapsed && !this.deployed) {
-			this.deployed = true;
-			return true;
-		}
+        if (allCollapsed && !this.deployed) {
+            this.deployed = true;
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public void init(Hashtable parameters) throws Exception {}
+    @Override
+    public void init(Hashtable parameters) throws Exception {
+    }
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return null;
-	}
+    @Override
+    public Vector getTextsToTranslate() {
+        return null;
+    }
 
-	@Override
-	public void setComponentLocale(Locale l) {}
+    @Override
+    public void setComponentLocale(Locale l) {
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {}
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+    }
 
-	@Override
-	public void free() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void free() {
+        // TODO Auto-generated method stub
+
+    }
+
 }

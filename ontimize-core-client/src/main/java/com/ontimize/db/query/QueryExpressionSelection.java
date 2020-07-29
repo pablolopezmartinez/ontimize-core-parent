@@ -40,320 +40,361 @@ import com.ontimize.gui.images.ImageManager;
 
 public class QueryExpressionSelection extends EJDialog {
 
-	private static final Logger	logger			= LoggerFactory.getLogger(QueryExpressionSelection.class);
+    private static final Logger logger = LoggerFactory.getLogger(QueryExpressionSelection.class);
 
-	public static final String EXPRESSION = "expr";
-	public static final String NAME = "name";
-	public static final String DEFINE = "define";
+    public static final String EXPRESSION = "expr";
 
-	protected String entity = null;
+    public static final String NAME = "name";
 
-	protected ResourceBundle bundle = null;
+    public static final String DEFINE = "define";
 
-	protected JList list = null;
+    protected String entity = null;
 
-	protected QueryStore store = null;
+    protected ResourceBundle bundle = null;
 
-	protected JTextField textField = null;
+    protected JList list = null;
 
-	protected JButton saveButton = null;
+    protected QueryStore store = null;
 
-	protected JButton loadButton = null;
+    protected JTextField textField = null;
 
-	protected JButton deleteButton = null;
+    protected JButton saveButton = null;
 
-	protected JButton cancelButton = null;
+    protected JButton loadButton = null;
 
-	protected boolean listOnly = false;
+    protected JButton deleteButton = null;
 
-	protected boolean saveOnly = false;
+    protected JButton cancelButton = null;
 
-	protected QueryExpression query = null;
+    protected boolean listOnly = false;
 
-	protected JButton defineButton = null;
+    protected boolean saveOnly = false;
 
-	protected boolean definePressed = false;
+    protected QueryExpression query = null;
 
-	public boolean isDefinePressed() {
-		return this.definePressed;
-	}
+    protected JButton defineButton = null;
 
-	public QueryExpressionSelection(Frame f, QueryExpression query, String entity, ResourceBundle bundle, boolean listOnly, boolean saveOnly) {
-		super(f, ApplicationManager.getTranslation("QueryExpressionSelection", bundle), true);
-		this.definePressed = false;
-		this.entity = entity;
-		this.listOnly = listOnly;
-		this.saveOnly = saveOnly;
-		this.bundle = bundle;
-		this.query = query;
-		this.init();
-	}
+    protected boolean definePressed = false;
 
-	public QueryExpressionSelection(Dialog d, QueryExpression query, String entity, ResourceBundle bundle, boolean listOnly, boolean saveOnly) {
-		super(d, ApplicationManager.getTranslation("QueryExpressionSelection", bundle), true);
-		this.definePressed = false;
-		this.entity = entity;
-		this.listOnly = listOnly;
-		this.bundle = bundle;
-		this.saveOnly = saveOnly;
-		this.query = query;
-		this.init();
-	}
+    public boolean isDefinePressed() {
+        return this.definePressed;
+    }
 
-	public void init() {
-		this.store = new FileQueryStore();
-		String[] lis = this.store.list(this.entity);
-		DefaultListModel model = new DefaultListModel();
-		for (int i = 0; i < lis.length; i++) {
-			if (!lis[i].equals("")) {
-				model.addElement(lis[i]);
-			}
-		}
-		this.list = new JList(model);
-		this.list.addMouseListener(new MouseAdapter() {
+    public QueryExpressionSelection(Frame f, QueryExpression query, String entity, ResourceBundle bundle,
+            boolean listOnly, boolean saveOnly) {
+        super(f, ApplicationManager.getTranslation("QueryExpressionSelection", bundle), true);
+        this.definePressed = false;
+        this.entity = entity;
+        this.listOnly = listOnly;
+        this.saveOnly = saveOnly;
+        this.bundle = bundle;
+        this.query = query;
+        this.init();
+    }
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
+    public QueryExpressionSelection(Dialog d, QueryExpression query, String entity, ResourceBundle bundle,
+            boolean listOnly, boolean saveOnly) {
+        super(d, ApplicationManager.getTranslation("QueryExpressionSelection", bundle), true);
+        this.definePressed = false;
+        this.entity = entity;
+        this.listOnly = listOnly;
+        this.bundle = bundle;
+        this.saveOnly = saveOnly;
+        this.query = query;
+        this.init();
+    }
 
-				if (QueryExpressionSelection.this.list.getSelectedIndex() >= 0) {
-					QueryExpressionSelection.this.textField.setText((String) QueryExpressionSelection.this.list.getSelectedValue());
-				}
+    public void init() {
+        this.store = new FileQueryStore();
+        String[] lis = this.store.list(this.entity);
+        DefaultListModel model = new DefaultListModel();
+        for (int i = 0; i < lis.length; i++) {
+            if (!lis[i].equals("")) {
+                model.addElement(lis[i]);
+            }
+        }
+        this.list = new JList(model);
+        this.list.addMouseListener(new MouseAdapter() {
 
-				if (e.getClickCount() == 2) {
-					QueryExpressionSelection.this.query = QueryExpressionSelection.this.store.get(QueryExpressionSelection.this.textField.getText(),
-							QueryExpressionSelection.this.entity);
-					QueryExpressionSelection.this.setVisible(false);
-				}
-			}
-		});
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
-		this.list.setFixedCellHeight(20);
-		this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.list.setVisibleRowCount(5);
+                if (QueryExpressionSelection.this.list.getSelectedIndex() >= 0) {
+                    QueryExpressionSelection.this.textField
+                        .setText((String) QueryExpressionSelection.this.list.getSelectedValue());
+                }
 
-		this.textField = new JTextField();
-		this.textField.getDocument().addDocumentListener(new DocumentListener() {
+                if (e.getClickCount() == 2) {
+                    QueryExpressionSelection.this.query = QueryExpressionSelection.this.store.get(
+                            QueryExpressionSelection.this.textField.getText(),
+                            QueryExpressionSelection.this.entity);
+                    QueryExpressionSelection.this.setVisible(false);
+                }
+            }
+        });
 
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				if (e.getDocument().getLength() == 0) {
-					QueryExpressionSelection.this.saveButton.setEnabled(false);
-					QueryExpressionSelection.this.loadButton.setEnabled(false);
-					QueryExpressionSelection.this.deleteButton.setEnabled(false);
-				} else {
-					if (((DefaultListModel) QueryExpressionSelection.this.list.getModel()).contains(QueryExpressionSelection.this.textField.getText())) {
-						if (!QueryExpressionSelection.this.saveOnly) {
-							QueryExpressionSelection.this.loadButton.setEnabled(true);
-						}
-						QueryExpressionSelection.this.deleteButton.setEnabled(true);
-					} else {
-						QueryExpressionSelection.this.loadButton.setEnabled(false);
-						QueryExpressionSelection.this.deleteButton.setEnabled(false);
-					}
-					QueryExpressionSelection.this.saveButton.setEnabled(true);
-				}
-			}
+        this.list.setFixedCellHeight(20);
+        this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.list.setVisibleRowCount(5);
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				if (e.getDocument().getLength() == 0) {
-					QueryExpressionSelection.this.saveButton.setEnabled(false);
-					QueryExpressionSelection.this.loadButton.setEnabled(false);
-					QueryExpressionSelection.this.deleteButton.setEnabled(false);
-				} else {
-					if (((DefaultListModel) QueryExpressionSelection.this.list.getModel()).contains(QueryExpressionSelection.this.textField.getText())) {
-						if (!QueryExpressionSelection.this.saveOnly) {
-							QueryExpressionSelection.this.loadButton.setEnabled(true);
-						}
-						QueryExpressionSelection.this.deleteButton.setEnabled(true);
-					} else {
-						QueryExpressionSelection.this.loadButton.setEnabled(false);
-						QueryExpressionSelection.this.deleteButton.setEnabled(false);
-					}
-					QueryExpressionSelection.this.saveButton.setEnabled(true);
-				}
-			}
+        this.textField = new JTextField();
+        this.textField.getDocument().addDocumentListener(new DocumentListener() {
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				if (e.getDocument().getLength() == 0) {
-					QueryExpressionSelection.this.saveButton.setEnabled(false);
-					QueryExpressionSelection.this.loadButton.setEnabled(false);
-					QueryExpressionSelection.this.deleteButton.setEnabled(false);
-				} else {
-					if (((DefaultListModel) QueryExpressionSelection.this.list.getModel()).contains(QueryExpressionSelection.this.textField.getText())) {
-						if (!QueryExpressionSelection.this.saveOnly) {
-							QueryExpressionSelection.this.loadButton.setEnabled(true);
-						}
-						QueryExpressionSelection.this.deleteButton.setEnabled(true);
-					} else {
-						QueryExpressionSelection.this.loadButton.setEnabled(false);
-						QueryExpressionSelection.this.deleteButton.setEnabled(false);
-					}
-					QueryExpressionSelection.this.saveButton.setEnabled(true);
-				}
-			}
-		});
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (e.getDocument().getLength() == 0) {
+                    QueryExpressionSelection.this.saveButton.setEnabled(false);
+                    QueryExpressionSelection.this.loadButton.setEnabled(false);
+                    QueryExpressionSelection.this.deleteButton.setEnabled(false);
+                } else {
+                    if (((DefaultListModel) QueryExpressionSelection.this.list.getModel())
+                        .contains(QueryExpressionSelection.this.textField.getText())) {
+                        if (!QueryExpressionSelection.this.saveOnly) {
+                            QueryExpressionSelection.this.loadButton.setEnabled(true);
+                        }
+                        QueryExpressionSelection.this.deleteButton.setEnabled(true);
+                    } else {
+                        QueryExpressionSelection.this.loadButton.setEnabled(false);
+                        QueryExpressionSelection.this.deleteButton.setEnabled(false);
+                    }
+                    QueryExpressionSelection.this.saveButton.setEnabled(true);
+                }
+            }
 
-		class EAction extends AbstractAction {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (e.getDocument().getLength() == 0) {
+                    QueryExpressionSelection.this.saveButton.setEnabled(false);
+                    QueryExpressionSelection.this.loadButton.setEnabled(false);
+                    QueryExpressionSelection.this.deleteButton.setEnabled(false);
+                } else {
+                    if (((DefaultListModel) QueryExpressionSelection.this.list.getModel())
+                        .contains(QueryExpressionSelection.this.textField.getText())) {
+                        if (!QueryExpressionSelection.this.saveOnly) {
+                            QueryExpressionSelection.this.loadButton.setEnabled(true);
+                        }
+                        QueryExpressionSelection.this.deleteButton.setEnabled(true);
+                    } else {
+                        QueryExpressionSelection.this.loadButton.setEnabled(false);
+                        QueryExpressionSelection.this.deleteButton.setEnabled(false);
+                    }
+                    QueryExpressionSelection.this.saveButton.setEnabled(true);
+                }
+            }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					QueryExpressionSelection.this.defineButton.doClick(1);
-				} catch (Exception ex) {
-					QueryExpressionSelection.logger.error(null, ex);
-				}
-			}
-		}
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (e.getDocument().getLength() == 0) {
+                    QueryExpressionSelection.this.saveButton.setEnabled(false);
+                    QueryExpressionSelection.this.loadButton.setEnabled(false);
+                    QueryExpressionSelection.this.deleteButton.setEnabled(false);
+                } else {
+                    if (((DefaultListModel) QueryExpressionSelection.this.list.getModel())
+                        .contains(QueryExpressionSelection.this.textField.getText())) {
+                        if (!QueryExpressionSelection.this.saveOnly) {
+                            QueryExpressionSelection.this.loadButton.setEnabled(true);
+                        }
+                        QueryExpressionSelection.this.deleteButton.setEnabled(true);
+                    } else {
+                        QueryExpressionSelection.this.loadButton.setEnabled(false);
+                        QueryExpressionSelection.this.deleteButton.setEnabled(false);
+                    }
+                    QueryExpressionSelection.this.saveButton.setEnabled(true);
+                }
+            }
+        });
 
-		this.setAction(KeyEvent.VK_ENTER, 0, new EAction(), "Aceptar Filtro");
+        class EAction extends AbstractAction {
 
-		this.getContentPane().setLayout(new GridBagLayout());
-		int i = 0;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    QueryExpressionSelection.this.defineButton.doClick(1);
+                } catch (Exception ex) {
+                    QueryExpressionSelection.logger.error(null, ex);
+                }
+            }
 
-		if (this.listOnly) {
-			JLabel e = new JLabel();
-			e.setPreferredSize(new Dimension(90, 120));
-			e.setText(ApplicationManager.getTranslation("QueryExpressionSelectionElijaUna", this.bundle));
-			this.getContentPane().add(e, new GridBagConstraints(0, i, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
-			i++;
-		}
+        }
 
-		this.getContentPane().add(this.textField, new GridBagConstraints(0, i, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
-		i++;
-		this.getContentPane().add(new JScrollPane(this.list),
-				new GridBagConstraints(0, i, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
-		i++;
-		this.getContentPane().add(this.getButtonPanel(), new GridBagConstraints(0, i, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+        this.setAction(KeyEvent.VK_ENTER, 0, new EAction(), "Aceptar Filtro");
 
-		this.pack();
-		ApplicationManager.center(this);
-	}
+        this.getContentPane().setLayout(new GridBagLayout());
+        int i = 0;
 
-	protected JPanel getButtonPanel() {
-		JPanel panel = new JPanel(new GridBagLayout());
-		this.saveButton = new JButton(ApplicationManager.getTranslation("QueryExpressionSelectionGuardar", this.bundle));
-		this.saveButton.setIcon(ImageManager.getIcon(ImageManager.SAVE_FILE));
+        if (this.listOnly) {
+            JLabel e = new JLabel();
+            e.setPreferredSize(new Dimension(90, 120));
+            e.setText(ApplicationManager.getTranslation("QueryExpressionSelectionElijaUna", this.bundle));
+            this.getContentPane()
+                .add(e, new GridBagConstraints(0, i, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH,
+                        new Insets(2, 2, 2, 2), 0, 0));
+            i++;
+        }
 
-		this.saveButton.addActionListener(new ActionListener() {
+        this.getContentPane()
+            .add(this.textField, new GridBagConstraints(0, i, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+        i++;
+        this.getContentPane()
+            .add(new JScrollPane(this.list),
+                    new GridBagConstraints(0, i, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH,
+                            new Insets(2, 2, 2, 2), 0, 0));
+        i++;
+        this.getContentPane()
+            .add(this.getButtonPanel(), new GridBagConstraints(0, i, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if ((QueryExpressionSelection.this.textField.getText() == null) || (QueryExpressionSelection.this.textField.getText().length() == 0)) {
-					return;
-				}
-				QueryExpressionSelection.this.store.addQuery(QueryExpressionSelection.this.textField.getText(), QueryExpressionSelection.this.query);
-				QueryExpressionSelection.this.setVisible(false);
-			}
-		});
-		this.saveButton.setEnabled(false);
+        this.pack();
+        ApplicationManager.center(this);
+    }
 
-		this.loadButton = new JButton(ApplicationManager.getTranslation("QueryExpressionSelectionCargar", this.bundle));
-		this.loadButton.setIcon(ImageManager.getIcon(ImageManager.OPEN_QUERY));
+    protected JPanel getButtonPanel() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        this.saveButton = new JButton(
+                ApplicationManager.getTranslation("QueryExpressionSelectionGuardar", this.bundle));
+        this.saveButton.setIcon(ImageManager.getIcon(ImageManager.SAVE_FILE));
 
-		this.loadButton.addActionListener(new ActionListener() {
+        this.saveButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if ((QueryExpressionSelection.this.textField.getText() == null) || (QueryExpressionSelection.this.textField.getText().length() == 0)) {
-					return;
-				}
-				QueryExpressionSelection.this.query = QueryExpressionSelection.this.store.get(QueryExpressionSelection.this.textField.getText(),
-						QueryExpressionSelection.this.entity);
-				QueryExpressionSelection.this.setVisible(false);
-			}
-		});
-		this.loadButton.setEnabled(false);
-		this.deleteButton = new JButton(ApplicationManager.getTranslation("QueryExpressionSelectionBorrar", this.bundle));
-		this.deleteButton.setIcon(ImageManager.getIcon(ImageManager.RECYCLER));
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if ((QueryExpressionSelection.this.textField.getText() == null)
+                        || (QueryExpressionSelection.this.textField.getText().length() == 0)) {
+                    return;
+                }
+                QueryExpressionSelection.this.store.addQuery(QueryExpressionSelection.this.textField.getText(),
+                        QueryExpressionSelection.this.query);
+                QueryExpressionSelection.this.setVisible(false);
+            }
+        });
+        this.saveButton.setEnabled(false);
 
-		this.deleteButton.addActionListener(new ActionListener() {
+        this.loadButton = new JButton(ApplicationManager.getTranslation("QueryExpressionSelectionCargar", this.bundle));
+        this.loadButton.setIcon(ImageManager.getIcon(ImageManager.OPEN_QUERY));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if ((QueryExpressionSelection.this.textField.getText() == null) || (QueryExpressionSelection.this.textField.getText().length() == 0)) {
-					return;
-				}
-				if (((DefaultListModel) QueryExpressionSelection.this.list.getModel()).contains(QueryExpressionSelection.this.textField.getText())) {
-					QueryExpressionSelection.this.store.removeQuery(QueryExpressionSelection.this.textField.getText(), QueryExpressionSelection.this.entity);
-					((DefaultListModel) QueryExpressionSelection.this.list.getModel()).removeElement(QueryExpressionSelection.this.textField.getText());
-					QueryExpressionSelection.this.textField.setText("");
-				}
-			}
-		});
-		this.deleteButton.setEnabled(false);
+        this.loadButton.addActionListener(new ActionListener() {
 
-		this.defineButton = new JButton(ApplicationManager.getTranslation("QueryExpressionSelectionDefinir", this.bundle));
-		this.defineButton.setIcon(ImageManager.getIcon(ImageManager.FUNNEL_EDIT));
-		this.defineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if ((QueryExpressionSelection.this.textField.getText() == null)
+                        || (QueryExpressionSelection.this.textField.getText().length() == 0)) {
+                    return;
+                }
+                QueryExpressionSelection.this.query = QueryExpressionSelection.this.store.get(
+                        QueryExpressionSelection.this.textField.getText(),
+                        QueryExpressionSelection.this.entity);
+                QueryExpressionSelection.this.setVisible(false);
+            }
+        });
+        this.loadButton.setEnabled(false);
+        this.deleteButton = new JButton(
+                ApplicationManager.getTranslation("QueryExpressionSelectionBorrar", this.bundle));
+        this.deleteButton.setIcon(ImageManager.getIcon(ImageManager.RECYCLER));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (QueryExpressionSelection.this.listOnly) {
-					QueryExpressionSelection.this.query = QueryExpressionSelection.this.store.get(QueryExpressionSelection.this.textField.getText(),
-							QueryExpressionSelection.this.entity);
-					QueryExpressionSelection.this.setVisible(false);
-					QueryExpressionSelection.this.definePressed = true;
-				}
-			}
-		});
+        this.deleteButton.addActionListener(new ActionListener() {
 
-		this.cancelButton = new JButton(ApplicationManager.getTranslation("QueryExpressionSelectionCancelar", this.bundle));
-		this.cancelButton.setIcon(ImageManager.getIcon(ImageManager.CANCEL));
-		this.cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if ((QueryExpressionSelection.this.textField.getText() == null)
+                        || (QueryExpressionSelection.this.textField.getText().length() == 0)) {
+                    return;
+                }
+                if (((DefaultListModel) QueryExpressionSelection.this.list.getModel())
+                    .contains(QueryExpressionSelection.this.textField.getText())) {
+                    QueryExpressionSelection.this.store.removeQuery(QueryExpressionSelection.this.textField.getText(),
+                            QueryExpressionSelection.this.entity);
+                    ((DefaultListModel) QueryExpressionSelection.this.list.getModel())
+                        .removeElement(QueryExpressionSelection.this.textField.getText());
+                    QueryExpressionSelection.this.textField.setText("");
+                }
+            }
+        });
+        this.deleteButton.setEnabled(false);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (QueryExpressionSelection.this.listOnly) {
-					QueryExpressionSelection.this.query = null;
-					QueryExpressionSelection.this.setVisible(false);
-				}
-			}
-		});
+        this.defineButton = new JButton(
+                ApplicationManager.getTranslation("QueryExpressionSelectionDefinir", this.bundle));
+        this.defineButton.setIcon(ImageManager.getIcon(ImageManager.FUNNEL_EDIT));
+        this.defineButton.addActionListener(new ActionListener() {
 
-		if (this.listOnly) {
-			this.defineButton.setEnabled(true);
-			this.cancelButton.setEnabled(true);
-			panel.add(this.defineButton, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-			panel.add(this.loadButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-			panel.add(this.deleteButton, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-			panel.add(this.cancelButton, new GridBagConstraints(3, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-		} else {
-			panel.add(this.saveButton, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-			panel.add(this.loadButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-			panel.add(this.deleteButton, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-		}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (QueryExpressionSelection.this.listOnly) {
+                    QueryExpressionSelection.this.query = QueryExpressionSelection.this.store.get(
+                            QueryExpressionSelection.this.textField.getText(),
+                            QueryExpressionSelection.this.entity);
+                    QueryExpressionSelection.this.setVisible(false);
+                    QueryExpressionSelection.this.definePressed = true;
+                }
+            }
+        });
 
-		return panel;
-	}
+        this.cancelButton = new JButton(
+                ApplicationManager.getTranslation("QueryExpressionSelectionCancelar", this.bundle));
+        this.cancelButton.setIcon(ImageManager.getIcon(ImageManager.CANCEL));
+        this.cancelButton.addActionListener(new ActionListener() {
 
-	public static Hashtable showQueryExpressionSelection(Component c, QueryExpression query, String entityName, ResourceBundle bundle) {
-		return QueryExpressionSelection.showQueryExpressionSelection(c, query, entityName, bundle, false, false);
-	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (QueryExpressionSelection.this.listOnly) {
+                    QueryExpressionSelection.this.query = null;
+                    QueryExpressionSelection.this.setVisible(false);
+                }
+            }
+        });
 
-	public static Hashtable showQueryExpressionSelection(Component c, QueryExpression query, String entityName, ResourceBundle bundle, boolean loadOnly, boolean saveOnly) {
-		Window w = SwingUtilities.getWindowAncestor(c);
-		QueryExpressionSelection querySelection = null;
+        if (this.listOnly) {
+            this.defineButton.setEnabled(true);
+            this.cancelButton.setEnabled(true);
+            panel.add(this.defineButton, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+            panel.add(this.loadButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+            panel.add(this.deleteButton, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+            panel.add(this.cancelButton, new GridBagConstraints(3, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+        } else {
+            panel.add(this.saveButton, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+            panel.add(this.loadButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+            panel.add(this.deleteButton, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+        }
 
-		if (w instanceof Dialog) {
-			querySelection = new QueryExpressionSelection((Dialog) w, query, entityName, bundle, loadOnly, saveOnly);
-		} else if (w instanceof Frame) {
-			querySelection = new QueryExpressionSelection((Frame) w, query, entityName, bundle, loadOnly, saveOnly);
-		}
-		if (querySelection != null) {
-			querySelection.pack();
-			querySelection.setVisible(true);
-			Hashtable h = new Hashtable();
-			h.put(QueryExpressionSelection.DEFINE, new Boolean(querySelection.definePressed));
-			if (!querySelection.textField.getText().equals("")) {
-				h.put(QueryExpressionSelection.NAME, querySelection.textField.getText());
-				if (querySelection.query != null) {
-					h.put(QueryExpressionSelection.EXPRESSION, querySelection.query);
-				}
-			}
-			return h;
-		}
-		return null;
-	}
+        return panel;
+    }
+
+    public static Hashtable showQueryExpressionSelection(Component c, QueryExpression query, String entityName,
+            ResourceBundle bundle) {
+        return QueryExpressionSelection.showQueryExpressionSelection(c, query, entityName, bundle, false, false);
+    }
+
+    public static Hashtable showQueryExpressionSelection(Component c, QueryExpression query, String entityName,
+            ResourceBundle bundle, boolean loadOnly, boolean saveOnly) {
+        Window w = SwingUtilities.getWindowAncestor(c);
+        QueryExpressionSelection querySelection = null;
+
+        if (w instanceof Dialog) {
+            querySelection = new QueryExpressionSelection((Dialog) w, query, entityName, bundle, loadOnly, saveOnly);
+        } else if (w instanceof Frame) {
+            querySelection = new QueryExpressionSelection((Frame) w, query, entityName, bundle, loadOnly, saveOnly);
+        }
+        if (querySelection != null) {
+            querySelection.pack();
+            querySelection.setVisible(true);
+            Hashtable h = new Hashtable();
+            h.put(QueryExpressionSelection.DEFINE, new Boolean(querySelection.definePressed));
+            if (!querySelection.textField.getText().equals("")) {
+                h.put(QueryExpressionSelection.NAME, querySelection.textField.getText());
+                if (querySelection.query != null) {
+                    h.put(QueryExpressionSelection.EXPRESSION, querySelection.query);
+                }
+            }
+            return h;
+        }
+        return null;
+    }
+
 }

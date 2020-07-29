@@ -4,43 +4,44 @@ import java.util.List;
 
 public interface IFormInteractionScriptManager {
 
-	public Boolean checkQuery();
+    public Boolean checkQuery();
 
-	public boolean isCheckQueryScript();
+    public boolean isCheckQueryScript();
 
-	public Boolean checkDelete();
+    public Boolean checkDelete();
 
-	public boolean isCheckDeleteScript();
+    public boolean isCheckDeleteScript();
 
-	public Boolean checkInsert();
+    public Boolean checkInsert();
 
-	public boolean isCheckInsertScript();
+    public boolean isCheckInsertScript();
 
-	public Boolean checkUpdate();
+    public Boolean checkUpdate();
 
-	public boolean isCheckUpdateScript();
+    public boolean isCheckUpdateScript();
 
-	public boolean setQueryMode();
+    public boolean setQueryMode();
 
-	public boolean isQueryModeScript();
+    public boolean isQueryModeScript();
 
-	public boolean setInsertMode();
+    public boolean setInsertMode();
 
-	public boolean isInsertModeScript();
+    public boolean isInsertModeScript();
 
-	public boolean setUpdateMode();
+    public boolean setUpdateMode();
 
-	public boolean isUpdateModeScript();
+    public boolean isUpdateModeScript();
 
-	public boolean setQueryInsertMode();
+    public boolean setQueryInsertMode();
 
-	public boolean isQueryInsertModeScript();
+    public boolean isQueryInsertModeScript();
 
-	public void registerListeners(Form f);
+    public void registerListeners(Form f);
 
-	public List getScripts(String action, String componentKey);
+    public List getScripts(String action, String componentKey);
 
-	public boolean checkActionScript(List scripts);
+    public boolean checkActionScript(List scripts);
 
-	public void executeScripts(List scripts) throws Exception;
+    public void executeScripts(List scripts) throws Exception;
+
 }

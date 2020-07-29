@@ -5,15 +5,16 @@ import com.ontimize.report.ReportResource;
 
 public interface ReportStoreDefinition extends ReportProperties {
 
-	public String getXMLDefinition();
+    public String getXMLDefinition();
 
-	public void setXMLDefinition(String def);
+    public void setXMLDefinition(String def);
 
-	public ReportResource[] getResources();
+    public ReportResource[] getResources();
 
-	public void setResources(ReportResource[] res);
+    public void setResources(ReportResource[] res);
 
-	public QueryExpression getQueryExpression();
+    public QueryExpression getQueryExpression();
 
-	public void setQueryExpression(QueryExpression queryExpression);
+    public void setQueryExpression(QueryExpression queryExpression);
+
 }

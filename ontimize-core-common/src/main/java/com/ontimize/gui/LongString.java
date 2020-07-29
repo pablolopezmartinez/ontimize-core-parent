@@ -2,35 +2,36 @@ package com.ontimize.gui;
 
 public class LongString implements java.io.Serializable {
 
-	protected String s = null;
+    protected String s = null;
 
-	public LongString(String s) {
-		this.s = s;
-	}
+    public LongString(String s) {
+        this.s = s;
+    }
 
-	public String getString() {
-		return this.s;
-	}
+    public String getString() {
+        return this.s;
+    }
 
-	@Override
-	public String toString() {
-		return this.s.toString();
-	}
+    @Override
+    public String toString() {
+        return this.s.toString();
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if ((o != null) && (o instanceof LongString)) {
-			return this.s.equals(((LongString) o).getString());
-		} else {
-			return super.equals(o);
-		}
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o != null) && (o instanceof LongString)) {
+            return this.s.equals(((LongString) o).getString());
+        } else {
+            return super.equals(o);
+        }
+    }
 
-	@Override
-	public int hashCode() {
-		return this.s.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return this.s.hashCode();
+    }
+
 }

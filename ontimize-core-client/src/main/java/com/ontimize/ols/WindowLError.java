@@ -24,121 +24,130 @@ import com.ontimize.ols.control.LCMC;
 
 public class WindowLError extends JWindow {
 
-	private static final Logger	logger		= LoggerFactory.getLogger(WindowLError.class);
+    private static final Logger logger = LoggerFactory.getLogger(WindowLError.class);
 
-	private static WindowLError wle = null;
-	private final JPanel panel = new JPanel();
+    private static WindowLError wle = null;
 
-	private static ICompatible icompatible = null;
+    private final JPanel panel = new JPanel();
 
-	static {
-		if (ApplicationManager.jvmVersionHigherThan_1_4_0()) {
-			try {
-				Class c = Class.forName("com.ontimize.ols.compatibility.Compatible");
-				WindowLError.icompatible = (ICompatible) c.newInstance();
-				LLog.log("Compatibility initialized windowlerror");
-			} catch (Exception ex) {
-				if (LLog.DEBUG) {
-					WindowLError.logger.error(null, ex);
-				}
-			}
-		}
-	}
+    private static ICompatible icompatible = null;
 
-	public static void putRightBottom(Component c, Component cp) {
+    static {
+        if (ApplicationManager.jvmVersionHigherThan_1_4_0()) {
+            try {
+                Class c = Class.forName("com.ontimize.ols.compatibility.Compatible");
+                WindowLError.icompatible = (ICompatible) c.newInstance();
+                LLog.log("Compatibility initialized windowlerror");
+            } catch (Exception ex) {
+                if (LLog.DEBUG) {
+                    WindowLError.logger.error(null, ex);
+                }
+            }
+        }
+    }
 
-		int x = -1;
-		int y = -1;
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    public static void putRightBottom(Component c, Component cp) {
 
-		if (cp == null) {
-			x = (int) d.getWidth() - c.getWidth() - 3;
-			y = (int) d.getHeight() - c.getHeight() - 53;
-		} else {
-			x = (cp.getX() + cp.getWidth()) - c.getWidth() - 8;
-			y = (cp.getY() + cp.getHeight()) - c.getHeight() - 27;
-		}
+        int x = -1;
+        int y = -1;
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		if (WindowDWarning.isVisibleDW()) {
-			x = WindowDWarning.getWDWX() - 170;
-			y = WindowDWarning.getWDWY();
-		}
+        if (cp == null) {
+            x = (int) d.getWidth() - c.getWidth() - 3;
+            y = (int) d.getHeight() - c.getHeight() - 53;
+        } else {
+            x = (cp.getX() + cp.getWidth()) - c.getWidth() - 8;
+            y = (cp.getY() + cp.getHeight()) - c.getHeight() - 27;
+        }
 
-		if (x < 0) {
-			x = 0;
-		}
-		if (y < 0) {
-			y = 0;
-		}
-		// if(x>d.width) x = 0;
-		// if(y>d.height) y = 0;
-		c.setLocation(x, y);
-	}
+        if (WindowDWarning.isVisibleDW()) {
+            x = WindowDWarning.getWDWX() - 170;
+            y = WindowDWarning.getWDWY();
+        }
 
-	private class ListenerLErrorWindow extends MouseAdapter {
+        if (x < 0) {
+            x = 0;
+        }
+        if (y < 0) {
+            y = 0;
+        }
+        // if(x>d.width) x = 0;
+        // if(y>d.height) y = 0;
+        c.setLocation(x, y);
+    }
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			WindowLError.this.panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.yellow.brighter(), Color.yellow.darker()));
-		}
+    private class ListenerLErrorWindow extends MouseAdapter {
 
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			WindowLError.this.panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.red.brighter(), Color.red.darker()));
-		}
+        @Override
+        public void mousePressed(MouseEvent e) {
+            WindowLError.this.panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED,
+                    Color.yellow.brighter(), Color.yellow.darker()));
+        }
 
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			super.mouseClicked(e);
-			LCMC.showLCMC(ApplicationManager.getApplication().getFrame(), ApplicationManager.getApplication().getResourceBundle());
-		}
-	}
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            WindowLError.this.panel.setBorder(
+                    BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.red.brighter(), Color.red.darker()));
+        }
 
-	private final ListenerLErrorWindow llew = new ListenerLErrorWindow();
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            LCMC.showLCMC(ApplicationManager.getApplication().getFrame(),
+                    ApplicationManager.getApplication().getResourceBundle());
+        }
 
-	public WindowLError(Frame f) {
-		super(f);
-		this.setSize(170, 65);
-		this.panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.red.brighter(), Color.red.darker()));
-		this.panel.setToolTipText("License Error");
-		this.panel.setLayout(new FlowLayout());
-		this.panel.add(new JLabel(ApplicationManager.getIcon("com/ontimize/ols/resource/images/licenseWarning-48x48.gif")));
-		this.panel.setBackground(Color.gray.brighter());
-		this.panel.add(new JLabel(ApplicationManager.getTranslation("WindowLicenseError.licenseError", ApplicationManager.getApplication().getResourceBundle())));
-		this.getContentPane().add(this.panel, "Center");
-		this.panel.addMouseListener(this.llew);
-		if (WindowLError.icompatible != null) {
-			WindowLError.icompatible.setFocusable(this, false);
-		}
-		WindowLError.putRightBottom(this, null);
-	}
+    }
 
-	public static void setVWLE(boolean b) {
-		if ((WindowLError.wle == null) && (ApplicationManager.getApplication() != null)) {
-			WindowLError.wle = new WindowLError(ApplicationManager.getApplication().getFrame());
-		}
-		if (WindowLError.wle != null) {
-			WindowLError.wle.setVisible(b);
-		}
-	}
+    private final ListenerLErrorWindow llew = new ListenerLErrorWindow();
 
-	public static boolean isVisibleWindowLError() {
-		if (WindowLError.wle == null) {
-			return false;
-		}
-		return WindowLError.wle.isVisible();
-	}
+    public WindowLError(Frame f) {
+        super(f);
+        this.setSize(170, 65);
+        this.panel.setBorder(
+                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.red.brighter(), Color.red.darker()));
+        this.panel.setToolTipText("License Error");
+        this.panel.setLayout(new FlowLayout());
+        this.panel
+            .add(new JLabel(ApplicationManager.getIcon("com/ontimize/ols/resource/images/licenseWarning-48x48.gif")));
+        this.panel.setBackground(Color.gray.brighter());
+        this.panel.add(new JLabel(ApplicationManager.getTranslation("WindowLicenseError.licenseError",
+                ApplicationManager.getApplication().getResourceBundle())));
+        this.getContentPane().add(this.panel, "Center");
+        this.panel.addMouseListener(this.llew);
+        if (WindowLError.icompatible != null) {
+            WindowLError.icompatible.setFocusable(this, false);
+        }
+        WindowLError.putRightBottom(this, null);
+    }
 
-	public static void placeWindowLError() {
-		if (WindowLError.wle == null) {
-			return;
-		}
-		if (!WindowLError.wle.isVisible()) {
-			return;
-		}
-		if (ApplicationManager.getApplication() == null) {
-			return;
-		}
-		WindowLError.putRightBottom(WindowLError.wle, ApplicationManager.getApplication().getFrame());
-	}
+    public static void setVWLE(boolean b) {
+        if ((WindowLError.wle == null) && (ApplicationManager.getApplication() != null)) {
+            WindowLError.wle = new WindowLError(ApplicationManager.getApplication().getFrame());
+        }
+        if (WindowLError.wle != null) {
+            WindowLError.wle.setVisible(b);
+        }
+    }
+
+    public static boolean isVisibleWindowLError() {
+        if (WindowLError.wle == null) {
+            return false;
+        }
+        return WindowLError.wle.isVisible();
+    }
+
+    public static void placeWindowLError() {
+        if (WindowLError.wle == null) {
+            return;
+        }
+        if (!WindowLError.wle.isVisible()) {
+            return;
+        }
+        if (ApplicationManager.getApplication() == null) {
+            return;
+        }
+        WindowLError.putRightBottom(WindowLError.wle, ApplicationManager.getApplication().getFrame());
+    }
+
 }

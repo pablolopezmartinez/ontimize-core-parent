@@ -6,9 +6,9 @@ import javax.swing.text.ViewFactory;
 
 public class XMLViewFactory implements ViewFactory {
 
-	@Override
-	public View create(Element elem) {
-		return new XMLView(elem);
-	}
+    @Override
+    public View create(Element elem) {
+        return new XMLView(elem);
+    }
 
 }

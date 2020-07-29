@@ -4,5 +4,6 @@ import java.awt.Graphics;
 
 public interface JOrgTreeLineDrawer {
 
-	public void drawLines(JOrgTree tree, Graphics g);
+    public void drawLines(JOrgTree tree, Graphics g);
+
 }

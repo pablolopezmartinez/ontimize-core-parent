@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ontimize</groupId>
 	<artifactId>ontimize-core-parent</artifactId>
-	<version>6.0.2</version>
+	<version>6.0.3</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>ontimize-core-icon</module>
@@ -47,6 +47,22 @@
 						</execution>
 					</executions>
 				</plugin>
+				
+				<!-- Imatia javaformat plugin -->
+				<plugin>
+					<groupId>com.imatia.javaformat</groupId>
+					<artifactId>imatia-javaformat-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>imatia-javaformat</id>
+							<phase>validate</phase>
+							<inherited>true</inherited>
+							<goals>
+								<goal>validate</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>				
 			</plugins>
 
 		</pluginManagement>

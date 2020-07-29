@@ -33,199 +33,199 @@ import com.ontimize.locator.UtilReferenceLocator;
 
 public class FormAddUserSharedReference extends EJDialog implements Internationalization {
 
-	private static final Logger			logger				= LoggerFactory.getLogger(FormAddUserSharedReference.class);
+    private static final Logger logger = LoggerFactory.getLogger(FormAddUserSharedReference.class);
 
-	protected ResourceBundle resourceBundle;
-	protected EntityReferenceLocator locator;
-	protected ListDataField listDataField;
-	protected SelectionListDataField selectionListDataField;
-	protected Vector<String> vSelectedUsers = new Vector<String>();
-	protected boolean updateTargetShare = false;
+    protected ResourceBundle resourceBundle;
 
-	/**
-	 * Create a form window to add receiver to a shared element
-	 *
-	 * @param owner
-	 *            -> Parent window element of the form
-	 * @param modal
-	 *            -> To specify if the dialog will be opened in a model form, blocking the other parts of application
-	 * @param locator
-	 *            -> Locator, needed to obtain the remote references to the sharing systems
-	 * @param p
-	 *            -> Point where the dialog opens (top-left corner)
-	 * @param listDataField
-	 *            -> ListDataField of the receiver list
-	 */
-	public FormAddUserSharedReference(Window owner, boolean modal, EntityReferenceLocator locator, ListDataField listDataField) {
-		super(owner, ApplicationManager.getTranslation("M_ADD_TARGET_USER_TITLE"), modal);
-		this.setResourceBundle(ApplicationManager.getApplicationBundle());
-		this.locator = locator;
-		this.listDataField = listDataField;
-		this.createAndConfigurePanelComponents();
-		this.pack();
-	}
+    protected EntityReferenceLocator locator;
 
-	/**
-	 * Create and configure the content panel
-	 *
-	 * @throws Exception
-	 */
-	protected void createAndConfigurePanelComponents() {
-		SelectionListDataField selectionListDataField = this.createAndConfigureUserList();
-		Button acceptButton = this.createAndConfigureButtonAccept();
-		Button cancelButton = this.createAndConfigureButtonCancel();
+    protected ListDataField listDataField;
 
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		this.getContentPane().setLayout(gridBagLayout);
+    protected SelectionListDataField selectionListDataField;
 
-		GridBagConstraints gbc_selectionList = new GridBagConstraints();
-		gbc_selectionList.gridwidth = 2;
-		gbc_selectionList.insets = new Insets(0, 0, 5, 0);
-		gbc_selectionList.fill = GridBagConstraints.BOTH;
-		gbc_selectionList.gridx = 0;
-		gbc_selectionList.gridy = 0;
-		this.getContentPane().add(selectionListDataField, gbc_selectionList);
+    protected Vector<String> vSelectedUsers = new Vector<String>();
 
-		GridBagConstraints gbc_acceptButton = new GridBagConstraints();
-		gbc_acceptButton.anchor = GridBagConstraints.EAST;
-		gbc_acceptButton.insets = new Insets(0, 0, 0, 5);
-		gbc_acceptButton.gridx = 0;
-		gbc_acceptButton.gridy = 1;
-		this.getContentPane().add(acceptButton, gbc_acceptButton);
+    protected boolean updateTargetShare = false;
 
-		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-		gbc_cancelButton.anchor = GridBagConstraints.WEST;
-		gbc_cancelButton.gridx = 1;
-		gbc_cancelButton.gridy = 1;
-		this.getContentPane().add(cancelButton, gbc_cancelButton);
+    /**
+     * Create a form window to add receiver to a shared element
+     * @param owner -> Parent window element of the form
+     * @param modal -> To specify if the dialog will be opened in a model form, blocking the other parts
+     *        of application
+     * @param locator -> Locator, needed to obtain the remote references to the sharing systems
+     * @param p -> Point where the dialog opens (top-left corner)
+     * @param listDataField -> ListDataField of the receiver list
+     */
+    public FormAddUserSharedReference(Window owner, boolean modal, EntityReferenceLocator locator,
+            ListDataField listDataField) {
+        super(owner, ApplicationManager.getTranslation("M_ADD_TARGET_USER_TITLE"), modal);
+        this.setResourceBundle(ApplicationManager.getApplicationBundle());
+        this.locator = locator;
+        this.listDataField = listDataField;
+        this.createAndConfigurePanelComponents();
+        this.pack();
+    }
 
-	}
+    /**
+     * Create and configure the content panel
+     * @throws Exception
+     */
+    protected void createAndConfigurePanelComponents() {
+        SelectionListDataField selectionListDataField = this.createAndConfigureUserList();
+        Button acceptButton = this.createAndConfigureButtonAccept();
+        Button cancelButton = this.createAndConfigureButtonCancel();
 
-	/**
-	 * Create and return a SelectionListDataField with the list of selected users
-	 *
-	 * @return The SelectionListDataField with the list of selected user
-	 */
-	protected SelectionListDataField createAndConfigureUserList() {
-		Hashtable h = new Hashtable();
-		h.put(DataField.ATTR, IShareRemoteReference.SHARE_TARGET_USERS_LIST);
-		h.put(DataField.TEXT_STR, ApplicationManager.getTranslation(IShareRemoteReference.SHARE_TARGET_USERS_LIST));
-		h.put(DataField.LABELPOSITION, "top");
-		h.put(DataField.DIM, "text");
-		h.put(DataField.EXPAND, "yes");
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
+        gridBagLayout.rowHeights = new int[] { 0, 0, 0 };
+        gridBagLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+        gridBagLayout.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+        this.getContentPane().setLayout(gridBagLayout);
 
-		this.selectionListDataField = new SelectionListDataField(h);
+        GridBagConstraints gbc_selectionList = new GridBagConstraints();
+        gbc_selectionList.gridwidth = 2;
+        gbc_selectionList.insets = new Insets(0, 0, 5, 0);
+        gbc_selectionList.fill = GridBagConstraints.BOTH;
+        gbc_selectionList.gridx = 0;
+        gbc_selectionList.gridy = 0;
+        this.getContentPane().add(selectionListDataField, gbc_selectionList);
 
-		try {
-			IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator).getRemoteReference(IShareRemoteReference.REMOTE_NAME,
-					this.locator.getSessionId());
+        GridBagConstraints gbc_acceptButton = new GridBagConstraints();
+        gbc_acceptButton.anchor = GridBagConstraints.EAST;
+        gbc_acceptButton.insets = new Insets(0, 0, 0, 5);
+        gbc_acceptButton.gridx = 0;
+        gbc_acceptButton.gridy = 1;
+        this.getContentPane().add(acceptButton, gbc_acceptButton);
 
-			List<String> eRUserList = remoteReference.getUserList(this.locator.getSessionId());
-			Vector<String> erVector = new Vector<String>();
-			erVector.addAll(eRUserList);
-			this.selectionListDataField.setItems(erVector);
+        GridBagConstraints gbc_cancelButton = new GridBagConstraints();
+        gbc_cancelButton.anchor = GridBagConstraints.WEST;
+        gbc_cancelButton.gridx = 1;
+        gbc_cancelButton.gridy = 1;
+        this.getContentPane().add(cancelButton, gbc_cancelButton);
 
-			this.selectionListDataField.addValueChangeListener(new ValueChangeListener() {
+    }
 
-				@Override
-				public void valueChanged(ValueEvent e) {
-					FormAddUserSharedReference.this.vSelectedUsers = (Vector<String>) FormAddUserSharedReference.this.selectionListDataField.getValue();
-				}
-			});
-		} catch (Exception e1) {
-			FormAddUserSharedReference.logger.trace(null, e1);
-			MessageDialog.showErrorMessage(SwingUtilities.getWindowAncestor(FormAddUserSharedReference.this), ApplicationManager.getTranslation("M_NOT_RETRIEVE_USER_DATA"));
-			return null;
-		}
+    /**
+     * Create and return a SelectionListDataField with the list of selected users
+     * @return The SelectionListDataField with the list of selected user
+     */
+    protected SelectionListDataField createAndConfigureUserList() {
+        Hashtable h = new Hashtable();
+        h.put(DataField.ATTR, IShareRemoteReference.SHARE_TARGET_USERS_LIST);
+        h.put(DataField.TEXT_STR, ApplicationManager.getTranslation(IShareRemoteReference.SHARE_TARGET_USERS_LIST));
+        h.put(DataField.LABELPOSITION, "top");
+        h.put(DataField.DIM, "text");
+        h.put(DataField.EXPAND, "yes");
 
-		Vector oV = (Vector) this.listDataField.getValue();
-		if (oV != null) {
-			Vector<String> v = new Vector<String>();
-			for (Object actualOV : oV) {
-				v.add(actualOV.toString());
-			}
+        this.selectionListDataField = new SelectionListDataField(h);
 
-			this.selectionListDataField.setValue(v);
-		}
+        try {
+            IShareRemoteReference remoteReference = (IShareRemoteReference) ((UtilReferenceLocator) this.locator)
+                .getRemoteReference(IShareRemoteReference.REMOTE_NAME,
+                        this.locator.getSessionId());
 
-		return this.selectionListDataField;
-	}
+            List<String> eRUserList = remoteReference.getUserList(this.locator.getSessionId());
+            Vector<String> erVector = new Vector<String>();
+            erVector.addAll(eRUserList);
+            this.selectionListDataField.setItems(erVector);
 
-	/**
-	 * Create and return the accept button
-	 *
-	 * @return The accept button
-	 */
-	protected Button createAndConfigureButtonAccept() {
-		Hashtable h = new Hashtable();
-		h.put(Button.KEY, "acceptButton");
-		h.put(Button.TEXT, this.resourceBundle.getObject("application.accept"));
-		Button acceptButton = new Button(h);
-		acceptButton.addActionListener(new ActionListener() {
+            this.selectionListDataField.addValueChangeListener(new ValueChangeListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FormAddUserSharedReference.this.updateTargetShare = true;
-				FormAddUserSharedReference.this.listDataField.setValue(FormAddUserSharedReference.this.vSelectedUsers);
-				FormAddUserSharedReference.this.dispose();
+                @Override
+                public void valueChanged(ValueEvent e) {
+                    FormAddUserSharedReference.this.vSelectedUsers = (Vector<String>) FormAddUserSharedReference.this.selectionListDataField
+                        .getValue();
+                }
+            });
+        } catch (Exception e1) {
+            FormAddUserSharedReference.logger.trace(null, e1);
+            MessageDialog.showErrorMessage(SwingUtilities.getWindowAncestor(FormAddUserSharedReference.this),
+                    ApplicationManager.getTranslation("M_NOT_RETRIEVE_USER_DATA"));
+            return null;
+        }
 
-			}
-		});
-		return acceptButton;
-	}
+        Vector oV = (Vector) this.listDataField.getValue();
+        if (oV != null) {
+            Vector<String> v = new Vector<String>();
+            for (Object actualOV : oV) {
+                v.add(actualOV.toString());
+            }
 
-	/**
-	 * Create and return the cancel button
-	 *
-	 * @return The cancel button
-	 */
-	protected Button createAndConfigureButtonCancel() {
-		Hashtable h = new Hashtable();
-		h.put(Button.KEY, "cancelButton");
-		h.put(Button.TEXT, this.resourceBundle.getObject("application.cancel"));
-		Button cancelButton = new Button(h);
-		cancelButton.addActionListener(new ActionListener() {
+            this.selectionListDataField.setValue(v);
+        }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FormAddUserSharedReference.this.updateTargetShare = false;
-				FormAddUserSharedReference.this.dispose();
-			}
-		});
+        return this.selectionListDataField;
+    }
 
-		return cancelButton;
+    /**
+     * Create and return the accept button
+     * @return The accept button
+     */
+    protected Button createAndConfigureButtonAccept() {
+        Hashtable h = new Hashtable();
+        h.put(Button.KEY, "acceptButton");
+        h.put(Button.TEXT, this.resourceBundle.getObject("application.accept"));
+        Button acceptButton = new Button(h);
+        acceptButton.addActionListener(new ActionListener() {
 
-	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FormAddUserSharedReference.this.updateTargetShare = true;
+                FormAddUserSharedReference.this.listDataField.setValue(FormAddUserSharedReference.this.vSelectedUsers);
+                FormAddUserSharedReference.this.dispose();
 
-	@Override
-	public void setComponentLocale(Locale l) {
-		// TODO Auto-generated method stub
+            }
+        });
+        return acceptButton;
+    }
 
-	}
+    /**
+     * Create and return the cancel button
+     * @return The cancel button
+     */
+    protected Button createAndConfigureButtonCancel() {
+        Hashtable h = new Hashtable();
+        h.put(Button.KEY, "cancelButton");
+        h.put(Button.TEXT, this.resourceBundle.getObject("application.cancel"));
+        Button cancelButton = new Button(h);
+        cancelButton.addActionListener(new ActionListener() {
 
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		this.resourceBundle = resourceBundle;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FormAddUserSharedReference.this.updateTargetShare = false;
+                FormAddUserSharedReference.this.dispose();
+            }
+        });
 
-	}
+        return cancelButton;
 
-	@Override
-	public Vector getTextsToTranslate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
 
-	/**
-	 * Return a boolean if the list has been updated
-	 *
-	 * @return Return <code>true</code> if the list of users has changed, <code>false</code> otherwise
-	 */
-	public boolean getUpdateStatus() {
-		return this.updateTargetShare;
-	}
+    @Override
+    public void setComponentLocale(Locale l) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
+
+    }
+
+    @Override
+    public Vector getTextsToTranslate() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * Return a boolean if the list has been updated
+     * @return Return <code>true</code> if the list of users has changed, <code>false</code> otherwise
+     */
+    public boolean getUpdateStatus() {
+        return this.updateTargetShare;
+    }
+
 }

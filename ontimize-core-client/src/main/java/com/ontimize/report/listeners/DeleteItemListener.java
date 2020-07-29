@@ -12,27 +12,30 @@ import com.ontimize.report.DefaultReportDialog;
 
 public class DeleteItemListener implements ActionListener {
 
-	protected String deleteKey = "REPORT_DELETE_KEY";
+    protected String deleteKey = "REPORT_DELETE_KEY";
 
-	protected ResourceBundle bundle = null;
-	public DefaultReportDialog reportDialog;
+    protected ResourceBundle bundle = null;
 
-	public DeleteItemListener(ResourceBundle resource, DefaultReportDialog reportDialog) {
-		this.bundle = resource;
-		this.reportDialog = reportDialog;
-	}
+    public DefaultReportDialog reportDialog;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		if (o instanceof AbstractButton) {
-			this.reportDialog.getConfMenu().setVisible(false);
-			int i = JOptionPane.showConfirmDialog(this.reportDialog.getContainer(), ApplicationManager.getTranslation(this.deleteKey, this.bundle), "", JOptionPane.YES_NO_OPTION);
-			if (i == JOptionPane.OK_OPTION) {
-				String command = ((AbstractButton) o).getActionCommand();
-				this.reportDialog.deleteConfiguration(command);
-			}
-		}
-		this.reportDialog.getConfMenu().setVisible(false);
-	}
+    public DeleteItemListener(ResourceBundle resource, DefaultReportDialog reportDialog) {
+        this.bundle = resource;
+        this.reportDialog = reportDialog;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+        if (o instanceof AbstractButton) {
+            this.reportDialog.getConfMenu().setVisible(false);
+            int i = JOptionPane.showConfirmDialog(this.reportDialog.getContainer(),
+                    ApplicationManager.getTranslation(this.deleteKey, this.bundle), "", JOptionPane.YES_NO_OPTION);
+            if (i == JOptionPane.OK_OPTION) {
+                String command = ((AbstractButton) o).getActionCommand();
+                this.reportDialog.deleteConfiguration(command);
+            }
+        }
+        this.reportDialog.getConfMenu().setVisible(false);
+    }
+
 }

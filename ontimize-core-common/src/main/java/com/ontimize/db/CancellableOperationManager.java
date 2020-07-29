@@ -9,68 +9,73 @@ import com.ontimize.gui.RandomStringGenerator;
 
 public abstract class CancellableOperationManager {
 
-	private static final Logger logger = LoggerFactory.getLogger(CancellableOperationManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(CancellableOperationManager.class);
 
-	protected static class IdentifierGenerator {
+    protected static class IdentifierGenerator {
 
-		protected Vector identifierUsed = null;
-		protected int length = 10;
+        protected Vector identifierUsed = null;
 
-		public IdentifierGenerator(int longitud) {
-			this.identifierUsed = new Vector();
-			this.length = longitud;
-			if (this.length < 5) {
-				this.length = 5;
-				CancellableOperationManager.logger.debug("MINIMUN LENGTH OF OPERATION IDENTIFIERS IS 5");
-			}
-		}
+        protected int length = 10;
 
-		public synchronized String getUniqueIdentifier() {
-			String id = RandomStringGenerator.generate(this.length);
-			while (this.identifierUsed.contains(id)) {
-				id = RandomStringGenerator.generate(this.length);
-			}
-			this.identifierUsed.add(id);
-			return id;
-		}
+        public IdentifierGenerator(int longitud) {
+            this.identifierUsed = new Vector();
+            this.length = longitud;
+            if (this.length < 5) {
+                this.length = 5;
+                CancellableOperationManager.logger.debug("MINIMUN LENGTH OF OPERATION IDENTIFIERS IS 5");
+            }
+        }
 
-	};
+        public synchronized String getUniqueIdentifier() {
+            String id = RandomStringGenerator.generate(this.length);
+            while (this.identifierUsed.contains(id)) {
+                id = RandomStringGenerator.generate(this.length);
+            }
+            this.identifierUsed.add(id);
+            return id;
+        }
 
-	protected static class CancellationRequestQueue {
+    };
 
-		protected Vector cancellationRequest = new Vector(5);
+    protected static class CancellationRequestQueue {
 
-		public CancellationRequestQueue() {}
+        protected Vector cancellationRequest = new Vector(5);
 
-		public boolean existCancellationRequest(String s) {
-			return this.cancellationRequest.contains(s);
-		}
+        public CancellationRequestQueue() {
+        }
 
-		public void addCancellationRequest(String s) {
-			this.cancellationRequest.add(s);
-		}
+        public boolean existCancellationRequest(String s) {
+            return this.cancellationRequest.contains(s);
+        }
 
-		public void deleteCancellationRequest(String s) {
-			this.cancellationRequest.remove(s);
-		}
-	}
+        public void addCancellationRequest(String s) {
+            this.cancellationRequest.add(s);
+        }
 
-	protected static CancellationRequestQueue cancellationRequestQueue = new CancellationRequestQueue();
-	protected static IdentifierGenerator identifierGenerator = new IdentifierGenerator(8);
+        public void deleteCancellationRequest(String s) {
+            this.cancellationRequest.remove(s);
+        }
 
-	public static boolean existCancellationRequest(String s) {
-		return CancellableOperationManager.cancellationRequestQueue.existCancellationRequest(s);
-	}
+    }
 
-	public static void addCancellationRequest(String s) {
-		CancellableOperationManager.cancellationRequestQueue.addCancellationRequest(s);
-	}
+    protected static CancellationRequestQueue cancellationRequestQueue = new CancellationRequestQueue();
 
-	public static void deleteCancellationRequest(String s) {
-		CancellableOperationManager.cancellationRequestQueue.deleteCancellationRequest(s);
-	}
+    protected static IdentifierGenerator identifierGenerator = new IdentifierGenerator(8);
 
-	public static String getOperationUniqueIdentifier() {
-		return CancellableOperationManager.identifierGenerator.getUniqueIdentifier();
-	}
+    public static boolean existCancellationRequest(String s) {
+        return CancellableOperationManager.cancellationRequestQueue.existCancellationRequest(s);
+    }
+
+    public static void addCancellationRequest(String s) {
+        CancellableOperationManager.cancellationRequestQueue.addCancellationRequest(s);
+    }
+
+    public static void deleteCancellationRequest(String s) {
+        CancellableOperationManager.cancellationRequestQueue.deleteCancellationRequest(s);
+    }
+
+    public static String getOperationUniqueIdentifier() {
+        return CancellableOperationManager.identifierGenerator.getUniqueIdentifier();
+    }
+
 }

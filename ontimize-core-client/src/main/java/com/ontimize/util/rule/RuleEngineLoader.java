@@ -4,6 +4,6 @@ import com.ontimize.gui.manager.IFormManager;
 
 public interface RuleEngineLoader {
 
-	public RuleEngine getRuleEngine(IFormManager fM);
+    public RuleEngine getRuleEngine(IFormManager fM);
 
 }

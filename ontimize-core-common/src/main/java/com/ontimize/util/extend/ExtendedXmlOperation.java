@@ -4,60 +4,66 @@ import org.w3c.dom.NodeList;
 
 public class ExtendedXmlOperation {
 
-	protected String operation;
-	protected String attrName;
-	protected String parentContainerType;
-	protected int levelsToParent = 0;
-	protected NodeList extendCode;
+    protected String operation;
 
-	public ExtendedXmlOperation() {}
+    protected String attrName;
 
-	public ExtendedXmlOperation(String operation, String attrName, String parentContainerType, int levelsToParent, NodeList extendCode) {
-		this.operation = operation;
-		this.attrName = attrName;
-		this.parentContainerType = parentContainerType;
-		this.levelsToParent = levelsToParent;
-		this.extendCode = extendCode;
-	}
+    protected String parentContainerType;
 
-	public String getAttrName() {
-		return this.attrName;
-	}
+    protected int levelsToParent = 0;
 
-	public void setAttrName(String attrName) {
-		this.attrName = attrName;
-	}
+    protected NodeList extendCode;
 
-	public NodeList getExtendCode() {
-		return this.extendCode;
-	}
+    public ExtendedXmlOperation() {
+    }
 
-	public void setExtendCode(NodeList extendCode) {
-		this.extendCode = extendCode;
-	}
+    public ExtendedXmlOperation(String operation, String attrName, String parentContainerType, int levelsToParent,
+            NodeList extendCode) {
+        this.operation = operation;
+        this.attrName = attrName;
+        this.parentContainerType = parentContainerType;
+        this.levelsToParent = levelsToParent;
+        this.extendCode = extendCode;
+    }
 
-	public int getLevelsToParent() {
-		return this.levelsToParent;
-	}
+    public String getAttrName() {
+        return this.attrName;
+    }
 
-	public void setLevelsToParent(int levelsToParent) {
-		this.levelsToParent = levelsToParent;
-	}
+    public void setAttrName(String attrName) {
+        this.attrName = attrName;
+    }
 
-	public String getOperation() {
-		return this.operation;
-	}
+    public NodeList getExtendCode() {
+        return this.extendCode;
+    }
 
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+    public void setExtendCode(NodeList extendCode) {
+        this.extendCode = extendCode;
+    }
 
-	public String getParentContainerType() {
-		return this.parentContainerType;
-	}
+    public int getLevelsToParent() {
+        return this.levelsToParent;
+    }
 
-	public void setParentContainerType(String parentContainerType) {
-		this.parentContainerType = parentContainerType;
-	}
+    public void setLevelsToParent(int levelsToParent) {
+        this.levelsToParent = levelsToParent;
+    }
+
+    public String getOperation() {
+        return this.operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getParentContainerType() {
+        return this.parentContainerType;
+    }
+
+    public void setParentContainerType(String parentContainerType) {
+        this.parentContainerType = parentContainerType;
+    }
 
 }

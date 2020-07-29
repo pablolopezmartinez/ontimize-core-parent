@@ -18,37 +18,40 @@ import com.ontimize.gui.i18n.Internationalization;
  */
 public class BundleCellRenderer extends CellRenderer implements Internationalization {
 
-	protected ResourceBundle bundle;
+    protected ResourceBundle bundle;
 
-	public BundleCellRenderer() {}
+    public BundleCellRenderer() {
+    }
 
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean hasFocus, int row, int column) {
-		Component c = super.getTableCellRendererComponent(table, value, selected, hasFocus, row, column);
-		String translation = null;
-		if (value != null) {
-			translation = ApplicationManager.getTranslation(value.toString(), this.bundle);
-		}
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean hasFocus,
+            int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, selected, hasFocus, row, column);
+        String translation = null;
+        if (value != null) {
+            translation = ApplicationManager.getTranslation(value.toString(), this.bundle);
+        }
 
-		if (c instanceof TextComponent) {
-			((TextComponent) c).setText(translation);
-		} else if (c instanceof JLabel) {
-			((JLabel) c).setText(translation);
-		}
-		return c;
-	}
+        if (c instanceof TextComponent) {
+            ((TextComponent) c).setText(translation);
+        } else if (c instanceof JLabel) {
+            ((JLabel) c).setText(translation);
+        }
+        return c;
+    }
 
-	@Override
-	public void setResourceBundle(ResourceBundle res) {
-		this.bundle = res;
-	}
+    @Override
+    public void setResourceBundle(ResourceBundle res) {
+        this.bundle = res;
+    }
 
-	@Override
-	public void setComponentLocale(Locale l) {}
+    @Override
+    public void setComponentLocale(Locale l) {
+    }
 
-	@Override
-	public Vector getTextsToTranslate() {
-		return new Vector(0);
-	}
+    @Override
+    public Vector getTextsToTranslate() {
+        return new Vector(0);
+    }
 
 }

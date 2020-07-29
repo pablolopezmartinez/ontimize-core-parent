@@ -4,43 +4,45 @@ import org.w3c.dom.Document;
 
 public class OrderDocument implements Comparable<OrderDocument> {
 
-	public int index;
-	public Document document;
+    public int index;
 
-	public OrderDocument(int index, Document document) {
-		this.index = index;
-		this.document = document;
-	}
+    public Document document;
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
+    public OrderDocument(int index, Document document) {
+        this.index = index;
+        this.document = document;
+    }
 
-	public void setDocument(Document document) {
-		this.document = document;
-	}
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
-	public int getIndex() {
-		return this.index;
-	}
+    public void setDocument(Document document) {
+        this.document = document;
+    }
 
-	public Document getDocument() {
-		return this.document;
-	}
+    public int getIndex() {
+        return this.index;
+    }
 
-	@Override
-	public int compareTo(OrderDocument compareDocument) {
-		int compareIndex = compareDocument.getIndex();
-		return this.index - compareIndex;
-	}
+    public Document getDocument() {
+        return this.document;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	}
+    @Override
+    public int compareTo(OrderDocument compareDocument) {
+        int compareIndex = compareDocument.getIndex();
+        return this.index - compareIndex;
+    }
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 }

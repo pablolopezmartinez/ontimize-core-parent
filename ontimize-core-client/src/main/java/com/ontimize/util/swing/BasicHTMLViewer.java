@@ -4,6 +4,6 @@ import javax.swing.JPanel;
 
 public abstract class BasicHTMLViewer extends JPanel {
 
-	public abstract void setHTML(String html);
+    public abstract void setHTML(String html);
 
 }

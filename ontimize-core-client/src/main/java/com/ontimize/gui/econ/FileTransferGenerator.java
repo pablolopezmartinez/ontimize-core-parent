@@ -8,40 +8,42 @@ import com.ontimize.util.FileUtils;
 
 public class FileTransferGenerator {
 
-	protected FileTransferModel model = null;
-	private static String newLine = "\n";
+    protected FileTransferModel model = null;
 
-	private boolean saveANSI = false;
+    private static String newLine = "\n";
 
-	public FileTransferGenerator(FileTransferModel m) {
-		this.model = m;
-	}
+    private boolean saveANSI = false;
 
-	public String getString() throws Exception {
-		StringBuilder sb = new StringBuilder();
-		try {
-			Vector registros = this.model.generate();
-			for (int i = 0; i < registros.size(); i++) {
-				FileTransferRegister registro = (FileTransferRegister) registros.get(i);
-				sb.append(registro.getContents());
-				sb.append(FileTransferGenerator.newLine);
-			}
-			return sb.toString();
-		} catch (Exception e) {
-			throw e;
-		}
-	}
+    public FileTransferGenerator(FileTransferModel m) {
+        this.model = m;
+    }
 
-	public void save(String file) throws Exception {
-		String contenido = this.getString();
-		if (this.saveANSI) {
-			FileUtils.saveANSIFile(new File(file), contenido);
-		} else {
-			FileUtils.saveOEMFile(new File(file), contenido);
-		}
-	}
+    public String getString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        try {
+            Vector registros = this.model.generate();
+            for (int i = 0; i < registros.size(); i++) {
+                FileTransferRegister registro = (FileTransferRegister) registros.get(i);
+                sb.append(registro.getContents());
+                sb.append(FileTransferGenerator.newLine);
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
-	public void setSaveANSI(boolean s) {
-		this.saveANSI = s;
-	}
+    public void save(String file) throws Exception {
+        String contenido = this.getString();
+        if (this.saveANSI) {
+            FileUtils.saveANSIFile(new File(file), contenido);
+        } else {
+            FileUtils.saveOEMFile(new File(file), contenido);
+        }
+    }
+
+    public void setSaveANSI(boolean s) {
+        this.saveANSI = s;
+    }
+
 }

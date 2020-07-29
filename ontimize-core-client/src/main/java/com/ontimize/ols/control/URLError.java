@@ -32,113 +32,127 @@ import com.ontimize.gui.images.ImageManager;
 
 public class URLError extends JDialog {
 
-	private static final Logger	logger	= LoggerFactory.getLogger(URLError.class);
+    private static final Logger logger = LoggerFactory.getLogger(URLError.class);
 
-	private final JPopupMenu popup = new JPopupMenu();
-	private final JButton ok = new JButton(ImageManager.getIcon(ImageManager.OK));
-	private final JLabel icon = new JLabel(ImageManager.getIcon(ImageManager.LICENSE_WARNING_48));
-	private final JTextArea tf = new JTextArea(10, 60);
+    private final JPopupMenu popup = new JPopupMenu();
 
-	private static URLError urle = null;
+    private final JButton ok = new JButton(ImageManager.getIcon(ImageManager.OK));
 
-	class PopupListener extends MouseAdapter {
+    private final JLabel icon = new JLabel(ImageManager.getIcon(ImageManager.LICENSE_WARNING_48));
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				URLError.this.popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		}
+    private final JTextArea tf = new JTextArea(10, 60);
 
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				URLError.this.popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		}
-	}
+    private static URLError urle = null;
 
-	public URLError(Dialog owner, ResourceBundle bundle) {
-		super(owner);
-		this.init(bundle);
-	}
+    class PopupListener extends MouseAdapter {
 
-	public URLError(Frame owner, ResourceBundle bundle) {
-		super(owner);
-		this.init(bundle);
-	}
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (e.isPopupTrigger()) {
+                URLError.this.popup.show(e.getComponent(), e.getX(), e.getY());
+            }
+        }
 
-	private void init(ResourceBundle bundle) {
-		this.getContentPane().setLayout(new GridBagLayout());
-		this.setTitle(ApplicationManager.getTranslation("URLError.Title", bundle));
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (e.isPopupTrigger()) {
+                URLError.this.popup.show(e.getComponent(), e.getX(), e.getY());
+            }
+        }
 
-		this.ok.addActionListener(new ActionListener() {
+    }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Window w = SwingUtilities.getWindowAncestor((Component) e.getSource());
-				w.setVisible(false);
-			}
-		});
+    public URLError(Dialog owner, ResourceBundle bundle) {
+        super(owner);
+        this.init(bundle);
+    }
 
-		JMenuItem mi = new JMenuItem(ApplicationManager.getTranslation("DURLToConnect.COPIAR_PORTAPAPELES", bundle));
-		mi.addActionListener(new ActionListener() {
+    public URLError(Frame owner, ResourceBundle bundle) {
+        super(owner);
+        this.init(bundle);
+    }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ApplicationManager.copyToClipboard(URLError.this.tf.getText());
-				} catch (Exception ex) {
-					URLError.logger.error(null, ex);
-				}
-			}
-		});
+    private void init(ResourceBundle bundle) {
+        this.getContentPane().setLayout(new GridBagLayout());
+        this.setTitle(ApplicationManager.getTranslation("URLError.Title", bundle));
 
-		this.popup.add(mi);
+        this.ok.addActionListener(new ActionListener() {
 
-		JScrollPane js = new JScrollPane();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Window w = SwingUtilities.getWindowAncestor((Component) e.getSource());
+                w.setVisible(false);
+            }
+        });
 
-		js.getViewport().add(this.tf);
+        JMenuItem mi = new JMenuItem(ApplicationManager.getTranslation("DURLToConnect.COPIAR_PORTAPAPELES", bundle));
+        mi.addActionListener(new ActionListener() {
 
-		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		buttons.add(this.ok);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ApplicationManager.copyToClipboard(URLError.this.tf.getText());
+                } catch (Exception ex) {
+                    URLError.logger.error(null, ex);
+                }
+            }
+        });
 
-		this.tf.setEnabled(false);
-		this.tf.setLineWrap(true);
+        this.popup.add(mi);
 
-		this.tf.addMouseListener(new PopupListener());
+        JScrollPane js = new JScrollPane();
 
-		this.getContentPane().add(this.icon, new GridBagConstraints(0, 0, 1, 3, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(30, 4, 2, 4), 0, 0));
+        js.getViewport().add(this.tf);
 
-		this.getContentPane().add(new JLabel(ApplicationManager.getTranslation("URLError.ResponseInformation", bundle)),
-				new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttons.add(this.ok);
 
-		this.getContentPane().add(js, new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+        this.tf.setEnabled(false);
+        this.tf.setLineWrap(true);
 
-		this.getContentPane().add(new JLabel(ApplicationManager.getTranslation("URLError.ResponseTODO", bundle)),
-				new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        this.tf.addMouseListener(new PopupListener());
 
-		this.getContentPane().add(buttons, new GridBagConstraints(0, 3, 2, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
-		this.pack();
-		ApplicationManager.center(this);
+        this.getContentPane()
+            .add(this.icon, new GridBagConstraints(0, 0, 1, 3, 0, 0, GridBagConstraints.NORTH, GridBagConstraints.NONE,
+                    new Insets(30, 4, 2, 4), 0, 0));
 
-	}
+        this.getContentPane()
+            .add(new JLabel(ApplicationManager.getTranslation("URLError.ResponseInformation", bundle)),
+                    new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                            GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-	public void setText(String url) {
-		this.tf.setText(url);
-	}
+        this.getContentPane()
+            .add(js, new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                    new Insets(2, 2, 2, 2), 0, 0));
 
-	public static void showURLError(Component owner, ResourceBundle bundle, String text) {
-		if (URLError.urle == null) {
-			if (owner instanceof Frame) {
-				URLError.urle = new URLError((Frame) owner, bundle);
-			} else {
-				URLError.urle = new URLError((Dialog) owner, bundle);
-			}
-		}
-		URLError.urle.setText(text);
-		URLError.urle.setVisible(true);
+        this.getContentPane()
+            .add(new JLabel(ApplicationManager.getTranslation("URLError.ResponseTODO", bundle)),
+                    new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                            GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-	}
+        this.getContentPane()
+            .add(buttons, new GridBagConstraints(0, 3, 2, 1, 1, 0, GridBagConstraints.NORTHWEST,
+                    GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
+        this.pack();
+        ApplicationManager.center(this);
+
+    }
+
+    public void setText(String url) {
+        this.tf.setText(url);
+    }
+
+    public static void showURLError(Component owner, ResourceBundle bundle, String text) {
+        if (URLError.urle == null) {
+            if (owner instanceof Frame) {
+                URLError.urle = new URLError((Frame) owner, bundle);
+            } else {
+                URLError.urle = new URLError((Dialog) owner, bundle);
+            }
+        }
+        URLError.urle.setText(text);
+        URLError.urle.setVisible(true);
+
+    }
 
 }
