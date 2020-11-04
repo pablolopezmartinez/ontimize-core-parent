@@ -13448,7 +13448,7 @@ public class Table extends JRootPane
      * <p>
      * Tables can remember their state between application execution. For instance things like visible
      * columns, column size and order, and, in general, all the parameters that can be modified and
-     * changed bu the user can be reset by calling this method.
+     * changed but the user can be reset by calling this method.
      */
     @Override
     public void initPreferences(ApplicationPreferences aPrefs, String user) {
@@ -18953,7 +18953,15 @@ public class Table extends JRootPane
         this.detailTitleMaxSize = detailTitleMaxSize;
     }
 
-    public static class CalculatedCellListModel extends DefaultListModel {
+    public boolean isFitRowHeight() {
+		return fitRowHeight;
+	}
+
+	public void setFitRowHeight(boolean fitRowHeight) {
+		this.fitRowHeight = fitRowHeight;
+	}
+
+	public static class CalculatedCellListModel extends DefaultListModel {
 
         public CalculatedCellListModel() {
             super();

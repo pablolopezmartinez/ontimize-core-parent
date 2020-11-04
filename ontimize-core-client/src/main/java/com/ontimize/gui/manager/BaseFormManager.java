@@ -989,14 +989,7 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
                 theForm.setComponentLocale(this.locale);
                 theForm.setResourceBundle(this.resourceFile);
 
-                if (this.aPreferences != null) {
-                    theForm.registerApplicationPreferencesListener();
-                    String user = null;
-                    if ((this.locator != null) && (this.locator instanceof ClientReferenceLocator)) {
-                        user = ((ClientReferenceLocator) this.locator).getUser();
-                    }
-                    theForm.initPreferences(this.aPreferences, user);
-                }
+
                 // Checks the interaction manager list
                 if (this.interactionManagerList.containsKey(formFileName)) {
                     // It is assigned
@@ -1044,6 +1037,14 @@ public abstract class BaseFormManager extends JPanel implements IFormManager {
                     // resources.
                     this.interactionManagers.add(defaultInteractionManager);
                     defaultInteractionManager.setInitialState();
+                }
+                if (this.aPreferences != null) {
+                    theForm.registerApplicationPreferencesListener();
+                    String user = null;
+                    if ((this.locator != null) && (this.locator instanceof ClientReferenceLocator)) {
+                        user = ((ClientReferenceLocator) this.locator).getUser();
+                    }
+                    theForm.initPreferences(this.aPreferences, user);
                 }
             } catch (Exception e) {
                 if (com.ontimize.gui.ApplicationManager.DEBUG) {
