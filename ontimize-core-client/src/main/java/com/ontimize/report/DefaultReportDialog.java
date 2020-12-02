@@ -134,6 +134,7 @@ import com.ontimize.report.store.ReportStoreDefinition;
 import com.ontimize.util.share.IShareRemoteReference;
 import com.ontimize.util.share.SharedElement;
 import com.ontimize.util.swing.ButtonSelection;
+import com.ontimize.util.swing.EJFrame;
 import com.ontimize.util.swing.MenuButton;
 import com.ontimize.util.swing.RolloverButton;
 import com.ontimize.util.swing.list.I18nListCellRenderer;
@@ -646,8 +647,13 @@ public class DefaultReportDialog {
             }
         }
         this.model = m;
-        this.container = new EJDialog(f, tit, false);
-        ((EJDialog) this.container).setAutoPackOnOpen(false);
+        
+        
+        this.container = new EJFrame(DefaultReportDialog.TITLE_KEY);
+        if (this.container != null) {
+            ((Frame) this.container).setIconImage(ApplicationManager.getApplication().getFrame().getIconImage());
+        }
+        
         this.bundle = res;
         if ((templateList == null) || (templateList.size() == 0)) {
             this.initTemplateList();
