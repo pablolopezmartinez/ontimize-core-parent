@@ -902,7 +902,7 @@ public class ReferenceComboDataField extends ComboDataField
                         }
                     }
                 }
-                return ApplicationManager.getTranslation(this.text.toString(), this.bundle);
+                return this.text.toString();
             }
         }
 

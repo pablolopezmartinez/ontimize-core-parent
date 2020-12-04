@@ -76,3 +76,20 @@ atlassian-ide-plugin.xml
 #######################################
 */src/generated
 
+Gemfile.lock
+_site/banner.js
+_site/feed.xml
+_site/index.html
+_site/robots.txt
+_site/sitemap.xml
+_site/staticman.yml
+_site/assets/css/main.css
+_site/assets/css/style.css
+_site/assets/images/bio-photo.png
+_site/assets/images/logo-ontimize.png
+_site/assets/js/main.min.js
+_site/assets/js/lunr/lunr.js
+_site/assets/js/lunr/lunr.min.js
+_site/assets/js/lunr/lunr-en.js
+_site/assets/js/lunr/lunr-gr.js
+_site/assets/js/lunr/lunr-store.js

@@ -91,7 +91,6 @@ import com.ontimize.db.query.ParameterValuesDialog;
 import com.ontimize.gui.ApplicationManager;
 import com.ontimize.gui.Form;
 import com.ontimize.gui.MessageDialog;
-import com.ontimize.gui.container.EJDialog;
 import com.ontimize.gui.field.DataField;
 import com.ontimize.gui.field.ListDataField;
 import com.ontimize.gui.i18n.Internationalization;
@@ -134,6 +133,7 @@ import com.ontimize.report.store.ReportStoreDefinition;
 import com.ontimize.util.share.IShareRemoteReference;
 import com.ontimize.util.share.SharedElement;
 import com.ontimize.util.swing.ButtonSelection;
+import com.ontimize.util.swing.EJFrame;
 import com.ontimize.util.swing.MenuButton;
 import com.ontimize.util.swing.RolloverButton;
 import com.ontimize.util.swing.list.I18nListCellRenderer;
@@ -646,8 +646,14 @@ public class DefaultReportDialog {
             }
         }
         this.model = m;
-        this.container = new EJDialog(f, tit, false);
-        ((EJDialog) this.container).setAutoPackOnOpen(false);
+        
+        
+        this.container = new EJFrame(DefaultReportDialog.TITLE_KEY);
+        if (this.container != null) {
+            ((Frame) this.container).setIconImage(ApplicationManager.getApplication().getFrame().getIconImage());
+        }
+        
+        
         this.bundle = res;
         if ((templateList == null) || (templateList.size() == 0)) {
             this.initTemplateList();
@@ -678,7 +684,7 @@ public class DefaultReportDialog {
                 // No reports enabled
             }
         }
-        this.container = new JFrame(DefaultReportDialog.TITLE_KEY);
+        this.container = new EJFrame(ApplicationManager.getTranslation(DefaultReportDialog.TITLE_KEY, this.bundle));
         if (this.container != null) {
             ((Frame) this.container).setIconImage(ApplicationManager.getApplication().getFrame().getIconImage());
         }
@@ -794,8 +800,10 @@ public class DefaultReportDialog {
                 // No reports enabled
             }
         }
-        this.container = new EJDialog(d, DefaultReportDialog.TITLE_KEY, true);
-        ((EJDialog) this.container).setAutoPackOnOpen(false);
+        this.container = new EJFrame(ApplicationManager.getTranslation(DefaultReportDialog.TITLE_KEY, this.bundle));
+        if (this.container != null) {
+            ((Frame) this.container).setIconImage(ApplicationManager.getApplication().getFrame().getIconImage());
+        }
         this.model = m;
         this.title = tit;
         this.bundle = res;
@@ -1885,8 +1893,6 @@ public class DefaultReportDialog {
     public void setDefaultCloseOperation(int operation) {
         if (this.container instanceof JFrame) {
             ((JFrame) this.container).setDefaultCloseOperation(operation);
-        } else if (this.container instanceof EJDialog) {
-            ((EJDialog) this.container).setDefaultCloseOperation(operation);
         }
     }
 
@@ -2039,8 +2045,6 @@ public class DefaultReportDialog {
     public void setJMenuBar(JMenuBar jMenuBar) {
         if (this.container instanceof JFrame) {
             ((JFrame) this.container).setJMenuBar(jMenuBar);
-        } else if (this.container instanceof EJDialog) {
-            ((EJDialog) this.container).setJMenuBar(jMenuBar);
         }
     }
 
@@ -2361,9 +2365,7 @@ public class DefaultReportDialog {
     }
 
     public void setAction(int keyCode, int modifiers, Action action, String key) {
-        if (this.container instanceof EJDialog) {
-            ((EJDialog) this.container).setAction(keyCode, modifiers, action, key);
-        } else if (this.container instanceof JFrame) {
+        if (this.container instanceof JFrame) {
 
             final int keyC = keyCode;
             final int modif = modifiers;
@@ -3062,9 +3064,6 @@ public class DefaultReportDialog {
 
     public void updateReport() {
         this.reportEngine.updateReport(false);
-        if ((this.container != null) && (this.container instanceof EJDialog)) {
-            ((EJDialog) this.container).setTitle(this.title);
-        }
     }
 
     public static Hashtable getParameters(Node node) {
@@ -3180,9 +3179,6 @@ public class DefaultReportDialog {
     public Container getContentPane() {
         if (this.container instanceof JFrame) {
             return ((JFrame) this.container).getContentPane();
-        }
-        if (this.container instanceof EJDialog) {
-            return ((EJDialog) this.container).getContentPane();
         }
         return null;
     }

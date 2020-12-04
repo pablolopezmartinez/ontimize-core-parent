@@ -281,9 +281,7 @@ public class DateDataField extends TextFieldDataField implements OpenDialog, Fre
             ImageIcon calendarIcon = ParseUtils.getImageIcon((String) parameters.get("calendaricon"),
                     ImageManager.getIcon(ImageManager.CALENDAR));
             if (calendarIcon == null) {
-                if (ApplicationManager.DEBUG) {
-                    DateDataField.logger.debug("calendar.png icon not found");
-                }
+                DateDataField.logger.debug("calendar.png icon not found");
                 this.calendarButton = new FieldButton("...");
                 this.calendarButton.setMargin(new Insets(0, 0, 0, 0));
             } else {

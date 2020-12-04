@@ -256,7 +256,12 @@ public class TabPanel extends JTabbedPane
     public void setTabVisible(String title) {
         for (int i = 0; i < this.getTabCount(); i++) {
             if (this.getComponentAt(i) instanceof Tab) {
-                if (((Tab) this.getComponentAt(i)).getConstraints(null).equals(title)) {
+                if (((Tab) this.getComponentAt(i)).getTitleKey().equals(title)) {
+                    if (this.isEnabledAt(i)) {
+                        this.setSelectedIndex(i);
+                    }
+                    return;
+                }else if (((Tab) this.getComponentAt(i)).getAttribute().equals(title)) {
                     if (this.isEnabledAt(i)) {
                         this.setSelectedIndex(i);
                     }
