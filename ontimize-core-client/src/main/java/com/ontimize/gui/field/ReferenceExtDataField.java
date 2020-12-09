@@ -1935,9 +1935,6 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 	@Override
 	public void setRequired(boolean required) {
 		super.setRequired(required);
-		if (codeField != null) {
-			((DataComponent)this.codeField).setRequired(required);
-		}
 	}
 	
 	protected void configureButtons(Hashtable parameters) {
