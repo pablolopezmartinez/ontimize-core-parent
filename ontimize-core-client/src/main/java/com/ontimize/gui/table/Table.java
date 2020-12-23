@@ -9483,6 +9483,16 @@ public class Table extends JRootPane
                         }
                         return d;
                     }
+                    
+                    @Override
+                    public Dimension getExtentSize() {
+                        Dimension d = super.getExtentSize();
+                        Dimension root = Table.this.scrollPane.getViewport().getExtentSize();
+                        if (d.height!=root.height){
+                            d.height = root.height;
+                        }
+                        return d;
+                    }
                 };
             }
         };
