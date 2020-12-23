@@ -14126,6 +14126,20 @@ public class Table extends JRootPane
             }
         });
 
+        quickFilterText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!Table.this.quickFilterLocal){
+                        if (Table.this.waitPanel!=null && Table.this.waitPanel.isVisible()){
+                            e.consume();
+                            return;
+                        }
+                }
+                super.keyTyped(e);
+            }
+        });
+
+        
         return quickFilterText;
     }
 
