@@ -39,7 +39,7 @@ public interface Entity extends java.rmi.Remote {
      *         exist, and if an error has ocurred this will be indicated in the result.
      * @throws Exception if any exception occurs
      */
-    public EntityResult query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception;
+    public EntityResultMapImpl query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception;
 
     /**
      * This method must implement a standard insert operation with the data contained in
@@ -51,7 +51,7 @@ public interface Entity extends java.rmi.Remote {
      * @return a EntityResult. This result will have an error code if error has ocurred.
      * @throws Exception if any exception occurs
      */
-    public EntityResult insert(Hashtable attributesValues, int sessionId) throws Exception;
+    public EntityResultMapImpl insert(Hashtable attributesValues, int sessionId) throws Exception;
 
     /**
      * This method must implement a standard update operation with the data specified in
@@ -67,7 +67,7 @@ public interface Entity extends java.rmi.Remote {
      * @return a EntityResult. This result will have an error code if error has occurred.
      * @throws Exception if any exception occurs
      */
-    public EntityResult update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception;
+    public EntityResultMapImpl update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception;
 
     /**
      * This method must implement a standard delete operation over the set of records defined by
@@ -80,6 +80,6 @@ public interface Entity extends java.rmi.Remote {
      * @return a EntityResult. This result will have an error code if error has occurred.
      * @throws Exception if any exception occurs
      */
-    public EntityResult delete(Hashtable keysValues, int sessionId) throws Exception;
+    public EntityResultMapImpl delete(Hashtable keysValues, int sessionId) throws Exception;
 
 }

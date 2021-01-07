@@ -9,7 +9,7 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.db.EntityResultMapImpl;
 import com.ontimize.db.SQLStatementBuilder;
 import com.ontimize.db.SQLStatementBuilder.SQLStatement;
 
@@ -106,7 +106,7 @@ public class MySQLSQLStatementHandler extends DefaultSQLStatementHandler {
     }
 
     @Override
-    protected void changeGenerateKeyNames(EntityResult result, List columnNames) {
+    protected void changeGenerateKeyNames(EntityResultMapImpl result, List columnNames) {
         if ((columnNames != null) && (columnNames.size() == 1)) {
             String columnName = (String) columnNames.get(0);
             this.changeColumnName(result, SQLStatementBuilder.GENERATED_KEY_COLUMN_NAME, columnName);

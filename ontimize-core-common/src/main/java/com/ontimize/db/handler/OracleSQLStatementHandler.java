@@ -10,7 +10,7 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.db.EntityResultMapImpl;
 import com.ontimize.db.SQLStatementBuilder;
 import com.ontimize.db.SQLStatementBuilder.SQLStatement;
 
@@ -69,7 +69,7 @@ public class OracleSQLStatementHandler extends DefaultSQLStatementHandler {
 
     // getObject(String columnName) no support, call by column index.
     @Override
-    public void generatedKeysToEntityResult(ResultSet resultSet, EntityResult entityResult, List generatedKeys)
+    public void generatedKeysToEntityResult(ResultSet resultSet, EntityResultMapImpl entityResult, List generatedKeys)
             throws Exception {
         try {
             ResultSetMetaData rsMetaData = resultSet.getMetaData();

@@ -7,69 +7,27 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.ontimize.dto.EntityResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ontimize.gui.field.ReferenceFieldAttribute;
 
-public class EntityResult extends Hashtable {
-
-    static final Logger logger = LoggerFactory.getLogger(EntityResult.class);
-
-    public static boolean DEBUG = false;
-
-    private static final boolean LIMIT_SPEED = false;
-
-    public static final int OPERATION_SUCCESSFUL = 0;
-
-    public static final int OPERATION_SUCCESSFUL_SHOW_MESSAGE = 2;
-
-    public static final int OPERATION_WRONG = 1;
-
-    public static final int DATA_RESULT = 0;
-
-    public static final int NODATA_RESULT = 1;
-
-    public static final int DEFAULT_COMPRESSION_THRESHOLD = Integer.MAX_VALUE;
-
-    public static final int NO_COMPRESSION = Deflater.NO_COMPRESSION;
-
-    public static final int BEST_COMPRESSION = Deflater.BEST_COMPRESSION;
-
-    public static final int BEST_SPEED = Deflater.BEST_SPEED;
-
-    public static final int DEFAULT_COMPRESSION = Deflater.DEFAULT_COMPRESSION;
-
-    public static final int HUFFMAN_ONLY = Deflater.HUFFMAN_ONLY;
-
-    protected int MIN_BYTE_PROGRESS = 1024 * 50;
-
-    protected static int MIN_PERCENT_PROGRESS = 3;
-
-    private int byteBlock = 40 * 1024;// 40 K
-
+public class EntityResultMapImpl implements EntityResult {
     /**
      * Compression Threshold.
      */
-    protected int compressionThreshold = EntityResult.DEFAULT_COMPRESSION_THRESHOLD;
+    protected int compressionThreshold = EntityResultMapImpl.DEFAULT_COMPRESSION_THRESHOLD;
 
-    protected int type = EntityResult.NODATA_RESULT;
+    protected int type = EntityResultMapImpl.NODATA_RESULT;
 
-    protected int code = EntityResult.OPERATION_SUCCESSFUL;
+    protected int code = EntityResultMapImpl.OPERATION_SUCCESSFUL;
 
     protected String message = "";
 
@@ -84,7 +42,7 @@ public class EntityResult extends Hashtable {
     /**
      * Object needed for the compression mechanism
      */
-    protected transient Hashtable data = new Hashtable();
+    protected transient HashMap data = new HashMap();
 
     protected transient int compressionLevel = Deflater.NO_COMPRESSION;
 
@@ -92,30 +50,18 @@ public class EntityResult extends Hashtable {
 
     protected transient long streamTime = 0;
 
-    protected static class TimeUtil {
-
-        long time = 0;
-
-        public void setTime(long t) {
-            this.time = t;
-        }
-
-        public long getTime() {
-            return this.time;
-        }
-
-    }
+    private static transient Constructor applicationInputStreamConstructor;
 
 
     /**
      * Creates a EntityResult with code = OPERATION_SUCCESSFUL and type = NODATA_RESULT
      */
-    public EntityResult() {
+    public EntityResultMapImpl() {
         super(0);
     }
 
     // 5.2062EN-0.1
-    public EntityResult(List columns) {
+    public EntityResultMapImpl(List columns) {
         super(0);
         if (columns != null) {
             for (int i = 0; i < columns.size(); i++) {
@@ -126,20 +72,20 @@ public class EntityResult extends Hashtable {
         }
     }
 
-    public EntityResult(Hashtable h) {
+    public EntityResultMapImpl(Hashtable h) {
         super(0);
         if (h != null) {
             this.data = (Hashtable) h.clone();
         }
     }
 
-    public EntityResult(int operationCode, int resultType) {
+    public EntityResultMapImpl(int operationCode, int resultType) {
         super(0);
         this.code = operationCode;
         this.type = resultType;
     }
 
-    public EntityResult(int operationCode, int resultType, String resultMessage) {
+    public EntityResultMapImpl(int operationCode, int resultType, String resultMessage) {
         super(0);
         this.code = operationCode;
         this.type = resultType;
@@ -219,26 +165,26 @@ public class EntityResult extends Hashtable {
         try {
             return this.deepClone();
         } catch (Exception e) {
-            EntityResult.logger.trace(null, e);
+            EntityResultMapImpl.logger.trace(null, e);
             Object o = super.clone();
-            ((EntityResult) o).data = (Hashtable) this.data.clone();
+            ((EntityResultMapImpl) o).data = (Hashtable) this.data.clone();
             return o;
         }
     }
 
-    public EntityResult deepClone() {
+    public EntityResultMapImpl deepClone() {
         Object o = super.clone();
-        ((EntityResult) o).data = new EntityResult();
+        ((EntityResultMapImpl) o).data = new EntityResultMapImpl();
         Enumeration eKeys = this.data.keys();
         while (eKeys.hasMoreElements()) {
             Object oKey = eKeys.nextElement();
             Vector vValues = (Vector) this.data.get(oKey);
             if (vValues != null) {
-                ((EntityResult) o).data.put(oKey, vValues.clone());
+                ((EntityResultMapImpl) o).data.put(oKey, vValues.clone());
             }
         }
 
-        return (EntityResult) o;
+        return (EntityResultMapImpl) o;
     }
 
     @Override
@@ -323,7 +269,7 @@ public class EntityResult extends Hashtable {
     @Override
     public String toString() {
         String s = "EntityResult: ";
-        if (this.getCode() == EntityResult.OPERATION_WRONG) {
+        if (this.getCode() == EntityResultMapImpl.OPERATION_WRONG) {
             s = s + " ERROR CODE RETURN: " + this.getMessage();
         }
         s = s + " : " + this.data.toString();
@@ -340,7 +286,7 @@ public class EntityResult extends Hashtable {
     }
 
     public void setCompressionThreshold(int threshold) {
-        EntityResult.logger.debug("EntityResult: Compression threshold sets to: {}", threshold);
+        EntityResultMapImpl.logger.debug("EntityResult: Compression threshold sets to: {}", threshold);
         this.compressionThreshold = threshold;
         if (this.compressionThreshold < this.MIN_BYTE_PROGRESS) {
             this.MIN_BYTE_PROGRESS = this.compressionThreshold * 2;
@@ -367,18 +313,18 @@ public class EntityResult extends Hashtable {
             outO.writeObject(this.data);
             long t2 = System.currentTimeMillis();
             int size = out.size();
-            EntityResult.logger.debug("Time calculating EntityResult data size = {}  milliseconds. Size = {}  Bytes.",
+            EntityResultMapImpl.logger.debug("Time calculating EntityResult data size = {}  milliseconds. Size = {}  Bytes.",
                     t2 - t, size);
             return size;
         } catch (IOException e) {
-            EntityResult.logger.error(null, e);
+            EntityResultMapImpl.logger.error(null, e);
             return -1;
         } finally {
             try {
                 out.close();
                 outO.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                EntityResultMapImpl.logger.trace(null, e);
             }
         }
     }
@@ -386,28 +332,28 @@ public class EntityResult extends Hashtable {
     private void writeObject(ObjectOutputStream out) throws IOException {
         // Default serialization. This object is serialized in first place.
         // To serialize the data is sometimes necessary to compress them
-        EntityResult.logger.debug("Serializing EntityResult");
+        EntityResultMapImpl.logger.debug("Serializing EntityResult");
         long t = System.currentTimeMillis();
         int thresholdLevel = this.compressionThreshold;
         out.defaultWriteObject();
-        EntityResult.logger.debug("Serializing EntityResult: after defaultWriteObject");
+        EntityResultMapImpl.logger.debug("Serializing EntityResult: after defaultWriteObject");
         // Now data
         ByteArrayOutputStream bOut = null;
         ObjectOutputStream outAux = null;
         try {
-            EntityResult.logger.debug("Serializing EntityResult: entering the try");
+            EntityResultMapImpl.logger.debug("Serializing EntityResult: entering the try");
             byte[] compressedBytes = null;
             bOut = new ByteArrayOutputStream(512);
             outAux = new ObjectOutputStream(bOut);
-            EntityResult.logger.debug("Serializing EntityResult: before outAux");
+            EntityResultMapImpl.logger.debug("Serializing EntityResult: before outAux");
             outAux.writeObject(this.data);
             outAux.flush();
             int size = bOut.size();
-            EntityResult.logger.debug("Object size without compression = {} bytes. Compression threshold = {}", size,
+            EntityResultMapImpl.logger.debug("Object size without compression = {} bytes. Compression threshold = {}", size,
                     thresholdLevel);
 
-            if ((size > thresholdLevel) && (this.compressionLevel == EntityResult.NO_COMPRESSION)) {
-                this.compressionLevel = EntityResult.BEST_SPEED;
+            if ((size > thresholdLevel) && (this.compressionLevel == EntityResultMapImpl.NO_COMPRESSION)) {
+                this.compressionLevel = EntityResultMapImpl.BEST_SPEED;
             }
             // Object is now a byte array, compress it:
             byte[] bytesWithOutCompress = bOut.toByteArray();
@@ -426,7 +372,7 @@ public class EntityResult extends Hashtable {
                     compressedBytes = bytesWithOutCompress;
                     this.compressionLevel = Deflater.NO_COMPRESSION;
                 }
-                EntityResult.logger.debug("Compressed object size = {}  bytes", compressedBytes.length);
+                EntityResultMapImpl.logger.debug("Compressed object size = {}  bytes", compressedBytes.length);
             } else {
                 // When compression is not necessary.
                 compressedBytes = bytesWithOutCompress;
@@ -448,7 +394,7 @@ public class EntityResult extends Hashtable {
             while (writedBytes < nBytesToWrite) {
 
                 if (com.ontimize.db.CancellableOperationManager.existCancellationRequest(this.operationId)) {
-                    EntityResult.logger.info("Serializing operation canceled: {} . Written: {}", this.operationId,
+                    EntityResultMapImpl.logger.info("Serializing operation canceled: {} . Written: {}", this.operationId,
                             writedBytes);
                     throw new IOException("Serializing operation canceled: " + this.operationId);
                 }
@@ -459,36 +405,36 @@ public class EntityResult extends Hashtable {
                 if (this.operationId != null) {
                     out.flush();
                 }
-                EntityResult.logger.debug("EntityResult: Written: {}", currentWritedBytes);
-                if (EntityResult.LIMIT_SPEED) {
+                EntityResultMapImpl.logger.debug("EntityResult: Written: {}", currentWritedBytes);
+                if (EntityResultMapImpl.LIMIT_SPEED) {
                     long t5 = System.currentTimeMillis();
                     if ((t5 - t4) < 1000) {
-                        EntityResult.logger.info("Serialization sleep: {}", 1000 - (t5 - t4));
+                        EntityResultMapImpl.logger.info("Serialization sleep: {}", 1000 - (t5 - t4));
                         try {
                             Thread.sleep(1000 - (t5 - t4));
                         } catch (Exception e) {
-                            EntityResult.logger.trace(null, e);
+                            EntityResultMapImpl.logger.trace(null, e);
                         }
                     }
                 }
             }
             out.flush();
             this.streamTime = System.currentTimeMillis() - t4;
-            EntityResult.logger.debug("STREAM Time EntityResult {}", this.streamTime);
+            EntityResultMapImpl.logger.debug("STREAM Time EntityResult {}", this.streamTime);
             Thread.currentThread().setPriority(priority);
             out.writeLong(this.streamTime);
             out.flush();
             // Serialization is finished
-            EntityResult.logger.debug("Serializing EntityResult time {}", System.currentTimeMillis() - t);
+            EntityResultMapImpl.logger.debug("Serializing EntityResult time {}", System.currentTimeMillis() - t);
         } catch (IOException e) {
-            EntityResult.logger.error(e.getMessage(), e);
+            EntityResultMapImpl.logger.error(e.getMessage(), e);
             throw e;
         } finally {
             try {
                 outAux.close();
                 bOut.close();
             } catch (Exception e) {
-                EntityResult.logger.error(null, e);
+                EntityResultMapImpl.logger.error(null, e);
             }
         }
 
@@ -537,10 +483,10 @@ public class EntityResult extends Hashtable {
                 }
 
                 long t2 = System.currentTimeMillis();
-                EntityResult.logger.debug("Time reading EntityResult: {} without compression", t2 - t);
+                EntityResultMapImpl.logger.debug("Time reading EntityResult: {} without compression", t2 - t);
                 elapsedTime = t2 - t;
             }
-            EntityResult.logger.debug("EntityResult size not serialized: {}", bytes.length);
+            EntityResultMapImpl.logger.debug("EntityResult size not serialized: {}", bytes.length);
             inAux = new ObjectInputStream(new ByteArrayInputStream(bytes));
             // Now read the object
             this.data = (Hashtable) inAux.readObject();
@@ -549,7 +495,7 @@ public class EntityResult extends Hashtable {
             this.compressionLevel = nCompression;
             this.streamTime = tStream;
             if (elapsedTime > tStream) {
-                EntityResult.logger.debug("Stream time < deserialized time: {} < {}", tStream, elapsedTime);
+                EntityResultMapImpl.logger.debug("Stream time < deserialized time: {} < {}", tStream, elapsedTime);
                 this.streamTime = elapsedTime;
             }
         } catch (IOException e) {
@@ -562,7 +508,7 @@ public class EntityResult extends Hashtable {
                     inAux.close();
                 }
             } catch (Exception e) {
-                EntityResult.logger.error(null, e);
+                EntityResultMapImpl.logger.error(null, e);
             }
         }
     }
@@ -583,18 +529,18 @@ public class EntityResult extends Hashtable {
             // Lock at the resultant number of bytes
             return byteStream.toByteArray();
         } catch (Exception e) {
-            EntityResult.logger.trace(null, e);
+            EntityResultMapImpl.logger.trace(null, e);
             return null;
         } finally {
             try {
                 zip.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                EntityResultMapImpl.logger.trace(null, e);
             }
             try {
                 byteStream.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                EntityResultMapImpl.logger.trace(null, e);
             }
         }
     }
@@ -622,24 +568,24 @@ public class EntityResult extends Hashtable {
             }
             return bytes;
         } catch (IOException e) {
-            EntityResult.logger.trace(null, e);
+            EntityResultMapImpl.logger.trace(null, e);
             return null;
         } finally {
             try {
                 zip.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                EntityResultMapImpl.logger.trace(null, e);
             }
             try {
                 byteStream.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                EntityResultMapImpl.logger.trace(null, e);
             }
         }
 
     }
 
-    private transient static Constructor applicationInputStreamConstructor;
+
 
     private boolean checkApplicationClass = false;
 
@@ -671,7 +617,7 @@ public class EntityResult extends Hashtable {
         ZipInputStream zip = null;
 
         ByteArrayOutputStream bOut = null;
-        EntityResult.logger.debug("EntityResult: Uncompressing : {} bytes", byteNumber);
+        EntityResultMapImpl.logger.debug("EntityResult: Uncompressing : {} bytes", byteNumber);
         try {
             long t = System.currentTimeMillis();
             // Undo the compression
@@ -696,22 +642,22 @@ public class EntityResult extends Hashtable {
             byte[] res = bOut.toByteArray();
 
             uncompressorT = System.nanoTime() - uncompressorT;
-            EntityResult.logger.debug("Time reading EntityResult: {} COMPRESSED", uncompressorT / 1000000.0);
-            EntityResult.logger.trace("Time uncompress: " + (System.currentTimeMillis() - t));
+            EntityResultMapImpl.logger.debug("Time reading EntityResult: {} COMPRESSED", uncompressorT / 1000000.0);
+            EntityResultMapImpl.logger.trace("Time uncompress: " + (System.currentTimeMillis() - t));
             return res;
         } catch (IOException e) {
-            EntityResult.logger.error(null, e);
+            EntityResultMapImpl.logger.error(null, e);
             return null;
         } finally {
             try {
                 bOut.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                EntityResultMapImpl.logger.trace(null, e);
             }
             try {
                 zip.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                EntityResultMapImpl.logger.trace(null, e);
             }
         }
 
@@ -743,7 +689,7 @@ public class EntityResult extends Hashtable {
             Vector v = (Vector) this.get(oKey);
             r = v.size();
             if (i >= r) {
-                EntityResult.logger.debug("The values vector for {} only have {} values", oKey, r);
+                EntityResultMapImpl.logger.debug("The values vector for {} only have {} values", oKey, r);
                 continue;
             }
             if (v.get(i) != null) {
@@ -766,7 +712,7 @@ public class EntityResult extends Hashtable {
                 Vector v = (Vector) this.get(oKey);
                 r = v.size();
                 if (i >= r) {
-                    EntityResult.logger.debug("The values vector for {} only have {} values", oKey, r);
+                    EntityResultMapImpl.logger.debug("The values vector for {} only have {} values", oKey, r);
                     continue;
                 }
                 if (v.get(i) != null) {
@@ -846,7 +792,7 @@ public class EntityResult extends Hashtable {
      * @return condition about successful/wrong state
      */
     public boolean isWrong() {
-        return this.code == EntityResult.OPERATION_WRONG;
+        return this.code == EntityResultMapImpl.OPERATION_WRONG;
     }
 
     public int indexOfData(Hashtable dataKeys) {
@@ -911,68 +857,6 @@ public class EntityResult extends Hashtable {
 
     public void setColumnOrder(List l) {
         this.columnsOrder = l;
-    }
-
-    private static int getValuesKeysIndex(Hashtable entityResult, Hashtable kv) {
-
-        // Check fast
-        if (kv.isEmpty()) {
-            return -1;
-        }
-        Vector vKeys = new Vector();
-        Enumeration enumKeys = kv.keys();
-        while (enumKeys.hasMoreElements()) {
-            vKeys.add(enumKeys.nextElement());
-        }
-        // Now get the first data vector. Look for all indexes with the
-        // specified key
-        // and for each one check the other keys
-        Object vData = entityResult.get(vKeys.get(0));
-        if ((vData == null) || (!(vData instanceof Vector))) {
-            return -1;
-        }
-        int currentValueIndex = -1;
-
-        if (vKeys.size() == 1) {
-            return ((Vector) vData).indexOf(kv.get(vKeys.get(0)));
-        }
-
-        while ((currentValueIndex = ((Vector) vData).indexOf(kv.get(vKeys.get(0)), currentValueIndex + 1)) >= 0) {
-            boolean allValuesCoincidence = true;
-            for (int i = 1; i < vKeys.size(); i++) {
-                Object requestValue = kv.get(vKeys.get(i));
-                Object vDataAux = entityResult.get(vKeys.get(i));
-                if ((vDataAux == null) || (!(vDataAux instanceof Vector))) {
-                    return -1;
-                }
-                if (!requestValue.equals(((Vector) vDataAux).get(currentValueIndex))) {
-                    allValuesCoincidence = false;
-                    break;
-                }
-            }
-
-            if (allValuesCoincidence) {
-                return currentValueIndex;
-            }
-        }
-        return -1;
-    }
-
-    public static void main(String[] args) {
-        List<String> columns = new ArrayList<String>();
-        columns.add("test");
-        EntityResult eR = new EntityResult(columns);
-        Hashtable record = new Hashtable<String, String>();
-        record.put("test", "value");
-        int total = 1000000;
-        System.out.println("Creating " + total + " records");
-        long startTime = System.nanoTime();
-        for (int i = 0; i < total; i++) {
-            eR.addRecord(record);
-        }
-        long estimatedTime = System.nanoTime() - startTime;
-        System.out.println("Time to create the entity result  ->" + estimatedTime);
-
     }
 
 }

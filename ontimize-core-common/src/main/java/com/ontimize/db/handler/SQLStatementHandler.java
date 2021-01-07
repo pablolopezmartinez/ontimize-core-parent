@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.db.EntityResultMapImpl;
 import com.ontimize.db.LocalePair;
 import com.ontimize.db.SQLStatementBuilder.SQLConditionValuesProcessor;
 import com.ontimize.db.SQLStatementBuilder.SQLNameEval;
@@ -112,13 +112,13 @@ public interface SQLStatementHandler {
 
     public boolean isDelimited();
 
-    public void resultSetToEntityResult(ResultSet resultSet, EntityResult entityResult, List columnNames)
+    public void resultSetToEntityResult(ResultSet resultSet, EntityResultMapImpl entityResult, List columnNames)
             throws Exception;
 
-    public void resultSetToEntityResult(ResultSet resultSet, EntityResult entityResult, int recordNumber, int offset,
-            boolean delimited, List columnNames) throws Exception;
+    public void resultSetToEntityResult(ResultSet resultSet, EntityResultMapImpl entityResult, int recordNumber, int offset,
+                                        boolean delimited, List columnNames) throws Exception;
 
-    public void generatedKeysToEntityResult(ResultSet resultSet, EntityResult entityResult, List generatedKeys)
+    public void generatedKeysToEntityResult(ResultSet resultSet, EntityResultMapImpl entityResult, List generatedKeys)
             throws Exception;
 
     public void setObject(int index, Object value, PreparedStatement preparedStatement, boolean truncDates)

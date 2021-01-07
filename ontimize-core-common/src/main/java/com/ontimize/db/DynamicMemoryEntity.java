@@ -2,7 +2,7 @@ package com.ontimize.db;
 
 public interface DynamicMemoryEntity {
 
-    public void setValue(EntityResult data);
+    public void setValue(EntityResultMapImpl data);
 
     public void clear();
 

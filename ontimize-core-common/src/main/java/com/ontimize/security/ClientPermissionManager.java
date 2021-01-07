@@ -3,7 +3,7 @@ package com.ontimize.security;
 import java.rmi.Remote;
 import java.util.Hashtable;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.db.EntityResultMapImpl;
 
 /**
  * Remote Interface to manage client permissions.
@@ -19,10 +19,10 @@ public interface ClientPermissionManager extends Remote {
      * @param userKeys This parameters allow to identify the user. In local locator is not needed and
      *        can be a null value.
      * @param sessionId A client sessionId
-     * @return An {@link EntityResult} object
+     * @return An {@link EntityResultMapImpl} object
      * @throws Exception if an error occurs
      */
-    public EntityResult getClientPermissions(Hashtable userKeys, int sessionId) throws Exception;
+    public EntityResultMapImpl getClientPermissions(Hashtable userKeys, int sessionId) throws Exception;
 
     /**
      * Sets the client permissions. Creates a {@link ClientSecurityManager} object with all permissions

@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.db.EntityResultMapImpl;
 
 public interface INoticeSystem extends Remote {
 
@@ -153,7 +153,7 @@ public interface INoticeSystem extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResult getInternalNotices(int sessionId, boolean unsend, boolean unread, boolean deleted)
+    public EntityResultMapImpl getInternalNotices(int sessionId, boolean unsend, boolean unread, boolean deleted)
             throws Exception;
 
     /**
@@ -173,7 +173,7 @@ public interface INoticeSystem extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResult getSentNotices(int sessionId, Boolean deleted) throws Exception;
+    public EntityResultMapImpl getSentNotices(int sessionId, Boolean deleted) throws Exception;
 
     /**
      * This method sets a notices as sent

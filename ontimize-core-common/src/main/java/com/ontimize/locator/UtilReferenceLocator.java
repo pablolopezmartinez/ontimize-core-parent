@@ -7,7 +7,7 @@ import java.util.TimeZone;
 import java.util.Vector;
 
 import com.ontimize.db.Entity;
-import com.ontimize.db.EntityResult;
+import com.ontimize.db.EntityResultMapImpl;
 import com.ontimize.util.operation.RemoteOperationManager;
 
 public interface UtilReferenceLocator extends java.rmi.Remote {
@@ -96,7 +96,7 @@ public interface UtilReferenceLocator extends java.rmi.Remote {
 
     public boolean supportChangePassword(String user, int sessionId) throws Exception;
 
-    public EntityResult changePassword(String password, int sessionId, Hashtable av, Hashtable kv) throws Exception;
+    public EntityResultMapImpl changePassword(String password, int sessionId, Hashtable av, Hashtable kv) throws Exception;
 
     public boolean getAccessControl() throws Exception;
 

@@ -21,8 +21,8 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     protected Hashtable<String, Object> entityMetadata;
 
-    protected EntityResult cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
-            EntityResult.BEST_COMPRESSION);
+    protected EntityResultMapImpl cacheData = new EntityResultMapImpl(EntityResultMapImpl.OPERATION_SUCCESSFUL,
+            EntityResultMapImpl.BEST_COMPRESSION);
 
     public LocalEntityInvocationHandler(EntityReferenceLocator locator, String entityName) {
         this.locator = locator;
@@ -46,11 +46,11 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public EntityResult insert(Hashtable attributesValues, int sessionId) throws Exception {
+    public EntityResultMapImpl insert(Hashtable attributesValues, int sessionId) throws Exception {
         this.checkInsertKeys(attributesValues);
         String autonumerical = this.getAutonumerical();
         List<String> generatedKeyList = this.getGeneratedKeyList();
-        EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        EntityResultMapImpl entityResult = new EntityResultMapImpl(EntityResultMapImpl.OPERATION_SUCCESSFUL, EntityResultMapImpl.BEST_COMPRESSION);
         if (autonumerical != null) {
             attributesValues.put(autonumerical, this.cacheData.calculateRecordNumber());
             entityResult.put(autonumerical, this.cacheData.calculateRecordNumber());
@@ -67,21 +67,21 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public EntityResult update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception {
+    public EntityResultMapImpl update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception {
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         EntityResultTools.updateRecordValues(this.cacheData, attributesValues, index);
-        return new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        return new EntityResultMapImpl(EntityResultMapImpl.OPERATION_SUCCESSFUL, EntityResultMapImpl.BEST_COMPRESSION);
     }
 
     @Override
-    public EntityResult query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception {
+    public EntityResultMapImpl query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception {
         if (keysValues.isEmpty()) {
-            EntityResult entityResult = new EntityResult(this.cacheData);
+            EntityResultMapImpl entityResult = new EntityResultMapImpl(this.cacheData);
             return entityResult;
         } else {
             int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
-            EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
-                    EntityResult.BEST_COMPRESSION);
+            EntityResultMapImpl entityResult = new EntityResultMapImpl(EntityResultMapImpl.OPERATION_SUCCESSFUL,
+                    EntityResultMapImpl.BEST_COMPRESSION);
             entityResult.addRecord(this.cacheData.getRecordValues(index));
             return entityResult;
         }
@@ -125,14 +125,14 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public EntityResult delete(Hashtable keysValues, int sessionId) throws Exception {
-        EntityResult erResult = new EntityResult();
+    public EntityResultMapImpl delete(Hashtable keysValues, int sessionId) throws Exception {
+        EntityResultMapImpl erResult = new EntityResultMapImpl();
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         if (index >= 0) {
             this.cacheData.deleteRecord(index);
             return erResult;
         } else {
-            erResult.setCode(EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE);
+            erResult.setCode(EntityResultMapImpl.OPERATION_SUCCESSFUL_SHOW_MESSAGE);
             erResult.setMessage("M_NO_RECORD_DELETED");
             LocalEntityInvocationHandler.logger
                 .debug("Delete: keys parameter does not contain any pair key-value valid");
@@ -141,9 +141,9 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public void setValue(EntityResult data) {
+    public void setValue(EntityResultMapImpl data) {
         if (data == null) {
-            this.cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+            this.cacheData = new EntityResultMapImpl(EntityResultMapImpl.OPERATION_SUCCESSFUL, EntityResultMapImpl.BEST_COMPRESSION);
         } else {
             this.cacheData = data;
         }
@@ -151,7 +151,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     @Override
     public void clear() {
-        this.cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        this.cacheData = new EntityResultMapImpl(EntityResultMapImpl.OPERATION_SUCCESSFUL, EntityResultMapImpl.BEST_COMPRESSION);
     }
 
 }

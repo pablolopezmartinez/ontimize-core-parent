@@ -9,6 +9,6 @@ public interface DirectSQLQueryEntity extends Entity {
      * @return
      * @throws Exception
      */
-    public EntityResult execute(String sql, int sessionId) throws Exception;
+    public EntityResultMapImpl execute(String sql, int sessionId) throws Exception;
 
 }
