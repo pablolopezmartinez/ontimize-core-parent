@@ -3,7 +3,7 @@ package com.ontimize.security;
 import java.rmi.Remote;
 import java.util.Hashtable;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.dto.EntityResult;
 
 /**
  * Remote Interface to manage client permissions.

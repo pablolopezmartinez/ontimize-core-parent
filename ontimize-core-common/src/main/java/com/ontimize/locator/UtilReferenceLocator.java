@@ -7,7 +7,7 @@ import java.util.TimeZone;
 import java.util.Vector;
 
 import com.ontimize.db.Entity;
-import com.ontimize.db.EntityResult;
+import com.ontimize.dto.EntityResult;
 import com.ontimize.util.operation.RemoteOperationManager;
 
 public interface UtilReferenceLocator extends java.rmi.Remote {

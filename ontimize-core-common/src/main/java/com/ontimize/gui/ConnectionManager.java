@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.dto.EntityResult;
 import com.ontimize.locator.ClientReferenceLocator;
 import com.ontimize.locator.EntityReferenceLocator;
 

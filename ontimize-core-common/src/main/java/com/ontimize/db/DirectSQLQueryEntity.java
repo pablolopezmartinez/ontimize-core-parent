@@ -1,5 +1,7 @@
 package com.ontimize.db;
 
+import com.ontimize.dto.EntityResult;
+
 public interface DirectSQLQueryEntity extends Entity {
 
     /**

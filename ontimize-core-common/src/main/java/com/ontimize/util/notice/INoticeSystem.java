@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.dto.EntityResult;
 
 public interface INoticeSystem extends Remote {
 

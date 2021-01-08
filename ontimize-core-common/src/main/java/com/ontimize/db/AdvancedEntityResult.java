@@ -1,6 +1,8 @@
 package com.ontimize.db;
 
 
+import com.ontimize.dto.EntityResult;
+
 /**
  * Extended <code>EntityResult</code> that adds information about number of records and index of
  * first record of <code>ResultSet</code> contained. This object is returned in

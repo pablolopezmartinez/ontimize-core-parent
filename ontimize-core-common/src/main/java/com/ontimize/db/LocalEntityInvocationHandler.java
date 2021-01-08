@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
+import com.ontimize.dto.EntityResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +22,8 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     protected Hashtable<String, Object> entityMetadata;
 
-    protected EntityResult cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
-            EntityResult.BEST_COMPRESSION);
+    protected com.ontimize.dto.EntityResult cacheData = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL,
+            com.ontimize.dto.EntityResult.BEST_COMPRESSION);
 
     public LocalEntityInvocationHandler(EntityReferenceLocator locator, String entityName) {
         this.locator = locator;
@@ -46,11 +47,11 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public EntityResult insert(Hashtable attributesValues, int sessionId) throws Exception {
+    public com.ontimize.dto.EntityResult insert(Hashtable attributesValues, int sessionId) throws Exception {
         this.checkInsertKeys(attributesValues);
         String autonumerical = this.getAutonumerical();
         List<String> generatedKeyList = this.getGeneratedKeyList();
-        EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        com.ontimize.dto.EntityResult entityResult = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, com.ontimize.dto.EntityResult.BEST_COMPRESSION);
         if (autonumerical != null) {
             attributesValues.put(autonumerical, this.cacheData.calculateRecordNumber());
             entityResult.put(autonumerical, this.cacheData.calculateRecordNumber());
@@ -67,21 +68,21 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public EntityResult update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception {
+    public com.ontimize.dto.EntityResult update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception {
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         EntityResultTools.updateRecordValues(this.cacheData, attributesValues, index);
-        return new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        return new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, com.ontimize.dto.EntityResult.BEST_COMPRESSION);
     }
 
     @Override
-    public EntityResult query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception {
+    public com.ontimize.dto.EntityResult query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception {
         if (keysValues.isEmpty()) {
-            EntityResult entityResult = new EntityResult(this.cacheData);
+            com.ontimize.dto.EntityResult entityResult = new com.ontimize.dto.EntityResult(this.cacheData);
             return entityResult;
         } else {
             int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
-            EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
-                    EntityResult.BEST_COMPRESSION);
+            com.ontimize.dto.EntityResult entityResult = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL,
+                    com.ontimize.dto.EntityResult.BEST_COMPRESSION);
             entityResult.addRecord(this.cacheData.getRecordValues(index));
             return entityResult;
         }
@@ -125,14 +126,14 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public EntityResult delete(Hashtable keysValues, int sessionId) throws Exception {
-        EntityResult erResult = new EntityResult();
+    public com.ontimize.dto.EntityResult delete(Hashtable keysValues, int sessionId) throws Exception {
+        com.ontimize.dto.EntityResult erResult = new com.ontimize.dto.EntityResult();
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         if (index >= 0) {
             this.cacheData.deleteRecord(index);
             return erResult;
         } else {
-            erResult.setCode(EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE);
+            erResult.setCode(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE);
             erResult.setMessage("M_NO_RECORD_DELETED");
             LocalEntityInvocationHandler.logger
                 .debug("Delete: keys parameter does not contain any pair key-value valid");
@@ -141,9 +142,9 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public void setValue(EntityResult data) {
+    public void setValue(com.ontimize.dto.EntityResult data) {
         if (data == null) {
-            this.cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+            this.cacheData = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, com.ontimize.dto.EntityResult.BEST_COMPRESSION);
         } else {
             this.cacheData = data;
         }
@@ -151,7 +152,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     @Override
     public void clear() {
-        this.cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        this.cacheData = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
     }
 
 }

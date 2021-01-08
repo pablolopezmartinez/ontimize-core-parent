@@ -1,4 +1,4 @@
-package com.ontimize.db;
+package com.ontimize.dto;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -7,60 +7,19 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.ontimize.dto.EntityResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ontimize.gui.field.ReferenceFieldAttribute;
 
 public class EntityResult extends Hashtable {
-
-    static final Logger logger = LoggerFactory.getLogger(EntityResult.class);
-
-    public static boolean DEBUG = false;
-
-    private static final boolean LIMIT_SPEED = false;
-
-    public static final int OPERATION_SUCCESSFUL = 0;
-
-    public static final int OPERATION_SUCCESSFUL_SHOW_MESSAGE = 2;
-
-    public static final int OPERATION_WRONG = 1;
-
-    public static final int DATA_RESULT = 0;
-
-    public static final int NODATA_RESULT = 1;
-
-    public static final int DEFAULT_COMPRESSION_THRESHOLD = Integer.MAX_VALUE;
-
-    public static final int NO_COMPRESSION = Deflater.NO_COMPRESSION;
-
-    public static final int BEST_COMPRESSION = Deflater.BEST_COMPRESSION;
-
-    public static final int BEST_SPEED = Deflater.BEST_SPEED;
-
-    public static final int DEFAULT_COMPRESSION = Deflater.DEFAULT_COMPRESSION;
-
-    public static final int HUFFMAN_ONLY = Deflater.HUFFMAN_ONLY;
-
-    protected int MIN_BYTE_PROGRESS = 1024 * 50;
-
-    protected static int MIN_PERCENT_PROGRESS = 3;
-
-    private int byteBlock = 40 * 1024;// 40 K
 
     /**
      * Compression Threshold.
@@ -84,28 +43,13 @@ public class EntityResult extends Hashtable {
     /**
      * Object needed for the compression mechanism
      */
-    protected transient Hashtable data = new Hashtable();
+    protected transient HashMap data = new HashMap();
 
     protected transient int compressionLevel = Deflater.NO_COMPRESSION;
 
     protected transient int dataByteNumber = -1;
 
     protected transient long streamTime = 0;
-
-    protected static class TimeUtil {
-
-        long time = 0;
-
-        public void setTime(long t) {
-            this.time = t;
-        }
-
-        public long getTime() {
-            return this.time;
-        }
-
-    }
-
 
     /**
      * Creates a EntityResult with code = OPERATION_SUCCESSFUL and type = NODATA_RESULT
@@ -911,68 +855,6 @@ public class EntityResult extends Hashtable {
 
     public void setColumnOrder(List l) {
         this.columnsOrder = l;
-    }
-
-    private static int getValuesKeysIndex(Hashtable entityResult, Hashtable kv) {
-
-        // Check fast
-        if (kv.isEmpty()) {
-            return -1;
-        }
-        Vector vKeys = new Vector();
-        Enumeration enumKeys = kv.keys();
-        while (enumKeys.hasMoreElements()) {
-            vKeys.add(enumKeys.nextElement());
-        }
-        // Now get the first data vector. Look for all indexes with the
-        // specified key
-        // and for each one check the other keys
-        Object vData = entityResult.get(vKeys.get(0));
-        if ((vData == null) || (!(vData instanceof Vector))) {
-            return -1;
-        }
-        int currentValueIndex = -1;
-
-        if (vKeys.size() == 1) {
-            return ((Vector) vData).indexOf(kv.get(vKeys.get(0)));
-        }
-
-        while ((currentValueIndex = ((Vector) vData).indexOf(kv.get(vKeys.get(0)), currentValueIndex + 1)) >= 0) {
-            boolean allValuesCoincidence = true;
-            for (int i = 1; i < vKeys.size(); i++) {
-                Object requestValue = kv.get(vKeys.get(i));
-                Object vDataAux = entityResult.get(vKeys.get(i));
-                if ((vDataAux == null) || (!(vDataAux instanceof Vector))) {
-                    return -1;
-                }
-                if (!requestValue.equals(((Vector) vDataAux).get(currentValueIndex))) {
-                    allValuesCoincidence = false;
-                    break;
-                }
-            }
-
-            if (allValuesCoincidence) {
-                return currentValueIndex;
-            }
-        }
-        return -1;
-    }
-
-    public static void main(String[] args) {
-        List<String> columns = new ArrayList<String>();
-        columns.add("test");
-        EntityResult eR = new EntityResult(columns);
-        Hashtable record = new Hashtable<String, String>();
-        record.put("test", "value");
-        int total = 1000000;
-        System.out.println("Creating " + total + " records");
-        long startTime = System.nanoTime();
-        for (int i = 0; i < total; i++) {
-            eR.addRecord(record);
-        }
-        long estimatedTime = System.nanoTime() - startTime;
-        System.out.println("Time to create the entity result  ->" + estimatedTime);
-
     }
 
 }

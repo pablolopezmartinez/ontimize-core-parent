@@ -1,5 +1,7 @@
 package com.ontimize.db;
 
+import com.ontimize.dto.EntityResult;
+
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -52,7 +54,7 @@ public class EntityResultTools {
         return -1;
     }
 
-    public static void updateRecordValues(EntityResult entityResult, Hashtable recordValue, int index) {
+    public static void updateRecordValues(com.ontimize.dto.EntityResult entityResult, Hashtable recordValue, int index) {
         Enumeration keysToUpdate = recordValue.keys();
         while (keysToUpdate.hasMoreElements()) {
             Object currentKey = keysToUpdate.nextElement();
@@ -73,7 +75,7 @@ public class EntityResultTools {
      * @return an <code>EntityResult</code> with result or null when <code>columns</code> parameter is
      *         null
      */
-    public static EntityResult createEmptyEntityResult(List columns) {
+    public static com.ontimize.dto.EntityResult createEmptyEntityResult(List columns) {
         if (columns != null) {
             return new EntityResult(columns);
         }

@@ -3,7 +3,7 @@ package com.ontimize.gui;
 import java.rmi.Remote;
 import java.util.Hashtable;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.dto.EntityResult;
 import com.ontimize.security.PermissionGroupInfo;
 import com.ontimize.security.PermissionInfo;
 

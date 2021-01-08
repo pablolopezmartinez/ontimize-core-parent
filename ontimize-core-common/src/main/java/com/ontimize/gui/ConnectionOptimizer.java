@@ -2,7 +2,7 @@ package com.ontimize.gui;
 
 import java.rmi.Remote;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.dto.EntityResult;
 
 /**
  * This interface is used to set the compression level for an EntityResult in a query

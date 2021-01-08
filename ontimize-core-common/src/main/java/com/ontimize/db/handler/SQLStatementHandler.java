@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 
-import com.ontimize.db.EntityResult;
+import com.ontimize.dto.EntityResult;
 import com.ontimize.db.LocalePair;
 import com.ontimize.db.SQLStatementBuilder.SQLConditionValuesProcessor;
 import com.ontimize.db.SQLStatementBuilder.SQLNameEval;
