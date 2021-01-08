@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResultMapImpl;
+import com.ontimize.db.EntityResult;
 import com.ontimize.locator.ClientReferenceLocator;
 import com.ontimize.locator.EntityReferenceLocator;
 
@@ -232,8 +232,8 @@ public abstract class ConnectionManager {
         return threshold;
     }
 
-    public static void checkEntityResult(EntityResultMapImpl res, EntityReferenceLocator locator) {
-        if ((res != null) && (EntityResultMapImpl.OPERATION_WRONG != res.getCode())) {
+    public static void checkEntityResult(EntityResult res, EntityReferenceLocator locator) {
+        if ((res != null) && (EntityResult.OPERATION_WRONG != res.getCode())) {
 
             // Test the net speed
             int compressionThreshold = ConnectionManager.getCompresionThreshold(res.getBytesNumber(),

@@ -3,7 +3,7 @@ package com.ontimize.util.multilanguage;
 import java.rmi.Remote;
 import java.util.Map;
 
-import com.ontimize.db.EntityResultMapImpl;
+import com.ontimize.db.EntityResult;
 
 /**
  * Interface that allows using the multi-language translation system.
@@ -39,23 +39,23 @@ public interface MultilanguageEntity extends Remote {
     public boolean checkMultilanguageEntity(String entityName, String attribute) throws Exception;
 
     /**
-     * Returns an {@link EntityResultMapImpl} with field translation data to all languages available in the
+     * Returns an {@link EntityResult} with field translation data to all languages available in the
      * LocaleEntity
      * @param entityName The name of the entity to which the field to be translated belongs
      * @param attribute The name of the field to be translated stored in the database
      * @param formKeys The keys belonging to the form that identify the record to which the field
      *        belongs
      * @param sessionId The session identifier of the client
-     * @return An {@link EntityResultMapImpl} with field translation data to all languages available in the
+     * @return An {@link EntityResult} with field translation data to all languages available in the
      *         LocaleEntity
      * @throws Exception
      */
-    public EntityResultMapImpl populateMultilanguageTranslationTable(String entityName, String attribute,
-                                                                     Map<String, Object> formKeys, int sessionId) throws Exception;
+    public EntityResult populateMultilanguageTranslationTable(String entityName, String attribute,
+            Map<String, Object> formKeys, int sessionId) throws Exception;
 
     /**
      * Updates the changes made to the multi-language translation table in the DB.
-     * @param tableChanges An {@link EntityResultMapImpl} containing the new translations to be stored and the
+     * @param tableChanges An {@link EntityResult} containing the new translations to be stored and the
      *        locale to which they belong.
      * @param formKeys The form keys of the record from which the columns are maintained
      * @param attributeName The name of the attribute being translated
@@ -64,8 +64,8 @@ public interface MultilanguageEntity extends Remote {
      * @param sessionId The session identifier of the client
      * @throws Exception
      */
-    public void upgradeMultilanguageTranslationTable(EntityResultMapImpl tableChanges, Map<String, Object> formKeys,
-                                                     String attributeName, String attributeLocalename, int sessionId)
+    public void upgradeMultilanguageTranslationTable(EntityResult tableChanges, Map<String, Object> formKeys,
+            String attributeName, String attributeLocalename, int sessionId)
             throws Exception;
 
 }

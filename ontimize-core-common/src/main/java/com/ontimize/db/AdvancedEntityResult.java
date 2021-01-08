@@ -11,7 +11,7 @@ package com.ontimize.db;
  * @see PageFetcher
  * @author Imatia Innovation
  */
-public class AdvancedEntityResult extends EntityResultMapImpl {
+public class AdvancedEntityResult extends EntityResult {
 
     protected int totalQueryRecordsNumber = 0;
 

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import com.ontimize.db.EntityResultMapImpl;
+import com.ontimize.db.EntityResult;
 
 /**
  * @author pablo.martinez
@@ -60,10 +60,10 @@ public interface IShareRemoteReference extends Remote {
      * @param sharedObject
      * @param targetList
      * @param sessionId
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl addSharedItem(SharedElement sharedObject, List<String> targetList, int sessionId)
+    public EntityResult addSharedItem(SharedElement sharedObject, List<String> targetList, int sessionId)
             throws Exception;
 
     /**
@@ -74,10 +74,10 @@ public interface IShareRemoteReference extends Remote {
      * @param idShare
      * @param targetList
      * @param sessionId
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl editTargetSharedElement(int idShare, List<String> targetList, int sessionId) throws Exception;
+    public EntityResult editTargetSharedElement(int idShare, List<String> targetList, int sessionId) throws Exception;
 
     /**
      * Retrieve a list of all {@link SharedElement} shared with the user. This method creates a new
@@ -222,10 +222,10 @@ public interface IShareRemoteReference extends Remote {
      * a {@link Connection#rollback()} in the connection, if not, performs a {@link Connection#commit()}
      * @param idShare
      * @param sessionId
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl deleteSharedItem(int idShare, int sessionId) throws Exception;
+    public EntityResult deleteSharedItem(int idShare, int sessionId) throws Exception;
 
     /**
      * Delete the association between an user and a shared element. This method creates a new connection
@@ -234,10 +234,10 @@ public interface IShareRemoteReference extends Remote {
      * {@link Connection#commit()}
      * @param idShareTarget
      * @param sessionId
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl deleteTargetSharedItem(int idShareTarget, int sessionId) throws Exception;
+    public EntityResult deleteTargetSharedItem(int idShareTarget, int sessionId) throws Exception;
 
     /**
      * Update the shared element specified with id share with the content sent in variables content,
@@ -250,10 +250,10 @@ public interface IShareRemoteReference extends Remote {
      * @param message
      * @param name
      * @param sessionId
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl updateSharedItem(int idShare, String content, String message, String name, int sessionId)
+    public EntityResult updateSharedItem(int idShare, String content, String message, String name, int sessionId)
             throws Exception;
 
     /* ============== With connection ============== */
@@ -264,11 +264,11 @@ public interface IShareRemoteReference extends Remote {
      * @param targetList
      * @param sessionId
      * @param con
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl addSharedItem(SharedElement sharedObject, List<String> targetList, int sessionId,
-                                             Connection con) throws Exception;
+    public EntityResult addSharedItem(SharedElement sharedObject, List<String> targetList, int sessionId,
+            Connection con) throws Exception;
 
     /**
      * Edit the receivers of the shared element. Receive as parameter the list of users, and the
@@ -281,10 +281,10 @@ public interface IShareRemoteReference extends Remote {
      * @param targetList
      * @param sessionId
      * @param con
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl editTargetSharedElement(int idShare, List<String> targetList, int sessionId, Connection con)
+    public EntityResult editTargetSharedElement(int idShare, List<String> targetList, int sessionId, Connection con)
             throws Exception;
 
     /**
@@ -448,10 +448,10 @@ public interface IShareRemoteReference extends Remote {
      * @param idShare
      * @param sessionId
      * @param con
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl deleteSharedItem(int idShare, int sessionId, Connection con) throws Exception;
+    public EntityResult deleteSharedItem(int idShare, int sessionId, Connection con) throws Exception;
 
     /**
      * Delete the association between an user and a shared element. This method perform a query to
@@ -461,10 +461,10 @@ public interface IShareRemoteReference extends Remote {
      * @param idShareTarget
      * @param sessionId
      * @param con
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl deleteTargetSharedItem(int idShareTarget, int sessionId, Connection con) throws Exception;
+    public EntityResult deleteTargetSharedItem(int idShareTarget, int sessionId, Connection con) throws Exception;
 
     /**
      * Update the shared element specified with id share with the content sent in variables content,
@@ -477,10 +477,10 @@ public interface IShareRemoteReference extends Remote {
      * @param name
      * @param sessionId
      * @param con
-     * @return An {@link EntityResultMapImpl} with the result of the operation
+     * @return An {@link EntityResult} with the result of the operation
      * @throws Exception
      */
-    public EntityResultMapImpl updateSharedItem(int idShare, String content, String message, String name, int sessionId,
-                                                Connection con) throws Exception;
+    public EntityResult updateSharedItem(int idShare, String content, String message, String name, int sessionId,
+            Connection con) throws Exception;
 
 }

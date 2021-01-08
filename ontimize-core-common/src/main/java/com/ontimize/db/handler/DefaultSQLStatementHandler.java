@@ -29,7 +29,7 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.EntityResultMapImpl;
+import com.ontimize.db.EntityResult;
 import com.ontimize.db.LocalePair;
 import com.ontimize.db.NullValue;
 import com.ontimize.db.SQLStatementBuilder;
@@ -1443,13 +1443,13 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public void resultSetToEntityResult(ResultSet resultSet, EntityResultMapImpl entityResult, List columnNames)
+    public void resultSetToEntityResult(ResultSet resultSet, EntityResult entityResult, List columnNames)
             throws Exception {
         this.resultSetToEntityResult(resultSet, entityResult, -1, 0, true, columnNames);
     }
 
     /**
-     * Transforms a java.sql.ResultSet object into an Ontimize {@link EntityResultMapImpl}. The columns in the
+     * Transforms a java.sql.ResultSet object into an Ontimize {@link EntityResult}. The columns in the
      * ResultSet are the keys in the EntityResult, and the values for the columns are stored in Vector
      * objects corresponding to the keys in the EntityResult.
      * <p>
@@ -1475,8 +1475,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * @throws Exception if any error (database, etc.) occurs
      */
     @Override
-    public void resultSetToEntityResult(ResultSet resultSet, EntityResultMapImpl entityResult, int recordNumber, int offset,
-                                        boolean delimited, List columnNames) throws Exception {
+    public void resultSetToEntityResult(ResultSet resultSet, EntityResult entityResult, int recordNumber, int offset,
+            boolean delimited, List columnNames) throws Exception {
         if (offset > 0) {
             resultSet.absolute(offset);
         }
@@ -1561,7 +1561,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public void generatedKeysToEntityResult(ResultSet resultSet, EntityResultMapImpl entityResult, List generatedKeys)
+    public void generatedKeysToEntityResult(ResultSet resultSet, EntityResult entityResult, List generatedKeys)
             throws Exception {
         try {
             ResultSetMetaData rsMetaData = resultSet.getMetaData();
@@ -1599,11 +1599,11 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
     }
 
-    protected void changeGenerateKeyNames(EntityResultMapImpl result, List columnNames) {
+    protected void changeGenerateKeyNames(EntityResult result, List columnNames) {
         this.changeColumnNames(result, columnNames);
     }
 
-    protected void changeColumnNames(EntityResultMapImpl result, List columnNames) {
+    protected void changeColumnNames(EntityResult result, List columnNames) {
         if (columnNames != null) {
             for (int i = 0; i < columnNames.size(); i++) {
                 Object columnName = columnNames.get(i);
@@ -1622,7 +1622,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
     }
 
-    protected void changeColumnName(EntityResultMapImpl result, String nameColumn, String replaceByColumn) {
+    protected void changeColumnName(EntityResult result, String nameColumn, String replaceByColumn) {
         if (result.containsKey(nameColumn)) {
             result.put(replaceByColumn, result.remove(nameColumn));
             Hashtable sqlTypes = result.getColumnSQLTypes();

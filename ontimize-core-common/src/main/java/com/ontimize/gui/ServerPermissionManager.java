@@ -3,7 +3,7 @@ package com.ontimize.gui;
 import java.rmi.Remote;
 import java.util.Hashtable;
 
-import com.ontimize.db.EntityResultMapImpl;
+import com.ontimize.db.EntityResult;
 import com.ontimize.security.PermissionGroupInfo;
 import com.ontimize.security.PermissionInfo;
 
@@ -23,7 +23,7 @@ public interface ServerPermissionManager extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResultMapImpl setServerPermissions(Hashtable keys, int sessionId, StringBuffer permissionXML)
+    public EntityResult setServerPermissions(Hashtable keys, int sessionId, StringBuffer permissionXML)
             throws Exception;
 
     /**
@@ -33,9 +33,9 @@ public interface ServerPermissionManager extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResultMapImpl getUserProfileServerPermissions(Hashtable profileKeys, int sessionId) throws Exception;
+    public EntityResult getUserProfileServerPermissions(Hashtable profileKeys, int sessionId) throws Exception;
 
-    public EntityResultMapImpl setUserProfileServerPermissions(Hashtable profileKeys, StringBuffer permissions, int sessionId)
+    public EntityResult setUserProfileServerPermissions(Hashtable profileKeys, StringBuffer permissions, int sessionId)
             throws Exception;
 
     /**
@@ -45,9 +45,9 @@ public interface ServerPermissionManager extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResultMapImpl getServerPermissions(Hashtable userKeys, int sessionId) throws Exception;
+    public EntityResult getServerPermissions(Hashtable userKeys, int sessionId) throws Exception;
 
-    public EntityResultMapImpl getEntityList(int sessionId) throws Exception;
+    public EntityResult getEntityList(int sessionId) throws Exception;
 
     /**
      * Checks if the specified user has permissions to execute an action in the specified entity

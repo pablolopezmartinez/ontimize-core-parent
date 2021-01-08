@@ -2,7 +2,7 @@ package com.ontimize.gui;
 
 import java.rmi.Remote;
 
-import com.ontimize.db.EntityResultMapImpl;
+import com.ontimize.db.EntityResult;
 
 /**
  * This interface is used to set the compression level for an EntityResult in a query
@@ -16,7 +16,7 @@ public interface ConnectionOptimizer extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResultMapImpl testConnectionSpeed(int sizeInBytes, boolean compressed) throws Exception;
+    public EntityResult testConnectionSpeed(int sizeInBytes, boolean compressed) throws Exception;
 
     /**
      * Sets the value of the user data compression threshold (minimum number of bytes to apply

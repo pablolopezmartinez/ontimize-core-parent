@@ -52,7 +52,7 @@ public class EntityResultTools {
         return -1;
     }
 
-    public static void updateRecordValues(EntityResultMapImpl entityResult, Hashtable recordValue, int index) {
+    public static void updateRecordValues(EntityResult entityResult, Hashtable recordValue, int index) {
         Enumeration keysToUpdate = recordValue.keys();
         while (keysToUpdate.hasMoreElements()) {
             Object currentKey = keysToUpdate.nextElement();
@@ -73,9 +73,9 @@ public class EntityResultTools {
      * @return an <code>EntityResult</code> with result or null when <code>columns</code> parameter is
      *         null
      */
-    public static EntityResultMapImpl createEmptyEntityResult(List columns) {
+    public static EntityResult createEmptyEntityResult(List columns) {
         if (columns != null) {
-            return new EntityResultMapImpl(columns);
+            return new EntityResult(columns);
         }
         return null;
     }
