@@ -286,6 +286,9 @@ public class DateDataField extends TextFieldDataField implements OpenDialog, Fre
                 this.calendarButton.setMargin(new Insets(0, 0, 0, 0));
             } else {
                 this.calendarButton = new FieldButton();
+                if (calendarIcon.getIconHeight() > ((FieldButton)this.calendarButton).getHeight()) {
+                	((FieldButton)this.calendarButton).setHigh(calendarIcon.getIconHeight());
+                }
                 this.calendarButton.setIcon(calendarIcon);
                 this.calendarButton.setMargin(new Insets(0, 0, 0, 0));
             }
