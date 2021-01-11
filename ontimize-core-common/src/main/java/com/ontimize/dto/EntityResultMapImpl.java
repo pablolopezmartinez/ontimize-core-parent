@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ontimize.gui.field.ReferenceFieldAttribute;
 
-public class EntityResult extends Hashtable {
+public class EntityResultMapImpl {
 
     /**
      * Compression Threshold.
@@ -70,10 +70,10 @@ public class EntityResult extends Hashtable {
         }
     }
 
-    public EntityResult(Hashtable h) {
+    public EntityResult(HashMap h) {
         super(0);
         if (h != null) {
-            this.data = (Hashtable) h.clone();
+            this.data = (HashMap) h.clone();
         }
     }
 
@@ -165,7 +165,7 @@ public class EntityResult extends Hashtable {
         } catch (Exception e) {
             EntityResult.logger.trace(null, e);
             Object o = super.clone();
-            ((EntityResult) o).data = (Hashtable) this.data.clone();
+            ((EntityResult) o).data = (HashMap) this.data.clone();
             return o;
         }
     }
@@ -487,7 +487,7 @@ public class EntityResult extends Hashtable {
             EntityResult.logger.debug("EntityResult size not serialized: {}", bytes.length);
             inAux = new ObjectInputStream(new ByteArrayInputStream(bytes));
             // Now read the object
-            this.data = (Hashtable) inAux.readObject();
+            this.data = (HashMap) inAux.readObject();
             long tStream = in.readLong();
             this.dataByteNumber = nBytes;
             this.compressionLevel = nCompression;
@@ -675,11 +675,11 @@ public class EntityResult extends Hashtable {
         return r;
     }
 
-    public Hashtable getRecordValues(int i) {
+    public HashMap getRecordValues(int i) {
         if (i < 0) {
             return null;
         }
-        Hashtable hValues = new Hashtable();
+        HashMap hValues = new HashMap();
         Enumeration keys = this.keys();
         int r = 0;
         while (keys.hasMoreElements()) {
@@ -697,11 +697,11 @@ public class EntityResult extends Hashtable {
         return hValues;
     }
 
-    public Hashtable getRecordValues(int i, Vector vKeys) {
+    public HashMap getRecordValues(int i, Vector vKeys) {
         if (i < 0) {
             return null;
         }
-        Hashtable hValues = new Hashtable(vKeys.size() * 2);
+        HashMap hValues = new HashMap(vKeys.size() * 2);
         Enumeration keys = this.keys();
         int r = 0;
         while (keys.hasMoreElements()) {
@@ -729,11 +729,11 @@ public class EntityResult extends Hashtable {
         return this.dataByteNumber;
     }
 
-    public void addRecord(Hashtable data) {
+    public void addRecord(HashMap data) {
         this.addRecord(data, 0);
     }
 
-    public void addRecord(Hashtable data, int s) {
+    public void addRecord(HashMap data, int s) {
         if (this.isEmpty()) {
             if (s > 0) {
                 throw new IllegalArgumentException("is empty -> index must be 0");
@@ -793,19 +793,19 @@ public class EntityResult extends Hashtable {
         return this.code == EntityResult.OPERATION_WRONG;
     }
 
-    public int indexOfData(Hashtable dataKeys) {
+    public int indexOfData(HashMap dataKeys) {
         int index = getValuesKeysIndex(this, dataKeys);
         return index;
     }
 
-    public int getRecordIndex(Hashtable kv) {
+    public int getRecordIndex(HashMap kv) {
         Vector vKeys = new Vector();
         Enumeration eKeys = kv.keys();
         while (eKeys.hasMoreElements()) {
             vKeys.add(eKeys.nextElement());
         }
         for (int i = 0; i < this.calculateRecordNumber(); i++) {
-            Hashtable recordValues = this.getRecordValues(i);
+            HashMap recordValues = this.getRecordValues(i);
             boolean found = true;
             for (int j = 0; j < vKeys.size(); j++) {
                 Object keyCondition = kv.get(vKeys.get(j));
@@ -821,13 +821,13 @@ public class EntityResult extends Hashtable {
         return -1;
     }
 
-    protected Hashtable columnsSQLTypes = null;
+    protected HashMap columnsSQLTypes = null;
 
-    public Hashtable getColumnSQLTypes() {
+    public HashMap getColumnSQLTypes() {
         return this.columnsSQLTypes;
     }
 
-    public void setColumnSQLTypes(Hashtable types) {
+    public void setColumnSQLTypes(HashMap types) {
         this.columnsSQLTypes = types;
     }
 
@@ -846,7 +846,7 @@ public class EntityResult extends Hashtable {
     public List getOrderColumns() {
         if (this.columnsOrder != null) {
             ArrayList l = new ArrayList();
-            l.addAll(this.columnsOrder);
+            l.addAll(this.columnsOrder)
             return l;
         } else {
             return this.columnsOrder;

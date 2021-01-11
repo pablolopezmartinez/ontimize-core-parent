@@ -58,14 +58,14 @@ public interface EntityResult {
 
     }
 
-    static int getValuesKeysIndex(Hashtable entityResult, Hashtable kv) {
+    default int getValuesKeysIndex(EntityResult entityResult, HashMap kv) {
 
         // Check fast
         if (kv.isEmpty()) {
             return -1;
         }
         Vector vKeys = new Vector();
-        Enumeration enumKeys = kv.keys();
+        Enumeration enumKeys = kv.keySet();
         while (enumKeys.hasMoreElements()) {
             vKeys.add(enumKeys.nextElement());
         }
@@ -103,11 +103,11 @@ public interface EntityResult {
         return -1;
     }
 
-    static void main(String[] args) {
+    default void main(String[] args) {
         List<String> columns = new ArrayList<String>();
         columns.add("test");
-        EntityResultMapImpl eR = new EntityResultMapImpl(columns);
-        Hashtable record = new Hashtable<String, String>();
+        EntityResult eR = new EntityResultMapImpl(columns);
+        HashMap record = new HashMap<String, String>();
         record.put("test", "value");
         int total = 1000000;
         System.out.println("Creating " + total + " records");
