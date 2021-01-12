@@ -43,7 +43,7 @@ public class EntityResultMapImpl {
     /**
      * Object needed for the compression mechanism
      */
-    protected transient HashMap data = new HashMap();
+    protected transient Map data = new HashMap();
 
     protected transient int compressionLevel = Deflater.NO_COMPRESSION;
 
@@ -64,16 +64,16 @@ public class EntityResultMapImpl {
         if (columns != null) {
             for (int i = 0; i < columns.size(); i++) {
                 if (columns.get(i) != null) {
-                    this.put(columns.get(i), new Vector());
+                    this.put(columns.get(i), new ArrayList());
                 }
             }
         }
     }
 
-    public EntityResult(HashMap h) {
+    public EntityResult(Map h) {
         super(0);
         if (h != null) {
-            this.data = (HashMap) h.clone();
+            this.data = (Map) h.clone();
         }
     }
 
@@ -165,7 +165,7 @@ public class EntityResultMapImpl {
         } catch (Exception e) {
             EntityResult.logger.trace(null, e);
             Object o = super.clone();
-            ((EntityResult) o).data = (HashMap) this.data.clone();
+            ((EntityResult) o).data = (Map) this.data.clone();
             return o;
         }
     }
@@ -176,7 +176,7 @@ public class EntityResultMapImpl {
         Enumeration eKeys = this.data.keys();
         while (eKeys.hasMoreElements()) {
             Object oKey = eKeys.nextElement();
-            Vector vValues = (Vector) this.data.get(oKey);
+            List vValues = (List) this.data.get(oKey);
             if (vValues != null) {
                 ((EntityResult) o).data.put(oKey, vValues.clone());
             }
@@ -487,7 +487,7 @@ public class EntityResultMapImpl {
             EntityResult.logger.debug("EntityResult size not serialized: {}", bytes.length);
             inAux = new ObjectInputStream(new ByteArrayInputStream(bytes));
             // Now read the object
-            this.data = (HashMap) inAux.readObject();
+            this.data = (Map) inAux.readObject();
             long tStream = in.readLong();
             this.dataByteNumber = nBytes;
             this.compressionLevel = nCompression;
@@ -551,11 +551,7 @@ public class EntityResultMapImpl {
             byteStream = new ByteArrayInputStream(bytesADescomprimir);
             zip = new ZipInputStream(byteStream);
             ZipEntry inputZip = zip.getNextEntry();
-            // Uses a vector is inefficient. We use a byte array to improve the
-            // use
-            // of memory
-            // A better option will be read the stream in small pieces
-            Vector bytesUncompressed = new Vector();
+            List bytesUncompressed = new ArrayList();
             int byt = -1;
             while ((byt = zip.read()) != -1) {
                 bytesUncompressed.add(bytesUncompressed.size(), new Byte((byte) byt));
@@ -667,27 +663,27 @@ public class EntityResultMapImpl {
         while (keys.hasMoreElements()) {
             Object oKey = keys.nextElement();
             Object v = this.get(oKey);
-            if ((v != null) && (v instanceof Vector)) {
-                r = ((Vector) v).size();
+            if ((v != null) && (v instanceof List)) {
+                r = ((List) v).size();
                 break;
             }
         }
         return r;
     }
 
-    public HashMap getRecordValues(int i) {
+    public Map getRecordValues(int i) {
         if (i < 0) {
             return null;
         }
-        HashMap hValues = new HashMap();
+        Map hValues = new HashMap();
         Enumeration keys = this.keys();
         int r = 0;
         while (keys.hasMoreElements()) {
             Object oKey = keys.nextElement();
-            Vector v = (Vector) this.get(oKey);
+            List v = (List) this.get(oKey);
             r = v.size();
             if (i >= r) {
-                EntityResult.logger.debug("The values vector for {} only have {} values", oKey, r);
+                EntityResult.logger.debug("The values List for {} only have {} values", oKey, r);
                 continue;
             }
             if (v.get(i) != null) {
@@ -697,20 +693,20 @@ public class EntityResultMapImpl {
         return hValues;
     }
 
-    public HashMap getRecordValues(int i, Vector vKeys) {
+    public Map getRecordValues(int i, List vKeys) {
         if (i < 0) {
             return null;
         }
-        HashMap hValues = new HashMap(vKeys.size() * 2);
+        Map hValues = new HashMap(vKeys.size() * 2);
         Enumeration keys = this.keys();
         int r = 0;
         while (keys.hasMoreElements()) {
             Object oKey = keys.nextElement();
             if (vKeys.contains(oKey)) {
-                Vector v = (Vector) this.get(oKey);
+                List v = (List) this.get(oKey);
                 r = v.size();
                 if (i >= r) {
-                    EntityResult.logger.debug("The values vector for {} only have {} values", oKey, r);
+                    EntityResult.logger.debug("The values List for {} only have {} values", oKey, r);
                     continue;
                 }
                 if (v.get(i) != null) {
@@ -729,11 +725,11 @@ public class EntityResultMapImpl {
         return this.dataByteNumber;
     }
 
-    public void addRecord(HashMap data) {
+    public void addRecord(Map data) {
         this.addRecord(data, 0);
     }
 
-    public void addRecord(HashMap data, int s) {
+    public void addRecord(Map data, int s) {
         if (this.isEmpty()) {
             if (s > 0) {
                 throw new IllegalArgumentException("is empty -> index must be 0");
@@ -741,7 +737,7 @@ public class EntityResultMapImpl {
             Enumeration keys = data.keys();
             while (keys.hasMoreElements()) {
                 Object oKey = keys.nextElement();
-                Vector v = new Vector();
+                List v = new ArrayList();
                 v.add(0, data.get(oKey));
                 this.put(oKey, v);
             }
@@ -757,7 +753,7 @@ public class EntityResultMapImpl {
             ArrayList modifiedList = new ArrayList();
             while (keys.hasMoreElements()) {
                 Object oKey = keys.nextElement();
-                Vector v = (Vector) this.get(oKey);
+                List v = (List) this.get(oKey);
                 if (modifiedList.contains(v)) {
                     continue;
                 }
@@ -777,7 +773,7 @@ public class EntityResultMapImpl {
             Enumeration eKeys = this.keys();
             while (eKeys.hasMoreElements()) {
                 Object oKey = eKeys.nextElement();
-                Vector vData = (Vector) this.get(oKey);
+                List vData = (List) this.get(oKey);
                 vData.remove(index);
             }
         }
@@ -793,19 +789,19 @@ public class EntityResultMapImpl {
         return this.code == EntityResult.OPERATION_WRONG;
     }
 
-    public int indexOfData(HashMap dataKeys) {
+    public int indexOfData(Map dataKeys) {
         int index = getValuesKeysIndex(this, dataKeys);
         return index;
     }
 
-    public int getRecordIndex(HashMap kv) {
-        Vector vKeys = new Vector();
+    public int getRecordIndex(Map kv) {
+        List vKeys = new ArrayList();
         Enumeration eKeys = kv.keys();
         while (eKeys.hasMoreElements()) {
             vKeys.add(eKeys.nextElement());
         }
         for (int i = 0; i < this.calculateRecordNumber(); i++) {
-            HashMap recordValues = this.getRecordValues(i);
+            Map recordValues = this.getRecordValues(i);
             boolean found = true;
             for (int j = 0; j < vKeys.size(); j++) {
                 Object keyCondition = kv.get(vKeys.get(j));
@@ -821,13 +817,13 @@ public class EntityResultMapImpl {
         return -1;
     }
 
-    protected HashMap columnsSQLTypes = null;
+    protected Map columnsSQLTypes = null;
 
-    public HashMap getColumnSQLTypes() {
+    public Map getColumnSQLTypes() {
         return this.columnsSQLTypes;
     }
 
-    public void setColumnSQLTypes(HashMap types) {
+    public void setColumnSQLTypes(Map types) {
         this.columnsSQLTypes = types;
     }
 

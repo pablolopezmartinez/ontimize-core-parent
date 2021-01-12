@@ -1,6 +1,6 @@
 package com.ontimize.db;
 
-import com.ontimize.dto.EntityResultMapImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import java.util.zip.Deflater;
 
 public interface EntityResult {
 
-    Logger logger = LoggerFactory.getLogger(EntityResultMapImpl.class);
+    Logger logger = LoggerFactory.getLogger(EntityResultclass);
 
     boolean DEBUG = false;
 
@@ -58,39 +58,37 @@ public interface EntityResult {
 
     }
 
-    default int getValuesKeysIndex(EntityResult entityResult, HashMap kv) {
+    default int getValuesKeysIndex(EntityResult entityResult, Map kv) {
 
         // Check fast
         if (kv.isEmpty()) {
             return -1;
         }
-        Vector vKeys = new Vector();
+        List vKeys = new ArrayList();
         Enumeration enumKeys = kv.keySet();
         while (enumKeys.hasMoreElements()) {
             vKeys.add(enumKeys.nextElement());
         }
-        // Now get the first data vector. Look for all indexes with the
-        // specified key
-        // and for each one check the other keys
+
         Object vData = entityResult.get(vKeys.get(0));
-        if ((vData == null) || (!(vData instanceof Vector))) {
+        if ((vData == null) || (!(vData instanceof List))) {
             return -1;
         }
         int currentValueIndex = -1;
 
         if (vKeys.size() == 1) {
-            return ((Vector) vData).indexOf(kv.get(vKeys.get(0)));
+            return ((List) vData).indexOf(kv.get(vKeys.get(0)));
         }
 
-        while ((currentValueIndex = ((Vector) vData).indexOf(kv.get(vKeys.get(0)), currentValueIndex + 1)) >= 0) {
+        while ((currentValueIndex = ((List) vData).indexOf(kv.get(vKeys.get(0)), currentValueIndex + 1)) >= 0) {
             boolean allValuesCoincidence = true;
             for (int i = 1; i < vKeys.size(); i++) {
                 Object requestValue = kv.get(vKeys.get(i));
                 Object vDataAux = entityResult.get(vKeys.get(i));
-                if ((vDataAux == null) || (!(vDataAux instanceof Vector))) {
+                if ((vDataAux == null) || (!(vDataAux instanceof List))) {
                     return -1;
                 }
-                if (!requestValue.equals(((Vector) vDataAux).get(currentValueIndex))) {
+                if (!requestValue.equals(((List) vDataAux).get(currentValueIndex))) {
                     allValuesCoincidence = false;
                     break;
                 }
@@ -107,7 +105,7 @@ public interface EntityResult {
         List<String> columns = new ArrayList<String>();
         columns.add("test");
         EntityResult eR = new EntityResultMapImpl(columns);
-        HashMap record = new HashMap<String, String>();
+        Map record = new HashMap<String, String>();
         record.put("test", "value");
         int total = 1000000;
         System.out.println("Creating " + total + " records");
