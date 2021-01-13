@@ -1,4 +1,4 @@
-package com.ontimize.db;
+package com.ontimize.dto;
 
 
 import org.slf4j.Logger;
@@ -9,8 +9,6 @@ import java.util.*;
 import java.util.zip.Deflater;
 
 public interface EntityResult {
-
-    Logger logger = LoggerFactory.getLogger(EntityResultclass);
 
     boolean DEBUG = false;
 
@@ -58,6 +56,8 @@ public interface EntityResult {
 
     }
 
+    Object get(Object key);
+
     default int getValuesKeysIndex(EntityResult entityResult, Map kv) {
 
         // Check fast
@@ -65,7 +65,7 @@ public interface EntityResult {
             return -1;
         }
         List vKeys = new ArrayList();
-        Enumeration enumKeys = kv.keySet();
+        Enumeration enumKeys = (Enumeration) kv.keySet();
         while (enumKeys.hasMoreElements()) {
             vKeys.add(enumKeys.nextElement());
         }
@@ -111,7 +111,7 @@ public interface EntityResult {
         System.out.println("Creating " + total + " records");
         long startTime = System.nanoTime();
         for (int i = 0; i < total; i++) {
-            eR.addRecord(record);
+            ((EntityResultMapImpl) eR).addRecord(record);
         }
         long estimatedTime = System.nanoTime() - startTime;
         System.out.println("Time to create the entity result  ->" + estimatedTime);

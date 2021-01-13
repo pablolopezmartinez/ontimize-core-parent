@@ -21,6 +21,8 @@ import com.ontimize.gui.field.ReferenceFieldAttribute;
 
 public class EntityResultMapImpl {
 
+    Logger logger = LoggerFactory.getLogger(EntityResultMapImpl.class);
+
     /**
      * Compression Threshold.
      */
@@ -54,12 +56,12 @@ public class EntityResultMapImpl {
     /**
      * Creates a EntityResult with code = OPERATION_SUCCESSFUL and type = NODATA_RESULT
      */
-    public EntityResult() {
+    public EntityResultMapImpl() {
         super(0);
     }
 
     // 5.2062EN-0.1
-    public EntityResult(List columns) {
+    public EntityResultMapImpl(List columns) {
         super(0);
         if (columns != null) {
             for (int i = 0; i < columns.size(); i++) {
@@ -70,20 +72,20 @@ public class EntityResultMapImpl {
         }
     }
 
-    public EntityResult(Map h) {
+    public EntityResultMapImpl(Map h) {
         super(0);
         if (h != null) {
             this.data = (Map) h.clone();
         }
     }
 
-    public EntityResult(int operationCode, int resultType) {
+    public EntityResultMapImpl(int operationCode, int resultType) {
         super(0);
         this.code = operationCode;
         this.type = resultType;
     }
 
-    public EntityResult(int operationCode, int resultType, String resultMessage) {
+    public EntityResultMapImpl(int operationCode, int resultType, String resultMessage) {
         super(0);
         this.code = operationCode;
         this.type = resultType;
@@ -139,8 +141,8 @@ public class EntityResultMapImpl {
     }
 
     @Override
-    public boolean contains(Object value) {
-        return this.data.contains(value);
+    public boolean contains(Object value) { //todo check if is desired result
+        return this.data.containsValue(value);
     }
 
     @Override
@@ -154,8 +156,8 @@ public class EntityResultMapImpl {
     }
 
     @Override
-    public Enumeration elements() {
-        return this.data.elements();
+    public Collection elements() {
+        return this.data.values();
     }
 
     @Override
@@ -163,26 +165,26 @@ public class EntityResultMapImpl {
         try {
             return this.deepClone();
         } catch (Exception e) {
-            EntityResult.logger.trace(null, e);
+            logger.trace(null, e);
             Object o = super.clone();
-            ((EntityResult) o).data = (Map) this.data.clone();
+            ((EntityResultMapImpl) o).data = (Map) this.data.clone();
             return o;
         }
     }
 
-    public EntityResult deepClone() {
+    public EntityResultMapImpl deepClone() {
         Object o = super.clone();
-        ((EntityResult) o).data = new EntityResult();
-        Enumeration eKeys = this.data.keys();
+        ((EntityResultMapImpl) o).data = new EntityResult();
+        Enumeration eKeys = Collections.enumeration((this.data.keySet());
         while (eKeys.hasMoreElements()) {
             Object oKey = eKeys.nextElement();
             List vValues = (List) this.data.get(oKey);
             if (vValues != null) {
-                ((EntityResult) o).data.put(oKey, vValues.clone());
+                ((EntityResultMapImpl) o).data.put(oKey, vValues.clone());
             }
         }
 
-        return (EntityResult) o;
+        return (EntityResultMapImpl) o;
     }
 
     @Override
@@ -197,7 +199,7 @@ public class EntityResultMapImpl {
 
     public Object get(Object cod, Object attr) {
         Object oValue = null;
-        Enumeration eKeys = this.data.keys();
+        Enumeration eKeys = Collections.enumeration(this.data.keySet());
         while (eKeys.hasMoreElements()) {
             Object oKey = eKeys.nextElement();
             if (oKey instanceof ReferenceFieldAttribute) {
@@ -227,7 +229,7 @@ public class EntityResultMapImpl {
                 }
             }
             // Now, other data columns not in columns order
-            Enumeration eKeys = this.data.keys();
+            Enumeration eKeys = Collections.enumeration(this.data.keySet());
             while (eKeys.hasMoreElements()) {
                 Object oKey = eKeys.nextElement();
                 if (!sortKeys.contains(oKey)) {
@@ -236,7 +238,7 @@ public class EntityResultMapImpl {
             }
             return Collections.enumeration(sortKeys);
         }
-        return this.data.keys();
+        return Collections.enumeration(this.data.keySet());
     }
 
     @Override
@@ -284,13 +286,13 @@ public class EntityResultMapImpl {
     }
 
     public void setCompressionThreshold(int threshold) {
-        EntityResult.logger.debug("EntityResult: Compression threshold sets to: {}", threshold);
+        logger.debug("EntityResult: Compression threshold sets to: {}", threshold);
         this.compressionThreshold = threshold;
-        if (this.compressionThreshold < this.MIN_BYTE_PROGRESS) {
-            this.MIN_BYTE_PROGRESS = this.compressionThreshold * 2;
+        if (this.compressionThreshold < EntityResult.MIN_BYTE_PROGRESS) {
+            EntityResult.MIN_BYTE_PROGRESS = this.compressionThreshold * 2;
         }
-        if (this.compressionThreshold < this.byteBlock) {
-            this.byteBlock = this.compressionThreshold * 2;
+        if (this.compressionThreshold < EntityResult.byteBlock) {
+            EntityResult.byteBlock = this.compressionThreshold * 2;
         }
     }
 
@@ -311,18 +313,18 @@ public class EntityResultMapImpl {
             outO.writeObject(this.data);
             long t2 = System.currentTimeMillis();
             int size = out.size();
-            EntityResult.logger.debug("Time calculating EntityResult data size = {}  milliseconds. Size = {}  Bytes.",
+            logger.debug("Time calculating EntityResult data size = {}  milliseconds. Size = {}  Bytes.",
                     t2 - t, size);
             return size;
         } catch (IOException e) {
-            EntityResult.logger.error(null, e);
+            logger.error(null, e);
             return -1;
         } finally {
             try {
                 out.close();
                 outO.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                logger.trace(null, e);
             }
         }
     }
@@ -330,24 +332,24 @@ public class EntityResultMapImpl {
     private void writeObject(ObjectOutputStream out) throws IOException {
         // Default serialization. This object is serialized in first place.
         // To serialize the data is sometimes necessary to compress them
-        EntityResult.logger.debug("Serializing EntityResult");
+        logger.debug("Serializing EntityResult");
         long t = System.currentTimeMillis();
         int thresholdLevel = this.compressionThreshold;
         out.defaultWriteObject();
-        EntityResult.logger.debug("Serializing EntityResult: after defaultWriteObject");
+        logger.debug("Serializing EntityResult: after defaultWriteObject");
         // Now data
         ByteArrayOutputStream bOut = null;
         ObjectOutputStream outAux = null;
         try {
-            EntityResult.logger.debug("Serializing EntityResult: entering the try");
+            logger.debug("Serializing EntityResult: entering the try");
             byte[] compressedBytes = null;
             bOut = new ByteArrayOutputStream(512);
             outAux = new ObjectOutputStream(bOut);
-            EntityResult.logger.debug("Serializing EntityResult: before outAux");
+            logger.debug("Serializing EntityResult: before outAux");
             outAux.writeObject(this.data);
             outAux.flush();
             int size = bOut.size();
-            EntityResult.logger.debug("Object size without compression = {} bytes. Compression threshold = {}", size,
+            logger.debug("Object size without compression = {} bytes. Compression threshold = {}", size,
                     thresholdLevel);
 
             if ((size > thresholdLevel) && (this.compressionLevel == EntityResult.NO_COMPRESSION)) {
@@ -370,7 +372,7 @@ public class EntityResultMapImpl {
                     compressedBytes = bytesWithOutCompress;
                     this.compressionLevel = Deflater.NO_COMPRESSION;
                 }
-                EntityResult.logger.debug("Compressed object size = {}  bytes", compressedBytes.length);
+                logger.debug("Compressed object size = {}  bytes", compressedBytes.length);
             } else {
                 // When compression is not necessary.
                 compressedBytes = bytesWithOutCompress;
@@ -392,47 +394,47 @@ public class EntityResultMapImpl {
             while (writedBytes < nBytesToWrite) {
 
                 if (com.ontimize.db.CancellableOperationManager.existCancellationRequest(this.operationId)) {
-                    EntityResult.logger.info("Serializing operation canceled: {} . Written: {}", this.operationId,
+                    logger.info("Serializing operation canceled: {} . Written: {}", this.operationId,
                             writedBytes);
                     throw new IOException("Serializing operation canceled: " + this.operationId);
                 }
 
-                int currentWritedBytes = Math.min(nBytesToWrite - writedBytes, this.byteBlock);
+                int currentWritedBytes = Math.min(nBytesToWrite - writedBytes, EntityResult.byteBlock);
                 out.write(compressedBytes, writedBytes, currentWritedBytes);
                 writedBytes = writedBytes + currentWritedBytes;
                 if (this.operationId != null) {
                     out.flush();
                 }
-                EntityResult.logger.debug("EntityResult: Written: {}", currentWritedBytes);
+                logger.debug("EntityResult: Written: {}", currentWritedBytes);
                 if (EntityResult.LIMIT_SPEED) {
                     long t5 = System.currentTimeMillis();
                     if ((t5 - t4) < 1000) {
-                        EntityResult.logger.info("Serialization sleep: {}", 1000 - (t5 - t4));
+                        logger.info("Serialization sleep: {}", 1000 - (t5 - t4));
                         try {
                             Thread.sleep(1000 - (t5 - t4));
                         } catch (Exception e) {
-                            EntityResult.logger.trace(null, e);
+                            logger.trace(null, e);
                         }
                     }
                 }
             }
             out.flush();
             this.streamTime = System.currentTimeMillis() - t4;
-            EntityResult.logger.debug("STREAM Time EntityResult {}", this.streamTime);
+            logger.debug("STREAM Time EntityResult {}", this.streamTime);
             Thread.currentThread().setPriority(priority);
             out.writeLong(this.streamTime);
             out.flush();
             // Serialization is finished
-            EntityResult.logger.debug("Serializing EntityResult time {}", System.currentTimeMillis() - t);
+            logger.debug("Serializing EntityResult time {}", System.currentTimeMillis() - t);
         } catch (IOException e) {
-            EntityResult.logger.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             throw e;
         } finally {
             try {
                 outAux.close();
                 bOut.close();
             } catch (Exception e) {
-                EntityResult.logger.error(null, e);
+                logger.error(null, e);
             }
         }
 
@@ -458,7 +460,7 @@ public class EntityResultMapImpl {
             long t = System.currentTimeMillis();
             long elapsedTime = 0;
             if (nCompression != Deflater.NO_COMPRESSION) {
-                TimeUtil time = new TimeUtil();
+                EntityResult.TimeUtil time = new EntityResult.TimeUtil();
                 bytes = this.uncompressionBytes(in, nBytes);
                 elapsedTime = time.getTime();
             } else {
@@ -481,10 +483,10 @@ public class EntityResultMapImpl {
                 }
 
                 long t2 = System.currentTimeMillis();
-                EntityResult.logger.debug("Time reading EntityResult: {} without compression", t2 - t);
+                logger.debug("Time reading EntityResult: {} without compression", t2 - t);
                 elapsedTime = t2 - t;
             }
-            EntityResult.logger.debug("EntityResult size not serialized: {}", bytes.length);
+            logger.debug("EntityResult size not serialized: {}", bytes.length);
             inAux = new ObjectInputStream(new ByteArrayInputStream(bytes));
             // Now read the object
             this.data = (Map) inAux.readObject();
@@ -493,7 +495,7 @@ public class EntityResultMapImpl {
             this.compressionLevel = nCompression;
             this.streamTime = tStream;
             if (elapsedTime > tStream) {
-                EntityResult.logger.debug("Stream time < deserialized time: {} < {}", tStream, elapsedTime);
+                logger.debug("Stream time < deserialized time: {} < {}", tStream, elapsedTime);
                 this.streamTime = elapsedTime;
             }
         } catch (IOException e) {
@@ -506,7 +508,7 @@ public class EntityResultMapImpl {
                     inAux.close();
                 }
             } catch (Exception e) {
-                EntityResult.logger.error(null, e);
+                logger.error(null, e);
             }
         }
     }
@@ -527,18 +529,18 @@ public class EntityResultMapImpl {
             // Lock at the resultant number of bytes
             return byteStream.toByteArray();
         } catch (Exception e) {
-            EntityResult.logger.trace(null, e);
+            logger.trace(null, e);
             return null;
         } finally {
             try {
                 zip.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                logger.trace(null, e);
             }
             try {
                 byteStream.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                logger.trace(null, e);
             }
         }
     }
@@ -562,18 +564,18 @@ public class EntityResultMapImpl {
             }
             return bytes;
         } catch (IOException e) {
-            EntityResult.logger.trace(null, e);
+            logger.trace(null, e);
             return null;
         } finally {
             try {
                 zip.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                logger.trace(null, e);
             }
             try {
                 byteStream.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                logger.trace(null, e);
             }
         }
 
@@ -611,7 +613,7 @@ public class EntityResultMapImpl {
         ZipInputStream zip = null;
 
         ByteArrayOutputStream bOut = null;
-        EntityResult.logger.debug("EntityResult: Uncompressing : {} bytes", byteNumber);
+        logger.debug("EntityResult: Uncompressing : {} bytes", byteNumber);
         try {
             long t = System.currentTimeMillis();
             // Undo the compression
@@ -636,22 +638,22 @@ public class EntityResultMapImpl {
             byte[] res = bOut.toByteArray();
 
             uncompressorT = System.nanoTime() - uncompressorT;
-            EntityResult.logger.debug("Time reading EntityResult: {} COMPRESSED", uncompressorT / 1000000.0);
-            EntityResult.logger.trace("Time uncompress: " + (System.currentTimeMillis() - t));
+            logger.debug("Time reading EntityResult: {} COMPRESSED", uncompressorT / 1000000.0);
+            logger.trace("Time uncompress: " + (System.currentTimeMillis() - t));
             return res;
         } catch (IOException e) {
-            EntityResult.logger.error(null, e);
+            logger.error(null, e);
             return null;
         } finally {
             try {
                 bOut.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                logger.trace(null, e);
             }
             try {
                 zip.close();
             } catch (Exception e) {
-                EntityResult.logger.trace(null, e);
+                logger.trace(null, e);
             }
         }
 
@@ -683,7 +685,7 @@ public class EntityResultMapImpl {
             List v = (List) this.get(oKey);
             r = v.size();
             if (i >= r) {
-                EntityResult.logger.debug("The values List for {} only have {} values", oKey, r);
+                logger.debug("The values List for {} only have {} values", oKey, r);
                 continue;
             }
             if (v.get(i) != null) {
@@ -706,7 +708,7 @@ public class EntityResultMapImpl {
                 List v = (List) this.get(oKey);
                 r = v.size();
                 if (i >= r) {
-                    EntityResult.logger.debug("The values List for {} only have {} values", oKey, r);
+                    logger.debug("The values List for {} only have {} values", oKey, r);
                     continue;
                 }
                 if (v.get(i) != null) {
@@ -734,7 +736,7 @@ public class EntityResultMapImpl {
             if (s > 0) {
                 throw new IllegalArgumentException("is empty -> index must be 0");
             }
-            Enumeration keys = data.keys();
+            Enumeration keys = Collections.enumeration((this.data.keySet());
             while (keys.hasMoreElements()) {
                 Object oKey = keys.nextElement();
                 List v = new ArrayList();
@@ -790,13 +792,13 @@ public class EntityResultMapImpl {
     }
 
     public int indexOfData(Map dataKeys) {
-        int index = getValuesKeysIndex(this, dataKeys);
+        int index = getValuesKeysIndex(this, dataKeys); //todo
         return index;
     }
 
     public int getRecordIndex(Map kv) {
         List vKeys = new ArrayList();
-        Enumeration eKeys = kv.keys();
+        Enumeration eKeys = Collections.enumeration(kv.keySet());
         while (eKeys.hasMoreElements()) {
             vKeys.add(eKeys.nextElement());
         }
