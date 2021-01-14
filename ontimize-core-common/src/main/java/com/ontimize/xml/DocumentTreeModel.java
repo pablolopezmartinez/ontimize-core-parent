@@ -1,12 +1,11 @@
 package com.ontimize.xml;
 
+import com.ontimize.builder.xml.CustomNode;
+import org.w3c.dom.Node;
+
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
-import org.w3c.dom.Node;
-
-import com.ontimize.builder.xml.CustomNode;
 
 public class DocumentTreeModel implements TreeModel {
 

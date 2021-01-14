@@ -1,11 +1,10 @@
 package com.ontimize.util.logging;
 
-import java.rmi.Remote;
-import java.util.List;
-
+import com.ontimize.util.remote.BytesBlock;
 import org.slf4j.Logger;
 
-import com.ontimize.util.remote.BytesBlock;
+import java.rmi.Remote;
+import java.util.List;
 
 public interface IRemoteLogManager extends Remote {
 

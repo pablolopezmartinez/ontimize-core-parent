@@ -1,9 +1,9 @@
 package com.ontimize.gui;
 
-import java.io.Serializable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
 
 /**
  * Class used to specified some conditions in the sql statements filters<br>

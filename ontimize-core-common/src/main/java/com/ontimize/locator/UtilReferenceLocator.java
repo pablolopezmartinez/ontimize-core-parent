@@ -1,14 +1,10 @@
 package com.ontimize.locator;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.Vector;
-
 import com.ontimize.db.Entity;
 import com.ontimize.dto.EntityResult;
 import com.ontimize.util.operation.RemoteOperationManager;
+
+import java.util.*;
 
 public interface UtilReferenceLocator extends java.rmi.Remote {
 

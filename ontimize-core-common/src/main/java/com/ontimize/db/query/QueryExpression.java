@@ -1,9 +1,9 @@
 package com.ontimize.db.query;
 
+import com.ontimize.db.SQLStatementBuilder.Expression;
+
 import java.io.Serializable;
 import java.util.List;
-
-import com.ontimize.db.SQLStatementBuilder.Expression;
 
 public class QueryExpression implements Serializable {
 

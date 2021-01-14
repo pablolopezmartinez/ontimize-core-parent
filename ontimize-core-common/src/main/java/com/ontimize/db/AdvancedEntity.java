@@ -1,6 +1,6 @@
 package com.ontimize.db;
 
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 public interface AdvancedEntity extends Entity {
@@ -19,11 +19,11 @@ public interface AdvancedEntity extends Entity {
      */
 
     @Deprecated
-    public AdvancedEntityResult query(Hashtable kv, Vector attributes, int sessionId, int recordNumber, int startIndex,
+    public AdvancedEntityResult query(Map kv, Vector attributes, int sessionId, int recordNumber, int startIndex,
             String orderBy, boolean desc) throws Exception;
 
     /**
-     * @param kv a <code>Hashtable</code> specifying conditions that must comply the set of records
+     * @param kv a <code>Map</code> specifying conditions that must comply the set of records
      *        returned. Cannot be null.
      * @param attributes a list of columns that must be recovered for each record returned. Cannot be
      *        null. If empty, all attributes will be returned.
@@ -35,7 +35,7 @@ public interface AdvancedEntity extends Entity {
      * @return
      * @throws Exception
      */
-    public AdvancedEntityResult query(Hashtable kv, Vector attributes, int sessionId, int recordNumber, int startIndex,
-            Vector orderBy) throws Exception;
+    public AdvancedEntityResult query(Map kv, List attributes, int sessionId, int recordNumber, int startIndex,
+            List orderBy) throws Exception;
 
 }

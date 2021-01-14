@@ -1,10 +1,10 @@
 package com.ontimize.util.notice;
 
+import com.ontimize.dto.EntityResult;
+
 import java.rmi.Remote;
 import java.util.Hashtable;
 import java.util.Vector;
-
-import com.ontimize.dto.EntityResult;
 
 public interface INoticeSystem extends Remote {
 

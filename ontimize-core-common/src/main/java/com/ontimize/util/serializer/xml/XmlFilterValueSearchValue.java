@@ -1,14 +1,8 @@
 package com.ontimize.util.serializer.xml;
 
+import javax.xml.bind.annotation.*;
 import java.util.List;
 import java.util.Vector;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "values", propOrder = { "uniqueValue", "multipleValues" })

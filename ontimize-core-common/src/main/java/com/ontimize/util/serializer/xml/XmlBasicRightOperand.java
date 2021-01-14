@@ -1,12 +1,12 @@
 package com.ontimize.util.serializer.xml;
 
+import com.ontimize.util.serializer.xml.adapters.XmlStaticAdapters;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
-
-import com.ontimize.util.serializer.xml.adapters.XmlStaticAdapters;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "basic-right-operand", propOrder = { "basicExpression", "value", "searchValue" })

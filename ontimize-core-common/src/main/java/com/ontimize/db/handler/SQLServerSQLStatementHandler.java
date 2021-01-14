@@ -1,15 +1,14 @@
 package com.ontimize.db.handler;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
-
+import com.ontimize.db.SQLStatementBuilder;
+import com.ontimize.db.SQLStatementBuilder.SQLStatement;
+import com.ontimize.dto.EntityResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.dto.EntityResult;
-import com.ontimize.db.SQLStatementBuilder;
-import com.ontimize.db.SQLStatementBuilder.SQLStatement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class SQLServerSQLStatementHandler extends DefaultSQLStatementHandler {
 
@@ -37,11 +36,11 @@ public class SQLServerSQLStatementHandler extends DefaultSQLStatementHandler {
     }
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount, boolean descending,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount, boolean descending,
             boolean forceDistinct) {
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
         if ((columnSorting != null) && !requestedColumns.isEmpty()) {
             for (int i = 0; i < columnSorting.size(); i++) {
                 if (!requestedColumns.contains(columnSorting.get(i).toString())) {
@@ -63,7 +62,7 @@ public class SQLServerSQLStatementHandler extends DefaultSQLStatementHandler {
         return new SQLStatement(sql.toString(), vValues);
     }
 
-    protected String createSelectQuery(String table, Vector askedColumns, int recordsNumber, boolean forceDistinct) {
+    protected String createSelectQuery(String table, List askedColumns, int recordsNumber, boolean forceDistinct) {
         StringBuilder sStringQuery = new StringBuilder(SQLStatementBuilder.SELECT);
         String tableaux = table.toLowerCase();
         if (forceDistinct) {
@@ -146,10 +145,10 @@ public class SQLServerSQLStatementHandler extends DefaultSQLStatementHandler {
 
     @Override
     protected SQLStatement createLeftJoinSelectQueryPageable(String mainTable, String subquery, String secondaryTable,
-            Vector mainKeys, Vector secondaryKeys,
-            Vector mainTableRequestedColumns, Vector secondaryTableRequestedColumns, Hashtable mainTableConditions,
-            Hashtable secondaryTableConditions, Vector wildcards,
-            Vector columnSorting, boolean forceDistinct, boolean descending, int recordCount) {
+            List mainKeys, List secondaryKeys,
+            List mainTableRequestedColumns, List secondaryTableRequestedColumns, Map mainTableConditions,
+            Map secondaryTableConditions, List wildcards,
+            List columnSorting, boolean forceDistinct, boolean descending, int recordCount) {
         // TODO Auto-generated method stub
         SQLStatement stSQL = super.createLeftJoinSelectQuery(mainTable, subquery, secondaryTable, mainKeys,
                 secondaryKeys, mainTableRequestedColumns,
@@ -157,7 +156,7 @@ public class SQLServerSQLStatementHandler extends DefaultSQLStatementHandler {
                 forceDistinct, descending);
 
         StringBuilder stSQLString = new StringBuilder(stSQL.getSQLStatement());
-        Vector vValues = stSQL.getValues();
+        List vValues = stSQL.getValues();
 
         int startIndex = stSQLString.indexOf(SQLServerSQLStatementHandler.TOP_100_PERCENT);
 
@@ -170,7 +169,7 @@ public class SQLServerSQLStatementHandler extends DefaultSQLStatementHandler {
 
     // since 5.2079EN-0.5
     @Override
-    public SQLStatement createCountQuery(String table, Hashtable conditions, Vector wildcards, Vector countColumns) {
+    public SQLStatement createCountQuery(String table, Map conditions, List wildcards, List countColumns) {
         // SQLServer does not support count for several columns -> count(colA ||
         // colB)
         if ((countColumns != null) && (countColumns.size() > 1)) {

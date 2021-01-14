@@ -1,16 +1,10 @@
 package com.ontimize.gui;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-
+import com.ontimize.util.remote.BytesBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.util.remote.BytesBlock;
+import java.io.*;
 
 public class DataFile implements Serializable {
 

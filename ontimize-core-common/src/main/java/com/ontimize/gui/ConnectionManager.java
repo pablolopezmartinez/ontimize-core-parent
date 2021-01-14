@@ -1,14 +1,13 @@
 package com.ontimize.gui;
 
-import java.net.InetAddress;
-import java.util.StringTokenizer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ontimize.dto.EntityResult;
 import com.ontimize.locator.ClientReferenceLocator;
 import com.ontimize.locator.EntityReferenceLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.InetAddress;
+import java.util.StringTokenizer;
 
 public abstract class ConnectionManager {
 

@@ -2,8 +2,8 @@ package com.ontimize.db.sql;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class SQLForeignKey extends SQLConstraint {
 
@@ -35,7 +35,7 @@ public class SQLForeignKey extends SQLConstraint {
      * @param keys Must contains a pair key-value, where key is the table column and value is the name
      *        of reference column.
      */
-    public SQLForeignKey(String secondaryTable, Hashtable keys) {
+    public SQLForeignKey(String secondaryTable, Map keys) {
         this.secondaryTable = secondaryTable;
         this.setKeys(keys);
     }
@@ -46,7 +46,7 @@ public class SQLForeignKey extends SQLConstraint {
      * @param keys Must contains a pair key-value, where key is the table column and value is the name
      *        of reference column.
      */
-    public SQLForeignKey(String constraintName, String secondaryTable, Hashtable keys) {
+    public SQLForeignKey(String constraintName, String secondaryTable, Map keys) {
         this.constraintName = constraintName;
         this.secondaryTable = secondaryTable;
         this.setKeys(keys);
@@ -63,10 +63,10 @@ public class SQLForeignKey extends SQLConstraint {
      * @param keys Must contains a pair key-value, where key is the table column and value is the name
      *        of reference column.
      */
-    public void setKeys(Hashtable keys) {
+    public void setKeys(Map keys) {
         this.foreignColumns.clear();
         this.columns.clear();
-        Enumeration enumeration = keys.keys();
+        Enumeration enumeration = Collections.enumeration(keys.keySet());
         while (enumeration.hasMoreElements()) {
             Object key = enumeration.nextElement();
             Object value = keys.get(key);

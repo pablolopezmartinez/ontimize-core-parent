@@ -10,33 +10,33 @@ public class EntityResultTools {
         if (kv.isEmpty()) {
             return -1;
         }
-        Vector vKeys = new Vector();
+        List vKeys = new ArrayList();
         Enumeration enumKeys = Collections.enumeration(kv.keySet());
         while (enumKeys.hasMoreElements()) {
             vKeys.add(enumKeys.nextElement());
         }
-        // Now get the first data vector. Look for all indexes with the
+        // Now get the first data arraylist. Look for all indexes with the
         // specified key
         // and for each one check the other keys
         Object vData = entityResult.get(vKeys.get(0));
-        if ((vData == null) || (!(vData instanceof Vector))) {
+        if ((vData == null) || (!(vData instanceof ArrayList))) {
             return -1;
         }
         int currentValueIndex = -1;
 
         if (vKeys.size() == 1) {
-            return ((Vector) vData).indexOf(kv.get(vKeys.get(0)));
+            return ((ArrayList) vData).indexOf(kv.get(vKeys.get(0)));
         }
 
-        while ((currentValueIndex = ((Vector) vData).indexOf(kv.get(vKeys.get(0)), currentValueIndex + 1)) >= 0) {
+        while ((currentValueIndex = ((ArrayList) vData).indexOf(kv.get(vKeys.get(currentValueIndex + 1)))) >= 0) {
             boolean allValuesCoincidence = true;
             for (int i = 1; i < vKeys.size(); i++) {
                 Object requestValue = kv.get(vKeys.get(i));
                 Object vDataAux = entityResult.get(vKeys.get(i));
-                if ((vDataAux == null) || (!(vDataAux instanceof Vector))) {
+                if ((vDataAux == null) || (!(vDataAux instanceof ArrayList))) {
                     return -1;
                 }
-                if (!requestValue.equals(((Vector) vDataAux).get(currentValueIndex))) {
+                if (!requestValue.equals(((ArrayList) vDataAux).get(currentValueIndex))) {
                     allValuesCoincidence = false;
                     break;
                 }
@@ -49,15 +49,15 @@ public class EntityResultTools {
         return -1;
     }
 
-    public static void updateRecordValues(EntityResult entityResult, Hashtable recordValue, int index) {
-        Enumeration keysToUpdate = recordValue.keys();
+    public static void updateRecordValues(EntityResult entityResult, Map recordValue, int index) {
+        Enumeration keysToUpdate = Collections.enumeration(recordValue.keySet());
         while (keysToUpdate.hasMoreElements()) {
             Object currentKey = keysToUpdate.nextElement();
             if (entityResult.containsKey(currentKey)) {
-                Vector columnRecords = (Vector) entityResult.get(currentKey);
+                ArrayList columnRecords = (ArrayList) entityResult.get(currentKey);
                 columnRecords.set(index, recordValue.get(currentKey));
             } else {
-                Vector columnRecords = new Vector(entityResult.calculateRecordNumber());
+                ArrayList columnRecords = new ArrayList(entityResult.calculateRecordNumber());
                 columnRecords.set(index, recordValue.get(currentKey));
                 entityResult.put(currentKey, columnRecords);
             }

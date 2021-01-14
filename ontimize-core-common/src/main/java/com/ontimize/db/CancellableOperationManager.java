@@ -1,11 +1,10 @@
 package com.ontimize.db;
 
-import java.util.Vector;
-
+import com.ontimize.gui.RandomStringGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.gui.RandomStringGenerator;
+import java.util.Vector;
 
 public abstract class CancellableOperationManager {
 

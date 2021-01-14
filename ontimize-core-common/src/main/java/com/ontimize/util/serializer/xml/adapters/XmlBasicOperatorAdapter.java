@@ -1,10 +1,9 @@
 package com.ontimize.util.serializer.xml.adapters;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
+import com.ontimize.db.SQLStatementBuilder.BasicOperator;
 import org.apache.commons.lang.StringEscapeUtils;
 
-import com.ontimize.db.SQLStatementBuilder.BasicOperator;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 public class XmlBasicOperatorAdapter extends XmlAdapter<String, BasicOperator> {
 

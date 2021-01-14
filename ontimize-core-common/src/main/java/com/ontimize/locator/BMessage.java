@@ -1,8 +1,8 @@
 package com.ontimize.locator;
 
-import java.util.List;
-
 import com.ontimize.locator.UtilReferenceLocator.Message;
+
+import java.util.List;
 
 /**
  * Internal class for utility messages.

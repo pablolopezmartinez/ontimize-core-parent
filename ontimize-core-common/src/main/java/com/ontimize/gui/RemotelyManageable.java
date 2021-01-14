@@ -1,11 +1,11 @@
 package com.ontimize.gui;
 
+import com.ontimize.locator.SessionInfo;
+import com.ontimize.util.logging.IRemoteLogManager;
+
 import java.rmi.Remote;
 import java.util.Hashtable;
 import java.util.Properties;
-
-import com.ontimize.locator.SessionInfo;
-import com.ontimize.util.logging.IRemoteLogManager;
 
 public interface RemotelyManageable extends Remote {
 

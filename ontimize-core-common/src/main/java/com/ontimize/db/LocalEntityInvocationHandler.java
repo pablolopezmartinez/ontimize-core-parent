@@ -1,17 +1,15 @@
 package com.ontimize.db;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
-
 import com.ontimize.dto.EntityResult;
 import com.ontimize.dto.EntityResultTools;
+import com.ontimize.locator.EntityReferenceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.locator.EntityReferenceLocator;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
 
 public class LocalEntityInvocationHandler implements InvocationHandler, Entity, DynamicMemoryEntity {
 
@@ -21,7 +19,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     protected EntityReferenceLocator locator;
 
-    protected Hashtable<String, Object> entityMetadata;
+    protected Map<String, Object> entityMetadata;
 
     protected com.ontimize.dto.EntityResult cacheData = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL,
             com.ontimize.dto.EntityResult.BEST_COMPRESSION);
@@ -48,7 +46,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public com.ontimize.dto.EntityResult insert(Hashtable attributesValues, int sessionId) throws Exception {
+    public com.ontimize.dto.EntityResult insert(Map attributesValues, int sessionId) throws Exception {
         this.checkInsertKeys(attributesValues);
         String autonumerical = this.getAutonumerical();
         List<String> generatedKeyList = this.getGeneratedKeyList();
@@ -69,14 +67,14 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public com.ontimize.dto.EntityResult update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception {
+    public com.ontimize.dto.EntityResult update(Map attributesValues, Map keysValues, int sessionId) throws Exception {
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         EntityResultTools.updateRecordValues(this.cacheData, attributesValues, index);
         return new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, com.ontimize.dto.EntityResult.BEST_COMPRESSION);
     }
 
     @Override
-    public com.ontimize.dto.EntityResult query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception {
+    public com.ontimize.dto.EntityResult query(Map keysValues, List attributes, int sessionId) throws Exception {
         if (keysValues.isEmpty()) {
             com.ontimize.dto.EntityResult entityResult = new com.ontimize.dto.EntityResult(this.cacheData);
             return entityResult;
@@ -97,8 +95,8 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
      * @throws Exception if any of the columns defined in 'insert_keys' is not found as key in
      *         <code>attributesValues</code>
      */
-    public void checkInsertKeys(Hashtable attributesValues) throws Exception {
-        Vector insertKeys = (Vector) this.entityMetadata.get(MetadataEntity.INSERT_KEYS);
+    public void checkInsertKeys(Map attributesValues) throws Exception {
+        List insertKeys = (List) this.entityMetadata.get(MetadataEntity.INSERT_KEYS);
         String autonumericalColumn = null;
         if (this.entityMetadata.containsKey(MetadataEntity.AUTONUMERICAL)) {
             autonumericalColumn = (String) this.entityMetadata.get(MetadataEntity.AUTONUMERICAL);
@@ -127,7 +125,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public com.ontimize.dto.EntityResult delete(Hashtable keysValues, int sessionId) throws Exception {
+    public com.ontimize.dto.EntityResult delete(Map keysValues, int sessionId) throws Exception {
         com.ontimize.dto.EntityResult erResult = new com.ontimize.dto.EntityResult();
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         if (index >= 0) {

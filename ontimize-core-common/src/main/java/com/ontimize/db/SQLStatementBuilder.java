@@ -1,26 +1,18 @@
 package com.ontimize.db;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.ontimize.db.handler.*;
+import com.ontimize.gui.SearchValue;
+import com.ontimize.util.ParseTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.handler.DefaultSQLStatementHandler;
-import com.ontimize.db.handler.HSQLDBSQLStatementHandler;
-import com.ontimize.db.handler.MySQLSQLStatementHandler;
-import com.ontimize.db.handler.OracleSQLStatementHandler;
-import com.ontimize.db.handler.PostgresSQLStatementHandler;
-import com.ontimize.db.handler.SQLServerSQLStatementHandler;
-import com.ontimize.db.handler.SQLStatementHandler;
-import com.ontimize.gui.SearchValue;
-import com.ontimize.util.ParseTools;
+import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The <code>SQLStatementBuilder</code> class builds SQL statements
@@ -48,7 +40,7 @@ public abstract class SQLStatementBuilder {
 
     public static final String MYSQL_HANDLER = "MySQL";
 
-    protected static final Hashtable registerHandlers = new Hashtable();
+    protected static final Map registerHandlers = new HashMap();
 
     static {
         SQLStatementBuilder.registerHandlers.put(SQLStatementBuilder.DEFAULT_HANDLER, new DefaultSQLStatementHandler());
@@ -137,9 +129,9 @@ public abstract class SQLStatementBuilder {
 
         protected String query = null;
 
-        protected Vector values = null;
+        protected List values = null;
 
-        public SQLExpression(String query, Vector values) {
+        public SQLExpression(String query, List values) {
             this.query = query;
             this.values = values;
         }
@@ -148,7 +140,7 @@ public abstract class SQLStatementBuilder {
             return this.query;
         }
 
-        public Vector getValues() {
+        public List getValues() {
             return this.values;
         }
 
@@ -1044,10 +1036,10 @@ public abstract class SQLStatementBuilder {
          * Creates the condition string for a SQL Statement.
          * @param conditions condition list that be using for create the string
          * @param wildcards column list that can use wildcards
-         * @param values vector where the value of each processed conditions is stored
+         * @param values List where the value of each processed conditions is stored
          * @return
          */
-        public String createQueryConditions(Hashtable conditions, Vector wildcards, Vector values);
+        public String createQueryConditions(Map conditions, List wildcards, List values);
 
         public void setSQLStatementHandler(SQLStatementHandler handler);
 
@@ -1135,22 +1127,22 @@ public abstract class SQLStatementBuilder {
 
         /**
          * Creates the condition string for a SQL Statement.
-         * @param conditions a Hashtable specifying pairs of key-value corresponding to the attribute (or
+         * @param conditions a Map specifying pairs of key-value corresponding to the attribute (or
          *        column of a table in a database) and the value that is formed by the condition.
          * @param wildcards column list that can use wildcards
-         * @param values vector where the value of each processed conditions is stored
+         * @param values List where the value of each processed conditions is stored
          * @return
          */
 
         @Override
-        public String createQueryConditions(Hashtable conditions, Vector wildcards, Vector values) {
+        public String createQueryConditions(Map conditions, List wildcards, List values) {
             StringBuilder sbStringQuery = new StringBuilder();
             // For each key (attribute), set the restriction
             // int i = 0;
             // int wildcardValues = 0;
             // int nullValues = 0;
             // int searchValuesInString = 0;
-            Enumeration enumKeys = conditions.keys();
+            Enumeration enumKeys = Collections.enumeration(conditions.keySet());
             while (enumKeys.hasMoreElements()) {
                 Object oKey = enumKeys.nextElement();
                 Object oValue = conditions.get(oKey);
@@ -1290,7 +1282,7 @@ public abstract class SQLStatementBuilder {
         }
 
         /**
-         * Method to reduce the complexity of {@link #createQueryConditions(Hashtable, Vector, Vector)}
+         * Method to reduce the complexity of {@link #createQueryConditions(Map, List, List)}
          * @param sbStringQuery
          * @param enumKeys
          * @param oKey
@@ -1310,7 +1302,7 @@ public abstract class SQLStatementBuilder {
                 likeOperator = SQLStatementBuilder.NOT_LIKE;
                 newValue = newValue.substring(SQLStatementBuilder.NOT_EQUAL_ID.length());
             }
-            // Do not add to the values vector, put it directly
+            // Do not add to the values List, put it directly
             // in the
             // query.
 
@@ -1418,7 +1410,7 @@ public abstract class SQLStatementBuilder {
         }
 
         /**
-         * Mehtod to reduce the complexity of {@link #createQueryConditions(Hashtable, Vector, Vector)}
+         * Mehtod to reduce the complexity of {@link #createQueryConditions(Map, List, List)}
          * @param sbStringQuery
          * @param oKey
          * @param bracket
@@ -1464,7 +1456,7 @@ public abstract class SQLStatementBuilder {
         }
 
         /**
-         * Method to reduce the complexity of {@link #createQueryConditions(Hashtable, Vector, Vector)}
+         * Method to reduce the complexity of {@link #createQueryConditions(Map, List, List)}
          * @param sbStringQuery
          * @param oKey
          * @param bracket
@@ -1549,7 +1541,7 @@ public abstract class SQLStatementBuilder {
         }
 
         /**
-         * Method to reduce the complexity of {@link #createQueryConditions(Hashtable, Vector, Vector)}
+         * Method to reduce the complexity of {@link #createQueryConditions(Map, List, List)}
          * @param sbStringQuery
          * @param oKey
          * @param bracket
@@ -1600,12 +1592,12 @@ public abstract class SQLStatementBuilder {
 
     }
 
-    public static StringBuilder createQueryConditionsSearchValue(Object oValue, Vector values, boolean bracket,
+    public static StringBuilder createQueryConditionsSearchValue(Object oValue, List values, boolean bracket,
             Object oKey) {
 
         StringBuilder sbStringQuery = new StringBuilder();
         if (((SearchValue) oValue).getCondition() == SearchValue.OR) {
-            // If it is OR, then value is a vector with
+            // If it is OR, then value is a List with
             // objects
             Object oSearchValue = ((SearchValue) oValue).getValue();
             if (oSearchValue instanceof List) {
@@ -1622,7 +1614,7 @@ public abstract class SQLStatementBuilder {
         } else if ((((SearchValue) oValue).getCondition() == SearchValue.IN)
                 || (((SearchValue) oValue).getCondition() == SearchValue.EXISTS) || (((SearchValue) oValue)
                     .getCondition() == SearchValue.NOT_IN)) {
-            // If it is IN, then value is a vector with
+            // If it is IN, then value is a List with
             // Objects
             Object oSearchValue = ((SearchValue) oValue).getValue();
             if (oSearchValue instanceof List) {
@@ -1655,14 +1647,14 @@ public abstract class SQLStatementBuilder {
 
     /**
      * Method to reduce the complexity of
-     * {@link #createQueryConditionsSearchValue(Object, Vector, boolean, Object)}
+     * {@link #createQueryConditionsSearchValue(Object, List, boolean, Object)}
      * @param values
      * @param bracket
      * @param oKey
      * @param sbStringQuery
      * @param vSearchValues
      */
-    protected static String createORQueryConditions(Vector values, boolean bracket, Object oKey, List vSearchValues) {
+    protected static String createORQueryConditions(List values, boolean bracket, Object oKey, List vSearchValues) {
 
         StringBuilder sbStringQuery = new StringBuilder();
 
@@ -1703,14 +1695,14 @@ public abstract class SQLStatementBuilder {
 
     /**
      * Method to reduce the complexity of
-     * {@link #createQueryConditionsSearchValue(Object, Vector, boolean, Object)}
+     * {@link #createQueryConditionsSearchValue(Object, List, boolean, Object)}
      * @param oValue
      * @param values
      * @param oKey
      * @param sbStringQuery
      * @param vSearchValue
      */
-    protected static String createINQueryConditionsListInstance(Object oValue, Vector values, Object oKey,
+    protected static String createINQueryConditionsListInstance(Object oValue, List values, Object oKey,
             List vSearchValue) {
         StringBuilder sbStringQuery = new StringBuilder();
         sbStringQuery.append(oKey);
@@ -1738,7 +1730,7 @@ public abstract class SQLStatementBuilder {
 
     /**
      * Method to reduce the complexity of
-     * {@link #createQueryConditionsSearchValue(Object, Vector, boolean, Object)}
+     * {@link #createQueryConditionsSearchValue(Object, List, boolean, Object)}
      * @param oValue
      * @param oKey
      * @param sbStringQuery
@@ -1768,14 +1760,14 @@ public abstract class SQLStatementBuilder {
 
     /**
      * Method to reduce the complexity of
-     * {@link #createQueryConditionsSearchValue(Object, Vector, boolean, Object)}
+     * {@link #createQueryConditionsSearchValue(Object, List, boolean, Object)}
      * @param oValue
      * @param values
      * @param oKey
      * @param sbStringQuery
      * @param oSearchValue
      */
-    protected static String createINQueryConditionsSQLExpressionInstance(Object oValue, Vector values, Object oKey,
+    protected static String createINQueryConditionsSQLExpressionInstance(Object oValue, List values, Object oKey,
             Object oSearchValue) {
         String sQuery = ((SQLExpression) oSearchValue).getQuery();
         StringBuilder sbStringQuery = new StringBuilder();
@@ -1812,15 +1804,15 @@ public abstract class SQLStatementBuilder {
 
     /**
      * Method to reduce the complexity of
-     * {@link #createQueryConditionsSearchValue(Object, Vector, boolean, Object)}
+     * {@link #createQueryConditionsSearchValue(Object, List, boolean, Object)}
      * @param oValue
      * @param values
      * @param bracket
      * @param oKey
      * @param sbStringQuery
      */
-    protected static String createBETWEENQueryConditions(Object oValue, Vector values, boolean bracket, Object oKey) {
-        // If it is OR, then value is a vector with
+    protected static String createBETWEENQueryConditions(Object oValue, List values, boolean bracket, Object oKey) {
+        // If it is OR, then value is a List with
         // objects
         StringBuilder sbStringQuery = new StringBuilder();
         Object oSearchValue = ((SearchValue) oValue).getValue();
@@ -1860,16 +1852,16 @@ public abstract class SQLStatementBuilder {
 
     /**
      * Method to reduce the complexity of
-     * {@link #createQueryConditionsSearchValue(Object, Vector, boolean, Object)}
+     * {@link #createQueryConditionsSearchValue(Object, List, boolean, Object)}
      * @param oValue
      * @param values
      * @param bracket
      * @param oKey
      * @param sbStringQuery
      */
-    protected static String createNOTBETWEENQueryConditions(Object oValue, Vector values, boolean bracket,
+    protected static String createNOTBETWEENQueryConditions(Object oValue, List values, boolean bracket,
             Object oKey) {
-        // If it is OR, then value is a vector with
+        // If it is OR, then value is a List with
         // objects
         StringBuilder sbStringQuery = new StringBuilder();
         Object oSearchValue = ((SearchValue) oValue).getValue();
@@ -1910,14 +1902,14 @@ public abstract class SQLStatementBuilder {
 
     /**
      * Method to reduce the complexity of
-     * {@link #createQueryConditionsSearchValue(Object, Vector, boolean, Object)}
+     * {@link #createQueryConditionsSearchValue(Object, List, boolean, Object)}
      * @param oValue
      * @param values
      * @param bracket
      * @param oKey
      * @param sbStringQuery
      */
-    protected static String createOtherQueryConditions(Object oValue, Vector values, boolean bracket, Object oKey) {
+    protected static String createOtherQueryConditions(Object oValue, List values, boolean bracket, Object oKey) {
         StringBuilder sbStringQuery = new StringBuilder();
         Object oSearchValue = ((SearchValue) oValue).getValue();
         if (oSearchValue != null) {
@@ -1954,13 +1946,13 @@ public abstract class SQLStatementBuilder {
 
         protected String sQLStatement = null;
 
-        protected Vector values = null;
+        protected List values = null;
 
         public SQLStatement(String sQLStatement) {
             this.sQLStatement = sQLStatement;
         }
 
-        public SQLStatement(String sQLStatement, Vector values) {
+        public SQLStatement(String sQLStatement, List values) {
             this.sQLStatement = sQLStatement;
             this.values = values;
         }
@@ -1974,18 +1966,18 @@ public abstract class SQLStatementBuilder {
         }
 
         /**
-         * Returns a vector of the required values for SQL Statement
+         * Returns a List of the required values for SQL Statement
          * @return the required values or null
          */
-        public Vector getValues() {
+        public List getValues() {
             return this.values;
         }
 
         /**
-         * Add a values vector at beginning of values vector for SQL Statement
+         * Add a values List at beginning of values List for SQL Statement
          * @param values
          */
-        public void addValues(Vector values) {
+        public void addValues(List values) {
             this.values.addAll(0, values);
         }
 
@@ -2117,8 +2109,8 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class
      */
 
-    public static SQLStatement createCountQuery(String table, Hashtable conditions, Vector wildcards,
-            Vector countColumns) {
+    public static SQLStatement createCountQuery(String table, Map conditions, List wildcards,
+            List countColumns) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createCountQuery(table, conditions, wildcards, countColumns);
     }
@@ -2129,13 +2121,13 @@ public abstract class SQLStatementBuilder {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards
      * @return a <code>SQLStatement</code> class
      */
-    public static SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards) {
+    public static SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createSelectQuery(table, requestedColumns, conditions, wildcards);
     }
@@ -2146,7 +2138,7 @@ public abstract class SQLStatementBuilder {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -2154,8 +2146,8 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class
      */
 
-    public static SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards, Vector columnSorting, int recordCount) {
+    public static SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards, List columnSorting, int recordCount) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting,
                     recordCount);
@@ -2167,7 +2159,7 @@ public abstract class SQLStatementBuilder {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -2176,8 +2168,8 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class
      */
 
-    public static SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards, Vector columnSorting, int recordCount,
+    public static SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards, List columnSorting, int recordCount,
             boolean descending) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting,
@@ -2190,7 +2182,7 @@ public abstract class SQLStatementBuilder {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -2200,8 +2192,8 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class
      */
 
-    public static SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards, Vector columnSorting, int recordCount,
+    public static SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards, List columnSorting, int recordCount,
             boolean descending, boolean forceDistinct) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting,
@@ -2214,15 +2206,15 @@ public abstract class SQLStatementBuilder {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
      * @return a <code>SQLStatement</code> class
      */
 
-    public static SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards, Vector columnSorting) {
+    public static SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards, List columnSorting) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting);
     }
@@ -2233,7 +2225,7 @@ public abstract class SQLStatementBuilder {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -2241,8 +2233,8 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class
      */
 
-    public static SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards, Vector columnSorting, boolean descending) {
+    public static SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards, List columnSorting, boolean descending) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting,
                     descending);
@@ -2254,7 +2246,7 @@ public abstract class SQLStatementBuilder {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -2263,8 +2255,8 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class
      */
 
-    public static SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards, Vector columnSorting, boolean descending,
+    public static SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards, List columnSorting, boolean descending,
             boolean forceDistinct) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting,
@@ -2283,12 +2275,12 @@ public abstract class SQLStatementBuilder {
      * Returns a <code>SQLStatement</code> class that stores the information needed to execute a insert
      * query.
      * @param table name of the table the query is executed against
-     * @param attributes attributes a Hashtable specifying pairs of key-value corresponding to the
+     * @param attributes attributes a Map specifying pairs of key-value corresponding to the
      *        attribute (or column of a table in a database) and the value that must be stored.
      * @return
      */
 
-    public static SQLStatement createInsertQuery(String table, Hashtable attributes) {
+    public static SQLStatement createInsertQuery(String table, Map attributes) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createInsertQuery(table, attributes);
     }
@@ -2306,7 +2298,7 @@ public abstract class SQLStatementBuilder {
      * @return
      */
 
-    public static SQLStatement createUpdateQuery(String table, Hashtable attributesValues, Hashtable keysValues) {
+    public static SQLStatement createUpdateQuery(String table, Map attributesValues, Map keysValues) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createUpdateQuery(table, attributesValues, keysValues);
     }
@@ -2320,7 +2312,7 @@ public abstract class SQLStatementBuilder {
      * @return
      */
 
-    public static SQLStatement createDeleteQuery(String table, Hashtable keysValues) {
+    public static SQLStatement createDeleteQuery(String table, Map keysValues) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createDeleteQuery(table, keysValues);
     }
@@ -2359,7 +2351,7 @@ public abstract class SQLStatementBuilder {
      *  	Field field = new BasicField("columnName1");
      *
      *  	Expression expression = new BasicExpression(field,equalOperator,"filterValue");
-     *  	Hashtable conditions=new Hashtable();
+     *  	Map conditions=new HashMap();
      *  	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,expression);
      * </pre>
      *
@@ -2374,7 +2366,7 @@ public abstract class SQLStatementBuilder {
      *
      *  	Expression totalExpression = new Expression(expression1,BasicOperator.AND,expression2);
      *
-     *  	Hashtable conditions=new Hashtable();
+     *  	Map conditions=new HashMap();
      *   	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,totalExpression);
      * </pre>
      *
@@ -2544,25 +2536,25 @@ public abstract class SQLStatementBuilder {
         }
 
         /**
-         * Creates the condition string from a expression and stores required values in a vector.
+         * Creates the condition string from a expression and stores required values in a List.
          * @param expression a class that implements <code>Expression<code> interface
          * &#64;param values
          *            a list where the required values for the condition are stored
          * &#64;return a <code>String</code> where is stored a condition in text format
          */
 
-        protected String createQueryConditionsFromExpression(Expression expression, Vector values) {
+        protected String createQueryConditionsFromExpression(Expression expression, List values) {
             return this.createQueryConditionsFromExpression(expression, values, this.upperLike);
         }
 
         /**
-         * Creates the condition string from a expression and stores required values in a vector.
+         * Creates the condition string from a expression and stores required values in a List.
          * @param expression a class that implements <code>Expression<code> interface
          * &#64;param values
          *            a list where the required values for the condition are stored
          * &#64;return a <code>String</code> where is stored a condition in text format
          */
-        protected String createQueryConditionsFromExpression(Expression expression, Vector values, boolean upper) {
+        protected String createQueryConditionsFromExpression(Expression expression, List values, boolean upper) {
             if (expression == null) {
                 return null;
             }
@@ -2573,7 +2565,7 @@ public abstract class SQLStatementBuilder {
 
         /**
          * Creates the condition string from a expression. The condition string is stored in the
-         * <code>StringBuilder</code> param and the required values in a <code>Vector</code> param
+         * <code>StringBuilder</code> param and the required values in a <code>List</code> param
          * @param expression a class that implements <code>Expression<code> interface
          * &#64;param values
          *            a list where the required values for the condition are stored
@@ -2581,13 +2573,13 @@ public abstract class SQLStatementBuilder {
          *            a <code>StringBuilder</code> where the condition string is stored
          */
 
-        protected void createQueryConditionsFromExpression(Expression expression, Vector values, StringBuilder sb) {
+        protected void createQueryConditionsFromExpression(Expression expression, List values, StringBuilder sb) {
             this.createQueryConditionsFromExpression(expression, values, sb, this.upperLike);
         }
 
         /**
          * Creates the condition string from a expression. The condition string is stored in the
-         * <code>StringBuilder</code> param and the required values in a <code>Vector</code> param
+         * <code>StringBuilder</code> param and the required values in a <code>List</code> param
          * @param expression a class that implements <code>Expression<code> interface
          * &#64;param values
          *            a list where the required values for the condition are stored
@@ -2595,7 +2587,7 @@ public abstract class SQLStatementBuilder {
          *            a <code>StringBuilder</code> where the condition string is stored
          * @param upper Boolean that enable the String compare in upper case, i.e., for non case-sensitive.
          */
-        protected void createQueryConditionsFromExpression(Expression expression, Vector values, StringBuilder sb,
+        protected void createQueryConditionsFromExpression(Expression expression, List values, StringBuilder sb,
                 boolean upper) {
             // Recursive
             Object lo = expression.getLeftOperand();
@@ -2684,12 +2676,12 @@ public abstract class SQLStatementBuilder {
          * Creates the condition string for a SQL Statement.
          * @param conditions a condition list
          * @param wildcards column list that can use wildcards
-         * @param values vector where the value of each processed conditions is stored
+         * @param values List where the value of each processed conditions is stored
          * @return
          */
 
         @Override
-        public String createQueryConditions(Hashtable conditions, Vector wildcards, Vector values) {
+        public String createQueryConditions(Map conditions, List wildcards, List values) {
             // Separate the expressions
             Expression expression = null;
             if (conditions.containsKey(
@@ -2749,17 +2741,17 @@ public abstract class SQLStatementBuilder {
      * query against two table used a join.
      * @param principalTable name of the principal table the query is executed against
      * @param secondaryTable name of the secondary table the query is executed against
-     * @param principalKeys a Vector specifying the column names of the principal table that be used to
+     * @param principalKeys a List specifying the column names of the principal table that be used to
      *        combine the two tables
-     * @param secondaryKeys a Vector specifying the column names of the secondary table that be used to
+     * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param principalTableRequestedColumns column list that be requested in the query from principal
      *        table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param principalTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param principalTableConditions a Map specifying conditions that must comply the set of
      *        records returned from principal table
-     * @param secondaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
      *        records returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
@@ -2767,11 +2759,11 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class which stores the SQL Statement and the required values
      */
 
-    public static SQLStatement createJoinSelectQuery(String principalTable, String secondaryTable, Vector principalKeys,
-            Vector secondaryKeys,
-            Vector principalTableRequestedColumns, Vector secondaryTableRequestedColumns,
-            Hashtable principalTableConditions, Hashtable secondaryTableConditions, Vector wildcards,
-            Vector columnSorting, boolean forceDistinct) {
+    public static SQLStatement createJoinSelectQuery(String principalTable, String secondaryTable, List principalKeys,
+            List secondaryKeys,
+            List principalTableRequestedColumns, List secondaryTableRequestedColumns,
+            Map principalTableConditions, Map secondaryTableConditions, List wildcards,
+            List columnSorting, boolean forceDistinct) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createJoinSelectQuery(principalTable, secondaryTable, principalKeys, secondaryKeys,
                     principalTableRequestedColumns, secondaryTableRequestedColumns, principalTableConditions,
@@ -2798,16 +2790,16 @@ public abstract class SQLStatementBuilder {
      * query against two table used a join.
      * @param mainTable name of the principal table the query is executed against
      * @param secondaryTable name of the secondary table the query is executed against
-     * @param mainKeys a Vector specifying the column names of the principal table that be used to
+     * @param mainKeys a List specifying the column names of the principal table that be used to
      *        combine the two tables
-     * @param secondaryKeys a Vector specifying the column names of the secondary table that be used to
+     * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param mainTableRequestedColumns column list that be requested in the query from principal table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param mainTableConditions a Hashtable specifying conditions that must comply the set of records
+     * @param mainTableConditions a Map specifying conditions that must comply the set of records
      *        returned from principal table
-     * @param secondaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
      *        records returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
@@ -2816,10 +2808,10 @@ public abstract class SQLStatementBuilder {
      * @return a <code>SQLStatement</code> class which stores the SQL Statement and the required values
      */
 
-    public static SQLStatement createJoinSelectQuery(String mainTable, String secondaryTable, Vector mainKeys,
-            Vector secondaryKeys, Vector mainTableRequestedColumns,
-            Vector secondaryTableRequestedColumns, Hashtable mainTableConditions, Hashtable secondaryTableConditions,
-            Vector wildcards, Vector columnSorting, boolean forceDistinct,
+    public static SQLStatement createJoinSelectQuery(String mainTable, String secondaryTable, List mainKeys,
+            List secondaryKeys, List mainTableRequestedColumns,
+            List secondaryTableRequestedColumns, Map mainTableConditions, Map secondaryTableConditions,
+            List wildcards, List columnSorting, boolean forceDistinct,
             boolean descending) {
 
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
@@ -2838,7 +2830,7 @@ public abstract class SQLStatementBuilder {
             .getQueryConditionsProcessor();
     }
 
-    public static String createQueryConditionsWithoutWhere(Hashtable conditions, Vector wildcard, Vector values) {
+    public static String createQueryConditionsWithoutWhere(Map conditions, List wildcard, List values) {
         return SQLStatementBuilder.getSQLStatementHandler(SQLStatementBuilder.DEFAULT_HANDLER)
             .createQueryConditionsWithoutWhere(conditions, wildcard, values);
     }

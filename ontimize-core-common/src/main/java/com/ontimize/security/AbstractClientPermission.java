@@ -1,8 +1,8 @@
 package com.ontimize.security;
 
-import java.lang.reflect.Method;
-
 import com.ontimize.util.calendar.TimePeriod;
+
+import java.lang.reflect.Method;
 
 public class AbstractClientPermission implements RestrictedClientPermission {
 

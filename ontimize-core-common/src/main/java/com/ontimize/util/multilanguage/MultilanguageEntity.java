@@ -1,9 +1,9 @@
 package com.ontimize.util.multilanguage;
 
+import com.ontimize.dto.EntityResult;
+
 import java.rmi.Remote;
 import java.util.Map;
-
-import com.ontimize.dto.EntityResult;
 
 /**
  * Interface that allows using the multi-language translation system.

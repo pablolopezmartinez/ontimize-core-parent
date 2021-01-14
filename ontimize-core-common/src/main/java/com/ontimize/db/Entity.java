@@ -2,8 +2,8 @@ package com.ontimize.db;
 
 import com.ontimize.dto.EntityResult;
 
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This interface defines the basic methods that must be implemented by any class (entity) that
@@ -32,7 +32,7 @@ public interface Entity extends java.rmi.Remote {
      * defines which attributes (or columns if data is obtained from a database) must be recovered, and
      * <code>keysValues</code> specifies which set of records must be recovered.
      * <p>
-     * @param keysValues a Hashtable specifying conditions that must comply the set of records returned.
+     * @param keysValues a Map specifying conditions that must comply the set of records returned.
      *        Cannot be null.
      * @param attributes a list of columns or attributes that must be recovered for each record
      *        returned. Cannot be null. If empty, all attributes should be returned.
@@ -41,19 +41,19 @@ public interface Entity extends java.rmi.Remote {
      *         exist, and if an error has ocurred this will be indicated in the result.
      * @throws Exception if any exception occurs
      */
-    public com.ontimize.dto.EntityResult query(Hashtable keysValues, Vector attributes, int sessionId) throws Exception;
+    public com.ontimize.dto.EntityResult query(Map keysValues, List attributes, int sessionId) throws Exception;
 
     /**
      * This method must implement a standard insert operation with the data contained in
      * <code>attributesValues</code> parameter.<br>
      * <p>
-     * @param attributesValues a Hashtable specifying pairs of key-value corresponding to the attribute
+     * @param attributesValues a Map specifying pairs of key-value corresponding to the attribute
      *        (or column of a table in a database) and the value that must be stored.
      * @param sessionId a integer identifying the user or session that performs the action.
      * @return a EntityResult. This result will have an error code if error has ocurred.
      * @throws Exception if any exception occurs
      */
-    public com.ontimize.dto.EntityResult insert(Hashtable attributesValues, int sessionId) throws Exception;
+    public com.ontimize.dto.EntityResult insert(Map attributesValues, int sessionId) throws Exception;
 
     /**
      * This method must implement a standard update operation with the data specified in
@@ -69,7 +69,7 @@ public interface Entity extends java.rmi.Remote {
      * @return a EntityResult. This result will have an error code if error has occurred.
      * @throws Exception if any exception occurs
      */
-    public com.ontimize.dto.EntityResult update(Hashtable attributesValues, Hashtable keysValues, int sessionId) throws Exception;
+    public com.ontimize.dto.EntityResult update(Map attributesValues, Map keysValues, int sessionId) throws Exception;
 
     /**
      * This method must implement a standard delete operation over the set of records defined by
@@ -82,6 +82,6 @@ public interface Entity extends java.rmi.Remote {
      * @return a EntityResult. This result will have an error code if error has occurred.
      * @throws Exception if any exception occurs
      */
-    public EntityResult delete(Hashtable keysValues, int sessionId) throws Exception;
+    public EntityResult delete(Map keysValues, int sessionId) throws Exception;
 
 }

@@ -1,8 +1,7 @@
 package com.ontimize.util.serializer.xml.adapters;
 
-import java.util.Date;
-
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
 
 public class XmlStaticAdapters {
 

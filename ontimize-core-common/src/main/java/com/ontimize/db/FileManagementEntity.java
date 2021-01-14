@@ -1,9 +1,9 @@
 package com.ontimize.db;
 
-import java.rmi.Remote;
-import java.util.Hashtable;
-
 import com.ontimize.util.remote.BytesBlock;
+
+import java.rmi.Remote;
+import java.util.Map;
 
 public interface FileManagementEntity extends Remote {
 
@@ -33,7 +33,7 @@ public interface FileManagementEntity extends Remote {
      *         requests for this file content
      * @throws Exception
      */
-    public String prepareToTransfer(String column, Hashtable keys, int sessionId) throws Exception;
+    public String prepareToTransfer(String column, Map keys, int sessionId) throws Exception;
 
     /**
      * Indicates the entity must prepare for receiving file content.
@@ -44,14 +44,14 @@ public interface FileManagementEntity extends Remote {
      *         requests to receive the bytes blocks
      * @throws Exception
      */
-    public String prepareToReceive(String column, Hashtable keys, int sessionId) throws Exception;
+    public String prepareToReceive(String column, Map keys, int sessionId) throws Exception;
 
-    public String prepareToTransfer(Hashtable cv, int sessionId) throws Exception;
+    public String prepareToTransfer(Map cv, int sessionId) throws Exception;
 
-    public String prepareToReceive(Hashtable keys, String fileName, String fileDescription, int sessionId)
+    public String prepareToReceive(Map keys, String fileName, String fileDescription, int sessionId)
             throws Exception;
 
-    public String prepareToReceive(Hashtable keys, String fileName, String originalFilePath, String fileDescription,
+    public String prepareToReceive(Map keys, String fileName, String originalFilePath, String fileDescription,
             int sessionId) throws Exception;
 
     /**
@@ -86,6 +86,6 @@ public interface FileManagementEntity extends Remote {
      */
     public void cancelReceiving(String transferId, int sessionId) throws Exception;
 
-    public boolean deleteAttachmentFile(Hashtable keys, int sessionId) throws Exception;
+    public boolean deleteAttachmentFile(Map keys, int sessionId) throws Exception;
 
 }

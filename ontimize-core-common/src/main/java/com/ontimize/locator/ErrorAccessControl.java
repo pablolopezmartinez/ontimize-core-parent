@@ -1,10 +1,10 @@
 package com.ontimize.locator;
 
-import java.sql.Timestamp;
-import java.util.Hashtable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.sql.Timestamp;
+import java.util.Hashtable;
 
 /**
  * This class is used to implement a login lock to users who have inserted their credentials wrong a

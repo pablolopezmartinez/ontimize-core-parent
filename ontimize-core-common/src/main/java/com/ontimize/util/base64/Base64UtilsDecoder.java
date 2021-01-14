@@ -1,10 +1,10 @@
 package com.ontimize.util.base64;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 public class Base64UtilsDecoder implements IBase64Decoder {
 

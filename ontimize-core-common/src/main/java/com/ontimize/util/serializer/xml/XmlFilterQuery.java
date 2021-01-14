@@ -8,21 +8,16 @@
 
 package com.ontimize.util.serializer.xml;
 
+import com.ontimize.db.SQLStatementBuilder.BasicExpression;
+import com.ontimize.gui.SearchValue;
+import com.ontimize.util.serializer.xml.XmlFilterQuery.Filters.Filter;
+
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-import com.ontimize.db.SQLStatementBuilder.BasicExpression;
-import com.ontimize.gui.SearchValue;
-import com.ontimize.util.serializer.xml.XmlFilterQuery.Filters.Filter;
 
 /**
  * <p>

@@ -1,11 +1,11 @@
 package com.ontimize.util.extend;
 
-import java.util.StringTokenizer;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.StringTokenizer;
 
 public class ExtendedRemoteReferencesXmlParser extends ExtendedXmlParser {
 

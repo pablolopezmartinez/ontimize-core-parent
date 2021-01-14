@@ -1,9 +1,9 @@
 package com.ontimize.builder.xml;
 
-import java.util.Hashtable;
-
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+import java.util.Hashtable;
 
 public class CustomNode {
 

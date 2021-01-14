@@ -1,8 +1,8 @@
 package com.ontimize.util.extend;
 
-import java.util.Vector;
-
 import org.w3c.dom.NodeList;
+
+import java.util.Vector;
 
 public class ExtendedClientApplicationOperation {
 

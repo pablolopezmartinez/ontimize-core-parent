@@ -1,13 +1,12 @@
 package com.ontimize.gui.field;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
+import com.ontimize.gui.table.ExtendedTableAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.gui.table.ExtendedTableAttribute;
+import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  * Object to stores information about many table values <br>

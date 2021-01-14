@@ -1,24 +1,12 @@
 package com.ontimize.db;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
+import com.ontimize.db.SQLStatementBuilder.*;
+import com.ontimize.db.query.ParameterField;
+import com.ontimize.locator.EntityReferenceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.SQLStatementBuilder.BasicExpression;
-import com.ontimize.db.SQLStatementBuilder.BasicField;
-import com.ontimize.db.SQLStatementBuilder.BasicOperator;
-import com.ontimize.db.SQLStatementBuilder.Expression;
-import com.ontimize.db.SQLStatementBuilder.ExtendedSQLConditionValuesProcessor;
-import com.ontimize.db.SQLStatementBuilder.Field;
-import com.ontimize.db.SQLStatementBuilder.Operator;
-import com.ontimize.db.query.ParameterField;
-import com.ontimize.locator.EntityReferenceLocator;
+import java.util.*;
 
 public class ContainsExtendedSQLConditionValuesProcessor extends ExtendedSQLConditionValuesProcessor {
 

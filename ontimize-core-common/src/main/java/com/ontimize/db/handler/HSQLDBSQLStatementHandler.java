@@ -1,13 +1,12 @@
 package com.ontimize.db.handler;
 
-import java.util.Hashtable;
-import java.util.Vector;
-
+import com.ontimize.db.SQLStatementBuilder;
+import com.ontimize.db.SQLStatementBuilder.SQLStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.SQLStatementBuilder;
-import com.ontimize.db.SQLStatementBuilder.SQLStatement;
+import java.util.Hashtable;
+import java.util.Vector;
 
 public class HSQLDBSQLStatementHandler extends DefaultSQLStatementHandler {
 

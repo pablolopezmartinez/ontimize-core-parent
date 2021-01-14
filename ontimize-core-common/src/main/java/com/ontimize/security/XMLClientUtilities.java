@@ -1,15 +1,14 @@
 package com.ontimize.security;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringBufferInputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Vector;
+import com.ontimize.builder.xml.CustomNode;
+import com.ontimize.util.calendar.TimePeriod;
+import com.ontimize.util.calendar.TimePeriodOperationParser;
+import com.ontimize.util.calendar.TimePeriodParser;
+import com.ontimize.util.calendar.TimePeriodParserManager;
+import com.ontimize.xml.DocumentTreeModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,21 +16,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import com.ontimize.builder.xml.CustomNode;
-import com.ontimize.util.calendar.TimePeriod;
-import com.ontimize.util.calendar.TimePeriodOperationParser;
-import com.ontimize.util.calendar.TimePeriodParser;
-import com.ontimize.util.calendar.TimePeriodParserManager;
-import com.ontimize.xml.DocumentTreeModel;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.StringBufferInputStream;
+import java.io.StringWriter;
+import java.util.*;
 
 /**
  * Class that implements all logic in xml client permissions. All client parts are defined: menu,

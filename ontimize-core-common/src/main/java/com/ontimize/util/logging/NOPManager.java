@@ -1,13 +1,13 @@
 package com.ontimize.util.logging;
 
-import java.util.List;
-
+import com.ontimize.util.remote.BytesBlock;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 // import com.ontimize.gui.ExtendedServerMonitor;
-import com.ontimize.util.remote.BytesBlock;
 
 public class NOPManager implements ILogManager {
 

@@ -1,16 +1,9 @@
 package com.ontimize.util.calendar;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.Vector;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 public class BusinessCalendar implements java.io.Serializable {
 

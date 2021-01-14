@@ -1,6 +1,6 @@
 package com.ontimize.locator;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.List;
 
 /**

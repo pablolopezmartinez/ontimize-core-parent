@@ -1,11 +1,11 @@
 package com.ontimize.util.serializer.xml;
 
+import com.ontimize.db.SQLStatementBuilder.BasicField;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import com.ontimize.db.SQLStatementBuilder.BasicField;
 
 /**
  * <p>

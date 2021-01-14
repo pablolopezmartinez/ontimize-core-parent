@@ -1,15 +1,14 @@
 package com.ontimize.util.serializer.xml;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.Hashtable;
-import java.util.Map;
+import com.ontimize.util.serializer.ISerializerManager;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-import com.ontimize.util.serializer.ISerializerManager;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class XmlSerializerManager implements ISerializerManager {
 

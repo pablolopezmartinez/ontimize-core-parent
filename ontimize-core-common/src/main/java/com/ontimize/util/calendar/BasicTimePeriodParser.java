@@ -1,14 +1,13 @@
 package com.ontimize.util.calendar;
 
+import com.ontimize.util.ParseTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.ontimize.util.ParseTools;
 
 
 public class BasicTimePeriodParser implements TimePeriodParser, TimePeriodOperationParser {

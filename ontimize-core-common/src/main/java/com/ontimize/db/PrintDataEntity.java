@@ -2,10 +2,10 @@ package com.ontimize.db;
 
 import com.ontimize.dto.EntityResult;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 public interface PrintDataEntity extends java.rmi.Remote {
 
-    public EntityResult getPrintingData(Hashtable keys, int sessionId) throws Exception;
+    public EntityResult getPrintingData(Map keys, int sessionId) throws Exception;
 
 }

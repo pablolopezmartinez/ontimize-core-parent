@@ -1,7 +1,7 @@
 package com.ontimize.db;
 
 import java.rmi.Remote;
-import java.util.Hashtable;
+import java.util.Map;
 
 public interface MetadataEntity extends Remote {
 
@@ -18,6 +18,6 @@ public interface MetadataEntity extends Remote {
     public static final String GENERATED_KEY = "GeneratedKey";
 
 
-    public Hashtable getMetadata(int sessionId) throws Exception;
+    public Map getMetadata(int sessionId) throws Exception;
 
 }

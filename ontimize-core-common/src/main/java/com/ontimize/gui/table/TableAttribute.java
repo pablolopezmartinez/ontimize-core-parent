@@ -1,10 +1,10 @@
 package com.ontimize.gui.table;
 
-import java.util.Hashtable;
-import java.util.Vector;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Hashtable;
+import java.util.Vector;
 
 /**
  * Attribute used for the tables. Contains information about the column names, the entity, the keys,

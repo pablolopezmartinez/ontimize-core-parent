@@ -1,13 +1,12 @@
 package com.ontimize.util.serializer.xml;
 
+import com.ontimize.gui.SearchValue;
+import com.ontimize.util.serializer.xml.adapters.XmlStaticAdapters;
+import org.w3c.dom.Element;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.w3c.dom.Element;
-
-import com.ontimize.gui.SearchValue;
-import com.ontimize.util.serializer.xml.adapters.XmlStaticAdapters;
 
 @XmlRootElement(name = "search-value")
 public class XmlFilterSearchValue {

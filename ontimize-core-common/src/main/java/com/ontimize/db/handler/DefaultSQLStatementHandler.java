@@ -1,46 +1,20 @@
 package com.ontimize.db.handler;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.ontimize.dto.EntityResult;
 import com.ontimize.db.LocalePair;
 import com.ontimize.db.NullValue;
 import com.ontimize.db.SQLStatementBuilder;
-import com.ontimize.db.SQLStatementBuilder.ExtendedSQLConditionValuesProcessor;
-import com.ontimize.db.SQLStatementBuilder.SQLConditionValuesProcessor;
-import com.ontimize.db.SQLStatementBuilder.SQLNameEval;
-import com.ontimize.db.SQLStatementBuilder.SQLOrder;
-import com.ontimize.db.SQLStatementBuilder.SQLStatement;
+import com.ontimize.db.SQLStatementBuilder.*;
 import com.ontimize.db.util.DBFunctionName;
+import com.ontimize.dto.EntityResult;
 import com.ontimize.gui.LongString;
 import com.ontimize.util.remote.BytesBlock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.sql.Date;
+import java.sql.*;
+import java.util.*;
 
 public class DefaultSQLStatementHandler implements SQLStatementHandler {
 
@@ -105,9 +79,9 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createCountQuery(String table, Hashtable conditions, Vector wildcards, Vector countColumns) {
+    public SQLStatement createCountQuery(String table, Map conditions, List wildcards, List countColumns) {
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
         String sCountQuery = "";
         if ((countColumns != null) && !countColumns.isEmpty()) {
             sCountQuery = this.createCountQuery(table, countColumns);
@@ -130,14 +104,14 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards
      * @return a <code>SQLStatement</code> class
      */
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions,
-            Vector wildcards) {
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions,
+            List wildcards) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, null);
     }
 
@@ -147,7 +121,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -156,8 +130,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount) {
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount,
                 false);
     }
@@ -168,7 +142,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -178,8 +152,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount,
             boolean descending) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount,
                 descending, false);
@@ -191,7 +165,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -202,11 +176,11 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount, boolean descending,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount, boolean descending,
             boolean forceDistinct) {
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
         if ((columnSorting != null) && !requestedColumns.isEmpty()) {
             for (int i = 0; i < columnSorting.size(); i++) {
                 if (!requestedColumns.contains(columnSorting.get(i).toString())) {
@@ -229,23 +203,23 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount, int offset) {
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount, int offset) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount,
                 offset, false);
     }
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount, int offset,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount, int offset,
             boolean descending) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount,
                 offset, descending, false);
     }
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount, int offset,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount, int offset,
             boolean descending, boolean forceDistinct) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting,
                 recordCount + offset, descending, forceDistinct);
@@ -257,7 +231,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -265,8 +239,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting) {
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, false);
     }
 
@@ -276,7 +250,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -285,8 +259,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, boolean descending) {
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, boolean descending) {
         return this.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, descending, false);
     }
 
@@ -296,7 +270,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      * @see SQLStatementBuilder.SQLStatement
      * @param table name of the table the query is executed against
-     * @param requestedColumns a Vector specifying the requested column name in the query
+     * @param requestedColumns a List specifying the requested column name in the query
      * @param conditions condition list used to created the query
      * @param wildcards column list that can use wildcards
      * @param columnSorting column list where query sorting is established
@@ -306,11 +280,11 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, boolean descending,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, boolean descending,
             boolean forceDistinct) {
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
 
         if ((columnSorting != null) && (!requestedColumns.isEmpty()) && forceDistinct) {
             for (int i = 0; i < columnSorting.size(); i++) {
@@ -325,7 +299,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         if (function == null) {
             sql.append(this.createSelectQuery(table, requestedColumns, forceDistinct));
         } else {
-            Vector temp = new Vector();
+            List temp = new ArrayList();
             temp.add(function);
             sql.append(this.createSelectQuery("", temp, false));
             sql.append("(");
@@ -353,7 +327,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         return new SQLStatement(sql.toString(), vValues);
     }
 
-    protected DBFunctionName hasIsolationFunction(Vector requestedColumns) {
+    protected DBFunctionName hasIsolationFunction(List requestedColumns) {
         if (requestedColumns == null) {
             return null;
         }
@@ -368,7 +342,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String createSortStatement(Vector sortColumns, boolean descending) {
+    public String createSortStatement(List sortColumns, boolean descending) {
         if ((sortColumns == null) || sortColumns.isEmpty()) {
             return "";
         }
@@ -434,7 +408,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String createSortStatement(Vector sortColumns) {
+    public String createSortStatement(List sortColumns) {
         return this.createSortStatement(sortColumns, false);
     }
 
@@ -450,7 +424,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * @return the query string
      * @since 5.2080EN
      */
-    protected String createCountQuery(String table, Vector countColumns) {
+    protected String createCountQuery(String table, List countColumns) {
         StringBuilder sbStringQuery = new StringBuilder(SQLStatementBuilder.SELECT);
         // since 5.2080EN -> count(countColumns) is supported
         if ((countColumns != null) && !countColumns.isEmpty()) {
@@ -498,7 +472,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         return selectClause.toString();
     }
 
-    protected String createSelectQuery(String table, Vector askedColumns, boolean forceDistinct) {
+    protected String createSelectQuery(String table, List askedColumns, boolean forceDistinct) {
         StringBuilder sStringQuery = new StringBuilder(this.createSelectClause(forceDistinct));
         String tableaux = table.toLowerCase();
         if ((askedColumns == null) || (askedColumns.isEmpty())) {
@@ -649,11 +623,11 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         return sStringQuery.toString();
     }
 
-    protected String createSelectQuery(String table, Vector askedColumns) {
+    protected String createSelectQuery(String table, List askedColumns) {
         return this.createSelectQuery(table, askedColumns, false);
     }
 
-    protected String createQueryConditions(Hashtable conditions, Vector wildcardColumns, Vector values,
+    protected String createQueryConditions(Map conditions, List wildcardColumns, List values,
             boolean withWhere) {
         StringBuilder sbStringQuery = new StringBuilder(" ");
         // Create the conditions string.
@@ -673,10 +647,10 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * Returns the condition string for a SQL Statement.
      * @param conditions condition list that be using for create the string
      * @param wildcard column list that can use wildcards
-     * @param values vector where the value of each processed conditions is stored
+     * @param values List where the value of each processed conditions is stored
      * @return a condition String
      */
-    protected String createQueryConditions(Hashtable conditions, Vector wildcard, Vector values) {
+    protected String createQueryConditions(Map conditions, List wildcard, List values) {
         return this.createQueryConditions(conditions, wildcard, values, true);
     }
 
@@ -684,11 +658,11 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * Returns the condition string for a SQL Statement without WHERE clause in SQL.
      * @param conditions condition list that be using for create the string
      * @param wildcard column list that can use wildcards
-     * @param values vector where the value of each processed conditions is stored
+     * @param values List where the value of each processed conditions is stored
      * @return a condition String
      */
     @Override
-    public String createQueryConditionsWithoutWhere(Hashtable conditions, Vector wildcard, Vector values) {
+    public String createQueryConditionsWithoutWhere(Map conditions, List wildcard, List values) {
         return this.createQueryConditions(conditions, wildcard, values, false);
     }
 
@@ -741,13 +715,13 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * Returns a <code>SQLStatement</code> class that stores the information needed to execute a insert
      * query.
      * @param table name of the table the query is executed against
-     * @param attributes attributes a Hashtable specifying pairs of key-value corresponding to the
+     * @param attributes attributes a Map specifying pairs of key-value corresponding to the
      *        attribute (or column of a table in a database) and the value that must be stored.
      * @return
      */
 
     @Override
-    public SQLStatement createInsertQuery(String table, Hashtable attributes) {
+    public SQLStatement createInsertQuery(String table, Map attributes) {
         if (attributes.isEmpty()) {
             return null;
         }
@@ -761,9 +735,9 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
         sbSqlString.append(SQLStatementBuilder.OPEN_PARENTHESIS);
         // Now the attributes. Using =?,
-        Enumeration enumAttributes = attributes.keys();
+        Enumeration enumAttributes = Collections.enumeration(attributes.keySet());
         StringBuilder aux = new StringBuilder("(");
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
         int i = 0;
         int discard = 0;
         while (enumAttributes.hasMoreElements()) {
@@ -784,7 +758,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
         sbSqlString.append(SQLStatementBuilder.CLOSE_PARENTHESIS);
         sbSqlString.append(SQLStatementBuilder.VALUES);
-        Vector vResValues = new Vector();
+        List vResValues = new ArrayList();
         for (int p = 0; p < vValues.size(); p++) {
             Object oValues = vValues.get(p);
             if (p < (vValues.size() - 1)) {
@@ -829,7 +803,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createUpdateQuery(String table, Hashtable attributesValues, Hashtable keysValues) {
+    public SQLStatement createUpdateQuery(String table, Map attributesValues, Map keysValues) {
         // If attributesValues is empty --> no update
         if (attributesValues.isEmpty()) {
             return null;
@@ -844,8 +818,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             sbSqlString.append(table);
         }
         sbSqlString.append(SQLStatementBuilder.SET);
-        Enumeration enumAttributes = attributesValues.keys();
-        Vector vValues = new Vector();
+        Enumeration enumAttributes = Collections.enumeration(attributesValues.keySet());
+        List vValues = new ArrayList();
         int i = 0;
         int discard = 0;
         while (enumAttributes.hasMoreElements()) {
@@ -873,9 +847,9 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             i++;
         }
 
-        Vector vConditionValues = new Vector();
+        List vConditionValues = new ArrayList();
 
-        String cond = this.createQueryConditions(keysValues, new Vector(), vConditionValues);
+        String cond = this.createQueryConditions(keysValues, new ArrayList(), vConditionValues);
         if (cond != null) {
             sbSqlString.append(cond);
         }
@@ -899,7 +873,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createDeleteQuery(String table, Hashtable keysValues) {
+    public SQLStatement createDeleteQuery(String table, Map keysValues) {
         StringBuilder sbSqlString = new StringBuilder(SQLStatementBuilder.DELETE_FROM);
         if (this.checkColumnName(table)) {
             sbSqlString.append(SQLStatementBuilder.OPEN_SQUARE_BRACKET);
@@ -909,8 +883,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             sbSqlString.append(table);
         }
 
-        Vector vValues = new Vector();
-        String cond = this.createQueryConditions(keysValues, new Vector(), vValues);
+        List vValues = new ArrayList();
+        String cond = this.createQueryConditions(keysValues, new ArrayList(), vValues);
         if (cond != null) {
             sbSqlString.append(cond);
         }
@@ -960,9 +934,6 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *  	Operator equalOperator=BasicOperator.EQUAL_OP;
      *  	Field field = new BasicField("columnName1");
      *
-     *  	Expression expression = new BasicExpression(field,equalOperator,"filterValue");
-     *  	Hashtable conditions=new Hashtable();
-     *  	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,expression);
      * </pre>
      *
      * <pre>
@@ -976,7 +947,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      *  	Expression totalExpression = new Expression(expression1,BasicOperator.AND,expression2);
      *
-     *  	Hashtable conditions=new Hashtable();
+     *  	Map conditions=new HashMap();
      *   	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,totalExpression);
      * </pre>
      *
@@ -985,10 +956,10 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createJoinSelectQuery(String principalTable, String secondaryTable, Vector principalKeys,
-            Vector secondaryKeys, Vector principalTableRequestedColumns,
-            Vector secondaryTableRequestedColumns, Hashtable principalTableConditions,
-            Hashtable secondaryTableConditions, Vector wildcards, Vector columnSorting,
+    public SQLStatement createJoinSelectQuery(String principalTable, String secondaryTable, List principalKeys,
+            List secondaryKeys, List principalTableRequestedColumns,
+            List secondaryTableRequestedColumns, Map principalTableConditions,
+            Map secondaryTableConditions, List wildcards, List columnSorting,
             boolean forceDistinct) {
 
         return this.createJoinSelectQuery(principalTable, secondaryTable, principalKeys, secondaryKeys,
@@ -1052,16 +1023,16 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * query against two table used a join.
      * @param mainTable name of the principal table the query is executed against
      * @param secondaryTable name of the secondary table the query is executed against
-     * @param mainKeys a Vector specifying the column names of the principal table that be used to
+     * @param mainKeys a List specifying the column names of the principal table that be used to
      *        combine the two tables
-     * @param secondaryKeys a Vector specifying the column names of the secondary table that be used to
+     * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param mainTableRequestedColumns column list that be requested in the query from principal table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param mainTableConditions a Hashtable specifying conditions that must comply the set of records
+     * @param mainTableConditions a Map specifying conditions that must comply the set of records
      *        returned from principal table
-     * @param secondaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param secondaryTableConditions a List Mapxx conditions that must comply the set of
      *        records returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
@@ -1071,25 +1042,25 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
 
     @Override
-    public SQLStatement createJoinSelectQuery(String mainTable, String secondaryTable, Vector mainKeys,
-            Vector secondaryKeys, Vector mainTableRequestedColumns,
-            Vector secondaryTableRequestedColumns, Hashtable mainTableConditions, Hashtable secondaryTableConditions,
-            Vector wildcards, Vector columnSorting, boolean forceDistinct,
+    public SQLStatement createJoinSelectQuery(String mainTable, String secondaryTable, List mainKeys,
+            List secondaryKeys, List mainTableRequestedColumns,
+            List secondaryTableRequestedColumns, Map mainTableConditions, List secondaryTableConditions,
+            List wildcards, List columnSorting, boolean forceDistinct,
             boolean descending) {
 
         if (mainKeys.size() != secondaryKeys.size()) {
             throw new IllegalArgumentException("The number of keys of principal and secondary table have to be equals");
         }
 
-        Vector askedColumns = new Vector();
+        List askedColumns = new ArayList();
         for (int i = 0; i < mainTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) mainTableRequestedColumns.get(i), mainTable));
         }
         for (int i = 0; i < secondaryTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) secondaryTableRequestedColumns.get(i), secondaryTable));
         }
-        Hashtable conditions = new Hashtable();
-        Enumeration enumKeys = mainTableConditions.keys();
+        Map conditions = new HashMap();
+        Enumeration enumKeys = Collections.enumeration(mainTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
             Object oValue = mainTableConditions.get(oKey);
@@ -1104,13 +1075,13 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
 
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
 
-        Vector vMainKeys = new Vector();
+        List vMainKeys = new ArrayList();
         for (int i = 0; i < mainKeys.size(); i++) {
             vMainKeys.add(this.qualify((String) mainKeys.get(i), mainTable));
         }
-        Vector vSecondaryKeys = new Vector();
+        List vSecondaryKeys = new ArrayList();
         for (int i = 0; i < secondaryKeys.size(); i++) {
             vSecondaryKeys.add(this.qualify((String) secondaryKeys.get(i), secondaryTable));
         }
@@ -1152,17 +1123,17 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * @param secondaryAlias name of the secondary query
      * @param primaryTable principal query is executed against
      * @param secondaryTable secondary query is executed against
-     * @param primaryKeys a Vector specifying the column names of the principal table that be used to
+     * @param primaryKeys a List specifying the column names of the principal table that be used to
      *        combine the two tables
-     * @param secondaryKeys a Vector specifying the column names of the secondary table that be used to
+     * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param primaryTableRequestedColumns column list that be requested in the query from principal
      *        table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param primaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param primaryTableConditions a Map specifying conditions that must comply the set of
      *        records returned from principal table
-     * @param secondaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
      *        records returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
@@ -1172,16 +1143,16 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
     @Override
     public SQLStatement createJoinFromSubselectsQuery(String primaryAlias, String secondaryAlias, String primaryQuery,
-            String secondaryQuery, Vector primaryKeys,
-            Vector secondaryKeys, Vector primaryTableRequestedColumns, Vector secondaryTableRequestedColumns,
-            Hashtable primaryTableConditions, Hashtable secondaryTableConditions,
-            Vector wildcards, Vector columnSorting, boolean forceDistinct, boolean descending) {
+            String secondaryQuery, List primaryKeys,
+            List secondaryKeys, List primaryTableRequestedColumns, List secondaryTableRequestedColumns,
+            Map primaryTableConditions, Map secondaryTableConditions,
+            List wildcards, List columnSorting, boolean forceDistinct, boolean descending) {
 
         if (primaryKeys.size() != secondaryKeys.size()) {
             throw new IllegalArgumentException("The number of keys of principal and secondary table have to be equals");
         }
 
-        Vector askedColumns = new Vector();
+        List askedColumns = new ArrayList();
         for (int i = 0; i < primaryTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) primaryTableRequestedColumns.get(i), primaryAlias));
         }
@@ -1190,8 +1161,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             askedColumns.add(this.qualify((String) secondaryTableRequestedColumns.get(i), secondaryAlias));
         }
 
-        Hashtable conditions = new Hashtable();
-        Enumeration enumKeys = primaryTableConditions.keys();
+        Map conditions = new HashMap();
+        Enumeration enumKeys = Collections.enumeration(primaryTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
             Object oValue = primaryTableConditions.get(oKey);
@@ -1207,13 +1178,13 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
 
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
 
-        Vector vMainKeys = new Vector();
+        List vMainKeys = new ArrayList();
         for (int i = 0; i < primaryKeys.size(); i++) {
             vMainKeys.add(this.qualify((String) primaryKeys.get(i), primaryAlias));
         }
-        Vector vSecondaryKeys = new Vector();
+        List vSecondaryKeys = new ArrayList();
         for (int i = 0; i < secondaryKeys.size(); i++) {
             vSecondaryKeys.add(this.qualify((String) secondaryKeys.get(i), secondaryAlias));
         }
@@ -1262,17 +1233,17 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * @param secondaryAlias name of the secondary query
      * @param primaryTable principal query is executed against
      * @param secondaryTable secondary query is executed against
-     * @param primaryKeys a Vector specifying the column names of the principal table that be used to
+     * @param primaryKeys a List specifying the column names of the principal table that be used to
      *        combine the two tables
-     * @param secondaryKeys a Vector specifying the column names of the secondary table that be used to
+     * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param primaryTableRequestedColumns column list that be requested in the query from principal
      *        table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param primaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param primaryTableConditions a Map specifying conditions that must comply the set of
      *        records returned from principal table
-     * @param secondaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
      *        records returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
@@ -1284,10 +1255,10 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
     @Override
     public SQLStatement createLeftJoinSelectQueryPageable(String mainTable, String subquery, String secondaryTable,
-            Vector mainKeys, Vector secondaryKeys,
-            Vector mainTableRequestedColumns, Vector secondaryTableRequestedColumns, Hashtable mainTableConditions,
-            Hashtable secondaryTableConditions, Vector wildcards,
-            Vector columnSorting, boolean forceDistinct, boolean descending, int recordNumber, int startIndex) {
+            List mainKeys, List secondaryKeys,
+            List mainTableRequestedColumns, List secondaryTableRequestedColumns, Map mainTableConditions,
+            Map secondaryTableConditions, List wildcards,
+            List columnSorting, boolean forceDistinct, boolean descending, int recordNumber, int startIndex) {
         return this.createLeftJoinSelectQueryPageable(mainTable, subquery, secondaryTable, mainKeys, secondaryKeys,
                 mainTableRequestedColumns, secondaryTableRequestedColumns,
                 mainTableConditions, secondaryTableConditions, wildcards, columnSorting, forceDistinct, descending,
@@ -1295,10 +1266,10 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     protected SQLStatement createLeftJoinSelectQueryPageable(String mainTable, String subquery, String secondaryTable,
-            Vector mainKeys, Vector secondaryKeys,
-            Vector mainTableRequestedColumns, Vector secondaryTableRequestedColumns, Hashtable mainTableConditions,
-            Hashtable secondaryTableConditions, Vector wildcards,
-            Vector columnSorting, boolean forceDistinct, boolean descending, int i) {
+            List mainKeys, List secondaryKeys,
+            List mainTableRequestedColumns, List secondaryTableRequestedColumns, Map mainTableConditions,
+            Map secondaryTableConditions, List wildcards,
+            List columnSorting, boolean forceDistinct, boolean descending, int i) {
         return this.createLeftJoinSelectQuery(mainTable, subquery, secondaryTable, mainKeys, secondaryKeys,
                 mainTableRequestedColumns, secondaryTableRequestedColumns,
                 mainTableConditions, secondaryTableConditions, wildcards, columnSorting, forceDistinct, descending);
@@ -1312,16 +1283,16 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *        for the subquery, like "FROM (SUBQUERY) MAINTABLE". If null, subquery is not executed.
      * @param subQueryValues conditions for the subquery. Null if subquery has not conditions
      * @param secondaryTable name of the secondary table the query is executed against
-     * @param mainKeys a Vector specifying the column names of the principal table that be used to
+     * @param mainKeys a List specifying the column names of the principal table that be used to
      *        combine the two tables
-     * @param secondaryKeys a Vector specifying the column names of the secondary table that be used to
+     * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param mainTableRequestedColumns column list that be requested in the query from principal table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param mainTableConditions a Hashtable specifying conditions that must comply the set of records
+     * @param mainTableConditions a Map specifying conditions that must comply the set of records
      *        returned from principal table
-     * @param secondaryTableConditions a Hashtable specifying conditions that must comply the set of
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
      *        records returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
@@ -1331,25 +1302,25 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      */
     @Override
     public SQLStatement createLeftJoinSelectQuery(String mainTable, String subquery, String secondaryTable,
-            Vector mainKeys, Vector secondaryKeys, Vector mainTableRequestedColumns,
-            Vector secondaryTableRequestedColumns, Hashtable mainTableConditions, Hashtable secondaryTableConditions,
-            Vector wildcards, Vector columnSorting, boolean forceDistinct,
+            List mainKeys, List secondaryKeys, List mainTableRequestedColumns,
+            List secondaryTableRequestedColumns, Map mainTableConditions, Map secondaryTableConditions,
+            List wildcards, List columnSorting, boolean forceDistinct,
             boolean descending) {
 
         if (mainKeys.size() != secondaryKeys.size()) {
             throw new IllegalArgumentException("The number of keys of principal and secondary table have to be equals");
         }
 
-        Vector askedColumns = new Vector();
+        List askedColumns = new ArrayList();
         for (int i = 0; i < mainTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) mainTableRequestedColumns.get(i), mainTable));
         }
         for (int i = 0; i < secondaryTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) secondaryTableRequestedColumns.get(i), secondaryTable));
         }
-        Hashtable conditions = new Hashtable();
-        Hashtable filterkeys = new Hashtable();
-        Enumeration enumKeys = mainTableConditions.keys();
+        Map conditions = new HashMap();
+        Map filterkeys = new HashMap();
+        vMap enumKeys = mainTableConditions.keys();
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
             Object oValue = mainTableConditions.get(oKey);
@@ -1368,13 +1339,13 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
 
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
 
-        Vector vMainKeys = new Vector();
+        List vMainKeys = new ArrayList();
         for (int i = 0; i < mainKeys.size(); i++) {
             vMainKeys.add(this.qualify((String) mainKeys.get(i), mainTable));
         }
-        Vector vSecondaryKeys = new Vector();
+        List vSecondaryKeys = new ArrayList();
         for (int i = 0; i < secondaryKeys.size(); i++) {
             vSecondaryKeys.add(this.qualify((String) secondaryKeys.get(i), secondaryTable));
         }
@@ -1407,7 +1378,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             sql.append(" AND " + cond);
         }
 
-        String filter = this.createQueryConditions(filterkeys, wildcards, new Vector(), true);
+        String filter = this.createQueryConditions(filterkeys, wildcards, new ArrayList(), true);
         if ((filter != null) && (filter.length() > 0)) {
             sql.append(filter);
         }
@@ -1450,7 +1421,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
 
     /**
      * Transforms a java.sql.ResultSet object into an Ontimize {@link EntityResult}. The columns in the
-     * ResultSet are the keys in the EntityResult, and the values for the columns are stored in Vector
+     * ResultSet are the keys in the EntityResult, and the values for the columns are stored in List
      * objects corresponding to the keys in the EntityResult.
      * <p>
      * The following getxxxxx ResulSet methods are used for getting column data:
@@ -1462,7 +1433,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * <li>getObject for rest of SQLTypes</li>
      * </ul>
      * @param resultSet the source ResultSet
-     * @param entityResult the destination EntityResult. It has a Hashtable of Vectors structure.
+     * @param entityResult the destination EntityResult. It has a List of Lists structure.
      * @param recordNumber Number of records to query
      * @param offset number of the row where start
      * @param delimited If delimited is true then all the resultSet must be queried into the
@@ -1493,7 +1464,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
                 columnTypes[i - 1] = rsMetaData.getColumnType(i);
             }
 
-            Hashtable hColumnTypesAux = new Hashtable();
+            List hColumnTypesAux = new ArrayList();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
                     hColumnTypesAux.put(sColumnLabels[i], new Integer(columnTypes[i]));
@@ -1512,11 +1483,11 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
                 for (int i = 0; i < sColumnLabels.length; i++) {
                     String columnName = sColumnLabels[i];
                     Object oValue = this.getResultSetValue(resultSet, columnName, columnTypes[i]);
-                    Vector vPreviousData = (Vector) entityResult.get(columnName);
+                    List vPreviousData = (List) entityResult.get(columnName);
                     if (vPreviousData != null) {
                         vPreviousData.add(oValue);
                     } else {
-                        Vector vData = new Vector();
+                        List vData = new ArrayList();
                         vData.add(oValue);
                         entityResult.put(columnName, vData);
                     }
@@ -1575,7 +1546,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
                 columnTypes[i - 1] = rsMetaData.getColumnType(i);
             }
 
-            Hashtable hColumnTypesAux = new Hashtable();
+            List hColumnTypesAux = new ArrayList();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
                     hColumnTypesAux.put(sColumnNames[i], new Integer(columnTypes[i]));
@@ -1625,7 +1596,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     protected void changeColumnName(EntityResult result, String nameColumn, String replaceByColumn) {
         if (result.containsKey(nameColumn)) {
             result.put(replaceByColumn, result.remove(nameColumn));
-            Hashtable sqlTypes = result.getColumnSQLTypes();
+            List sqlTypes = result.getColumnSQLTypes();
             if ((sqlTypes != null) && sqlTypes.containsKey(nameColumn)) {
                 sqlTypes.put(replaceByColumn, sqlTypes.get(nameColumn));
             }
@@ -1883,7 +1854,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addMultilanguageLeftJoinTables(String table, Vector tables, LinkedHashMap keys, LocalePair localeId)
+    public String addMultilanguageLeftJoinTables(String table, List tables, LinkedHashMap keys, LocalePair localeId)
             throws SQLException {
         // TODO Auto-generated method stub
         StringBuilder buffer = new StringBuilder();
@@ -1913,8 +1884,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addInnerMultilanguageColumns(String subSqlQuery, Vector attributes, Hashtable hLocaleTablesAV) {
-        Enumeration av = hLocaleTablesAV.keys();
+    public String addInnerMultilanguageColumns(String subSqlQuery, List attributes, List hLocaleTablesAV) {
+        Enumeration av = Collections.enumeration(hLocaleTablesAV.keySet());
         StringBuilder buffer = new StringBuilder();
         buffer.append(subSqlQuery);
         while (av.hasMoreElements()) {
@@ -1929,8 +1900,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addOuterMultilanguageColumns(String sqlQuery, String table, Hashtable hLocaleTablesAV) {
-        Enumeration av = hLocaleTablesAV.keys();
+    public String addOuterMultilanguageColumns(String sqlQuery, String table, List hLocaleTablesAV) {
+        Enumeration av = Collections.enumeration(hLocaleTablesAV.keySet());
         StringBuilder buffer = new StringBuilder();
         buffer.append(sqlQuery);
         while (av.hasMoreElements()) {
@@ -1943,7 +1914,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addOuterMultilanguageColumnsPageable(String sqlQuery, String table, Hashtable hLocaleTablesAV) {
+    public String addOuterMultilanguageColumnsPageable(String sqlQuery, String table, List hLocaleTablesAV) {
         return this.addOuterMultilanguageColumns(sqlQuery, table, hLocaleTablesAV);
     }
 

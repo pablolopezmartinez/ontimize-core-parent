@@ -1,13 +1,13 @@
 package com.ontimize.db.handler;
 
-import java.util.Hashtable;
-import java.util.Vector;
-
+import com.ontimize.db.SQLStatementBuilder;
+import com.ontimize.db.SQLStatementBuilder.SQLStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.db.SQLStatementBuilder;
-import com.ontimize.db.SQLStatementBuilder.SQLStatement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class PostgresSQLStatementHandler extends DefaultSQLStatementHandler {
 
@@ -18,19 +18,19 @@ public class PostgresSQLStatementHandler extends DefaultSQLStatementHandler {
     public static final String OFFSET = " OFFSET ";
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount, boolean descending,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount, boolean descending,
             boolean forceDistinct) {
         return super.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount, 0,
                 descending, forceDistinct);
     }
 
     @Override
-    public SQLStatement createSelectQuery(String table, Vector requestedColumns, Hashtable conditions, Vector wildcards,
-            Vector columnSorting, int recordCount, int offset,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+            List columnSorting, int recordCount, int offset,
             boolean descending, boolean forceDistinct) {
         StringBuilder sql = new StringBuilder();
-        Vector vValues = new Vector();
+        List vValues = new ArrayList();
         if ((columnSorting != null) && !requestedColumns.isEmpty()) {
             for (int i = 0; i < columnSorting.size(); i++) {
                 if (!requestedColumns.contains(columnSorting.get(i).toString())) {
@@ -71,17 +71,17 @@ public class PostgresSQLStatementHandler extends DefaultSQLStatementHandler {
 
     @Override
     public SQLStatement createLeftJoinSelectQueryPageable(String mainTable, String subquery, String secondaryTable,
-            Vector mainKeys, Vector secondaryKeys,
-            Vector mainTableRequestedColumns, Vector secondaryTableRequestedColumns, Hashtable mainTableConditions,
-            Hashtable secondaryTableConditions, Vector wildcards,
-            Vector columnSorting, boolean forceDistinct, boolean descending, int recordNumber, int startIndex) {
+            List mainKeys, List secondaryKeys,
+            List mainTableRequestedColumns, List secondaryTableRequestedColumns, Map mainTableConditions,
+            Map secondaryTableConditions, List wildcards,
+            List columnSorting, boolean forceDistinct, boolean descending, int recordNumber, int startIndex) {
 
         SQLStatement stSQL = this.createLeftJoinSelectQuery(mainTable, subquery, secondaryTable, mainKeys,
                 secondaryKeys, mainTableRequestedColumns, secondaryTableRequestedColumns,
                 mainTableConditions, secondaryTableConditions, wildcards, columnSorting, forceDistinct, descending);
 
         StringBuilder stSQLString = new StringBuilder(stSQL.getSQLStatement());
-        Vector vValues = stSQL.getValues();
+        List vValues = stSQL.getValues();
 
         if (recordNumber >= 0) {
             stSQLString.append(HSQLDBSQLStatementHandler.LIMIT);

@@ -1,8 +1,8 @@
 package com.ontimize.xml;
 
-import java.util.Hashtable;
-
 import com.ontimize.util.remote.BytesBlock;
+
+import java.util.Hashtable;
 
 public interface XMLClientProvider extends XMLFormProvider {
 

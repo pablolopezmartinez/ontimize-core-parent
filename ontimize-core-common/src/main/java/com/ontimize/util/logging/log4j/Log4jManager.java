@@ -1,19 +1,8 @@
 package com.ontimize.util.logging.log4j;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.ontimize.util.logging.ILogManager;
+import com.ontimize.util.logging.Level;
+import com.ontimize.util.remote.BytesBlock;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.appender.RollingFileAppender;
 import org.apache.logging.slf4j.Log4jLogger;
@@ -21,9 +10,9 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ontimize.util.logging.ILogManager;
-import com.ontimize.util.logging.Level;
-import com.ontimize.util.remote.BytesBlock;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class Log4jManager implements ILogManager {
 

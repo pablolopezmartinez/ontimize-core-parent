@@ -1,12 +1,12 @@
 package com.ontimize.util.share;
 
+import com.ontimize.dto.EntityResult;
+
 import java.rmi.Remote;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-
-import com.ontimize.dto.EntityResult;
 
 /**
  * @author pablo.martinez

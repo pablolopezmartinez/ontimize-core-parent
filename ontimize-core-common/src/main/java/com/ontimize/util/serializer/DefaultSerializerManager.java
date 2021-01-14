@@ -1,16 +1,15 @@
 package com.ontimize.util.serializer;
 
+import com.ontimize.util.Base64Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Hashtable;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.ontimize.util.Base64Utils;
 
 public class DefaultSerializerManager implements ISerializerManager {
 

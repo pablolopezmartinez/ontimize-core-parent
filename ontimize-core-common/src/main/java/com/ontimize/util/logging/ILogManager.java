@@ -1,10 +1,9 @@
 package com.ontimize.util.logging;
 
-import java.util.List;
-
+import com.ontimize.util.remote.BytesBlock;
 import org.slf4j.Logger;
 
-import com.ontimize.util.remote.BytesBlock;
+import java.util.List;
 
 public interface ILogManager {
 

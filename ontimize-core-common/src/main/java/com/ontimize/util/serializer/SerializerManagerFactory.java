@@ -1,9 +1,8 @@
 package com.ontimize.util.serializer;
 
+import com.ontimize.util.serializer.xml.XmlSerializerManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.ontimize.util.serializer.xml.XmlSerializerManager;
 
 public class SerializerManagerFactory {
 

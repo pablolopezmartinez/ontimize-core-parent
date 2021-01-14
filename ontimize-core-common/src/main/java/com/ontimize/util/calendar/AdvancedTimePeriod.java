@@ -1,11 +1,11 @@
 package com.ontimize.util.calendar;
 
+import com.ontimize.util.ParseTools;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Vector;
-
-import com.ontimize.util.ParseTools;
 
 
 public class AdvancedTimePeriod implements TimePeriod {

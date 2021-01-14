@@ -1,7 +1,5 @@
 package com.ontimize.gui.i18n;
 
-import java.util.Hashtable;
-
 public class DatabaseBundleDescriptor {
 
     protected Object bundleId;

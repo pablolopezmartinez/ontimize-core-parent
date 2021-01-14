@@ -1,9 +1,9 @@
 package com.ontimize.locator;
 
-import java.rmi.Remote;
-
 import com.ontimize.db.Entity;
 import com.ontimize.gui.ClientWatch;
+
+import java.rmi.Remote;
 
 /**
  * This interface defines the methods that must be implemented by a object that provides entity
