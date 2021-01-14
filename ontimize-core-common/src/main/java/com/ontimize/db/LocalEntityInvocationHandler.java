@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.ontimize.dto.EntityResult;
+import com.ontimize.dto.EntityResultTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

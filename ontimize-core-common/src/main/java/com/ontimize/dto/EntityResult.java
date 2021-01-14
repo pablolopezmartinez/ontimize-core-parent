@@ -42,6 +42,14 @@ public interface EntityResult {
 
     int byteBlock = 40 * 1024;// 40 K
 
+    Object get(Object key);
+
+    boolean containsKey(Object key);
+
+    Object put(Object key, Object value)
+
+    int calculateRecordNumber();
+
     class TimeUtil {
 
         long time = 0;
@@ -55,8 +63,6 @@ public interface EntityResult {
         }
 
     }
-
-    Object get(Object key);
 
     default int getValuesKeysIndex(EntityResult entityResult, Map kv) {
 

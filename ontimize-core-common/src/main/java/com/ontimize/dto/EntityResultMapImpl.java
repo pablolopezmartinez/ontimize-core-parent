@@ -13,7 +13,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import com.ontimize.dto.EntityResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -792,7 +791,7 @@ public class EntityResultMapImpl {
     }
 
     public int indexOfData(Map dataKeys) {
-        int index = getValuesKeysIndex(this, dataKeys); //todo
+        int index = EntityResultTools.getValuesKeysIndex(this, dataKeys);
         return index;
     }
 
