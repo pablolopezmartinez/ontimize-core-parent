@@ -1,13 +1,12 @@
 package com.ontimize.gui;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.*;
 
 public class MultipleValue implements java.io.Serializable {
 
-    private final Hashtable data = new Hashtable();
+    private final Map data = new HashMap();
 
-    public MultipleValue(Hashtable data) {
+    public MultipleValue(Map data) {
         if (data != null) {
             this.data.putAll(data);
         }
@@ -26,7 +25,7 @@ public class MultipleValue implements java.io.Serializable {
     }
 
     public Enumeration keys() {
-        return this.data.keys();
+        return Collections.enumeration(this.data.keySet());
     }
 
 }

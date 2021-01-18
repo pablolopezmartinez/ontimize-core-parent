@@ -2,20 +2,21 @@ package com.ontimize.gui.i18n;
 
 import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DatabaseResourceBundle extends ResourceBundle implements Serializable {
 
-    protected Hashtable values;
+    protected Map values;
 
     protected Locale locale;
 
-    public DatabaseResourceBundle(Hashtable data, Locale l) {
+    public DatabaseResourceBundle(Map data, Locale l) {
         this.values = data;
         if (this.values == null) {
-            this.values = new Hashtable();
+            this.values = new HashMap();
         }
         this.locale = l;
     }
@@ -27,7 +28,7 @@ public class DatabaseResourceBundle extends ResourceBundle implements Serializab
 
     @Override
     public Enumeration getKeys() {
-        return this.values.keys();
+        return Collections.enumeration(this.values.keySet());
     }
 
     @Override
@@ -35,11 +36,11 @@ public class DatabaseResourceBundle extends ResourceBundle implements Serializab
         return this.values.get(key);
     }
 
-    public Hashtable getValues() {
+    public Map getValues() {
         return this.values;
     }
 
-    public void updateValues(Hashtable values) {
+    public void updateValues(Map values) {
         this.values = values;
     }
 

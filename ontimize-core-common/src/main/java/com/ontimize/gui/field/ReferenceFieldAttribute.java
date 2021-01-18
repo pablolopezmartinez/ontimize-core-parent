@@ -2,8 +2,10 @@ package com.ontimize.gui.field;
 
 import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * This class represents an attribute in a reference field.
@@ -31,7 +33,7 @@ public class ReferenceFieldAttribute implements Serializable {
     /**
      * The cols reference. By default, null.
      */
-    protected Vector cols = null;
+    protected List cols = null;
 
     /**
      * The class constructor. Fixes the parameters.
@@ -41,7 +43,7 @@ public class ReferenceFieldAttribute implements Serializable {
      * @param cod cod reference
      * @param cols column reference
      */
-    public ReferenceFieldAttribute(String attr, String entity, String cod, Vector cols) {
+    public ReferenceFieldAttribute(String attr, String entity, String cod, List cols) {
         this.cod = cod;
         this.entityName = entity;
         this.attr = attr;
@@ -78,22 +80,22 @@ public class ReferenceFieldAttribute implements Serializable {
      * <p>
      * @return the cols
      */
-    public Vector getCols() {
+    public List getCols() {
         return this.cols;
     }
 
     /**
-     * Processes the reference field attribute and returns a <code>Hashtable</code> where the
+     * Processes the reference field attribute and returns a <code>Map</code> where the
      * ReferenceFieldAttribute keys will be replaced by their cods.
-     * @param keysValues the original <code>Hashtable</code>
-     * @return the replaced <code>Hashtable</code>
+     * @param keysValues the original <code>Map</code>
+     * @return the replaced <code>Map</code>
      */
-    public static Hashtable processReferenceFieldAttribute(Hashtable keysValues) {
+    public static Map processReferenceFieldAttribute(Map keysValues) {
         if (keysValues == null) {
             return null;
         }
-        Hashtable res = new Hashtable();
-        Enumeration c = keysValues.keys();
+        Map res = new HashMap();
+        Enumeration c = Collections.enumeration(keysValues.keySet());
         while (c.hasMoreElements()) {
             Object oKey = c.nextElement();
             Object oValue = keysValues.get(oKey);
@@ -108,16 +110,16 @@ public class ReferenceFieldAttribute implements Serializable {
     }
 
     /**
-     * Processes the reference field attribute and returns a <code>Vector</code> where the
+     * Processes the reference field attribute and returns a <code>List</code> where the
      * {@link ReferenceFieldAttribute#getAttr()}will be added.
-     * @param a the original <code>Vector</code>
-     * @return the modified <code>Vector</code>
+     * @param a the original <code>List</code>
+     * @return the modified <code>List</code>
      */
-    public static Vector processReferenceFieldAttribute(Vector a) {
+    public static List processReferenceFieldAttribute(List a) {
         if (a == null) {
             return null;
         }
-        Vector res = new Vector();
+        List res = new ArrayList();
         for (int i = 0; i < a.size(); i++) {
             Object at = a.get(i);
             // Adds the attribute

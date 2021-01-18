@@ -4,7 +4,8 @@ import com.ontimize.locator.SessionInfo;
 import com.ontimize.util.logging.IRemoteLogManager;
 
 import java.rmi.Remote;
-import java.util.Hashtable;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Properties;
 
 public interface RemotelyManageable extends Remote {
@@ -43,10 +44,10 @@ public interface RemotelyManageable extends Remote {
     /**
      * This method obtains a list with all the start times of all connections.
      * @param id String with the administrator id of the remote session.
-     * @return a <code>Hashtable</code> with the values.
+     * @return a <code>Map</code> with the values.
      * @throws Exception
      */
-    public Hashtable getStartSessionTime(String id) throws Exception;
+    public Map getStartSessionTime(String id) throws Exception;
 
     /**
      * This method returns the main information of all available user's sessions. The information
@@ -92,7 +93,7 @@ public interface RemotelyManageable extends Remote {
      * </tr>
      * </Table>
      * <p>
-     * NOTE: the connection information contains into the Hashtable returned is:
+     * NOTE: the connection information contains into the Map returned is:
      * <ul>
      * <li>the number of connections with the database.
      * <li>the number of locked connections.
@@ -101,18 +102,18 @@ public interface RemotelyManageable extends Remote {
      * </ul>
      * @param id String with the administrator id of the remote session.
      * @param key String indicating what information you wish to request.
-     * @return a <code>Hashtable</code> with the values.
+     * @return a <code>Map</code> with the values.
      * @throws Exception
      */
-    public Hashtable getSystemInfo(String id, String key) throws Exception;
+    public Map getSystemInfo(String id, String key) throws Exception;
 
     /**
-     * This method returns a Hashtable with the current list of users's IDs.
+     * This method returns a Map with the current list of users's IDs.
      * @param id String with the administrator id of the remote session.
-     * @return a <code>Hashtable</code> with the user's IDs.
+     * @return a <code>Map</code> with the user's IDs.
      * @throws Exception
      */
-    public Hashtable getUserIds(String id) throws Exception;
+    public Map getUserIds(String id) throws Exception;
 
     public void stopServer(String id) throws Exception;
 

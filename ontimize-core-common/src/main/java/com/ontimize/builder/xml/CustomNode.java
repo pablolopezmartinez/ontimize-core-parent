@@ -3,7 +3,8 @@ package com.ontimize.builder.xml;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import java.util.Hashtable;
+import java.util.Map;
+import java.util.HashMap;
 
 public class CustomNode {
 
@@ -63,10 +64,10 @@ public class CustomNode {
         return this.xMLDocumentNode.getAttributes();
     }
 
-    public Hashtable<String, String> hashtableAttribute() {
+    public Map<String, String> MapAttribute() {
         // Gets the attribute list
         NamedNodeMap attributeList = this.attributeList();
-        Hashtable<String, String> attributeTable = new Hashtable<String, String>();
+        Map<String, String> attributeTable = new HashMap<String, String>();
         for (int i = 0; i < attributeList.getLength(); i++) {
             Node node = attributeList.item(i);
             attributeTable.put(node.getNodeName(), node.getNodeValue());

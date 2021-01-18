@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Object to stores information about many table values <br>
@@ -15,17 +15,17 @@ public class MultipleTableAttribute implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(MultipleTableAttribute.class);
 
-    protected Hashtable attributesTable = null;
+    protected Map attributesTable = null;
 
     protected Object attr = null;
 
     public MultipleTableAttribute(Object attr) {
-        this.attributesTable = new Hashtable();
+        this.attributesTable = new HashMap();
         this.attr = attr;
     }
 
     public Enumeration keys() {
-        return this.attributesTable.keys();
+        return Collections.enumeration(this.attributesTable.keySet());
     }
 
     /**
@@ -62,7 +62,7 @@ public class MultipleTableAttribute implements Serializable {
         this.attributesTable.put(key, extendedAttribute);
     }
 
-    public Hashtable getExtendedTableAttributes() {
+    public Map getExtendedTableAttributes() {
         return this.attributesTable;
     }
 

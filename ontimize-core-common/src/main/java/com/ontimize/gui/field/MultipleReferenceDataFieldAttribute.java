@@ -139,16 +139,16 @@ public class MultipleReferenceDataFieldAttribute implements Serializable {
     /**
      * Process the attributes with class MultipleReferenceDataFieldAttribute.
      * @param kv
-     * @return The same hashtable that the input parameter but using
+     * @return The same Map that the input parameter but using
      *         MultipleReferenceDataFieldAttribute.getCods() to replace the
      *         MultipleReferenceDataFieldAttribute attributes
      */
-    public static Hashtable processMultipleReferenceFieldAttributes(Hashtable kv) {
+    public static Map processMultipleReferenceFieldAttributes(Map kv) {
         if (kv == null) {
             return null;
         }
-        Hashtable res = new Hashtable();
-        Enumeration c = kv.keys();
+        Map res = new HashMap();
+        Enumeration c = Collections.enumeration(kv.keySet());
         while (c.hasMoreElements()) {
             Object oKey = c.nextElement();
             Object oValue = kv.get(oKey);
@@ -171,16 +171,16 @@ public class MultipleReferenceDataFieldAttribute implements Serializable {
     }
 
     /**
-     * Creates a vector with the objects in the input parameters and adds all the objects inside the
+     * Creates a List with the objects in the input parameters and adds all the objects inside the
      * attributes with class MultipleReferenceDataFieldAttribute.
      * @param a
      * @return
      */
-    public static Vector processMultipleReferenceFieldAttributes(Vector a) {
+    public static List processMultipleReferenceFieldAttributes(List a) {
         if (a == null) {
             return null;
         }
-        Vector res = new Vector();
+        List res = new ArrayList();
         for (int i = 0; i < a.size(); i++) {
             Object at = a.get(i);
             // Add the attribute

@@ -1,24 +1,24 @@
 package com.ontimize.gui;
 
 import java.io.Serializable;
-import java.util.Hashtable;
+import java.util.Map;
 
 public class TableMultipleValue implements Serializable {
 
     protected Object value = null;
 
-    protected Hashtable values = null;
+    protected Map values = null;
 
     public TableMultipleValue(Object value) {
         this.value = value;
-        this.values = new Hashtable();
+        this.values = new HashMap();
     }
 
     public void put(Object key, Object value) {
         this.values.put(key, value);
     }
 
-    public Hashtable getValues() {
+    public Map getValues() {
         return this.values;
     }
 

@@ -3,14 +3,16 @@ package com.ontimize.gui.table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Attribute used for the tables. Contains information about the column names, the entity, the keys,
  * the parent keys and the number of records to query
  */
-public class TableAttribute extends Hashtable {
+public class TableAttribute extends Map {
 
     private static final Logger logger = LoggerFactory.getLogger(TableAttribute.class);
 
@@ -18,19 +20,19 @@ public class TableAttribute extends Hashtable {
 
     protected String entity = null;
 
-    protected Vector attributes = new Vector();
+    protected List attributes = new ArrayList();
 
     protected int totalRecordNumberInQuery = 0;
 
-    protected Vector parentkeys = new Vector();
+    protected List parentkeys = new ArrayList();
 
-    protected Hashtable hParentkeyEquivalences;
+    protected Map hParentkeyEquivalences;
 
-    protected Vector keys = null;
+    protected List keys = null;
 
-    protected Hashtable queryFilter;
+    protected Map queryFilter;
 
-    protected Vector orderBy;
+    protected List orderBy;
 
     /**
      * Creates a TableAttribute with recordNumberToInitiallyDownload= -1
@@ -65,18 +67,18 @@ public class TableAttribute extends Hashtable {
         this.recordNumberToInitiallyDownload = recordNumberToInitiallyDownload;
     }
 
-    public void setEntityAndAttributes(String entity, Vector attributes) {
+    public void setEntityAndAttributes(String entity, List attributes) {
         this.entity = entity;
         this.attributes = attributes;
         this.put(entity, attributes);
     }
 
-    public void setKeysParentkeysOtherkeys(Vector keys, Vector parentkeys) {
+    public void setKeysParentkeysOtherkeys(List keys, List parentkeys) {
         this.keys = keys;
         this.parentkeys = parentkeys;
     }
 
-    public Hashtable getParentkeyEquivalences() {
+    public Map getParentkeyEquivalences() {
         return this.hParentkeyEquivalences;
     }
 
@@ -87,7 +89,7 @@ public class TableAttribute extends Hashtable {
         return parentkey;
     }
 
-    public void setParentkeyEquivalences(Hashtable hParentkeyEquivalences) {
+    public void setParentkeyEquivalences(Map hParentkeyEquivalences) {
         this.hParentkeyEquivalences = hParentkeyEquivalences;
     }
 
@@ -95,31 +97,31 @@ public class TableAttribute extends Hashtable {
         return this.entity;
     }
 
-    public Vector getAttributes() {
-        return (Vector) this.attributes.clone();
+    public List getAttributes() {
+        return (List) this.attributes.clone();
     }
 
-    public Vector getKeys() {
-        return (Vector) this.keys.clone();
+    public List getKeys() {
+        return (List) this.keys.clone();
     }
 
-    public Vector getParentKeys() {
-        return (Vector) this.parentkeys.clone();
+    public List getParentKeys() {
+        return (List) this.parentkeys.clone();
     }
 
-    public Hashtable getQueryFilter() {
+    public Map getQueryFilter() {
         return this.queryFilter;
     }
 
-    public void setQueryFilter(Hashtable queryFilter) {
+    public void setQueryFilter(Map queryFilter) {
         this.queryFilter = queryFilter;
     }
 
-    public Vector getOrderBy() {
+    public List getOrderBy() {
         return this.orderBy;
     }
 
-    public void setOrderBy(Vector orderBy) {
+    public void setOrderBy(List orderBy) {
         this.orderBy = orderBy;
     }
 

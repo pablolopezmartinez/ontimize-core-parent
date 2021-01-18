@@ -1,7 +1,7 @@
 package com.ontimize.gui.i18n;
 
 import java.rmi.Remote;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -34,17 +34,17 @@ public interface IDatabaseBundleManager extends Remote {
      * @return
      * @throws Exception
      */
-    public Hashtable getBundles(List baseNames, Locale l, int sessionId) throws Exception;
+    public Map getBundles(List baseNames, Locale l, int sessionId) throws Exception;
 
     /**
-     * Get a hashtable with all the available bundles in the database for the specified locale
+     * Get a Map with all the available bundles in the database for the specified locale
      * @param l Locale
      * @param sessionId
      * @return The keys of the object are Strings with the bundle class name (for example
      *         com.ontimize.gui.i18m.bundle) and each value is the ResourceBundle object
      * @throws Exception
      */
-    public Hashtable getAllResourceBundles(Locale l, int sessionId) throws Exception;
+    public Map getAllResourceBundles(Locale l, int sessionId) throws Exception;
 
     /**
      * Get a list with the suffix of the available locales in the database

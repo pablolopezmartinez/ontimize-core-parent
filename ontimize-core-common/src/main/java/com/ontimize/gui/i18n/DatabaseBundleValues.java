@@ -3,7 +3,7 @@ package com.ontimize.gui.i18n;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.List;
 
 public class DatabaseBundleValues implements Serializable {
@@ -16,7 +16,7 @@ public class DatabaseBundleValues implements Serializable {
         this.availableLocales = availableLocales;
     }
 
-    public void addBundleValue(String textKey, String bundleName, Hashtable translationValues) {
+    public void addBundleValue(String textKey, String bundleName, Map translationValues) {
         BundleValue bundleValue = new BundleValue(textKey, bundleName, translationValues);
 
         // Search for the non-existent item
@@ -41,9 +41,9 @@ public class DatabaseBundleValues implements Serializable {
 
         protected String bundleClassName;
 
-        protected Hashtable translationValues;
+        protected Map translationValues;
 
-        public BundleValue(String textKey, String bundleName, Hashtable tranlationValues) {
+        public BundleValue(String textKey, String bundleName, Map tranlationValues) {
             this.textKey = textKey;
             this.bundleClassName = bundleName;
             this.translationValues = tranlationValues;
@@ -65,11 +65,11 @@ public class DatabaseBundleValues implements Serializable {
             this.bundleClassName = bundleClassName;
         }
 
-        public Hashtable getTranslationValues() {
+        public Map getTranslationValues() {
             return this.translationValues;
         }
 
-        public void setTranslationValues(Hashtable translationValues) {
+        public void setTranslationValues(Map translationValues) {
             this.translationValues = translationValues;
         }
 

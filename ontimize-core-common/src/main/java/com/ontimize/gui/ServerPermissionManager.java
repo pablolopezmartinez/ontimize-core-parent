@@ -5,7 +5,7 @@ import com.ontimize.security.PermissionGroupInfo;
 import com.ontimize.security.PermissionInfo;
 
 import java.rmi.Remote;
-import java.util.Hashtable;
+import java.util.Map;
 
 public interface ServerPermissionManager extends Remote {
 
@@ -23,7 +23,7 @@ public interface ServerPermissionManager extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResult setServerPermissions(Hashtable keys, int sessionId, StringBuffer permissionXML)
+    public EntityResult setServerPermissions(Map keys, int sessionId, StringBuffer permissionXML)
             throws Exception;
 
     /**
@@ -33,9 +33,9 @@ public interface ServerPermissionManager extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResult getUserProfileServerPermissions(Hashtable profileKeys, int sessionId) throws Exception;
+    public EntityResult getUserProfileServerPermissions(Map profileKeys, int sessionId) throws Exception;
 
-    public EntityResult setUserProfileServerPermissions(Hashtable profileKeys, StringBuffer permissions, int sessionId)
+    public EntityResult setUserProfileServerPermissions(Map profileKeys, StringBuffer permissions, int sessionId)
             throws Exception;
 
     /**
@@ -45,7 +45,7 @@ public interface ServerPermissionManager extends Remote {
      * @return
      * @throws Exception
      */
-    public EntityResult getServerPermissions(Hashtable userKeys, int sessionId) throws Exception;
+    public EntityResult getServerPermissions(Map userKeys, int sessionId) throws Exception;
 
     public EntityResult getEntityList(int sessionId) throws Exception;
 
