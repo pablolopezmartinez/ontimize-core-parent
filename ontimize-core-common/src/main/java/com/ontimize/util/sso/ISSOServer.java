@@ -1,7 +1,7 @@
 package com.ontimize.util.sso;
 
 import java.rmi.Remote;
-import java.util.Hashtable;
+import java.util.Map;
 
 public interface ISSOServer extends Remote {
 
@@ -9,6 +9,6 @@ public interface ISSOServer extends Remote {
 
     public byte[] returnMessage(String contextRef, byte[] inData) throws Exception;
 
-    public Hashtable getConfigurationParameters(String clientName) throws Exception;
+    public Map getConfigurationParameters(String clientName) throws Exception;
 
 }

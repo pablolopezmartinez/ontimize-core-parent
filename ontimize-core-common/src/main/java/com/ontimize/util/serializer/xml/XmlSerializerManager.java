@@ -7,8 +7,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Hashtable;
 import java.util.Map;
+import java.util.HashMap;
 
 public class XmlSerializerManager implements ISerializerManager {
 
@@ -22,15 +22,15 @@ public class XmlSerializerManager implements ISerializerManager {
 
     @Override
     public String serializeMapToString(Map<String, Object> data) throws Exception {
-        return this.convertFilterDataToString((Hashtable) data);
+        return this.convertFilterDataToString((Map) data);
     }
 
     @Override
     public Map<String, Object> deserializeStringToMap(String data) throws Exception {
-        return this.convertFilterDataToHashtable(data);
+        return this.convertFilterDataToMap(data);
     }
 
-    protected String convertFilterDataToString(Hashtable data) throws Exception {
+    protected String convertFilterDataToString(Map data) throws Exception {
         JAXBContext jc = JAXBContext.newInstance(XmlFilterQuery.class, XmlFilterSearchValue.class,
                 XmlFilterBasicExpression.class, XmlFilterValueSearchValue.class);
         XmlFilterQuery toMarshall = new XmlFilterQuery();
@@ -43,13 +43,13 @@ public class XmlSerializerManager implements ISerializerManager {
         return toRet;
     }
 
-    protected Hashtable convertFilterDataToHashtable(String data) throws Exception {
+    protected Map convertFilterDataToMap(String data) throws Exception {
         JAXBContext jc = JAXBContext.newInstance(XmlFilterQuery.class, XmlFilterSearchValue.class,
                 XmlFilterBasicExpression.class, XmlFilterValueSearchValue.class);
         Unmarshaller jaxbUnmarshaller = jc.createUnmarshaller();
         StringReader stringReader = new StringReader(data);
         XmlFilterQuery wrapper = (XmlFilterQuery) jaxbUnmarshaller.unmarshal(stringReader);
-        return new Hashtable<String, Object>(wrapper.getFiltersMap());
+        return new HashMap<String, Object>(wrapper.getFiltersMap());
     }
 
 }

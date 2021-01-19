@@ -12,7 +12,8 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.util.Hashtable;
+import java.util.Map;
+import java.util.HashMap;
 
 public class XMLUtil {
 
@@ -186,8 +187,8 @@ public class XMLUtil {
         return "";
     }
 
-    public static Hashtable parseAttributes(NamedNodeMap nodeAttributes) {
-        Hashtable attributes = new Hashtable();
+    public static Map parseAttributes(NamedNodeMap nodeAttributes) {
+        Map attributes = new HashMap();
         for (int i = 0; i < nodeAttributes.getLength(); i++) {
             attributes.put(nodeAttributes.item(i).getNodeName(), nodeAttributes.item(i).getNodeValue());
         }

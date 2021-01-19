@@ -8,7 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Map;
 
 public class DefaultSerializerManager implements ISerializerManager {
@@ -17,15 +17,15 @@ public class DefaultSerializerManager implements ISerializerManager {
 
     @Override
     public String serializeMapToString(Map<String, Object> data) throws Exception {
-        return this.convertFilterDataToString((Hashtable) data);
+        return this.convertFilterDataToString((Map) data);
     }
 
     @Override
     public Map<String, Object> deserializeStringToMap(String data) throws Exception {
-        return this.convertFilterDataToHashtable(data);
+        return this.convertFilterDataToMap(data);
     }
 
-    protected String convertFilterDataToString(Hashtable data) {
+    protected String convertFilterDataToString(Map data) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ObjectOutputStream output = new ObjectOutputStream(out);
@@ -40,14 +40,14 @@ public class DefaultSerializerManager implements ISerializerManager {
         return null;
     }
 
-    protected Hashtable convertFilterDataToHashtable(String data) {
+    protected Map convertFilterDataToMap(String data) {
         try {
             byte[] bytes = Base64Utils.decode(data.toCharArray());
             ByteArrayInputStream bIn = new ByteArrayInputStream(bytes);
             ObjectInputStream in = new ObjectInputStream(bIn);
             Object o = in.readObject();
             in.close();
-            return (Hashtable) o;
+            return (Map) o;
         } catch (Exception ex) {
             DefaultSerializerManager.logger.error(null, ex);
         }

@@ -1,8 +1,8 @@
 package com.ontimize.util.extend;
 
 import org.w3c.dom.NodeList;
-
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 public class InnerExtendedClientApplicationOperation {
 
@@ -16,7 +16,7 @@ public class InnerExtendedClientApplicationOperation {
 
     protected NodeList extendCode;
 
-    protected Vector internalOperations;
+    protected List internalOperations;
 
     public InnerExtendedClientApplicationOperation(String operation, String name, String value, String form) {
 
@@ -25,7 +25,7 @@ public class InnerExtendedClientApplicationOperation {
         this.valueAttr = value;
         this.formAttr = form;
 
-        this.internalOperations = new Vector();
+        this.internalOperations = new ArrayList();
     }
 
     public String getFormAttr() {
@@ -60,7 +60,7 @@ public class InnerExtendedClientApplicationOperation {
         this.valueAttr = valueAttr;
     }
 
-    public Vector getInternalOperations() {
+    public List getInternalOperations() {
         return this.internalOperations;
     }
 

@@ -16,13 +16,13 @@ public class ParseTools {
     private static final Logger logger = LoggerFactory.getLogger(ParseTools.class);
 
     /**
-     * Splits a String into a vector, using the separator as delimiter
+     * Splits a String into a List, using the separator as delimiter
      * @param s the String to split
      * @param separator the string that separates the components
-     * @return a vector with the separated elements
+     * @return a List with the separated elements
      */
-    public static Vector getTokensAt(String s, String separator) {
-        Vector v = new Vector();
+    public static List getTokensAt(String s, String separator) {
+        List v = new ArrayList();
         if (s == null) {
             return v;
         }
@@ -38,14 +38,14 @@ public class ParseTools {
     }
 
     /**
-     * Returns a Hashtable with key-value corresponding with result to apply two 'tokenizer' actions.
+     * Returns a Map with key-value corresponding with result to apply two 'tokenizer' actions.
      * For example, <br>
      * <br>
      * s= "field1:equivalentfield1;field2:equivalentfield2;...;fieldn:equivalententfieldn" <br>
      * separator1=";" <br>
      * separator2=":" <br>
      * <br>
-     * returns <code>Hashtable</code>: <br>
+     * returns <code>Map</code>: <br>
      * <br>
      * { field1 equivalentfield1} <br>
      * { field2 equivalentfield2} <br>
@@ -68,10 +68,10 @@ public class ParseTools {
      * @param sValue The <code>String</code> with values
      * @param separator1 Separator for first <code>Tokenizer</code>
      * @param separator2 Separator for second <code>Tokenizer</code> for each token obtained previously
-     * @return <code>Hashtable</code> with key-value
+     * @return <code>Map</code> with key-value
      */
-    public static Hashtable getTokensAt(String sValue, String separator1, String separator2) {
-        Hashtable hashTokens = new Hashtable();
+    public static Map getTokensAt(String sValue, String separator1, String separator2) {
+        Map hashTokens = new HashMap();
         if ((sValue.indexOf(separator1) == -1) && (sValue.indexOf(separator2) == -1)) {
             hashTokens.put(sValue, sValue);
             return hashTokens;
@@ -370,13 +370,13 @@ public class ParseTools {
     }
 
     /**
-     * Checks if a parameter is contained by a Hashtable (or by an extended class as {@link Properties})
+     * Checks if a parameter is contained by a Map (or by an extended class as {@link Properties})
      * @param key the parameter to check
-     * @param prop the Hashtable that contains the properties
+     * @param prop the Map that contains the properties
      * @return the value of the property if it is contained by the prop, or null if the property is not
-     *         in the Hashtable
+     *         in the Map
      */
-    public static Object getParameterValue(String key, Hashtable prop) {
+    public static Object getParameterValue(String key, Map prop) {
         Object value = null;
         value = prop.get(key);
         if (value == null) {
@@ -642,13 +642,13 @@ public class ParseTools {
     }
 
     /**
-     * Creates a String with the elements contained by a Vector, separating the contents by the
+     * Creates a String with the elements contained by a List, separating the contents by the
      * separator passed as parameter
      * @param v
      * @param s the separator to use
-     * @return the String with the Vector elements separated by the separator
+     * @return the String with the List elements separated by the separator
      */
-    public static String vectorToStringSeparateBy(List v, String s) {
+    public static String ListToStringSeparateBy(List v, String s) {
         if (v != null) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < v.size(); i++) {

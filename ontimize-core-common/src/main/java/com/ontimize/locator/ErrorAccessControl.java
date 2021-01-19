@@ -4,14 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
-import java.util.Hashtable;
-
+import java.util.Map;
+import java.util.HashMap;
 /**
  * This class is used to implement a login lock to users who have inserted their credentials wrong a
  * specific number of times. This is used if in the locator.properties exist the property
  * "ControlAccessAttempts = true"
  *
- * This object stores a Hashtable whose keys are the usernames and the values the AccesObject
+ * This object stores a Map whose keys are the usernames and the values the AccesObject
  * associated with these users.
  *
  * @since 5.6.0
@@ -23,7 +23,7 @@ public class ErrorAccessControl {
 
     public int numMaxErrorAccess;
 
-    protected Hashtable<String, AccessObject> hAccessControl = new Hashtable<String, AccessObject>();
+    protected Map<String, AccessObject> hAccessControl = new HashMap<String, AccessObject>();
 
     public ErrorAccessControl(int numberMaxAcces) {
         this.numMaxErrorAccess = numberMaxAcces;

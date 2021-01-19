@@ -2,7 +2,7 @@ package com.ontimize.util.operation;
 
 import java.rmi.Remote;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * @author Imatia Innovation S.L.
@@ -33,10 +33,10 @@ public interface RemoteOperationManager extends Remote {
 
     public boolean isFinished(String token, int sessionId) throws Exception;
 
-    public Hashtable getResult(String token, int sessionId) throws Exception;
+    public Map getResult(String token, int sessionId) throws Exception;
 
     public int getStatus(String token, int sessionId) throws Exception;
 
-    public Hashtable getCurrentExecutionInformation(String token, int sessionId) throws Exception;
+    public Map getCurrentExecutionInformation(String token, int sessionId) throws Exception;
 
 }

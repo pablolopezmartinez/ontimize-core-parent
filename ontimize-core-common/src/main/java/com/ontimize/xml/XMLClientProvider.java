@@ -2,11 +2,11 @@ package com.ontimize.xml;
 
 import com.ontimize.util.remote.BytesBlock;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 public interface XMLClientProvider extends XMLFormProvider {
 
-    public Hashtable getFormManagerParameters(String formManagerId, int userid) throws Exception;
+    public Map getFormManagerParameters(String formManagerId, int userid) throws Exception;
 
     public String getXMLRules(String form, int userid) throws Exception;
 

@@ -4,10 +4,10 @@ import com.ontimize.util.ParseTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
+import java.util.List;
 
 
 public class BasicTimePeriodParser implements TimePeriodParser, TimePeriodOperationParser {
@@ -31,7 +31,7 @@ public class BasicTimePeriodParser implements TimePeriodParser, TimePeriodOperat
     // Shared instance
     private static TimePeriodParser parser = new BasicTimePeriodParser();
 
-    protected Hashtable alias = null;
+    protected Map alias = null;
 
     protected BasicTimePeriodParser() {
     }
@@ -41,7 +41,7 @@ public class BasicTimePeriodParser implements TimePeriodParser, TimePeriodOperat
     }
 
     @Override
-    public void setPeriodAlias(Hashtable alias) {
+    public void setPeriodAlias(Map alias) {
         this.alias = alias;
     }
 
@@ -91,7 +91,7 @@ public class BasicTimePeriodParser implements TimePeriodParser, TimePeriodOperat
     protected TimePeriod parseAdvancedPeriod(String periodDefinition, Locale locale, String businessCalendarProperties)
             throws Exception {
         if (periodDefinition != null) {
-            Vector tokensAt = ParseTools.getTokensAt(periodDefinition, ";");
+            List tokensAt = ParseTools.getTokensAt(periodDefinition, ";");
             if (tokensAt.size() == 1) {
                 AdvancedTimePeriod atp = new AdvancedTimePeriod(periodDefinition, locale, businessCalendarProperties);
                 return atp;

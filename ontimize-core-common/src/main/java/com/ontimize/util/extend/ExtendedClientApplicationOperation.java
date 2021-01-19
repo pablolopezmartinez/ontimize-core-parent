@@ -1,8 +1,8 @@
 package com.ontimize.util.extend;
 
 import org.w3c.dom.NodeList;
-
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExtendedClientApplicationOperation {
 
@@ -18,7 +18,7 @@ public class ExtendedClientApplicationOperation {
 
     protected String idAttr;
 
-    protected Vector internalOperations;
+    protected List internalOperations;
 
     protected NodeList extendCode;
 
@@ -38,7 +38,7 @@ public class ExtendedClientApplicationOperation {
                 break;
         }
 
-        this.internalOperations = new Vector();
+        this.internalOperations = new ArrayList();
     }
 
     public String getIdAttr() {
@@ -49,7 +49,7 @@ public class ExtendedClientApplicationOperation {
         this.idAttr = idAttr;
     }
 
-    public Vector getInternalOperations() {
+    public List getInternalOperations() {
         return this.internalOperations;
     }
 

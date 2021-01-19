@@ -6,7 +6,7 @@ import java.rmi.Remote;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
+
 
 /**
  * @author pablo.martinez
@@ -41,11 +41,11 @@ public interface IShareRemoteReference extends Remote {
     public static final String SHARE_KEY_SUFFIX = "shareKey";
 
     /**
-     * Return a {@link Vector} of {@linkplain String} with all of the existing users in the application.
+     * Return a {@link List} of {@linkplain String} with all of the existing users in the application.
      * This list is necessary to fill the list of users when an element is shared or updated in
      * {@link FormAddUserSharedReference} or {@link FormUpdateSharedReference} .
      * @param sessionId
-     * @return Vector<String> with all user list
+     * @return List<String> with all user list
      * @throws Exception
      */
     public List<String> getUserList(int sessionId) throws Exception;

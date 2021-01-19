@@ -20,7 +20,7 @@ public interface UtilReferenceLocator extends java.rmi.Remote {
 
     }
 
-    public Vector getMessages(int sessionIdTo, int sessionId) throws Exception;
+    public List getMessages(int sessionIdTo, int sessionId) throws Exception;
 
     public void sendMessage(String message, String user, int sessionId) throws Exception;
 
@@ -30,7 +30,7 @@ public interface UtilReferenceLocator extends java.rmi.Remote {
 
     public void sendRemoteAdministrationMessages(String message, int sessionId) throws Exception;
 
-    public Vector getRemoteAdministrationMessages(int sessionIdTo, int sessionId) throws Exception;
+    public List getRemoteAdministrationMessages(int sessionIdTo, int sessionId) throws Exception;
 
     public Entity getAttachmentEntity(int sessionId) throws Exception;
 
@@ -78,7 +78,7 @@ public interface UtilReferenceLocator extends java.rmi.Remote {
 
     public String getPasswordFromCert(String certificate) throws Exception;
 
-    public InitialContext retrieveInitialContext(int sessionId, Hashtable params) throws Exception;
+    public InitialContext retrieveInitialContext(int sessionId, Map params) throws Exception;
 
     public Locale getLocale(int sessionId) throws Exception;
 
@@ -92,7 +92,7 @@ public interface UtilReferenceLocator extends java.rmi.Remote {
 
     public boolean supportChangePassword(String user, int sessionId) throws Exception;
 
-    public EntityResult changePassword(String password, int sessionId, Hashtable av, Hashtable kv) throws Exception;
+    public EntityResult changePassword(String password, int sessionId, Map av, Map kv) throws Exception;
 
     public boolean getAccessControl() throws Exception;
 

@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 public class ExtendedClientApplicationParser {
 
@@ -103,7 +103,7 @@ public class ExtendedClientApplicationParser {
         if (managerId != null) {
             Node managerNode = this.searchNodeByAttr(firstNode, ExtendedClientApplicationParser.ID_ATRIBUTE, managerId);
             if (managerNode != null) {
-                Vector internalOperations = operation.getInternalOperations();
+                List internalOperations = operation.getInternalOperations();
                 if (internalOperations.size() > 0) {
 
                     for (int i = 0; i < internalOperations.size(); i++) {
@@ -159,7 +159,7 @@ public class ExtendedClientApplicationParser {
                                 Node formNode = this.searchNodeByAttr(managerNode,
                                         ExtendedClientApplicationParser.FORM_ATRIBUTE, form);
                                 if (formNode != null) {
-                                    Vector iOps = internalOperation.getInternalOperations();
+                                    List iOps = internalOperation.getInternalOperations();
                                     if (iOps.size() > 0) {
                                         for (int j = 0; j < iOps.size(); j++) {
                                             InnerExtendedClientApplicationOperation iOp = (InnerExtendedClientApplicationOperation) iOps
@@ -222,7 +222,7 @@ public class ExtendedClientApplicationParser {
             Node uniqueNode = this.searchNodeByElementName(firstNode, parent);
             if (uniqueNode != null) {
 
-                Vector internalOperations = operation.getInternalOperations();
+                List internalOperations = operation.getInternalOperations();
                 if (!internalOperations.isEmpty()) {
                     for (int i = 0; i < internalOperations.size(); i++) {
                         InnerExtendedClientApplicationOperation internalOperation = (InnerExtendedClientApplicationOperation) internalOperations

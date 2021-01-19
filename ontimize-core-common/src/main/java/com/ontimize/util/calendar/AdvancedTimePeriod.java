@@ -5,7 +5,7 @@ import com.ontimize.util.ParseTools;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Vector;
+import java.util.List;
 
 
 public class AdvancedTimePeriod implements TimePeriod {
@@ -51,9 +51,9 @@ public class AdvancedTimePeriod implements TimePeriod {
     }
 
     protected void parseString(String periodDefinitionString) {
-        Vector daysMonthsYears = ParseTools.getTokensAt(periodDefinitionString,
+        List daysMonthsYears = ParseTools.getTokensAt(periodDefinitionString,
                 BasicTimePeriodParser.DAY_MONTH_SEPARATOR);
-        // This vector has to contain at least two values with the days and
+        // This List has to contain at least two values with the days and
         // months. Years are optional
         if (daysMonthsYears.size() < 2) {
             throw new IllegalArgumentException("Incorrect format: character / not found");
@@ -71,7 +71,7 @@ public class AdvancedTimePeriod implements TimePeriod {
                 this.isWorkingPeriod = true;
             }
         } else if (dayDefinition.indexOf(BasicTimePeriodParser.INTERVAL) > 0) {
-            Vector intervalDays = ParseTools.getTokensAt(dayDefinition, BasicTimePeriodParser.INTERVAL);
+            List intervalDays = ParseTools.getTokensAt(dayDefinition, BasicTimePeriodParser.INTERVAL);
             if (intervalDays.size() != 2) {
                 throw new IllegalArgumentException(
                         "Incorrect format: character - must separate two numerical values to define the days");
@@ -105,7 +105,7 @@ public class AdvancedTimePeriod implements TimePeriod {
             this.startMonth = Calendar.JANUARY;
             this.endMonth = Calendar.DECEMBER;
         } else if (monthDefinition.indexOf(BasicTimePeriodParser.INTERVAL) > 0) {
-            Vector intervalMonths = ParseTools.getTokensAt(monthDefinition, BasicTimePeriodParser.INTERVAL);
+            List intervalMonths = ParseTools.getTokensAt(monthDefinition, BasicTimePeriodParser.INTERVAL);
             if (intervalMonths.size() != 2) {
                 throw new IllegalArgumentException(
                         "Incorrect format: character - must separate two numerical values to define the months");

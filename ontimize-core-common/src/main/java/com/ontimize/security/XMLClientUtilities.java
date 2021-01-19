@@ -79,13 +79,13 @@ public abstract class XMLClientUtilities {
 
     public static final String BASE_DOCUMENT = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?><Security></Security>";
 
-    public static Hashtable buildClientPermissions(StringBuffer xmlPermissionDescription) throws Exception {
+    public static Map buildClientPermissions(StringBuffer xmlPermissionDescription) throws Exception {
         return XMLClientUtilities.buildClientPermissions(xmlPermissionDescription, null, null);
     }
 
-    public static Hashtable buildClientPermissions(StringBuffer xmlPermissionDescription, Locale l,
+    public static Map buildClientPermissions(StringBuffer xmlPermissionDescription, Locale l,
             String businessCalendarFile) throws Exception {
-        Hashtable permissions = new Hashtable();
+        Map permissions = new HashMap();
         StringBufferInputStream in = null;
         try {
             // Builds model from xml tree definition.
@@ -118,7 +118,7 @@ public abstract class XMLClientUtilities {
         }
     }
 
-    private static void buildPermissionInfo(CustomNode root, Hashtable permissions, Locale l,
+    private static void buildPermissionInfo(CustomNode root, Map permissions, Locale l,
             String businessCalendarFile) throws Exception {
         // Builds model from xml tree definition.
         for (int i = 0; i < root.getChildrenNumber(); i++) {
@@ -139,21 +139,21 @@ public abstract class XMLClientUtilities {
         }
     }
 
-    private static void buildApplicationPermissionInfo(CustomNode node, Hashtable permissions, Locale l,
+    private static void buildApplicationPermissionInfo(CustomNode node, Map permissions, Locale l,
             String businessCalendarFile) throws Exception {
         // Builds model for application
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.APPLICATION_ID)) {
-                Vector vApplicationPermissions = (Vector) permissions.get(XMLClientUtilities.APPLICATION_ID);
+                List vApplicationPermissions = (List) permissions.get(XMLClientUtilities.APPLICATION_ID);
                 if (vApplicationPermissions == null) {
-                    vApplicationPermissions = new Vector();
+                    vApplicationPermissions = new ArrayList();
                 }
                 for (int i = 0; i < node.getChildrenNumber(); i++) {
                     CustomNode n = node.child(i);
                     if (n.isTag()) {
                         boolean bRestricted = false;
                         String info = n.getNodeInfo();
-                        Hashtable hPermissionsE1 = n.hashtableAttribute();
+                        Map hPermissionsE1 = n.MapAttribute();
                         Object oRestricted = hPermissionsE1.get("restricted");
                         if (oRestricted == null) {
                             bRestricted = false;
@@ -196,21 +196,21 @@ public abstract class XMLClientUtilities {
 
     }
 
-    private static void buildMenuPermissionInfo(CustomNode node, Hashtable permissions, Locale l,
+    private static void buildMenuPermissionInfo(CustomNode node, Map permissions, Locale l,
             String businessCalendarFile) throws Exception {
         // Builds model for menu.
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.MENU_ID)) {
-                Vector vMenuPermissions = (Vector) permissions.get(XMLClientUtilities.MENU_ID);
+                List vMenuPermissions = (List) permissions.get(XMLClientUtilities.MENU_ID);
                 if (vMenuPermissions == null) {
-                    vMenuPermissions = new Vector();
+                    vMenuPermissions = new ArrayList();
                 }
                 for (int i = 0; i < node.getChildrenNumber(); i++) {
                     CustomNode n = node.child(i);
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions for each element
-                            Hashtable hDataElement = n.hashtableAttribute();
+                            Map hDataElement = n.MapAttribute();
                             // Gets attribute
                             Object attr = hDataElement.get("attr");
                             if (attr == null) {
@@ -225,7 +225,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Hashtable hPermissionsE1 = nH.hashtableAttribute();
+                                    Map hPermissionsE1 = nH.MapAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;
@@ -273,33 +273,33 @@ public abstract class XMLClientUtilities {
         }
     }
 
-    private static void buildFormPermissionInfo(CustomNode node, Hashtable permissions, Locale l,
+    private static void buildFormPermissionInfo(CustomNode node, Map permissions, Locale l,
             String businessCalendarFile) throws Exception {
         // Builds model for menu
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.FORM_ID)) {
-                Hashtable p = node.hashtableAttribute();
+                Map p = node.MapAttribute();
                 Object oFormArchiveName = p.get("archive");
                 if (oFormArchiveName == null) {
                     XMLClientUtilities.logger.warn("Needded 'archive' in Tag FORM");
                     return;
                 }
-                Hashtable hFormPermissions = null;
+                Map hFormPermissions = null;
                 if (permissions.containsKey(XMLClientUtilities.FORM_ID)) {
-                    hFormPermissions = (Hashtable) permissions.get(XMLClientUtilities.FORM_ID);
+                    hFormPermissions = (Map) permissions.get(XMLClientUtilities.FORM_ID);
                 } else {
-                    hFormPermissions = new Hashtable();
+                    hFormPermissions = new HashMap();
                 }
-                Vector vFormPermissions = (Vector) hFormPermissions.get(oFormArchiveName);
+                List vFormPermissions = (List) hFormPermissions.get(oFormArchiveName);
                 if (vFormPermissions == null) {
-                    vFormPermissions = new Vector();
+                    vFormPermissions = new ArrayList();
                 }
                 for (int i = 0; i < node.getChildrenNumber(); i++) {
                     CustomNode n = node.child(i);
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions for each element
-                            Hashtable hDataElement = n.hashtableAttribute();
+                            Map hDataElement = n.MapAttribute();
                             // Gets attribute
                             Object attr = hDataElement.get("attr");
                             if (attr == null) {
@@ -314,7 +314,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Hashtable hPermissionsE1 = nH.hashtableAttribute();
+                                    Map hPermissionsE1 = nH.MapAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;
@@ -381,33 +381,33 @@ public abstract class XMLClientUtilities {
         }
     }
 
-    private static void buildFMPermissionInfo(CustomNode node, Hashtable permissions, Locale l,
+    private static void buildFMPermissionInfo(CustomNode node, Map permissions, Locale l,
             String businessCalendarFile) throws Exception {
         // Here, ELEMENT tags specify the name of form
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.FM_ID)) {
-                Hashtable p = node.hashtableAttribute();
+                Map p = node.MapAttribute();
                 Object oFMName = p.get("id");
                 if (oFMName == null) {
                     XMLClientUtilities.logger.warn("Required 'id' in {} tag", XMLClientUtilities.FM_ID);
                     return;
                 }
-                Hashtable hHashPermissions = null;
+                Map hHashPermissions = null;
                 if (permissions.containsKey(XMLClientUtilities.FM_ID)) {
-                    hHashPermissions = (Hashtable) permissions.get(XMLClientUtilities.FM_ID);
+                    hHashPermissions = (Map) permissions.get(XMLClientUtilities.FM_ID);
                 } else {
-                    hHashPermissions = new Hashtable();
+                    hHashPermissions = new HashMap();
                 }
-                Vector vFMPermissions = (Vector) hHashPermissions.get(oFMName);
+                List vFMPermissions = (List) hHashPermissions.get(oFMName);
                 if (vFMPermissions == null) {
-                    vFMPermissions = new Vector();
+                    vFMPermissions = new ArrayList();
                 }
                 for (int i = 0; i < node.getChildrenNumber(); i++) {
                     CustomNode n = node.child(i);
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions by element
-                            Hashtable datosElemento = n.hashtableAttribute();
+                            Map datosElemento = n.MapAttribute();
                             // Gets attribute
                             Object attr = datosElemento.get("attr");
                             if (attr == null) {
@@ -422,7 +422,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Hashtable hPermissionsE1 = nH.hashtableAttribute();
+                                    Map hPermissionsE1 = nH.MapAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;
@@ -473,32 +473,32 @@ public abstract class XMLClientUtilities {
         }
     }
 
-    private static void buildTreePermissionInfo(CustomNode node, Hashtable permissions, Locale l,
+    private static void buildTreePermissionInfo(CustomNode node, Map permissions, Locale l,
             String businessCalendarFile) throws Exception {
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.TREE_ID)) {
-                Hashtable p = node.hashtableAttribute();
+                Map p = node.MapAttribute();
                 Object oTreeFileName = p.get("archive");
                 if (oTreeFileName == null) {
                     XMLClientUtilities.logger.warn("Required 'archive' in TREE tag");
                     return;
                 }
-                Hashtable hHashTreePermissions = null;
+                Map hHashTreePermissions = null;
                 if (permissions.containsKey(XMLClientUtilities.TREE_ID)) {
-                    hHashTreePermissions = (Hashtable) permissions.get(XMLClientUtilities.TREE_ID);
+                    hHashTreePermissions = (Map) permissions.get(XMLClientUtilities.TREE_ID);
                 } else {
-                    hHashTreePermissions = new Hashtable();
+                    hHashTreePermissions = new HashMap();
                 }
-                Vector vTreePermissions = (Vector) hHashTreePermissions.get(oTreeFileName);
+                List vTreePermissions = (List) hHashTreePermissions.get(oTreeFileName);
                 if (vTreePermissions == null) {
-                    vTreePermissions = new Vector();
+                    vTreePermissions = new ArrayList();
                 }
                 for (int i = 0; i < node.getChildrenNumber(); i++) {
                     CustomNode n = node.child(i);
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions by name
-                            Hashtable hDataElement = n.hashtableAttribute();
+                            Map hDataElement = n.MapAttribute();
                             // Gets attribute
                             Object attr = hDataElement.get("id");
                             if (attr == null) {
@@ -513,7 +513,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Hashtable hPermissionsE1 = nH.hashtableAttribute();
+                                    Map hPermissionsE1 = nH.MapAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;
@@ -737,15 +737,15 @@ public abstract class XMLClientUtilities {
     }
 
     protected static List getCommonKeys(List values) {
-        // Values is a list with Hashtable objects
+        // Values is a list with Map objects
         List result = new ArrayList();
         if ((values != null) && (values.size() > 0)) {
-            Enumeration keys = ((Hashtable) values.get(0)).keys();
+            Enumeration keys = Collections.enumeration(values.get(0).keySet()); //todo review this change
             while (keys.hasMoreElements()) {
                 Object key = keys.nextElement();
                 boolean exist = true;
                 for (int i = 1; i < values.size(); i++) {
-                    if (!((Hashtable) values.get(i)).containsKey(key)) {
+                    if (!((Map) values.get(i)).containsKey(key)) {
                         exist = false;
                         break;
                     }
@@ -758,7 +758,7 @@ public abstract class XMLClientUtilities {
         return result;
     }
 
-    public static Hashtable joinClientPermissions(List permissions) throws Exception {
+    public static Map joinClientPermissions(List permissions) throws Exception {
 
         boolean nullValues = XMLClientUtilities.checkNullValues(permissions,
                 XMLClientUtilities.ignoreNullOnClientPermissionCombination);
@@ -767,9 +767,9 @@ public abstract class XMLClientUtilities {
                     XMLClientUtilities.class.getName() + ": Error retrieving client permissions. NULL value found");
         }
 
-        // permissions is a List with Hashtable objects
+        // permissions is a List with Map objects
         List commonKeys = XMLClientUtilities.getCommonKeys(permissions);
-        Hashtable result = new Hashtable(commonKeys.size());
+        Map result = new HashMap(commonKeys.size());
 
         if (commonKeys.isEmpty()) {
             return result;
@@ -779,7 +779,7 @@ public abstract class XMLClientUtilities {
             Object key = commonKeys.get(k);
 
             for (int i = 0; i < permissions.size(); i++) {
-                Hashtable temp = (Hashtable) permissions.get(i);
+                Map temp = (Map) permissions.get(i);
 
                 // For all the elements in common we join these permission
                 Object oPermissions = temp.get(key);
@@ -787,9 +787,9 @@ public abstract class XMLClientUtilities {
                 if (previousValue == null) {
                     // result is empty yet (only with i == 0)
                     result.put(key, oPermissions);
-                } else if (previousValue instanceof Hashtable) {
-                    Hashtable permissionResult = XMLClientUtilities.getClientPermissionUnion((Hashtable) previousValue,
-                            (Hashtable) oPermissions);
+                } else if (previousValue instanceof Map) {
+                    Map permissionResult = XMLClientUtilities.getClientPermissionUnion((Map) previousValue,
+                            (Map) oPermissions);
                     result.put(key, permissionResult);
                 } else if (previousValue instanceof List) {
                     List permissionResult = XMLClientUtilities.joinClientPermissionActions((List) previousValue,
@@ -801,14 +801,14 @@ public abstract class XMLClientUtilities {
         return result;
     }
 
-    public static Hashtable getClientPermissionUnion(Hashtable p1, Hashtable p2) throws Exception {
-        Hashtable result = new Hashtable();
+    public static Map getClientPermissionUnion(Map p1, Map p2) throws Exception {
+        Map result = new HashMap();
 
-        Enumeration keys = p1.keys();
+        Enumeration keys = Collections.enumeration(p1.keySet());
         // For all the elements we join these permission
         while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
-            if (p2.containsKey(key)) {
+            if (p2.containsKey(key)) { //todo review method on map?
                 List secondList = (List) p2.get(key);
                 // If this key already exist then we have to check all the
                 // permission

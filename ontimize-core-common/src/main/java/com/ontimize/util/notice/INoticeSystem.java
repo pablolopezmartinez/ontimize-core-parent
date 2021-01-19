@@ -3,8 +3,8 @@ package com.ontimize.util.notice;
 import com.ontimize.dto.EntityResult;
 
 import java.rmi.Remote;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.Map;
+import java.util.List;
 
 public interface INoticeSystem extends Remote {
 
@@ -142,7 +142,7 @@ public interface INoticeSystem extends Remote {
      *        template must be selected
      * @throws Exception
      */
-    public void sendNotice(Hashtable messageValues, int sessionId, boolean request) throws Exception;
+    public void sendNotice(Map messageValues, int sessionId, boolean request) throws Exception;
 
     /**
      * Method to get all notices for the specified user. <br>
@@ -162,7 +162,7 @@ public interface INoticeSystem extends Remote {
      * @param idNotices Array with the notice keys
      * @throws Exception
      */
-    public void setNoticesRead(int sessionId, Vector idNotices) throws Exception;
+    public void setNoticesRead(int sessionId, List idNotices) throws Exception;
 
     /**
      * Method to query all notices sent by the specified user
@@ -189,7 +189,7 @@ public interface INoticeSystem extends Remote {
      * @param idNotices Keys of the notices to remove
      * @throws Exception
      */
-    public void removeSentNotices(int sessionId, Vector idNotices) throws Exception;
+    public void removeSentNotices(int sessionId, List idNotices) throws Exception;
 
     /**
      * This method removes the specified received notices for the user with this session identifier.
@@ -197,14 +197,14 @@ public interface INoticeSystem extends Remote {
      * @param idNotices Notice keys
      * @throws Exception
      */
-    public void removeReceivedNotices(int sessionId, Vector idNotices) throws Exception;
+    public void removeReceivedNotices(int sessionId, List idNotices) throws Exception;
 
     /**
      * Get the identifies for all notices types in the application
      * @return
      * @throws Exception
      */
-    public Vector getNoticeTypes() throws Exception;
+    public List getNoticeTypes() throws Exception;
 
     /**
      * Get the name of the notice entity

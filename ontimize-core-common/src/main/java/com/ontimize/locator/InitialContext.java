@@ -1,8 +1,8 @@
 package com.ontimize.locator;
 
-import java.util.Hashtable;
+import java.util.Map;
 
-public class InitialContext extends Hashtable {
+public class InitialContext extends Map {
 
     public static final String TIME_ZONE = "TIME_ZONE";
 

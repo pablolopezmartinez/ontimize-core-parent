@@ -82,7 +82,7 @@ public class BusinessCalendar implements java.io.Serializable {
 
     protected Locale locale = null;
 
-    protected Hashtable holidays = new Hashtable();
+    protected Map holidays = new HashMap();
 
     public BusinessCalendar(String propertiesFileName, Locale l) {
         super();
@@ -117,7 +117,7 @@ public class BusinessCalendar implements java.io.Serializable {
         int sYear = this.calendar.get(Calendar.YEAR);
         Integer.toString(sYear);
 
-        Vector vAllYearHolidays = new Vector();
+        List vAllYearHolidays = new ArrayList();
         try {
             String sPropertiesHolidays = this.bundle.getString(BusinessCalendar.COMMON);
             vAllYearHolidays.addAll(this.parseHolidays(sPropertiesHolidays));
@@ -137,7 +137,7 @@ public class BusinessCalendar implements java.io.Serializable {
         if (this.holidays.containsKey(s)) {
             this.holidays.remove(s);
         }
-        Vector vCurrenYearHolidays = new Vector();
+        List vCurrenYearHolidays = new ArrayList();
         try {
             String sPropertiesHolidays = this.bundle.getString(s);
             vCurrenYearHolidays.addAll(this.parseHolidays(sPropertiesHolidays, iYear));
@@ -330,7 +330,7 @@ public class BusinessCalendar implements java.io.Serializable {
         }
         int currentYear = this.calendar.get(Calendar.YEAR);
         String s = Integer.toString(currentYear);
-        Vector vAllYearsHolidays = (Vector) this.holidays.get(BusinessCalendar.COMMON);
+        List vAllYearsHolidays = (List) this.holidays.get(BusinessCalendar.COMMON);
         for (int i = 0; i < vAllYearsHolidays.size(); i++) {
             CommonDay dia = (CommonDay) vAllYearsHolidays.get(i);
             if (dia.dateIsInThisDay(d)) {
@@ -341,7 +341,7 @@ public class BusinessCalendar implements java.io.Serializable {
             }
         }
 
-        Vector vCurrenYearHolidays = (Vector) this.holidays.get(s);
+        List vCurrenYearHolidays = (List) this.holidays.get(s);
         if (vCurrenYearHolidays != null) {
             for (int i = 0; i < vCurrenYearHolidays.size(); i++) {
                 Day day = (Day) vCurrenYearHolidays.get(i);
@@ -359,13 +359,13 @@ public class BusinessCalendar implements java.io.Serializable {
         return false;
     }
 
-    protected synchronized Vector parseHolidays(String s) {
+    protected synchronized List parseHolidays(String s) {
         return this.parseHolidays(s, -1);
     }
 
-    protected synchronized Vector parseHolidays(String s, int year) {
+    protected synchronized List parseHolidays(String s, int year) {
         Date currentTime = this.calendar.getTime();
-        Vector vDays = new Vector();
+        List vDays = new ArrayList();
         try {
             StringTokenizer st = new StringTokenizer(s, ";");
 
