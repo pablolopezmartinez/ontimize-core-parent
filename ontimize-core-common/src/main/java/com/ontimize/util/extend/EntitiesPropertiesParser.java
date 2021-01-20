@@ -143,7 +143,7 @@ public class EntitiesPropertiesParser extends PropertiesParser {
             throws IOException {
         Enumeration<URL> _extends = EntitiesPropertiesParser.class.getClassLoader().getResources(extendedproperty);
         if (_extends.hasMoreElements()) {
-            Map extendsProperties = new Hashmap();
+            Map extendsProperties = new HashMap();
 
             while (_extends.hasMoreElements()) {
                 Properties extendedProperties = new Properties();

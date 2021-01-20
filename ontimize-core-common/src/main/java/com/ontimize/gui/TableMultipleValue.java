@@ -11,7 +11,7 @@ public class TableMultipleValue implements Serializable {
 
     public TableMultipleValue(Object value) {
         this.value = value;
-        this.values = new Hashmap();
+        this.values = new HashMap();
     }
 
     public void put(Object key, Object value) {

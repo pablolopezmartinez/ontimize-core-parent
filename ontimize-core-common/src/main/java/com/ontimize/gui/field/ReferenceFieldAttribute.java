@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.List;
-import java.util.Hashmap;
+import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
@@ -94,7 +94,7 @@ public class ReferenceFieldAttribute implements Serializable {
         if (keysValues == null) {
             return null;
         }
-        Map res = new Hashmap();
+        Map res = new HashMap();
         Enumeration c = Collections.enumeration(keysValues.keySet());
         while (c.hasMoreElements()) {
             Object oKey = c.nextElement();

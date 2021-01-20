@@ -14,7 +14,7 @@ import com.ontimize.util.serializer.xml.XmlFilterQuery.Filters.Filter;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
-import java.util.Hashmap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -98,7 +98,7 @@ public class XmlFilterQuery {
     }
 
     public Map<String, Object> getFiltersMap() {
-        Hashmap<String, Object> toRet = new Hashmap<String, Object>();
+        HashMap<String, Object> toRet = new HashMap<String, Object>();
 
         for (Filter actualFilter : this.getFilters().getFilter()) {
 

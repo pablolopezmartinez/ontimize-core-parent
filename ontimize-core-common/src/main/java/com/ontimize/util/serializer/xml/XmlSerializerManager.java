@@ -8,7 +8,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
-import java.util.Hashmap;
+import java.util.HashMap;
 
 public class XmlSerializerManager implements ISerializerManager {
 
@@ -49,7 +49,7 @@ public class XmlSerializerManager implements ISerializerManager {
         Unmarshaller jaxbUnmarshaller = jc.createUnmarshaller();
         StringReader stringReader = new StringReader(data);
         XmlFilterQuery wrapper = (XmlFilterQuery) jaxbUnmarshaller.unmarshal(stringReader);
-        return new Hashmap<String, Object>(wrapper.getFiltersMap());
+        return new HashMap<String, Object>(wrapper.getFiltersMap());
     }
 
 }

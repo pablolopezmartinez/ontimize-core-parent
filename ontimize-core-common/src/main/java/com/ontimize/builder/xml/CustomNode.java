@@ -4,7 +4,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import java.util.Map;
-import java.util.Hashmap;
+import java.util.HashMap;
 
 public class CustomNode {
 
@@ -67,7 +67,7 @@ public class CustomNode {
     public Map<String, String> MapAttribute() {
         // Gets the attribute list
         NamedNodeMap attributeList = this.attributeList();
-        Map<String, String> attributeTable = new Hashmap<String, String>();
+        Map<String, String> attributeTable = new HashMap<String, String>();
         for (int i = 0; i < attributeList.getLength(); i++) {
             Node node = attributeList.item(i);
             attributeTable.put(node.getNodeName(), node.getNodeValue());

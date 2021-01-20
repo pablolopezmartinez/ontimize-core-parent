@@ -9,7 +9,7 @@ import com.ontimize.dto.EntityResult;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedHashmap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -123,7 +123,7 @@ public interface SQLStatementHandler {
     public void setObject(int index, Object value, PreparedStatement preparedStatement, boolean truncDates)
             throws SQLException;
 
-    public String addMultilanguageLeftJoinTables(String table, List tables, LinkedHashmap hOtherLocaleTablesKey,
+    public String addMultilanguageLeftJoinTables(String table, List tables, LinkedHashMap hOtherLocaleTablesKey,
             LocalePair localeId) throws SQLException;
 
     public String addInnerMultilanguageColumns(String subSqlQuery, List attributtes, Map hLocaleTablesAV);

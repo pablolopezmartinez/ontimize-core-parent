@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.Map;
-import java.util.Hashmap;
+import java.util.HashMap;
 /**
  * This class is used to implement a login lock to users who have inserted their credentials wrong a
  * specific number of times. This is used if in the locator.properties exist the property
@@ -23,7 +23,7 @@ public class ErrorAccessControl {
 
     public int numMaxErrorAccess;
 
-    protected Map<String, AccessObject> hAccessControl = new Hashmap<String, AccessObject>();
+    protected Map<String, AccessObject> hAccessControl = new HashMap<String, AccessObject>();
 
     public ErrorAccessControl(int numberMaxAcces) {
         this.numMaxErrorAccess = numberMaxAcces;

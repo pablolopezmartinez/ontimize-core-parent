@@ -20,7 +20,7 @@ public class MultipleTableAttribute implements Serializable {
     protected Object attr = null;
 
     public MultipleTableAttribute(Object attr) {
-        this.attributesTable = new Hashmap();
+        this.attributesTable = new HashMap();
         this.attr = attr;
     }
 

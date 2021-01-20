@@ -147,7 +147,7 @@ public class MultipleReferenceDataFieldAttribute implements Serializable {
         if (kv == null) {
             return null;
         }
-        Map res = new Hashmap();
+        Map res = new HashMap();
         Enumeration c = Collections.enumeration(kv.keySet());
         while (c.hasMoreElements()) {
             Object oKey = c.nextElement();
