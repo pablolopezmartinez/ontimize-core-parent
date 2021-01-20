@@ -11,9 +11,7 @@ public class XmlFilterValueSearchValue {
 
     public static final String LIST_TYPE_NONE = "none";
 
-    public static final String LIST_TYPE_List = "List";
-
-    public static final String LIST_TYPE_ARRAYLIST = "arraylist";
+    public static final String LIST_TYPE_List = "list";
 
     @XmlAttribute
     protected String listtype;
@@ -30,11 +28,7 @@ public class XmlFilterValueSearchValue {
 
     public XmlFilterValueSearchValue(Object value) {
         if (value instanceof List) {
-            if (value instanceof List) {
-                this.setListtype(XmlFilterValueSearchValue.LIST_TYPE_List);
-            } else {
-                this.setListtype(XmlFilterValueSearchValue.LIST_TYPE_ARRAYLIST);
-            }
+            this.setListtype(XmlFilterValueSearchValue.LIST_TYPE_List);
             this.setMultipleValues((List<Object>) value);
         } else {
             this.setListtype(XmlFilterValueSearchValue.LIST_TYPE_NONE);
