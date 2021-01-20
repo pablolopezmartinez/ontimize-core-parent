@@ -13,7 +13,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Hashmap;
 
 public class XMLUtil {
 
@@ -188,7 +188,7 @@ public class XMLUtil {
     }
 
     public static Map parseAttributes(NamedNodeMap nodeAttributes) {
-        Map attributes = new HashMap();
+        Map attributes = new Hashmap();
         for (int i = 0; i < nodeAttributes.getLength(); i++) {
             attributes.put(nodeAttributes.item(i).getNodeName(), nodeAttributes.item(i).getNodeValue());
         }

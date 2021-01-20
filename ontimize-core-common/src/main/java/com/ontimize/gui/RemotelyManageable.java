@@ -5,7 +5,7 @@ import com.ontimize.util.logging.IRemoteLogManager;
 
 import java.rmi.Remote;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Hashmap;
 import java.util.Properties;
 
 public interface RemotelyManageable extends Remote {

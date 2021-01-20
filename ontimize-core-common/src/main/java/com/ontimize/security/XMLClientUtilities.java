@@ -85,7 +85,7 @@ public abstract class XMLClientUtilities {
 
     public static Map buildClientPermissions(StringBuffer xmlPermissionDescription, Locale l,
             String businessCalendarFile) throws Exception {
-        Map permissions = new HashMap();
+        Map permissions = new Hashmap();
         StringBufferInputStream in = null;
         try {
             // Builds model from xml tree definition.
@@ -288,7 +288,7 @@ public abstract class XMLClientUtilities {
                 if (permissions.containsKey(XMLClientUtilities.FORM_ID)) {
                     hFormPermissions = (Map) permissions.get(XMLClientUtilities.FORM_ID);
                 } else {
-                    hFormPermissions = new HashMap();
+                    hFormPermissions = new Hashmap();
                 }
                 List vFormPermissions = (List) hFormPermissions.get(oFormArchiveName);
                 if (vFormPermissions == null) {
@@ -396,7 +396,7 @@ public abstract class XMLClientUtilities {
                 if (permissions.containsKey(XMLClientUtilities.FM_ID)) {
                     hHashPermissions = (Map) permissions.get(XMLClientUtilities.FM_ID);
                 } else {
-                    hHashPermissions = new HashMap();
+                    hHashPermissions = new Hashmap();
                 }
                 List vFMPermissions = (List) hHashPermissions.get(oFMName);
                 if (vFMPermissions == null) {
@@ -487,7 +487,7 @@ public abstract class XMLClientUtilities {
                 if (permissions.containsKey(XMLClientUtilities.TREE_ID)) {
                     hHashTreePermissions = (Map) permissions.get(XMLClientUtilities.TREE_ID);
                 } else {
-                    hHashTreePermissions = new HashMap();
+                    hHashTreePermissions = new Hashmap();
                 }
                 List vTreePermissions = (List) hHashTreePermissions.get(oTreeFileName);
                 if (vTreePermissions == null) {
@@ -769,7 +769,7 @@ public abstract class XMLClientUtilities {
 
         // permissions is a List with Map objects
         List commonKeys = XMLClientUtilities.getCommonKeys(permissions);
-        Map result = new HashMap(commonKeys.size());
+        Map result = new Hashmap(commonKeys.size());
 
         if (commonKeys.isEmpty()) {
             return result;
@@ -802,7 +802,7 @@ public abstract class XMLClientUtilities {
     }
 
     public static Map getClientPermissionUnion(Map p1, Map p2) throws Exception {
-        Map result = new HashMap();
+        Map result = new Hashmap();
 
         Enumeration keys = Collections.enumeration(p1.keySet());
         // For all the elements we join these permission

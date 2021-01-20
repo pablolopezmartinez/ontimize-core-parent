@@ -107,7 +107,7 @@ public interface EntityResult {
         List<String> columns = new ArrayList<String>();
         columns.add("test");
         EntityResult eR = new EntityResultMapImpl(columns);
-        Map record = new HashMap<String, String>();
+        Map record = new Hashmap<String, String>();
         record.put("test", "value");
         int total = 1000000;
         System.out.println("Creating " + total + " records");

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MultipleValue implements java.io.Serializable {
 
-    private final Map data = new HashMap();
+    private final Map data = new Hashmap();
 
     public MultipleValue(Map data) {
         if (data != null) {

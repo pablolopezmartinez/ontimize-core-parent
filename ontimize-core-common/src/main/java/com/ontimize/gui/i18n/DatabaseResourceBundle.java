@@ -3,7 +3,7 @@ package com.ontimize.gui.i18n;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Hashmap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -16,7 +16,7 @@ public class DatabaseResourceBundle extends ResourceBundle implements Serializab
     public DatabaseResourceBundle(Map data, Locale l) {
         this.values = data;
         if (this.values == null) {
-            this.values = new HashMap();
+            this.values = new Hashmap();
         }
         this.locale = l;
     }

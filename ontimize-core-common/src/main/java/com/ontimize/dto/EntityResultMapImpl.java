@@ -44,7 +44,7 @@ public class EntityResultMapImpl {
     /**
      * Object needed for the compression mechanism
      */
-    protected transient Map data = new HashMap();
+    protected transient Map data = new Hashmap();
 
     protected transient int compressionLevel = Deflater.NO_COMPRESSION;
 
@@ -676,7 +676,7 @@ public class EntityResultMapImpl {
         if (i < 0) {
             return null;
         }
-        Map hValues = new HashMap();
+        Map hValues = new Hashmap();
         Enumeration keys = this.keys();
         int r = 0;
         while (keys.hasMoreElements()) {
@@ -698,7 +698,7 @@ public class EntityResultMapImpl {
         if (i < 0) {
             return null;
         }
-        Map hValues = new HashMap(vKeys.size() * 2);
+        Map hValues = new Hashmap(vKeys.size() * 2);
         Enumeration keys = this.keys();
         int r = 0;
         while (keys.hasMoreElements()) {

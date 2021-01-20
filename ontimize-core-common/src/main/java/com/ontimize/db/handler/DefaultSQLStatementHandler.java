@@ -947,7 +947,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *
      *  	Expression totalExpression = new Expression(expression1,BasicOperator.AND,expression2);
      *
-     *  	Map conditions=new HashMap();
+     *  	Map conditions=new Hashmap();
      *   	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,totalExpression);
      * </pre>
      *
@@ -1059,7 +1059,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         for (int i = 0; i < secondaryTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) secondaryTableRequestedColumns.get(i), secondaryTable));
         }
-        Map conditions = new HashMap();
+        Map conditions = new Hashmap();
         Enumeration enumKeys = Collections.enumeration(mainTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
@@ -1161,7 +1161,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             askedColumns.add(this.qualify((String) secondaryTableRequestedColumns.get(i), secondaryAlias));
         }
 
-        Map conditions = new HashMap();
+        Map conditions = new Hashmap();
         Enumeration enumKeys = Collections.enumeration(primaryTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
@@ -1318,8 +1318,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         for (int i = 0; i < secondaryTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) secondaryTableRequestedColumns.get(i), secondaryTable));
         }
-        Map conditions = new HashMap();
-        Map filterkeys = new HashMap();
+        Map conditions = new Hashmap();
+        Map filterkeys = new Hashmap();
         vMap enumKeys = mainTableConditions.keys();
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
@@ -1854,7 +1854,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addMultilanguageLeftJoinTables(String table, List tables, LinkedHashMap keys, LocalePair localeId)
+    public String addMultilanguageLeftJoinTables(String table, List tables, LinkedHashmap keys, LocalePair localeId)
             throws SQLException {
         // TODO Auto-generated method stub
         StringBuilder buffer = new StringBuilder();

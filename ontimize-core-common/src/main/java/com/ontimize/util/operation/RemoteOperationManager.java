@@ -1,7 +1,7 @@
 package com.ontimize.util.operation;
 
 import java.rmi.Remote;
-import java.util.HashMap;
+import java.util.Hashmap;
 import java.util.Map;
 
 /**
@@ -21,13 +21,13 @@ public interface RemoteOperationManager extends Remote {
 
     public static final int UNKNOWN = -1;
 
-    public String run(String clase, HashMap parameters, int sessionId) throws Exception;
+    public String run(String clase, Hashmap parameters, int sessionId) throws Exception;
 
     public boolean hasRequired(String token, int sessionId) throws Exception;
 
-    public HashMap getRequired(String token, int sessionId) throws Exception;
+    public Hashmap getRequired(String token, int sessionId) throws Exception;
 
-    public void setRequired(String token, HashMap required, int sessionId) throws Exception;
+    public void setRequired(String token, Hashmap required, int sessionId) throws Exception;
 
     public void cancel(String token, int sessionId) throws Exception;
 

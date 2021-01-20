@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.Hashmap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -40,7 +40,7 @@ public abstract class SQLStatementBuilder {
 
     public static final String MYSQL_HANDLER = "MySQL";
 
-    protected static final Map registerHandlers = new HashMap();
+    protected static final Map registerHandlers = new Hashmap();
 
     static {
         SQLStatementBuilder.registerHandlers.put(SQLStatementBuilder.DEFAULT_HANDLER, new DefaultSQLStatementHandler());
@@ -2351,7 +2351,7 @@ public abstract class SQLStatementBuilder {
      *  	Field field = new BasicField("columnName1");
      *
      *  	Expression expression = new BasicExpression(field,equalOperator,"filterValue");
-     *  	Map conditions=new HashMap();
+     *  	Map conditions=new Hashmap();
      *  	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,expression);
      * </pre>
      *
@@ -2366,7 +2366,7 @@ public abstract class SQLStatementBuilder {
      *
      *  	Expression totalExpression = new Expression(expression1,BasicOperator.AND,expression2);
      *
-     *  	Map conditions=new HashMap();
+     *  	Map conditions=new Hashmap();
      *   	conditions.put(ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,totalExpression);
      * </pre>
      *

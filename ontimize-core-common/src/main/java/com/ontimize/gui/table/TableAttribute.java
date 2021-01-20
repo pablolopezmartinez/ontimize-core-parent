@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.List;
-import java.util.HashMap;
+import java.util.Hashmap;
 import java.util.ArrayList;
 
 /**

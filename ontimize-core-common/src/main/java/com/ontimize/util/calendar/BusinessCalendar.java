@@ -82,7 +82,7 @@ public class BusinessCalendar implements java.io.Serializable {
 
     protected Locale locale = null;
 
-    protected Map holidays = new HashMap();
+    protected Map holidays = new Hashmap();
 
     public BusinessCalendar(String propertiesFileName, Locale l) {
         super();

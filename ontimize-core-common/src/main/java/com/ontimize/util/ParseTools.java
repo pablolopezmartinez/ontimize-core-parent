@@ -71,7 +71,7 @@ public class ParseTools {
      * @return <code>Map</code> with key-value
      */
     public static Map getTokensAt(String sValue, String separator1, String separator2) {
-        Map hashTokens = new HashMap();
+        Map hashTokens = new Hashmap();
         if ((sValue.indexOf(separator1) == -1) && (sValue.indexOf(separator2) == -1)) {
             hashTokens.put(sValue, sValue);
             return hashTokens;

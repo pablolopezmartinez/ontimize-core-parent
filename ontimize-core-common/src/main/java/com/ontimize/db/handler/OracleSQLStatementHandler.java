@@ -81,7 +81,7 @@ public class OracleSQLStatementHandler extends DefaultSQLStatementHandler {
                 columnTypes[i - 1] = rsMetaData.getColumnType(i);
             }
 
-            Map hColumnTypesAux = new HashMap();
+            Map hColumnTypesAux = new Hashmap();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
                     hColumnTypesAux.put(sColumnNames[i], new Integer(columnTypes[i]));

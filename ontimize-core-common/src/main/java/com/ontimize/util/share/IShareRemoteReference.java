@@ -4,7 +4,7 @@ import com.ontimize.dto.EntityResult;
 
 import java.rmi.Remote;
 import java.sql.Connection;
-import java.util.HashMap;
+import java.util.Hashmap;
 import java.util.List;
 
 
@@ -105,7 +105,7 @@ public interface IShareRemoteReference extends Remote {
             throws Exception;
 
     /**
-     * Return a {@link List} of {@link HashMap} with information related to the shared elements
+     * Return a {@link List} of {@link Hashmap} with information related to the shared elements
      * ({@link SharedElement#idShare}, {@link SharedElement#name}) and an identifier of the specific
      * relation between the receiver and the shared element. This method creates a new connection and
      * calls the method {@link #getTargetSharedElementMenuList(String, String, int, Connection)}. If the
@@ -113,10 +113,10 @@ public interface IShareRemoteReference extends Remote {
      * @param username
      * @param shareKey
      * @param sessionId
-     * @return A {@link List} of {@link HashMap} with information related
+     * @return A {@link List} of {@link Hashmap} with information related
      * @throws Exception
      */
-    public List<HashMap<String, Object>> getTargetSharedElementMenuList(String username, String shareKey, int sessionId)
+    public List<Hashmap<String, Object>> getTargetSharedElementMenuList(String username, String shareKey, int sessionId)
             throws Exception;
 
     /**
@@ -146,7 +146,7 @@ public interface IShareRemoteReference extends Remote {
             throws Exception;
 
     /**
-     * Return a {@link List} of {@link HashMap} with information related to the shared elements
+     * Return a {@link List} of {@link Hashmap} with information related to the shared elements
      * ({@link SharedElement#idShare}, {@link SharedElement#name}), for any shared element with specific
      * share key and the specific username as share owner. This method creates a new connection and
      * calls the method {@link #getSourceSharedElementMenuList(String, String, int, Connection)}. If the
@@ -154,10 +154,10 @@ public interface IShareRemoteReference extends Remote {
      * @param username
      * @param shareKey
      * @param sessionId
-     * @return A {@link List} of {@link HashMap}
+     * @return A {@link List} of {@link Hashmap}
      * @throws Exception
      */
-    public List<HashMap<String, Object>> getSourceSharedElementMenuList(String username, String shareKey, int sessionId)
+    public List<Hashmap<String, Object>> getSourceSharedElementMenuList(String username, String shareKey, int sessionId)
             throws Exception;
 
     /**
@@ -317,22 +317,22 @@ public interface IShareRemoteReference extends Remote {
             Connection con) throws Exception;
 
     /**
-     * Return a {@link List} of {@link HashMap} with information related to the shared elements
+     * Return a {@link List} of {@link Hashmap} with information related to the shared elements
      * ({@link SharedElement#idShare}, {@link SharedElement#name}) and an identifier of the specific
      * relation between the receiver and the shared element. This method performs a query to the table
      * which stores the relation between the receivers and the shared element, obtaining the identifier
      * for this relation. Then, check the shared element belonging to relations obtained previously, and
      * performs a query to obtain the element with the requested <code>share key</code>. Puts in the
-     * HashMap to return the identifier of relation, the identifier of shared element and the name of
+     * Hashmap to return the identifier of relation, the identifier of shared element and the name of
      * shared element.
      * @param username
      * @param shareKey
      * @param sessionId
      * @param con
-     * @return A {@link List} of {@link HashMap} with information related
+     * @return A {@link List} of {@link Hashmap} with information related
      * @throws Exception
      */
-    public List<HashMap<String, Object>> getTargetSharedElementMenuList(String username, String shareKey, int sessionId,
+    public List<Hashmap<String, Object>> getTargetSharedElementMenuList(String username, String shareKey, int sessionId,
             Connection con) throws Exception;
 
     /**
@@ -364,19 +364,19 @@ public interface IShareRemoteReference extends Remote {
 
     /**
      *
-     * Return a {@link List} of {@link HashMap} with information related to the shared elements
+     * Return a {@link List} of {@link Hashmap} with information related to the shared elements
      * ({@link SharedElement#idShare}, {@link SharedElement#name}), for any shared element with specific
      * share key and the specific user name as share owner. This method performs a query to the entity
-     * which stores the shared data and retrieve a HashMap with the identifier of shared element and its
+     * which stores the shared data and retrieve a Hashmap with the identifier of shared element and its
      * name for which ones that has the specific user name as owner and the specific share key
      * @param username
      * @param shareKey
      * @param sessionId
      * @param con
-     * @return A {@link List} of {@link HashMap}
+     * @return A {@link List} of {@link Hashmap}
      * @throws Exception
      */
-    public List<HashMap<String, Object>> getSourceSharedElementMenuList(String username, String shareKey, int sessionId,
+    public List<Hashmap<String, Object>> getSourceSharedElementMenuList(String username, String shareKey, int sessionId,
             Connection con) throws Exception;
 
     /**
