@@ -1,5 +1,8 @@
 package com.ontimize.gui.table.blocked;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableColumnModel;
@@ -162,6 +165,27 @@ public class BlockedTable extends JTable {
     @Override
     public int getRowHeight(int row) {
         return dataTable.getRowHeight(row);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return super.getPreferredSize();
+    }
+
+    @Override
+    public Rectangle getCellRect(int row, int column, boolean includeSpacing) {
+        Rectangle r = super.getCellRect(row, column, includeSpacing);
+        if (dataTable!=null && dataTable.isFitRowsHeight()){
+            Rectangle dataTableRectangle = dataTable.getCellRect(row, column, includeSpacing);
+            if (r.y!=dataTableRectangle.y){
+                r.y = dataTableRectangle.y;
+            }
+
+            if (r.height!=dataTableRectangle.height){
+                r.height = dataTableRectangle.height;
+            }
+        }
+        return r;
     }
 
 }

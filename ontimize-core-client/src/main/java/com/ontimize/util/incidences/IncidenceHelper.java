@@ -40,7 +40,9 @@ public class IncidenceHelper {
         };
 
         app.setKeyBinding("createIncidence", ks, act, inMap, actMap, true);
-        app.getStatusBar().add(button);
+        if (app.getStatusBar() != null) {
+        	app.getStatusBar().add(button);
+        }
     }
 
     public static FormHeaderButton createIncidenceButton(Window owner) {

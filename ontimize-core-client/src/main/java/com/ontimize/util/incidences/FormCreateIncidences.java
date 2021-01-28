@@ -70,10 +70,9 @@ public class FormCreateIncidences extends EJDialog implements Internationalizati
                 Window w = SwingUtilities.getWindowAncestor((Component) eventSourceObject);
                 this.bufferedImage = new Robot().createScreenCapture(w.getBounds());
             } else if (eventSourceObject instanceof FormHeaderButton) {
-                Window w = SwingUtilities.getWindowAncestor((FormHeaderButton) eventSourceObject);
+                Window w =  ApplicationManager.getApplication().getFrame();
                 this.bufferedImage = new Robot().createScreenCapture(w.getBounds());
             } else if (eventSourceObject instanceof JButton) {
-
                 Window w = SwingUtilities.getWindowAncestor((Component) eventSourceObject).getOwner();
 
                 if (!(w instanceof JFrame) && !(w instanceof JDialog) && !(w instanceof MainApplication)) {
