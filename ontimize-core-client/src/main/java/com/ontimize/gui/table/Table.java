@@ -9483,6 +9483,16 @@ public class Table extends JRootPane
                         }
                         return d;
                     }
+                    
+                    @Override
+                    public Dimension getExtentSize() {
+                        Dimension d = super.getExtentSize();
+                        Dimension root = Table.this.scrollPane.getViewport().getExtentSize();
+                        if (d.height!=root.height){
+                            d.height = root.height;
+                        }
+                        return d;
+                    }
                 };
             }
         };
@@ -14116,6 +14126,20 @@ public class Table extends JRootPane
             }
         });
 
+        quickFilterText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!Table.this.quickFilterLocal){
+                        if (Table.this.waitPanel!=null && Table.this.waitPanel.isVisible()){
+                            e.consume();
+                            return;
+                        }
+                }
+                super.keyTyped(e);
+            }
+        });
+
+        
         return quickFilterText;
     }
 

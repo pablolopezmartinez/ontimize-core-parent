@@ -3178,7 +3178,15 @@ public abstract class DataField extends JPanel
          */
         protected int high = DataField.defaultFieldButtonHigh;
 
-        /**
+        public int getHigh() {
+			return high;
+		}
+
+		public void setHigh(int high) {
+			this.high = high;
+		}
+
+		/**
          * Class constructor. Calls to <code>super()</code> with <code>text</code> parameter.
          * <p>
          * @param text the name of button

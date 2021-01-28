@@ -462,7 +462,6 @@ public class DefaultActionMenuListener extends DefaultMenuListener {
      * Method used to reduce the complexity of {@link #actionPerformed(ActionEvent)}
      */
     protected void actionLockCommand() {
-        this.application.showFormManagerContainer("about");
         ((MainApplication) this.application).lock();
     }
 
