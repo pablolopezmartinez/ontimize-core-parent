@@ -174,7 +174,7 @@ public class EntityResultMapImpl {
     public EntityResultMapImpl deepClone() {
         Object o = super.clone();
         ((EntityResultMapImpl) o).data = new EntityResult();
-        Enumeration eKeys = Collections.enumeration((this.data.keySet());
+        Enumeration eKeys = Collections.enumeration((this.data.keySet()));
         while (eKeys.hasMoreElements()) {
             Object oKey = eKeys.nextElement();
             List vValues = (List) this.data.get(oKey);
@@ -735,7 +735,7 @@ public class EntityResultMapImpl {
             if (s > 0) {
                 throw new IllegalArgumentException("is empty -> index must be 0");
             }
-            Enumeration keys = Collections.enumeration((this.data.keySet());
+            Enumeration keys = Collections.enumeration((this.data.keySet()));
             while (keys.hasMoreElements()) {
                 Object oKey = keys.nextElement();
                 List v = new ArrayList();
@@ -843,7 +843,7 @@ public class EntityResultMapImpl {
     public List getOrderColumns() {
         if (this.columnsOrder != null) {
             ArrayList l = new ArrayList();
-            l.addAll(this.columnsOrder)
+            l.addAll(this.columnsOrder);
             return l;
         } else {
             return this.columnsOrder;

@@ -42,7 +42,7 @@ public interface EntityResult {
 
     boolean containsKey(Object key);
 
-    Object put(Object key, Object value)
+    Object put(Object key, Object value);
 
     int calculateRecordNumber();
 
