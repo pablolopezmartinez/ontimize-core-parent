@@ -1,7 +1,14 @@
 package com.ontimize.util.swing;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Window;
+
+import javax.swing.SwingUtilities;
 
 
 public class SwingUtils {

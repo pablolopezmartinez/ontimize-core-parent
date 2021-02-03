@@ -4,7 +4,8 @@ import com.ontimize.gui.RandomStringGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CancellableOperationManager {
 
@@ -12,12 +13,12 @@ public abstract class CancellableOperationManager {
 
     protected static class IdentifierGenerator {
 
-        protected Vector identifierUsed = null;
+        protected List identifierUsed = null;
 
         protected int length = 10;
 
         public IdentifierGenerator(int longitud) {
-            this.identifierUsed = new Vector();
+            this.identifierUsed = new ArrayList();
             this.length = longitud;
             if (this.length < 5) {
                 this.length = 5;

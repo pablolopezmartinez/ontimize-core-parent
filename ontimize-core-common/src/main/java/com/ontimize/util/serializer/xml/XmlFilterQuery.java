@@ -12,7 +12,12 @@ import com.ontimize.db.SQLStatementBuilder.BasicExpression;
 import com.ontimize.gui.SearchValue;
 import com.ontimize.util.serializer.xml.XmlFilterQuery.Filters.Filter;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

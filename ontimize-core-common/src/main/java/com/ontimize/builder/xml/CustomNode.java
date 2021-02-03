@@ -64,7 +64,7 @@ public class CustomNode {
         return this.xMLDocumentNode.getAttributes();
     }
 
-    public Map<String, String> MapAttribute() {
+    public Map<String, String> hashtableAttribute() {
         // Gets the attribute list
         NamedNodeMap attributeList = this.attributeList();
         Map<String, String> attributeTable = new HashMap<String, String>();

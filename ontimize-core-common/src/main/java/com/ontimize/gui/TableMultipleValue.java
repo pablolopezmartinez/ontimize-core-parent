@@ -1,6 +1,7 @@
 package com.ontimize.gui;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TableMultipleValue implements Serializable {

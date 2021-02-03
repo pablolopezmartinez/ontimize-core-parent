@@ -1052,7 +1052,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             throw new IllegalArgumentException("The number of keys of principal and secondary table have to be equals");
         }
 
-        List askedColumns = new ArayList();
+        List askedColumns = new ArrayList();
         for (int i = 0; i < mainTableRequestedColumns.size(); i++) {
             askedColumns.add(this.qualify((String) mainTableRequestedColumns.get(i), mainTable));
         }

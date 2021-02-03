@@ -330,7 +330,7 @@ public class BusinessCalendar implements java.io.Serializable {
         }
         int currentYear = this.calendar.get(Calendar.YEAR);
         String s = Integer.toString(currentYear);
-        List vAllYearsHolidays = (List) this.holidays.get(BusinessCalendar.COMMON);
+        List vAllYearsHolidays = (ArrayList) this.holidays.get(BusinessCalendar.COMMON);
         for (int i = 0; i < vAllYearsHolidays.size(); i++) {
             CommonDay dia = (CommonDay) vAllYearsHolidays.get(i);
             if (dia.dateIsInThisDay(d)) {
@@ -341,7 +341,7 @@ public class BusinessCalendar implements java.io.Serializable {
             }
         }
 
-        List vCurrenYearHolidays = (List) this.holidays.get(s);
+        List vCurrenYearHolidays = (ArrayList) this.holidays.get(s);
         if (vCurrenYearHolidays != null) {
             for (int i = 0; i < vCurrenYearHolidays.size(); i++) {
                 Day day = (Day) vCurrenYearHolidays.get(i);

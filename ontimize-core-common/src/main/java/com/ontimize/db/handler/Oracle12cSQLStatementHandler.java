@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 public class Oracle12cSQLStatementHandler extends DefaultSQLStatementHandler {
 
@@ -28,15 +26,15 @@ public class Oracle12cSQLStatementHandler extends DefaultSQLStatementHandler {
     }
 
     @Override
-    public SQLStatement createSelectQuery(String table, List requestedColumns, List conditions, List wildcards,
-            List columnSorting, int recordCount, boolean descending,
-            boolean forceDistinct) {
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
+                                          List columnSorting, int recordCount, boolean descending,
+                                          boolean forceDistinct) {
         return super.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount, 0,
                 descending, forceDistinct);
     }
 
     @Override
-    public SQLStatement createSelectQuery(String table, List requestedColumns, List conditions, List wildcards,
+    public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
             List columnSorting, int recordCount, int offset,
             boolean descending, boolean forceDistinct) {
         StringBuilder sql = new StringBuilder();
@@ -95,7 +93,7 @@ public class Oracle12cSQLStatementHandler extends DefaultSQLStatementHandler {
                 columnTypes[i - 1] = rsMetaData.getColumnType(i);
             }
 
-            List hColumnTypesAux = new ArrayList();
+            Map hColumnTypesAux = new HashMap();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
                     hColumnTypesAux.put(sColumnNames[i], new Integer(columnTypes[i]));
@@ -118,7 +116,7 @@ public class Oracle12cSQLStatementHandler extends DefaultSQLStatementHandler {
     }
 
     @Override
-    public String addOuterMultilanguageColumnsPageable(String sqlQuery, String table, List hLocaleTablesAV) {
+    public String addOuterMultilanguageColumnsPageable(String sqlQuery, String table, Map hLocaleTablesAV) {
         Enumeration av = Collections.enumeration(hLocaleTablesAV.keySet());
         StringBuilder buffer = new StringBuilder();
         String atPos = "(";
@@ -135,8 +133,8 @@ public class Oracle12cSQLStatementHandler extends DefaultSQLStatementHandler {
     @Override
     public SQLStatement createLeftJoinSelectQueryPageable(String mainTable, String subquery, String secondaryTable,
             List mainKeys, List secondaryKeys,
-            List mainTableRequestedColumns, List secondaryTableRequestedColumns, List mainTableConditions,
-            List secondaryTableConditions, List wildcards,
+            List mainTableRequestedColumns, List secondaryTableRequestedColumns, Map mainTableConditions,
+            Map secondaryTableConditions, List wildcards,
             List columnSorting, boolean forceDistinct, boolean descending, int recordNumber, int startIndex) {
         // TODO Auto-generated method stub
         SQLStatement stSQL = super.createLeftJoinSelectQuery(mainTable, subquery, secondaryTable, mainKeys,

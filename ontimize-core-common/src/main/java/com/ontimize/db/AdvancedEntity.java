@@ -1,5 +1,6 @@
 package com.ontimize.db;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -36,6 +37,6 @@ public interface AdvancedEntity extends Entity {
      * @throws Exception
      */
     public AdvancedEntityResult query(Map kv, List attributes, int sessionId, int recordNumber, int startIndex,
-            List orderBy) throws Exception;
+                                      List orderBy) throws Exception;
 
 }

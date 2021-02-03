@@ -21,8 +21,8 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     protected Map<String, Object> entityMetadata;
 
-    protected com.ontimize.dto.EntityResult cacheData = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL,
-            com.ontimize.dto.EntityResult.BEST_COMPRESSION);
+    protected EntityResult cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
+            EntityResult.BEST_COMPRESSION);
 
     public LocalEntityInvocationHandler(EntityReferenceLocator locator, String entityName) {
         this.locator = locator;
@@ -46,11 +46,12 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public com.ontimize.dto.EntityResult insert(Map attributesValues, int sessionId) throws Exception {
+    public EntityResult insert(Map attributesValues, int sessionId) throws Exception {
         this.checkInsertKeys(attributesValues);
         String autonumerical = this.getAutonumerical();
         List<String> generatedKeyList = this.getGeneratedKeyList();
-        com.ontimize.dto.EntityResult entityResult = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, com.ontimize.dto.EntityResult.BEST_COMPRESSION);
+        EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
+                EntityResult.BEST_COMPRESSION);
         if (autonumerical != null) {
             attributesValues.put(autonumerical, this.cacheData.calculateRecordNumber());
             entityResult.put(autonumerical, this.cacheData.calculateRecordNumber());
@@ -62,26 +63,26 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
                 }
             }
         }
-        this.cacheData.addRecord(attributesValues);
+            this.cacheData.addRecord(attributesValues);
         return entityResult;
     }
 
     @Override
-    public com.ontimize.dto.EntityResult update(Map attributesValues, Map keysValues, int sessionId) throws Exception {
+    public EntityResult update(Map attributesValues, Map keysValues, int sessionId) throws Exception {
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         EntityResultTools.updateRecordValues(this.cacheData, attributesValues, index);
-        return new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, com.ontimize.dto.EntityResult.BEST_COMPRESSION);
+        return new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
     }
 
     @Override
-    public com.ontimize.dto.EntityResult query(Map keysValues, List attributes, int sessionId) throws Exception {
+    public EntityResult query(Map keysValues, List attributes, int sessionId) throws Exception {
         if (keysValues.isEmpty()) {
-            com.ontimize.dto.EntityResult entityResult = new com.ontimize.dto.EntityResult(this.cacheData);
+            EntityResult entityResult = new EntityResult(this.cacheData);
             return entityResult;
         } else {
             int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
-            com.ontimize.dto.EntityResult entityResult = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL,
-                    com.ontimize.dto.EntityResult.BEST_COMPRESSION);
+            EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
+                    EntityResult.BEST_COMPRESSION);
             entityResult.addRecord(this.cacheData.getRecordValues(index));
             return entityResult;
         }

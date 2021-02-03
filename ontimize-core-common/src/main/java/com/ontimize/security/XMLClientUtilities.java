@@ -153,7 +153,7 @@ public abstract class XMLClientUtilities {
                     if (n.isTag()) {
                         boolean bRestricted = false;
                         String info = n.getNodeInfo();
-                        Map hPermissionsE1 = n.MapAttribute();
+                        Map hPermissionsE1 = n.hashtableAttribute();
                         Object oRestricted = hPermissionsE1.get("restricted");
                         if (oRestricted == null) {
                             bRestricted = false;
@@ -210,7 +210,7 @@ public abstract class XMLClientUtilities {
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions for each element
-                            Map hDataElement = n.MapAttribute();
+                            Map hDataElement = n.hashtableAttribute();
                             // Gets attribute
                             Object attr = hDataElement.get("attr");
                             if (attr == null) {
@@ -225,7 +225,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Map hPermissionsE1 = nH.MapAttribute();
+                                    Map hPermissionsE1 = nH.hashtableAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;
@@ -386,7 +386,7 @@ public abstract class XMLClientUtilities {
         // Here, ELEMENT tags specify the name of form
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.FM_ID)) {
-                Map p = node.MapAttribute();
+                Map p = node.hashtableAttribute();
                 Object oFMName = p.get("id");
                 if (oFMName == null) {
                     XMLClientUtilities.logger.warn("Required 'id' in {} tag", XMLClientUtilities.FM_ID);
@@ -407,7 +407,7 @@ public abstract class XMLClientUtilities {
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions by element
-                            Map datosElemento = n.MapAttribute();
+                            Map datosElemento = n.hashtableAttribute();
                             // Gets attribute
                             Object attr = datosElemento.get("attr");
                             if (attr == null) {
@@ -422,7 +422,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Map hPermissionsE1 = nH.MapAttribute();
+                                    Map hPermissionsE1 = nH.hashtableAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;
@@ -477,7 +477,7 @@ public abstract class XMLClientUtilities {
             String businessCalendarFile) throws Exception {
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.TREE_ID)) {
-                Map p = node.MapAttribute();
+                Map p = node.hashtableAttribute();
                 Object oTreeFileName = p.get("archive");
                 if (oTreeFileName == null) {
                     XMLClientUtilities.logger.warn("Required 'archive' in TREE tag");
@@ -498,7 +498,7 @@ public abstract class XMLClientUtilities {
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions by name
-                            Map hDataElement = n.MapAttribute();
+                            Map hDataElement = n.hashtableAttribute();
                             // Gets attribute
                             Object attr = hDataElement.get("id");
                             if (attr == null) {
@@ -513,7 +513,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Map hPermissionsE1 = nH.MapAttribute();
+                                    Map hPermissionsE1 = nH.hashtableAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;
@@ -740,7 +740,10 @@ public abstract class XMLClientUtilities {
         // Values is a list with Map objects
         List result = new ArrayList();
         if ((values != null) && (values.size() > 0)) {
-            Enumeration keys = Collections.enumeration(values.get(0).keySet()); //todo review this change
+            Enumeration keys = Collections.enumeration(((HashMap)values.get(0)).keySet());
+            if (!keys.hasMoreElements()) {
+                logger.error("XMLClientUtilitiesgetCommonKeys has values but enumeration is empty.");
+            }
             while (keys.hasMoreElements()) {
                 Object key = keys.nextElement();
                 boolean exist = true;
@@ -808,7 +811,7 @@ public abstract class XMLClientUtilities {
         // For all the elements we join these permission
         while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
-            if (p2.containsKey(key)) { //todo review method on map?
+            if (p2.containsKey(key)) {
                 List secondList = (List) p2.get(key);
                 // If this key already exist then we have to check all the
                 // permission

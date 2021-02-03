@@ -13,7 +13,7 @@ import com.ontimize.dto.EntityResult;
  * @see PageFetcher
  * @author Imatia Innovation
  */
-public class AdvancedEntityResult extends EntityResult {
+public class AdvancedEntityResult implements EntityResult {
 
     protected int totalQueryRecordsNumber = 0;
 

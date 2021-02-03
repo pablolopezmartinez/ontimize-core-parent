@@ -1,11 +1,7 @@
 package com.ontimize.gui.i18n;
 
 import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DatabaseResourceBundle extends ResourceBundle implements Serializable {
 

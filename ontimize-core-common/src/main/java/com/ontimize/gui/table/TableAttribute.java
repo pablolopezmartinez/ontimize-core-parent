@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Attribute used for the tables. Contains information about the column names, the entity, the keys,
  * the parent keys and the number of records to query
  */
-public class TableAttribute extends Map {
+public class TableAttribute implements Map {
 
     private static final Logger logger = LoggerFactory.getLogger(TableAttribute.class);
 
