@@ -39,7 +39,7 @@ public abstract class CancellableOperationManager {
 
     protected static class CancellationRequestQueue {
 
-        protected Vector cancellationRequest = new Vector(5);
+        protected List cancellationRequest = new ArrayList(5);
 
         public CancellationRequestQueue() {
         }
