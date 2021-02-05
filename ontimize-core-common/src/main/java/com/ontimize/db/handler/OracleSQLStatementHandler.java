@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OracleSQLStatementHandler extends DefaultSQLStatementHandler {
 

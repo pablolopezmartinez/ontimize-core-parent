@@ -1,6 +1,7 @@
 package com.ontimize.db;
 
 import com.ontimize.dto.EntityResult;
+import com.ontimize.dto.EntityResultMapImpl;
 import com.ontimize.dto.EntityResultTools;
 import com.ontimize.locator.EntityReferenceLocator;
 import org.slf4j.Logger;
@@ -21,8 +22,8 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     protected Map<String, Object> entityMetadata;
 
-    protected EntityResult cacheData = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
-            EntityResult.BEST_COMPRESSION);
+    protected EntityResult cacheData = ((EntityResult) new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
+            EntityResult.BEST_COMPRESSION)); //todo revisar cuando se añada nueva implementación
 
     public LocalEntityInvocationHandler(EntityReferenceLocator locator, String entityName) {
         this.locator = locator;
@@ -50,8 +51,8 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
         this.checkInsertKeys(attributesValues);
         String autonumerical = this.getAutonumerical();
         List<String> generatedKeyList = this.getGeneratedKeyList();
-        EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
-                EntityResult.BEST_COMPRESSION);
+        EntityResult entityResult = ((EntityResult)new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
+                EntityResult.BEST_COMPRESSION));
         if (autonumerical != null) {
             attributesValues.put(autonumerical, this.cacheData.calculateRecordNumber());
             entityResult.put(autonumerical, this.cacheData.calculateRecordNumber());
@@ -63,7 +64,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
                 }
             }
         }
-            this.cacheData.addRecord(attributesValues);
+        this.cacheData.addRecord(attributesValues);
         return entityResult;
     }
 
@@ -71,18 +72,19 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     public EntityResult update(Map attributesValues, Map keysValues, int sessionId) throws Exception {
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         EntityResultTools.updateRecordValues(this.cacheData, attributesValues, index);
-        return new EntityResult(EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        return ((EntityResult) new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
+                EntityResult.BEST_COMPRESSION));
     }
 
     @Override
     public EntityResult query(Map keysValues, List attributes, int sessionId) throws Exception {
         if (keysValues.isEmpty()) {
-            EntityResult entityResult = new EntityResult(this.cacheData);
+            EntityResult entityResult =  this.cacheData.clone();
             return entityResult;
         } else {
             int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
-            EntityResult entityResult = new EntityResult(EntityResult.OPERATION_SUCCESSFUL,
-                    EntityResult.BEST_COMPRESSION);
+            EntityResult entityResult = ((EntityResult) new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
+                    EntityResult.BEST_COMPRESSION));
             entityResult.addRecord(this.cacheData.getRecordValues(index));
             return entityResult;
         }
@@ -126,25 +128,26 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     }
 
     @Override
-    public com.ontimize.dto.EntityResult delete(Map keysValues, int sessionId) throws Exception {
-        com.ontimize.dto.EntityResult erResult = new com.ontimize.dto.EntityResult();
+    public EntityResult delete(Map keysValues, int sessionId) throws Exception {
+        EntityResult erResult = ((EntityResult) new EntityResultMapImpl());
         int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
         if (index >= 0) {
             this.cacheData.deleteRecord(index);
             return erResult;
         } else {
-            erResult.setCode(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE);
+            erResult.setCode(EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE);
             erResult.setMessage("M_NO_RECORD_DELETED");
             LocalEntityInvocationHandler.logger
-                .debug("Delete: keys parameter does not contain any pair key-value valid");
+                    .debug("Delete: keys parameter does not contain any pair key-value valid");
         }
         return null;
     }
 
     @Override
-    public void setValue(com.ontimize.dto.EntityResult data) {
+    public void setValue(EntityResult data) {
         if (data == null) {
-            this.cacheData = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, com.ontimize.dto.EntityResult.BEST_COMPRESSION);
+            this.cacheData = ((EntityResult) new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
+                    EntityResult.BEST_COMPRESSION));
         } else {
             this.cacheData = data;
         }
@@ -152,7 +155,8 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     @Override
     public void clear() {
-        this.cacheData = new com.ontimize.dto.EntityResult(com.ontimize.dto.EntityResult.OPERATION_SUCCESSFUL, EntityResult.BEST_COMPRESSION);
+        this.cacheData = ((EntityResult) new EntityResultMapImpl( EntityResult.OPERATION_SUCCESSFUL,
+                EntityResult.BEST_COMPRESSION));
     }
 
 }

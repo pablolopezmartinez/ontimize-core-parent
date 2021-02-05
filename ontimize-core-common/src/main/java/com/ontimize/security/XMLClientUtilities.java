@@ -278,7 +278,7 @@ public abstract class XMLClientUtilities {
         // Builds model for menu
         if (node.isTag()) {
             if (node.getNodeInfo().equalsIgnoreCase(XMLClientUtilities.FORM_ID)) {
-                Map p = node.MapAttribute();
+                Map p = node.hashtableAttribute();
                 Object oFormArchiveName = p.get("archive");
                 if (oFormArchiveName == null) {
                     XMLClientUtilities.logger.warn("Needded 'archive' in Tag FORM");
@@ -299,7 +299,7 @@ public abstract class XMLClientUtilities {
                     if (n.isTag()) {
                         if (n.getNodeInfo().equalsIgnoreCase("ELEMENT")) {
                             // Takes permissions for each element
-                            Map hDataElement = n.MapAttribute();
+                            Map hDataElement = n.hashtableAttribute();
                             // Gets attribute
                             Object attr = hDataElement.get("attr");
                             if (attr == null) {
@@ -314,7 +314,7 @@ public abstract class XMLClientUtilities {
                                     // condition.
                                     String sPermissionName = nH.getNodeInfo();
                                     boolean bRestricted = false;
-                                    Map hPermissionsE1 = nH.MapAttribute();
+                                    Map hPermissionsE1 = nH.hashtableAttribute();
                                     Object restricted = hPermissionsE1.get("restricted");
                                     if (restricted == null) {
                                         bRestricted = false;

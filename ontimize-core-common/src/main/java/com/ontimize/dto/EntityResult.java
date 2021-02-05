@@ -42,10 +42,6 @@ public interface EntityResult {
 
     boolean containsKey(Object key);
 
-    Object put(Object key, Object value);
-
-    int calculateRecordNumber();
-
     class TimeUtil {
 
         long time = 0;
@@ -82,7 +78,7 @@ public interface EntityResult {
             return ((List) vData).indexOf(kv.get(vKeys.get(0)));
         }
 
-        while ((currentValueIndex = ((List) vData).indexOf(kv.get(vKeys.get(0)), currentValueIndex + 1)) >= 0) {
+        while ((currentValueIndex = ((ArrayList) vData).indexOf(kv.get(vKeys.get(currentValueIndex + 1)))) >= 0) {
             boolean allValuesCoincidence = true;
             for (int i = 1; i < vKeys.size(); i++) {
                 Object requestValue = kv.get(vKeys.get(i));
@@ -106,14 +102,14 @@ public interface EntityResult {
     default void main(String[] args) {
         List<String> columns = new ArrayList<String>();
         columns.add("test");
-        EntityResult eR = new EntityResultMapImpl(columns);
+        EntityResultMapImpl eR = new EntityResultMapImpl(columns);
         Map record = new HashMap<String, String>();
         record.put("test", "value");
         int total = 1000000;
         System.out.println("Creating " + total + " records");
         long startTime = System.nanoTime();
         for (int i = 0; i < total; i++) {
-            ((EntityResultMapImpl) eR).addRecord(record);
+            eR.addRecord(record);
         }
         long estimatedTime = System.nanoTime() - startTime;
         System.out.println("Time to create the entity result  ->" + estimatedTime);

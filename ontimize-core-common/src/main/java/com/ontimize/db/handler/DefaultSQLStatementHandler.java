@@ -419,7 +419,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     /**
      * Builds a count query using a column name.
      * @param table Database table
-     * @param countColumn Column to perform the count operation. If this parameter is null will be used
+     * @param countColumns Column to perform the count operation. If this parameter is null will be used
      *        <code>count(*)</code>.
      * @return the query string
      * @since 5.2080EN
@@ -1044,7 +1044,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     @Override
     public SQLStatement createJoinSelectQuery(String mainTable, String secondaryTable, List mainKeys,
             List secondaryKeys, List mainTableRequestedColumns,
-            List secondaryTableRequestedColumns, Map mainTableConditions, List secondaryTableConditions,
+            List secondaryTableRequestedColumns, Map mainTableConditions, Map secondaryTableConditions,
             List wildcards, List columnSorting, boolean forceDistinct,
             boolean descending) {
 
@@ -1066,7 +1066,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             Object oValue = mainTableConditions.get(oKey);
             conditions.put(this.qualify(((String) oKey).replaceAll(mainTable + "\\.", ""), mainTable), oValue);
         }
-        enumKeys = secondaryTableConditions.keys();
+        enumKeys = Collections.enumeration(secondaryTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
             Object oValues = secondaryTableConditions.get(oKey);
@@ -1121,8 +1121,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * query against two subselects used a join.
      * @param primaryAlias name of the principal query
      * @param secondaryAlias name of the secondary query
-     * @param primaryTable principal query is executed against
-     * @param secondaryTable secondary query is executed against
+     * @param primaryQuery principal query is executed against
+     * @param secondaryQuery secondary query is executed against
      * @param primaryKeys a List specifying the column names of the principal table that be used to
      *        combine the two tables
      * @param secondaryKeys a List specifying the column names of the secondary table that be used to
@@ -1169,7 +1169,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
             conditions.put(this.qualify(((String) oKey).replaceAll(primaryAlias + "\\.", ""), primaryAlias), oValue);
         }
 
-        enumKeys = secondaryTableConditions.keys();
+        enumKeys = Collections.enumeration(secondaryTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
             Object oValues = secondaryTableConditions.get(oKey);
@@ -1320,7 +1320,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
         }
         Map conditions = new HashMap();
         Map filterkeys = new HashMap();
-        vMap enumKeys = mainTableConditions.keys();
+        Enumeration enumKeys = Collections.enumeration(mainTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
             Object oValue = mainTableConditions.get(oKey);
@@ -1330,7 +1330,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
                 filterkeys.put(this.qualify(((String) oKey).replaceAll(mainTable + "\\.", ""), mainTable), oValue);
             }
         }
-        enumKeys = secondaryTableConditions.keys();
+        enumKeys = Collections.enumeration(secondaryTableConditions.keySet());
         while (enumKeys.hasMoreElements()) {
             Object oKey = enumKeys.nextElement();
             Object oValues = secondaryTableConditions.get(oKey);
@@ -1464,7 +1464,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
                 columnTypes[i - 1] = rsMetaData.getColumnType(i);
             }
 
-            List hColumnTypesAux = new ArrayList();
+            Map hColumnTypesAux = new HashMap();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
                     hColumnTypesAux.put(sColumnLabels[i], new Integer(columnTypes[i]));
@@ -1546,7 +1546,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
                 columnTypes[i - 1] = rsMetaData.getColumnType(i);
             }
 
-            List hColumnTypesAux = new ArrayList();
+            Map hColumnTypesAux = new HashMap();
             if (hColumnTypesAux != null) {
                 for (int i = 0; i < columnTypes.length; i++) {
                     hColumnTypesAux.put(sColumnNames[i], new Integer(columnTypes[i]));
@@ -1596,7 +1596,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     protected void changeColumnName(EntityResult result, String nameColumn, String replaceByColumn) {
         if (result.containsKey(nameColumn)) {
             result.put(replaceByColumn, result.remove(nameColumn));
-            List sqlTypes = result.getColumnSQLTypes();
+            Map sqlTypes = result.getColumnSQLTypes();
             if ((sqlTypes != null) && sqlTypes.containsKey(nameColumn)) {
                 sqlTypes.put(replaceByColumn, sqlTypes.get(nameColumn));
             }
@@ -1884,7 +1884,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addInnerMultilanguageColumns(String subSqlQuery, List attributes, List hLocaleTablesAV) {
+    public String addInnerMultilanguageColumns(String subSqlQuery, List attributes, Map hLocaleTablesAV) {
         Enumeration av = Collections.enumeration(hLocaleTablesAV.keySet());
         StringBuilder buffer = new StringBuilder();
         buffer.append(subSqlQuery);
@@ -1900,7 +1900,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addOuterMultilanguageColumns(String sqlQuery, String table, List hLocaleTablesAV) {
+    public String addOuterMultilanguageColumns(String sqlQuery, String table, Map hLocaleTablesAV) {
         Enumeration av = Collections.enumeration(hLocaleTablesAV.keySet());
         StringBuilder buffer = new StringBuilder();
         buffer.append(sqlQuery);
@@ -1914,7 +1914,7 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
     }
 
     @Override
-    public String addOuterMultilanguageColumnsPageable(String sqlQuery, String table, List hLocaleTablesAV) {
+    public String addOuterMultilanguageColumnsPageable(String sqlQuery, String table, Map hLocaleTablesAV) {
         return this.addOuterMultilanguageColumns(sqlQuery, table, hLocaleTablesAV);
     }
 

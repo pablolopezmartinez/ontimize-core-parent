@@ -147,8 +147,11 @@ public class XmlFilterQuery {
      *
      *
      */
+    /*
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = { "filter" })
+
+     */
     public static class Filters {
 
         protected List<XmlFilterQuery.Filters.Filter> filter;

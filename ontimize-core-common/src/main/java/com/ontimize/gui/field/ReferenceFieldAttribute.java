@@ -1,11 +1,7 @@
 package com.ontimize.gui.field;
 
 import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * This class represents an attribute in a reference field.
