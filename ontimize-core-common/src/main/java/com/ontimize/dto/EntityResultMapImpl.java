@@ -18,18 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import com.ontimize.gui.field.ReferenceFieldAttribute;
 
-public class EntityResultMapImpl {
+public class EntityResultMapImpl implements EntityResult {
 
     Logger logger = LoggerFactory.getLogger(EntityResultMapImpl.class);
-
-    /**
-     * Compression Threshold.
-     */
-    protected int compressionThreshold = EntityResult.DEFAULT_COMPRESSION_THRESHOLD;
-
-    protected int type = EntityResult.NODATA_RESULT;
-
-    protected int code = EntityResult.OPERATION_SUCCESSFUL;
 
     protected String message = "";
 
@@ -41,27 +32,32 @@ public class EntityResultMapImpl {
 
     protected List columnsOrder = null;
 
+    protected int type = EntityResult.NODATA_RESULT;
+
+    protected int code = EntityResult.OPERATION_SUCCESSFUL;
+
+    protected int compressionLevel = Deflater.NO_COMPRESSION;
+
+    protected int compressionThreshold = EntityResult.DEFAULT_COMPRESSION_THRESHOLD;
+
+    protected int dataByteNumber = -1;
+
+    protected long streamTime = 0;
+
+    protected int MIN_BYTE_PROGRESS = 1024 * 50;
+
+    int byteBlock = 40 * 1024;// 40 K
+
     /**
      * Object needed for the compression mechanism
      */
     protected transient Map data = new HashMap();
 
-    protected transient int compressionLevel = Deflater.NO_COMPRESSION;
-
-    protected transient int dataByteNumber = -1;
-
-    protected transient long streamTime = 0;
-
-    /**
-     * Creates a EntityResult with code = OPERATION_SUCCESSFUL and type = NODATA_RESULT
-     */
     public EntityResultMapImpl() {
-        super(0);
     }
 
     // 5.2062EN-0.1
     public EntityResultMapImpl(List columns) {
-        super(0);
         if (columns != null) {
             for (int i = 0; i < columns.size(); i++) {
                 if (columns.get(i) != null) {
@@ -71,21 +67,18 @@ public class EntityResultMapImpl {
         }
     }
 
-    public EntityResultMapImpl(Map h) {
-        super(0);
+    public EntityResultMapImpl(HashMap h) {
         if (h != null) {
             this.data = (Map) h.clone();
         }
     }
 
     public EntityResultMapImpl(int operationCode, int resultType) {
-        super(0);
         this.code = operationCode;
         this.type = resultType;
     }
 
     public EntityResultMapImpl(int operationCode, int resultType, String resultMessage) {
-        super(0);
         this.code = operationCode;
         this.type = resultType;
         this.message = resultMessage;
@@ -133,65 +126,55 @@ public class EntityResultMapImpl {
     }
 
     // ////////// PROXY METHODS (COMPATIBILITY) ///////////////////////////
-
-    @Override
     public void clear() {
         this.data.clear();
     }
 
-    @Override
     public boolean contains(Object value) { //todo check if is desired result
         return this.data.containsValue(value);
     }
 
-    @Override
     public boolean containsKey(Object key) {
         return this.data.containsKey(key);
     }
 
-    @Override
     public boolean containsValue(Object value) {
         return this.data.containsValue(value);
     }
 
-    @Override
     public Collection elements() {
         return this.data.values();
     }
 
-    @Override
-    public Object clone() {
+    public EntityResultMapImpl clone() {
         try {
             return this.deepClone();
         } catch (Exception e) {
             logger.trace(null, e);
-            Object o = super.clone();
-            ((EntityResultMapImpl) o).data = (Map) this.data.clone();
+            EntityResultMapImpl o = new EntityResultMapImpl();
+            o.data = new HashMap(this.data);
             return o;
         }
     }
 
-    public EntityResultMapImpl deepClone() {
-        Object o = super.clone();
-        ((EntityResultMapImpl) o).data = new EntityResult();
+    private EntityResultMapImpl deepClone() {
+        EntityResultMapImpl o = new EntityResultMapImpl();
         Enumeration eKeys = Collections.enumeration((this.data.keySet()));
         while (eKeys.hasMoreElements()) {
             Object oKey = eKeys.nextElement();
-            List vValues = (List) this.data.get(oKey);
+            List vValues = (ArrayList) this.data.get(oKey);
             if (vValues != null) {
-                ((EntityResultMapImpl) o).data.put(oKey, vValues.clone());
+                ((EntityResultMapImpl) o).data.put(oKey, new ArrayList(vValues));
             }
         }
 
         return (EntityResultMapImpl) o;
     }
 
-    @Override
     public Set entrySet() {
         return this.data.entrySet();
     }
 
-    @Override
     public Object get(Object key) {
         return this.data.get(key);
     }
@@ -212,12 +195,10 @@ public class EntityResultMapImpl {
         return oValue;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.data.isEmpty();
     }
 
-    @Override
     public Enumeration keys() {
         if (this.columnsOrder != null) {
             ArrayList sortKeys = new ArrayList();
@@ -240,27 +221,22 @@ public class EntityResultMapImpl {
         return Collections.enumeration(this.data.keySet());
     }
 
-    @Override
     public Set keySet() {
         return this.data.keySet();
     }
 
-    @Override
     public Object put(Object key, Object value) {
         return this.data.put(key, value);
     }
 
-    @Override
     public void putAll(Map m) {
         this.data.putAll(m);
     }
 
-    @Override
     public Object remove(Object key) {
         return this.data.remove(key);
     }
 
-    @Override
     public int size() {
         return this.data.size();
     }
@@ -275,7 +251,6 @@ public class EntityResultMapImpl {
         return s;
     }
 
-    @Override
     public Collection values() {
         return this.data.values();
     }
@@ -287,11 +262,11 @@ public class EntityResultMapImpl {
     public void setCompressionThreshold(int threshold) {
         logger.debug("EntityResult: Compression threshold sets to: {}", threshold);
         this.compressionThreshold = threshold;
-        if (this.compressionThreshold < EntityResult.MIN_BYTE_PROGRESS) {
-            EntityResult.MIN_BYTE_PROGRESS = this.compressionThreshold * 2;
+        if (this.compressionThreshold < this.MIN_BYTE_PROGRESS) {
+            this.MIN_BYTE_PROGRESS = this.compressionThreshold * 2;
         }
-        if (this.compressionThreshold < EntityResult.byteBlock) {
-            EntityResult.byteBlock = this.compressionThreshold * 2;
+        if (this.compressionThreshold < this.byteBlock) {
+            this.byteBlock = this.compressionThreshold * 2;
         }
     }
 
@@ -398,7 +373,7 @@ public class EntityResultMapImpl {
                     throw new IOException("Serializing operation canceled: " + this.operationId);
                 }
 
-                int currentWritedBytes = Math.min(nBytesToWrite - writedBytes, EntityResult.byteBlock);
+                int currentWritedBytes = Math.min(nBytesToWrite - writedBytes, this.byteBlock);
                 out.write(compressedBytes, writedBytes, currentWritedBytes);
                 writedBytes = writedBytes + currentWritedBytes;
                 if (this.operationId != null) {
@@ -818,7 +793,7 @@ public class EntityResultMapImpl {
         return -1;
     }
 
-    protected Map columnsSQLTypes = null;
+    public Map columnsSQLTypes = null;
 
     public Map getColumnSQLTypes() {
         return this.columnsSQLTypes;

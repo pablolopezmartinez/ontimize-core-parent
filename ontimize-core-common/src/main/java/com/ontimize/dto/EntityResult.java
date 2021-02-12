@@ -32,15 +32,59 @@ public interface EntityResult {
 
     int HUFFMAN_ONLY = Deflater.HUFFMAN_ONLY;
 
-    int MIN_BYTE_PROGRESS = 1024 * 50;
-
     int MIN_PERCENT_PROGRESS = 3;
 
-    int byteBlock = 40 * 1024;// 40 K
+    int type = EntityResult.NODATA_RESULT;
+
+    int code = EntityResult.OPERATION_SUCCESSFUL;
+
+
+    void deleteRecord(int index);
+
+    void setCode(int operationCode);
+
+    void setMessage(String operationMessage);
+
+    void addRecord(Map data);
+
+    void addRecord(Map data, int s);
+
+    void setColumnSQLTypes(Map types);
+
+    void setColumnOrder(List l);
+
+    void clear();
 
     Object get(Object key);
 
+    Object put(Object key, Object value);
+
+    Object remove(Object key);
+
+    EntityResult clone();
+
+    Map getColumnSQLTypes();
+
+    Map getRecordValues(int i);
+
+    List getOrderColumns();
+
+    int calculateRecordNumber();
+
+    int getCode();
+
+    int getBytesNumber();
+
+    long getStreamTime();
+
+    boolean containsValue(Object value);
+
     boolean containsKey(Object key);
+
+    boolean contains(Object value);
+
+    Collection elements();
+
 
     class TimeUtil {
 
@@ -78,7 +122,9 @@ public interface EntityResult {
             return ((List) vData).indexOf(kv.get(vKeys.get(0)));
         }
 
-        while ((currentValueIndex = ((ArrayList) vData).indexOf(kv.get(vKeys.get(currentValueIndex + 1)))) >= 0) {
+        while ((currentValueIndex = ((ArrayList) vData)
+                .indexOf(kv.get(vKeys.get(currentValueIndex + 1)))) >= 0)
+        {
             boolean allValuesCoincidence = true;
             for (int i = 1; i < vKeys.size(); i++) {
                 Object requestValue = kv.get(vKeys.get(i));
@@ -99,6 +145,7 @@ public interface EntityResult {
         return -1;
     }
 
+    /*
     default void main(String[] args) {
         List<String> columns = new ArrayList<String>();
         columns.add("test");
@@ -115,5 +162,7 @@ public interface EntityResult {
         System.out.println("Time to create the entity result  ->" + estimatedTime);
 
     }
+
+     */
 
 }
