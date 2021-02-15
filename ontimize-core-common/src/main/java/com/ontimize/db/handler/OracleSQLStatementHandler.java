@@ -8,7 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class OracleSQLStatementHandler extends DefaultSQLStatementHandler {
 
@@ -21,8 +27,8 @@ public class OracleSQLStatementHandler extends DefaultSQLStatementHandler {
 
     @Override
     public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
-            List columnSorting, int recordCount, boolean descending,
-            boolean forceDistinct) {
+                                          List columnSorting, int recordCount, boolean descending,
+                                          boolean forceDistinct) {
         StringBuilder sql = new StringBuilder();
         List vValues = new ArrayList();
         if ((columnSorting != null) && !requestedColumns.isEmpty()) {

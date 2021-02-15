@@ -6,8 +6,18 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class EntitiesPropertiesParser extends PropertiesParser {
 
@@ -52,7 +62,7 @@ public class EntitiesPropertiesParser extends PropertiesParser {
 
     @Override
     protected void executeOperation(Properties propertiesFile, String operation, String parameters,
-            String operationValues) throws Exception {
+                                    String operationValues) throws Exception {
 
         ArrayList parametersList = this.getValuesList(parameters, PropertiesParser.VALUES_SEPARATOR);
 
@@ -157,7 +167,7 @@ public class EntitiesPropertiesParser extends PropertiesParser {
 
             Set<Entry<Object, Integer>> set = extendsProperties.entrySet();
             List<Entry<Object, Integer>> list = new ArrayList<Entry<Object, Integer>>(set);
-            Collections.sort(list, new Comparator<Map.Entry<Object, Integer>>() {
+            Collections.sort(list, new Comparator<Entry<Object, Integer>>() {
 
                 @Override
                 public int compare(Entry<Object, Integer> o1, Entry<Object, Integer> o2) {

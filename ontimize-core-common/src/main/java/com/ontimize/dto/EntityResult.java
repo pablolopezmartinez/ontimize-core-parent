@@ -1,7 +1,11 @@
 package com.ontimize.dto;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.Deflater;
 
 public interface EntityResult {
@@ -37,7 +41,6 @@ public interface EntityResult {
     int type = EntityResult.NODATA_RESULT;
 
     int code = EntityResult.OPERATION_SUCCESSFUL;
-
 
     void deleteRecord(int index);
 

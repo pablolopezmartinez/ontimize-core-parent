@@ -1,6 +1,10 @@
 package com.ontimize.gui;
 
-import java.util.*;
+
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MultipleValue implements java.io.Serializable {
 

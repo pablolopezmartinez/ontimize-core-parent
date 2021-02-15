@@ -1,13 +1,23 @@
 package com.ontimize.db;
 
-import com.ontimize.db.handler.*;
+import com.ontimize.db.handler.DefaultSQLStatementHandler;
+import com.ontimize.db.handler.HSQLDBSQLStatementHandler;
+import com.ontimize.db.handler.MySQLSQLStatementHandler;
+import com.ontimize.db.handler.OracleSQLStatementHandler;
+import com.ontimize.db.handler.PostgresSQLStatementHandler;
+import com.ontimize.db.handler.SQLServerSQLStatementHandler;
+import com.ontimize.db.handler.SQLStatementHandler;
 import com.ontimize.gui.SearchValue;
 import com.ontimize.util.ParseTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1700,7 +1710,7 @@ public abstract class SQLStatementBuilder {
      * @param vSearchValue
      */
     protected static String createINQueryConditionsListInstance(Object oValue, List values, Object oKey,
-            List vSearchValue) {
+                                                                List vSearchValue) {
         StringBuilder sbStringQuery = new StringBuilder();
         sbStringQuery.append(oKey);
         sbStringQuery.append(" ");

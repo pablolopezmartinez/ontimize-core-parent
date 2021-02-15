@@ -1,6 +1,10 @@
 package com.ontimize.db.sql;
 
-import java.util.*;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 public class SQLForeignKey extends SQLConstraint {
 
