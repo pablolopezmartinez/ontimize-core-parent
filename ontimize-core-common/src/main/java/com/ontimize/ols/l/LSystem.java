@@ -2,6 +2,7 @@ package com.ontimize.ols.l;
 
 import com.ontimize.security.License;
 
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;

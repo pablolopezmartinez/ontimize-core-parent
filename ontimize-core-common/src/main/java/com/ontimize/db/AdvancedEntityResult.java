@@ -13,13 +13,7 @@ import com.ontimize.dto.EntityResult;
  */
 public interface AdvancedEntityResult extends EntityResult {
 
-
-
-    int startRecordIndex = 0;
-
-    public default int getStartRecordIndex() {
-        return startRecordIndex;
-    }
+    int getStartRecordIndex();
 
     /**
      * Gets the total query records count
@@ -31,12 +25,14 @@ public interface AdvancedEntityResult extends EntityResult {
      * Sets the total query records count
      * @param totalQueryRecords
      */
-    public void setTotalRecordCount(int totalQueryRecords);
+    void setTotalRecordCount(int totalQueryRecords);
 
     /**
      * Gets the total records number that the object contains.
      * @return The object records number. When the object is empty return 0
      */
-    public int getCurrentRecordCount();
+    int getCurrentRecordCount();
+
+    void setStartRecordIndex(int startRecordIndex);
 
 }

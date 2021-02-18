@@ -2,10 +2,10 @@ package com.ontimize.dto;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.Deflater;
 
 public interface EntityResult {
@@ -46,6 +46,8 @@ public interface EntityResult {
 
     void setCode(int operationCode);
 
+    String getMessage();
+
     void setMessage(String operationMessage);
 
     void addRecord(Map data);
@@ -61,6 +63,8 @@ public interface EntityResult {
     Object get(Object key);
 
     Object put(Object key, Object value);
+
+    void putAll(Map m);
 
     Object remove(Object key);
 
@@ -80,14 +84,35 @@ public interface EntityResult {
 
     long getStreamTime();
 
+    Object[] getMessageParameter();
+
     boolean containsValue(Object value);
 
     boolean containsKey(Object key);
 
+    Set keySet();
+
+    Enumeration keys();
+
+    boolean isEmpty();
+
     boolean contains(Object value);
 
-    Collection elements();
+    int getCompressionThreshold();
 
+    void setCompressionThreshold(int threshold);
+
+    Enumeration elements();
+
+    void setType(int operationType);
+
+    Set entrySet();
+
+    int getRecordIndex(Map kv);
+
+    boolean isWrong();
+
+    int getColumnSQLType(String col);
 
     class TimeUtil {
 

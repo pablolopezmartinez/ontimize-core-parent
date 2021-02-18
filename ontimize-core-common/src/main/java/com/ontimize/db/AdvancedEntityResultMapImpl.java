@@ -5,6 +5,16 @@ import com.ontimize.dto.EntityResultMapImpl;
 public class AdvancedEntityResultMapImpl extends EntityResultMapImpl implements AdvancedEntityResult{
     int totalQueryRecordsNumber = 0;
 
+    int startRecordIndex = 0;
+
+    public void setStartRecordIndex(int startRecordIndex) {
+        this.startRecordIndex = startRecordIndex;
+    }
+
+    public int getStartRecordIndex() {
+        return startRecordIndex;
+    }
+
     /**
      * Creates an AdvancedEntityResult with code value 'cod', with type 'type' and the message 'm'
      * @param cod

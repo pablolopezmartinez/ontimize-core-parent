@@ -24,7 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class EntityResultMapImpl implements EntityResult {
+public class EntityResultMapImpl implements EntityResult , Map {
 
     Logger logger = LoggerFactory.getLogger(EntityResultMapImpl.class);
 
@@ -148,8 +148,8 @@ public class EntityResultMapImpl implements EntityResult {
         return this.data.containsValue(value);
     }
 
-    public Collection elements() {
-        return this.data.values();
+    public Enumeration elements() {
+        return Collections.enumeration(this.data.values());
     }
 
     public EntityResultMapImpl clone() {
