@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 
 
-
 public class BasicTimePeriodParser implements TimePeriodParser, TimePeriodOperationParser {
 
     private static final Logger logger = LoggerFactory.getLogger(BasicTimePeriodParser.class);

@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Set;
 
 
-
 public class ContainsExtendedSQLConditionValuesProcessor extends ExtendedSQLConditionValuesProcessor {
 
     private static final Logger logger = LoggerFactory.getLogger(ContainsExtendedSQLConditionValuesProcessor.class);

@@ -27,8 +27,8 @@ public class OracleSQLStatementHandler extends DefaultSQLStatementHandler {
 
     @Override
     public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
-                                          List columnSorting, int recordCount, boolean descending,
-                                          boolean forceDistinct) {
+            List columnSorting, int recordCount, boolean descending,
+            boolean forceDistinct) {
         StringBuilder sql = new StringBuilder();
         List vValues = new ArrayList();
         if ((columnSorting != null) && !requestedColumns.isEmpty()) {

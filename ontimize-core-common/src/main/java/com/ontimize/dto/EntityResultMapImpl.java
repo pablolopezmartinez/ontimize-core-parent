@@ -24,7 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class EntityResultMapImpl implements EntityResult , Map {
+public class EntityResultMapImpl implements EntityResult, Map {
 
     Logger logger = LoggerFactory.getLogger(EntityResultMapImpl.class);
 
@@ -136,7 +136,7 @@ public class EntityResultMapImpl implements EntityResult , Map {
         this.data.clear();
     }
 
-    public boolean contains(Object value) { //todo check if is desired result
+    public boolean contains(Object value) { // todo check if is desired result
         return this.data.containsValue(value);
     }
 

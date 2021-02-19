@@ -33,8 +33,8 @@ public class Oracle12cSQLStatementHandler extends DefaultSQLStatementHandler {
 
     @Override
     public SQLStatement createSelectQuery(String table, List requestedColumns, Map conditions, List wildcards,
-                                          List columnSorting, int recordCount, boolean descending,
-                                          boolean forceDistinct) {
+            List columnSorting, int recordCount, boolean descending,
+            boolean forceDistinct) {
         return super.createSelectQuery(table, requestedColumns, conditions, wildcards, columnSorting, recordCount, 0,
                 descending, forceDistinct);
     }

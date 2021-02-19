@@ -74,14 +74,9 @@ public class EntityResultTools {
      * @param columns columns of <code>EntityResult</code>
      * @return an <code>EntityResult</code> with result or null when <code>columns</code> parameter is
      *         null
-
-    @Deprecated
-    public static EntityResult createEmptyEntityResult(List columns) {
-        if (columns != null) {
-            return new EntityResult(columns);
-        }
-        return null;
-    }
+     *
+     * @Deprecated public static EntityResult createEmptyEntityResult(List columns) { if (columns !=
+     *             null) { return new EntityResult(columns); } return null; }
      */
 
 }

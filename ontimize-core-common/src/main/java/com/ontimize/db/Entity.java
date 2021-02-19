@@ -47,8 +47,8 @@ public interface Entity extends java.rmi.Remote {
      * This method must implement a standard insert operation with the data contained in
      * <code>attributesValues</code> parameter.<br>
      * <p>
-     * @param attributesValues a Map specifying pairs of key-value corresponding to the attribute
-     *        (or column of a table in a database) and the value that must be stored.
+     * @param attributesValues a Map specifying pairs of key-value corresponding to the attribute (or
+     *        column of a table in a database) and the value that must be stored.
      * @param sessionId a integer identifying the user or session that performs the action.
      * @return a EntityResult. This result will have an error code if error has ocurred.
      * @throws Exception if any exception occurs

@@ -62,7 +62,7 @@ public class EntitiesPropertiesParser extends PropertiesParser {
 
     @Override
     protected void executeOperation(Properties propertiesFile, String operation, String parameters,
-                                    String operationValues) throws Exception {
+            String operationValues) throws Exception {
 
         ArrayList parametersList = this.getValuesList(parameters, PropertiesParser.VALUES_SEPARATOR);
 

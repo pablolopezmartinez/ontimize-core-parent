@@ -2,7 +2,8 @@ package com.ontimize.db;
 
 import com.ontimize.dto.EntityResultMapImpl;
 
-public class AdvancedEntityResultMapImpl extends EntityResultMapImpl implements AdvancedEntityResult{
+public class AdvancedEntityResultMapImpl extends EntityResultMapImpl implements AdvancedEntityResult {
+
     int totalQueryRecordsNumber = 0;
 
     int startRecordIndex = 0;
@@ -82,4 +83,5 @@ public class AdvancedEntityResultMapImpl extends EntityResultMapImpl implements 
     public int getCurrentRecordCount() {
         return this.calculateRecordNumber();
     }
+
 }

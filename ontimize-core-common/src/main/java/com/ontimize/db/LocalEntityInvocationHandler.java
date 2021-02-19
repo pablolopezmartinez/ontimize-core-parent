@@ -23,7 +23,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     protected Map<String, Object> entityMetadata;
 
     protected EntityResult cacheData = ((EntityResult) new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
-            EntityResult.BEST_COMPRESSION)); //todo revisar cuando se añada nueva implementación
+            EntityResult.BEST_COMPRESSION)); // todo revisar cuando se añada nueva implementación
 
     public LocalEntityInvocationHandler(EntityReferenceLocator locator, String entityName) {
         this.locator = locator;
@@ -51,7 +51,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
         this.checkInsertKeys(attributesValues);
         String autonumerical = this.getAutonumerical();
         List<String> generatedKeyList = this.getGeneratedKeyList();
-        EntityResult entityResult = ((EntityResult)new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
+        EntityResult entityResult = ((EntityResult) new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
                 EntityResult.BEST_COMPRESSION));
         if (autonumerical != null) {
             attributesValues.put(autonumerical, this.cacheData.calculateRecordNumber());
@@ -79,7 +79,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
     @Override
     public EntityResult query(Map keysValues, List attributes, int sessionId) throws Exception {
         if (keysValues.isEmpty()) {
-            EntityResult entityResult =  this.cacheData.clone();
+            EntityResult entityResult = this.cacheData.clone();
             return entityResult;
         } else {
             int index = EntityResultTools.getValuesKeysIndex(this.cacheData, keysValues);
@@ -138,7 +138,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
             erResult.setCode(EntityResult.OPERATION_SUCCESSFUL_SHOW_MESSAGE);
             erResult.setMessage("M_NO_RECORD_DELETED");
             LocalEntityInvocationHandler.logger
-                    .debug("Delete: keys parameter does not contain any pair key-value valid");
+                .debug("Delete: keys parameter does not contain any pair key-value valid");
         }
         return null;
     }
@@ -155,7 +155,7 @@ public class LocalEntityInvocationHandler implements InvocationHandler, Entity, 
 
     @Override
     public void clear() {
-        this.cacheData = ((EntityResult) new EntityResultMapImpl( EntityResult.OPERATION_SUCCESSFUL,
+        this.cacheData = ((EntityResult) new EntityResultMapImpl(EntityResult.OPERATION_SUCCESSFUL,
                 EntityResult.BEST_COMPRESSION));
     }
 

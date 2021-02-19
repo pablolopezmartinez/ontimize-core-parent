@@ -751,7 +751,7 @@ public abstract class XMLClientUtilities {
         // Values is a list with Map objects
         List result = new ArrayList();
         if ((values != null) && (values.size() > 0)) {
-            Enumeration keys = Collections.enumeration(((HashMap)values.get(0)).keySet());
+            Enumeration keys = Collections.enumeration(((HashMap) values.get(0)).keySet());
             if (!keys.hasMoreElements()) {
                 logger.error("XMLClientUtilitiesgetCommonKeys has values but enumeration is empty.");
             }

@@ -24,8 +24,8 @@ public interface AdvancedEntity extends Entity {
             String orderBy, boolean desc) throws Exception;
 
     /**
-     * @param kv a <code>Map</code> specifying conditions that must comply the set of records
-     *        returned. Cannot be null.
+     * @param kv a <code>Map</code> specifying conditions that must comply the set of records returned.
+     *        Cannot be null.
      * @param attributes a list of columns that must be recovered for each record returned. Cannot be
      *        null. If empty, all attributes will be returned.
      * @param sessionId a integer identifying the user or session that performs the action.
@@ -37,6 +37,6 @@ public interface AdvancedEntity extends Entity {
      * @throws Exception
      */
     public AdvancedEntityResult query(Map kv, List attributes, int sessionId, int recordNumber, int startIndex,
-                                      List orderBy) throws Exception;
+            List orderBy) throws Exception;
 
 }

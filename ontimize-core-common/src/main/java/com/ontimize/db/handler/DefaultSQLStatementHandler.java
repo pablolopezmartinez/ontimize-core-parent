@@ -742,8 +742,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * Returns a <code>SQLStatement</code> class that stores the information needed to execute a insert
      * query.
      * @param table name of the table the query is executed against
-     * @param attributes attributes a Map specifying pairs of key-value corresponding to the
-     *        attribute (or column of a table in a database) and the value that must be stored.
+     * @param attributes attributes a Map specifying pairs of key-value corresponding to the attribute
+     *        (or column of a table in a database) and the value that must be stored.
      * @return
      */
 
@@ -1050,8 +1050,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      * query against two table used a join.
      * @param mainTable name of the principal table the query is executed against
      * @param secondaryTable name of the secondary table the query is executed against
-     * @param mainKeys a List specifying the column names of the principal table that be used to
-     *        combine the two tables
+     * @param mainKeys a List specifying the column names of the principal table that be used to combine
+     *        the two tables
      * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param mainTableRequestedColumns column list that be requested in the query from principal table
@@ -1059,8 +1059,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *        table
      * @param mainTableConditions a Map specifying conditions that must comply the set of records
      *        returned from principal table
-     * @param secondaryTableConditions a List Mapxx conditions that must comply the set of
-     *        records returned from secondary table
+     * @param secondaryTableConditions a List Mapxx conditions that must comply the set of records
+     *        returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
      * @param forceDistinct true if query result cannot have duplicated records
@@ -1158,10 +1158,10 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *        table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param primaryTableConditions a Map specifying conditions that must comply the set of
-     *        records returned from principal table
-     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
-     *        records returned from secondary table
+     * @param primaryTableConditions a Map specifying conditions that must comply the set of records
+     *        returned from principal table
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of records
+     *        returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
      * @param forceDistinct true if query result cannot have duplicated records
@@ -1268,10 +1268,10 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *        table
      * @param secondaryTableRequestedColumns column list that be requested in the query from secondary
      *        table
-     * @param primaryTableConditions a Map specifying conditions that must comply the set of
-     *        records returned from principal table
-     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
-     *        records returned from secondary table
+     * @param primaryTableConditions a Map specifying conditions that must comply the set of records
+     *        returned from principal table
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of records
+     *        returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
      * @param forceDistinct true if query result cannot have duplicated records
@@ -1310,8 +1310,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *        for the subquery, like "FROM (SUBQUERY) MAINTABLE". If null, subquery is not executed.
      * @param subQueryValues conditions for the subquery. Null if subquery has not conditions
      * @param secondaryTable name of the secondary table the query is executed against
-     * @param mainKeys a List specifying the column names of the principal table that be used to
-     *        combine the two tables
+     * @param mainKeys a List specifying the column names of the principal table that be used to combine
+     *        the two tables
      * @param secondaryKeys a List specifying the column names of the secondary table that be used to
      *        combine the two tables
      * @param mainTableRequestedColumns column list that be requested in the query from principal table
@@ -1319,8 +1319,8 @@ public class DefaultSQLStatementHandler implements SQLStatementHandler {
      *        table
      * @param mainTableConditions a Map specifying conditions that must comply the set of records
      *        returned from principal table
-     * @param secondaryTableConditions a Map specifying conditions that must comply the set of
-     *        records returned from secondary table
+     * @param secondaryTableConditions a Map specifying conditions that must comply the set of records
+     *        returned from secondary table
      * @param wildcards column list which wildcards can be used in
      * @param columnSorting column list where query sorting is established
      * @param forceDistinct true if query result cannot have duplicated records

@@ -151,8 +151,7 @@ public interface EntityResult {
         }
 
         while ((currentValueIndex = ((ArrayList) vData)
-                .indexOf(kv.get(vKeys.get(currentValueIndex + 1)))) >= 0)
-        {
+            .indexOf(kv.get(vKeys.get(currentValueIndex + 1)))) >= 0) {
             boolean allValuesCoincidence = true;
             for (int i = 1; i < vKeys.size(); i++) {
                 Object requestValue = kv.get(vKeys.get(i));
@@ -174,23 +173,15 @@ public interface EntityResult {
     }
 
     /*
-    default void main(String[] args) {
-        List<String> columns = new ArrayList<String>();
-        columns.add("test");
-        EntityResultMapImpl eR = new EntityResultMapImpl(columns);
-        Map record = new HashMap<String, String>();
-        record.put("test", "value");
-        int total = 1000000;
-        System.out.println("Creating " + total + " records");
-        long startTime = System.nanoTime();
-        for (int i = 0; i < total; i++) {
-            eR.addRecord(record);
-        }
-        long estimatedTime = System.nanoTime() - startTime;
-        System.out.println("Time to create the entity result  ->" + estimatedTime);
-
-    }
-
+     * default void main(String[] args) { List<String> columns = new ArrayList<String>();
+     * columns.add("test"); EntityResultMapImpl eR = new EntityResultMapImpl(columns); Map record = new
+     * HashMap<String, String>(); record.put("test", "value"); int total = 1000000;
+     * System.out.println("Creating " + total + " records"); long startTime = System.nanoTime(); for
+     * (int i = 0; i < total; i++) { eR.addRecord(record); } long estimatedTime = System.nanoTime() -
+     * startTime; System.out.println("Time to create the entity result  ->" + estimatedTime);
+     *
+     * }
+     *
      */
 
 }

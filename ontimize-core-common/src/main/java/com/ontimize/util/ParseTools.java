@@ -45,8 +45,8 @@ public class ParseTools {
     }
 
     /**
-     * Returns a Map with key-value corresponding with result to apply two 'tokenizer' actions.
-     * For example, <br>
+     * Returns a Map with key-value corresponding with result to apply two 'tokenizer' actions. For
+     * example, <br>
      * <br>
      * s= "field1:equivalentfield1;field2:equivalentfield2;...;fieldn:equivalententfieldn" <br>
      * separator1=";" <br>
@@ -649,8 +649,8 @@ public class ParseTools {
     }
 
     /**
-     * Creates a String with the elements contained by a List, separating the contents by the
-     * separator passed as parameter
+     * Creates a String with the elements contained by a List, separating the contents by the separator
+     * passed as parameter
      * @param v
      * @param s the separator to use
      * @return the String with the List elements separated by the separator
