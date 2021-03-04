@@ -25,6 +25,7 @@ import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -642,7 +643,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                         break;
 
                     case TEXT_CELL:
-                        cell.setCellType(Cell.CELL_TYPE_STRING);
+                        cell.setCellType(CellType.STRING);
                         cell.setCellValue(String.valueOf(ob));
                         break;
                     default:
@@ -655,7 +656,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                             cell.setCellValue(number.doubleValue());
                         } catch (Exception e) {
                             Poi3_5XLSExporterUtils.logger.trace(null, e);
-                            cell.setCellType(Cell.CELL_TYPE_STRING);
+                            cell.setCellType(CellType.STRING);
                             cell.setCellValue(String.valueOf(ob));
                         }
                         break;
@@ -671,18 +672,18 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                 if ((ob instanceof Double) || (ob instanceof Float) || (ob instanceof Long)) {
                     cell.setCellValue(((Double) ob).doubleValue());
                 }
-                cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                cell.setCellType(CellType.NUMERIC);
             } else {
                 try {
                     Number number = this.decimalFormat.parse(ob.toString());
                     if ((number instanceof Double) || (number instanceof Float) || (number instanceof Long)) {
                         cell.setCellValue(number.doubleValue());
                     }
-                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellType(CellType.NUMERIC);
 
                 } catch (Exception e) {
                     Poi3_5XLSExporterUtils.logger.trace(null, e);
-                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellType(CellType.STRING);
                     cell.setCellValue(ob.toString());
                 }
             }
@@ -691,7 +692,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 
     protected void writePercentLineWithoutStyle(Object ob, Cell cell) {
         ParsePosition ppt = new ParsePosition(0);
-        cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+        cell.setCellType(CellType.NUMERIC);
 
         if (ob != null) {
 
@@ -735,7 +736,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 
     protected void writeCurrencyLineWithoutStyle(Object ob, Cell cell) {
         ParsePosition pp = new ParsePosition(0);
-        cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+        cell.setCellType(CellType.NUMERIC);
 
         if (ob != null) {
 
@@ -754,16 +755,16 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
             if (ob.toString().contains(":")) {
                 if (ob instanceof Date) {
                     cell.setCellValue((Date) ob);
-                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellType(CellType.NUMERIC);
                     cell.setCellStyle(this.cs_date_hour);
                 } else {
                     try {
                         cell.setCellValue(this.sdfHour.parse(ob.toString()));
-                        cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                        cell.setCellType(CellType.NUMERIC);
                         cell.setCellStyle(this.cs_date_hour);
                     } catch (ParseException e) {
                         Poi3_5XLSExporterUtils.logger.trace(null, e);
-                        cell.setCellType(Cell.CELL_TYPE_STRING);
+                        cell.setCellType(CellType.STRING);
                         cell.setCellValue(String.valueOf(ob));
                     }
                 }
@@ -777,7 +778,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                         cell.setCellStyle(this.cs_date);
                     } catch (ParseException e) {
                         Poi3_5XLSExporterUtils.logger.trace(null, e);
-                        cell.setCellType(Cell.CELL_TYPE_STRING);
+                        cell.setCellType(CellType.STRING);
                         cell.setCellValue(String.valueOf(ob));
                     }
                 }
@@ -789,16 +790,16 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
     protected void writeNumericLineWithoutStyle(Object ob, Cell cell) {
         if (ob != null) {
             if (ob instanceof Number) {
-                cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                cell.setCellType(CellType.NUMERIC);
                 cell.setCellValue(((Number) ob).intValue());
             } else {
                 try {
                     int value = this.numericFormat.parse(ob.toString()).intValue();
-                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellType(CellType.NUMERIC);
                     cell.setCellValue(value);
                 } catch (Exception e) {
                     Poi3_5XLSExporterUtils.logger.trace(null, e);
-                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellType(CellType.STRING);
                     cell.setCellValue(ob.toString());
                 }
             }
@@ -818,7 +819,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                 if (ob instanceof Double) {
                     cell.setCellValue(((Double) ob).doubleValue());
                 }
-                cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                cell.setCellType(CellType.NUMERIC);
             } else {
                 try {
                     Number number = this.decimalFormat.parse(ob.toString());
@@ -831,10 +832,10 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                     if (number instanceof Double) {
                         cell.setCellValue(number.doubleValue());
                     }
-                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellType(CellType.NUMERIC);
                 } catch (Exception e) {
                     Poi3_5XLSExporterUtils.logger.trace(null, e);
-                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellType(CellType.STRING);
                     cell.setCellValue(ob.toString());
                 }
             }
@@ -941,7 +942,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                         this.writeImageLine(wb, sheet, column, ob);
                         break;
                     case TEXT_CELL:
-                        cell.setCellType(Cell.CELL_TYPE_STRING);
+                        cell.setCellType(CellType.STRING);
                         cell.setCellValue(String.valueOf(ob));
                         break;
                     default:
@@ -954,7 +955,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                             cell.setCellValue(number.doubleValue());
                         } catch (Exception e) {
                             Poi3_5XLSExporterUtils.logger.trace(null, e);
-                            cell.setCellType(Cell.CELL_TYPE_STRING);
+                            cell.setCellType(CellType.STRING);
                             cell.setCellValue(String.valueOf(ob));
                         }
                         break;
@@ -990,7 +991,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
 
     protected void writeCurrencyLine(Workbook wb, Object ob, Cell cell) {
         ParsePosition pp = new ParsePosition(0);
-        cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+        cell.setCellType(CellType.NUMERIC);
 
         if (ob != null) {
 
@@ -1012,20 +1013,20 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
             if (ob.toString().contains(":")) {
                 if (ob instanceof Date) {
                     cell.setCellValue((Date) ob);
-                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellType(CellType.NUMERIC);
                     CellStyle cs_date_hour = cell.getCellStyle();
                     cs_date_hour.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
                     cell.setCellStyle(cs_date_hour);
                 } else {
                     try {
                         cell.setCellValue(this.sdfHour.parse(ob.toString()));
-                        cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                        cell.setCellType(CellType.NUMERIC);
                         CellStyle cs_date_hour = cell.getCellStyle();
                         cs_date_hour.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
                         cell.setCellStyle(cs_date_hour);
                     } catch (ParseException e) {
                         Poi3_5XLSExporterUtils.logger.trace(null, e);
-                        cell.setCellType(Cell.CELL_TYPE_STRING);
+                        cell.setCellType(CellType.STRING);
                         cell.setCellValue(String.valueOf(ob));
                     }
                 }
@@ -1043,7 +1044,7 @@ public class Poi3_5XLSExporterUtils extends AbstractXLSExporter implements XLSEx
                         cell.setCellStyle(cs_date);
                     } catch (ParseException e) {
                         Poi3_5XLSExporterUtils.logger.trace(null, e);
-                        cell.setCellType(Cell.CELL_TYPE_STRING);
+                        cell.setCellType(CellType.STRING);
                         cell.setCellValue(String.valueOf(ob));
                     }
                 }
