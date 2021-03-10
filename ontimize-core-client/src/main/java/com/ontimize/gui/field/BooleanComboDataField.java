@@ -92,6 +92,13 @@ public class BooleanComboDataField extends ComboDataField {
      */
     protected class TranslateRenderer extends DefaultCustomComboBoxRenderer {
 
+        public static final String COMBO_RENDERER_LABEL_NAME = "ComboBox.listRenderer";
+
+        @Override
+        public String getName() {
+            return COMBO_RENDERER_LABEL_NAME;
+        }
+
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
                 boolean cellHasFocus) {
@@ -117,6 +124,9 @@ public class BooleanComboDataField extends ComboDataField {
                         && value.equals(BooleanComboDataField.this.trueValue)) {
                     c.setForeground(BooleanComboDataField.this.colorTrue);
                 }
+            }
+            if (index == -1) {
+                c.setEnabled(BooleanComboDataField.this.isEnabled());
             }
             return c;
         }

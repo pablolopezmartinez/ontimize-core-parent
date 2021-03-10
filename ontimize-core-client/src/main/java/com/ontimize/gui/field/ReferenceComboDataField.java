@@ -715,6 +715,13 @@ public class ReferenceComboDataField extends ComboDataField
      */
     public class MultiColumnComboRenderer extends DefaultListCellRenderer implements Internationalization {
 
+        public static final String COMBO_RENDERER_LABEL_NAME = "ComboBox.listRenderer";
+
+        @Override
+        public String getName() {
+            return COMBO_RENDERER_LABEL_NAME;
+        }
+
         /**
          * A reference for a separator. By default, " ".
          */
@@ -799,11 +806,6 @@ public class ReferenceComboDataField extends ComboDataField
             this.separator = separator;
             this.auxRenderer.setOpaque(true);
             this.textColor = this.auxRenderer.getForeground();
-        }
-
-        @Override
-        public String getName() {
-            return "ComboBox:\"ComboBox.renderer\"";
         }
 
         @Override
@@ -1100,6 +1102,10 @@ public class ReferenceComboDataField extends ComboDataField
             String sText = this.getCodeDescription(value, ReferenceComboDataField.this.dataCache);
             if (c instanceof JLabel) {
                 ((JLabel) c).setText(sText);
+            }
+
+            if (index==-1){
+                c.setEnabled(ReferenceComboDataField.this.isEnabled());
             }
             return c;
         }

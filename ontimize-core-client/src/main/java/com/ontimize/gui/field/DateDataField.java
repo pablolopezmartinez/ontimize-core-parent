@@ -41,6 +41,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.UIResource;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
@@ -462,7 +463,14 @@ public class DateDataField extends TextFieldDataField implements OpenDialog, Fre
             if (doc.isValid()) {
                 ((JTextField) this.dataField).setForeground(this.fontColor);
             } else {
-                ((JTextField) this.dataField).setForeground(Color.red);
+                Color foreground = ((JTextField) this.dataField).getForeground();
+                if (!Color.red.equals(foreground)){
+                    if (fontColor instanceof UIResource){
+                        this.fontColor = foreground;
+                    }
+                    ((JTextField) this.dataField).setForeground(Color.red);
+                }
+
             }
         }
     }
