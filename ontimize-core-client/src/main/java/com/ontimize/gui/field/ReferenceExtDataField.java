@@ -4201,7 +4201,7 @@ public class ReferenceExtDataField extends TextFieldDataField implements OpenDia
 
 	@Override
 	protected void installFocusListener() {
-		if (this.codeField != null) {
+		if (this.codeField != null && !ApplicationManager.useOntimizePlaf) {
 			this.codeField.addFocusListener(this.fieldlistenerFocus);
 		}
 	}
