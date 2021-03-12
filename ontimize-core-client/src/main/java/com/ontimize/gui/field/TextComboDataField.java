@@ -55,6 +55,13 @@ public class TextComboDataField extends ComboDataField {
 
     protected class TranslateRenderer extends DefaultCustomComboBoxRenderer {
 
+        public static final String COMBO_RENDERER_LABEL_NAME = "ComboBox.listRenderer";
+
+        @Override
+        public String getName() {
+            return COMBO_RENDERER_LABEL_NAME;
+        }
+
         /**
          * Gets the text from object.
          * <p>
@@ -101,7 +108,11 @@ public class TextComboDataField extends ComboDataField {
                 }
             }
 
-            return super.getListCellRendererComponent(list, sText, index, isSelected, cellHasFocus);
+            Component component =  super.getListCellRendererComponent(list, sText, index, isSelected, cellHasFocus);
+            if (index==-1) {
+                component.setEnabled(TextComboDataField.this.isEnabled());
+            }
+            return component;
         }
 
         // Used because the super.isOpaque() return false if the parent
