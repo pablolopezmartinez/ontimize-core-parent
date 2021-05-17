@@ -701,6 +701,10 @@ public class DefaultActionMenuListener extends DefaultMenuListener {
             boolean bApply = MessageDialog.showQuestionMessage(this.application.getFrame(), "apply_font_configuration",
                     this.application.getResourceBundle());
             if (bApply) {
+                PlafPreferences plafPreferences = PlafPreferences.getInstance();
+                if (plafPreferences!=null){
+                    plafPreferences.setFontPreference(f);
+                }
                 if (this.application instanceof MainApplication) {
                     ((MainApplication) this.application).setApplicationFont(f);
                 } else {
