@@ -148,6 +148,10 @@ public class SumRowTable extends JTable {
 
     @Override
     public void tableChanged(TableModelEvent e) {
+        if (e!=null && (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE)){
+            resizeAndRepaint();
+            return;
+        }
         super.tableChanged(e);
         if (this.dataTable != null && this.getTable() != null) {
             if ((e == null) || (e.getFirstRow() == TableModelEvent.HEADER_ROW)) {

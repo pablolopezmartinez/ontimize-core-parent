@@ -165,6 +165,14 @@
       <com.ontimize.gui.i18n.LocaleMenuItem />
    </LocaleMenuItem>
 
+   <StyleMenuItem>
+      <com.ontimize.gui.style.StyleMenuItem />
+   </StyleMenuItem>
+
+   <StyleMenu>
+      <com.ontimize.gui.style.StyleMenu />
+   </StyleMenu>
+
    <Menu>
       <com.ontimize.gui.Menu />
    </Menu>

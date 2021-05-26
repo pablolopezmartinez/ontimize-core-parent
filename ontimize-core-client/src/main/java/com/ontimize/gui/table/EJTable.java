@@ -122,6 +122,13 @@ public class EJTable extends JTable implements Freeable {
     }
 
     @Override
+    public void setRowHeight(int rowHeight) {
+        if (!fitRowsHeight) {
+            super.setRowHeight(rowHeight);
+        }
+    }
+
+    @Override
     protected void resizeAndRepaint() {
         if (this.rowHeightSet) {
             return;
