@@ -256,12 +256,12 @@ public class TabPanel extends JTabbedPane
     public void setTabVisible(String title) {
         for (int i = 0; i < this.getTabCount(); i++) {
             if (this.getComponentAt(i) instanceof Tab) {
-                if (((Tab) this.getComponentAt(i)).getTitleKey().equals(title)) {
+                if (title.equals(((Tab) this.getComponentAt(i)).getTitleKey())) {
                     if (this.isEnabledAt(i)) {
                         this.setSelectedIndex(i);
                     }
                     return;
-                }else if (((Tab) this.getComponentAt(i)).getAttribute().equals(title)) {
+                }else if (title.equals(((Tab) this.getComponentAt(i)).getAttribute())) {
                     if (this.isEnabledAt(i)) {
                         this.setSelectedIndex(i);
                     }
@@ -317,7 +317,9 @@ public class TabPanel extends JTabbedPane
         for (int i = 0; i < this.tabs.size(); i++) {
             if (this.tabs.get(i) instanceof Tab) {
                 String title = ((Tab) this.tabs.get(i)).getConstraints(null).toString();
-                this.hideTabs(title);
+                if (title != null) {
+                    this.hideTabs(title);
+                }
             }
         }
     }
@@ -330,7 +332,7 @@ public class TabPanel extends JTabbedPane
     public void hideTabs(String title) {
         for (int i = 0; i < this.getTabCount(); i++) {
             if (this.getComponentAt(i) instanceof Tab) {
-                if (((Tab) this.getComponentAt(i)).getConstraints(null).equals(title)) {
+                if (title.equals(((Tab) this.getComponentAt(i)).getConstraints(null))) {
                     this.removeTabAt(i);
                 }
             }

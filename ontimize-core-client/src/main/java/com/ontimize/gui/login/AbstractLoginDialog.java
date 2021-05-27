@@ -392,7 +392,7 @@ public abstract class AbstractLoginDialog extends JDialog implements ILoginDialo
         Hashtable p = DefaultXMLParametersManager.getParameters(AbstractLoginDialog.LOGIN_CHECK_DATA_FIELD);
 
         p.put("attr", "RememberLogin");
-        p.put("fontsize", "10");
+        //p.put("fontsize", "10");
         p.put("labelposition", "right");
         return new CheckDataField(p);
     }
@@ -400,7 +400,7 @@ public abstract class AbstractLoginDialog extends JDialog implements ILoginDialo
     protected CheckDataField createRememberPassword(Hashtable parameters) {
         Hashtable p = DefaultXMLParametersManager.getParameters(AbstractLoginDialog.LOGIN_CHECK_DATA_FIELD);
         p.put("attr", "RememberPassword");
-        p.put("fontsize", "10");
+        //p.put("fontsize", "10");
         p.put("labelposition", "right");
         return new CheckDataField(p);
     }

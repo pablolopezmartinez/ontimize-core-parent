@@ -114,6 +114,17 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
 
     @Override
     public Dimension getPreferredSize() {
+        if (cellRendererFontManager!=null){
+            try {
+                Font font = cellRendererFontManager.getFont(null, -1, -1, false);
+                if (font!=null && this.component!=null){
+                    this.component.setFont(font);
+                }
+            }catch (Exception ex){
+                logger.warn("");
+            }
+        }
+
         if (this.component == this) {
             this.prefSize.width = CellRenderer.calculatePreferredTextWidth(this);
             this.prefSize.height = this.getFontMetrics(this.getFont()).getHeight();
@@ -363,5 +374,9 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
         }
         return false;
     }
+
+
+
+
 
 }

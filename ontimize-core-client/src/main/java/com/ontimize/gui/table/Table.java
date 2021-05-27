@@ -17557,7 +17557,12 @@ public class Table extends JRootPane
                 ((EJTable) this.table).fitRowHeight();
             }
 
-            this.blockedTable.setRowHeight(17);
+            int rowCount = this.table.getRowCount();
+            for(int i=0;i<rowCount;i++){
+                int rowHeight = this.table.getRowHeight(i);
+                this.blockedTable.setRowHeight(i, rowHeight);
+            }
+           // this.blockedTable.setRowHeight(17);
         }
 
     }
